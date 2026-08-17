@@ -119,6 +119,108 @@ main { max-width: 640px; margin: 0 auto; padding: 1rem; }
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: .8rem;
 }
+
+/* ── 修為列（稱號＝總星數＋收藏數，純展示） ── */
+.map-progress {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .6rem;
+  background: var(--cell-bg);
+  border: 1px solid var(--cell-border);
+  border-radius: var(--radius);
+  padding: .55rem .8rem;
+  margin-bottom: 1rem;
+}
+.rank-badge {
+  background: var(--indigo);
+  color: #fdf9ee;
+  border-radius: 8px;
+  padding: .18rem .6rem;
+  letter-spacing: .12em;
+  font-size: .95rem;
+}
+.rank-stats { color: var(--ink); letter-spacing: .05em; }
+.rank-next { font-size: .82rem; }
+
+/* ── 橫式闖關路徑（Candy Crush 式） ── */
+.path-strip { overflow-x: auto; padding-bottom: .3rem; }
+.path-canvas { position: relative; }
+.path-svg { position: absolute; inset: 0; pointer-events: none; }
+.path-line {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 1 10;
+  opacity: .8;
+}
+.path-node-wrap {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  text-align: center;
+}
+.path-node {
+  font: inherit;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--cell-border);
+  background: var(--cell-bg);
+  color: var(--ink);
+  font-size: 1.15rem;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(43, 38, 32, .18), inset 0 0 0 2px rgba(255, 255, 255, .55);
+  transition: transform .15s ease;
+}
+.path-node:not(:disabled):hover { transform: scale(1.1); }
+.path-node.locked {
+  cursor: not-allowed;
+  background: var(--paper-deep);
+  opacity: .6;
+  font-size: .95rem;
+}
+.path-node.done {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #3a2e14;
+}
+.path-node.current {
+  border-color: var(--vermilion);
+  box-shadow: 0 0 0 4px rgba(178, 58, 43, .25), 0 2px 6px rgba(43, 38, 32, .25);
+  animation: node-pulse 1.6s ease-in-out infinite;
+}
+@keyframes node-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(178, 58, 43, .25), 0 2px 6px rgba(43, 38, 32, .25); }
+  50% { box-shadow: 0 0 0 9px rgba(178, 58, 43, .08), 0 2px 6px rgba(43, 38, 32, .25); }
+}
+.path-marker {
+  position: absolute;
+  top: -1.55rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  animation: marker-bob 1.2s ease-in-out infinite;
+}
+@keyframes marker-bob {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, -5px); }
+}
+.path-stars {
+  display: block;
+  color: var(--gold);
+  font-size: .78rem;
+  letter-spacing: .1em;
+  margin-top: .15rem;
+  text-shadow: 0 1px 1px rgba(43, 38, 32, .25);
+}
+.path-badges {
+  display: block;
+  font-size: .62rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
 .level-card {
   font: inherit;
   text-align: left;

@@ -85,54 +85,142 @@ function isUnlocked(id) {
   return !!(prev && prev.stars >= 1);
 }
 
-function makeLevelCard(level) {
+// ── 修為稱號：只跟真實學習量掛鉤（星等總和＋圖鑑收藏數），純展示不影響數值 ──
+const RANKS = [
+  { need: 0, title: '白丁' },
+  { need: 6, title: '童生' },
+  { need: 20, title: '秀才' },
+  { need: 45, title: '舉人' },
+  { need: 75, title: '貢士' },
+  { need: 110, title: '進士' },
+  { need: 140, title: '狀元' },
+];
+function computeRank(totalStars, collected) {
+  const score = totalStars + Math.floor(collected / 10); // 每收藏 10 句折 1 星修為
+  let cur = RANKS[0];
+  let next = null;
+  for (const r of RANKS) {
+    if (score >= r.need) cur = r;
+    else { next = r; break; }
+  }
+  return { cur, next, score };
+}
+
+function totalStarsOf(saveObj) {
+  return Object.values(saveObj.levels).reduce((s, lv) => s + (lv.stars || 0), 0);
+}
+
+// 找玩家目前推進到的「前線關」：第一個已解鎖但還沒拿星的關
+function frontierLevelId() {
+  for (const lv of levels) {
+    const rec = save.levels[String(lv.id)];
+    if (isUnlocked(lv.id) && (!rec || rec.stars === 0)) return lv.id;
+  }
+  return levels.length ? levels[levels.length - 1].id : 1;
+}
+
+// ── 路徑式關卡節點（Candy Crush 式一關一格）──────────
+const NODE_GAP = 92;   // 節點水平間距
+const NODE_AMP = 30;   // 路徑上下起伏幅度
+const STRIP_H = 168;   // 每章路徑帶高度
+function nodePos(i) {
+  return { x: 52 + i * NODE_GAP, y: STRIP_H / 2 - 8 + Math.round(NODE_AMP * Math.sin(i * 1.15)) };
+}
+
+function makePathNode(level, i, frontier) {
   const id = level.id;
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.className = 'level-card';
   const unlocked = isUnlocked(id);
   const stars = save.levels[String(id)] ? save.levels[String(id)].stars : 0;
-  const name = document.createElement('span');
-  name.className = 'lv-name';
-  name.textContent = `第 ${id} 關`;
-  btn.appendChild(name);
-  // v3 小徽章：時限 ⏱mm:ss、提示限次 💡×N（v2 資料缺欄位視為 null＝不顯示）
+  const { x, y } = nodePos(i);
+  const wrap = document.createElement('div');
+  wrap.className = 'path-node-wrap';
+  wrap.style.left = `${x}px`;
+  wrap.style.top = `${y}px`;
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'path-node';
+  if (!unlocked) btn.classList.add('locked');
+  else if (stars > 0) btn.classList.add('done');
+  if (id === frontier) btn.classList.add('current');
+  btn.textContent = unlocked ? String(id) : '🔒';
   const hasTime = typeof level.timeLimit === 'number' && level.timeLimit > 0;
   const hasCap = typeof level.hintCap === 'number' && level.hintCap >= 0;
-  if (hasTime || hasCap) {
-    const badges = document.createElement('span');
-    badges.className = 'lv-badges';
-    if (hasTime) {
-      const b = document.createElement('span');
-      b.className = 'lv-badge';
-      b.textContent = `⏱${fmtTime(level.timeLimit)}`;
-      badges.appendChild(b);
-    }
-    if (hasCap) {
-      const b = document.createElement('span');
-      b.className = 'lv-badge';
-      b.textContent = `💡×${level.hintCap}`;
-      badges.appendChild(b);
-    }
-    btn.appendChild(badges);
-  }
-  const sub = document.createElement('span');
-  if (!unlocked) {
-    sub.className = 'lv-lock';
-    sub.textContent = '🔒 通過前一關解鎖';
-  } else {
-    sub.className = 'lv-stars';
-    sub.textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars);
-  }
-  btn.appendChild(sub);
+  const tips = [`第 ${id} 關`];
+  if (hasTime) tips.push(`⏱ 限時 ${fmtTime(level.timeLimit)}`);
+  if (hasCap) tips.push(`💡 提示上限 ×${level.hintCap}`);
+  if (!unlocked) tips.push('通過前一關解鎖');
+  btn.title = tips.join('　');
   btn.disabled = !unlocked;
   if (unlocked) btn.addEventListener('click', () => enterLevel(id));
-  return btn;
+  wrap.appendChild(btn);
+
+  if (id === frontier && unlocked) {
+    const marker = document.createElement('span');
+    marker.className = 'path-marker';
+    marker.textContent = '🖌';
+    wrap.appendChild(marker);
+  }
+  const sub = document.createElement('span');
+  sub.className = 'path-stars';
+  sub.textContent = unlocked ? '★'.repeat(stars) + '☆'.repeat(3 - stars) : '';
+  wrap.appendChild(sub);
+  if (hasTime || hasCap) {
+    const badge = document.createElement('span');
+    badge.className = 'path-badges';
+    badge.textContent = [hasTime ? `⏱${fmtTime(level.timeLimit)}` : '', hasCap ? `💡×${level.hintCap}` : ''].filter(Boolean).join(' ');
+    wrap.appendChild(badge);
+  }
+  return wrap;
+}
+
+function makePathStrip(list, frontier) {
+  const strip = document.createElement('div');
+  strip.className = 'path-strip';
+  const canvas = document.createElement('div');
+  canvas.className = 'path-canvas';
+  const width = 52 + (list.length - 1) * NODE_GAP + 60;
+  canvas.style.width = `${width}px`;
+  canvas.style.height = `${STRIP_H}px`;
+  // SVG 蜿蜒路徑：以二次貝茲把相鄰節點圓心串起來
+  const pts = list.map((_, i) => nodePos(i));
+  let d = `M ${pts[0].x} ${pts[0].y}`;
+  for (let i = 1; i < pts.length; i++) {
+    const mx = (pts[i - 1].x + pts[i].x) / 2;
+    d += ` Q ${mx} ${pts[i - 1].y}, ${mx} ${(pts[i - 1].y + pts[i].y) / 2}`;
+    d += ` Q ${mx} ${pts[i].y}, ${pts[i].x} ${pts[i].y}`;
+  }
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('class', 'path-svg');
+  svg.setAttribute('width', String(width));
+  svg.setAttribute('height', String(STRIP_H));
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('d', d);
+  path.setAttribute('class', 'path-line');
+  svg.appendChild(path);
+  canvas.appendChild(svg);
+  list.forEach((lv, i) => canvas.appendChild(makePathNode(lv, i, frontier)));
+  strip.appendChild(canvas);
+  return strip;
 }
 
 function renderMap() {
   const box = $('level-map');
   box.innerHTML = '';
+
+  // 修為列：稱號隨總星數與收藏數成長（純學習量掛鉤）
+  const totalStars = totalStarsOf(save);
+  const collected = collection ? collection.list().length : 0;
+  const { cur, next, score } = computeRank(totalStars, collected);
+  const bar = document.createElement('div');
+  bar.className = 'map-progress';
+  const nextTxt = next ? `距「${next.title}」還差 ${next.need - score} 點修為` : '已臻化境';
+  bar.innerHTML = `<span class="rank-badge">修為・${cur.title}</span>`
+    + `<span class="rank-stats">★ ${totalStars}　📖 ${collected} 句</span>`
+    + `<span class="rank-next muted">${nextTxt}</span>`;
+  box.appendChild(bar);
+
+  const frontier = frontierLevelId();
   // 依 chapter 分區塊；每區顯示章名（chapterTitle 缺省＝只顯「第Ｎ章」）
   const chapters = new Map();
   for (const lv of levels) {
@@ -151,14 +239,14 @@ function renderMap() {
     const cn = CN_NUM[ch] || String(ch);
     h.textContent = entry.title ? `第${cn}章・${entry.title}` : `第${cn}章`;
     section.appendChild(h);
-    const grid = document.createElement('div');
-    grid.className = 'chapter-levels';
-    for (const lv of entry.list.sort((a, b) => a.id - b.id)) {
-      grid.appendChild(makeLevelCard(lv));
-    }
-    section.appendChild(grid);
+    section.appendChild(makePathStrip(entry.list.sort((a, b) => a.id - b.id), frontier));
     box.appendChild(section);
   }
+  // 自動把前線關捲進視野
+  requestAnimationFrame(() => {
+    const curNode = box.querySelector('.path-node.current');
+    if (curNode) curNode.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'auto' });
+  });
 }
 
 // ── 進入關卡 ─────────────────────────
