@@ -105,7 +105,7 @@
   <!-- 2. 中間品牌文字「尋章摘句」(Calligraphic Brand Typography) -->
   <g id="brand-typography" transform="translate(180, 25)" filter="url(#logo-drop)">
     <!-- 主標題文字：尋章摘句 (高雅國風書法字型，字距與高光強化) -->
-    <g font-family="'Ma Shan Zheng', 'Noto Serif TC', 'Songti TC', serif" font-weight="900" font-size="64" fill="url(#logo-ink-grad)" letter-spacing="12">
+    <g font-family="'Noto Serif TC', 'Songti TC', 'Source Han Serif TC', serif" font-weight="900" font-size="64" fill="url(#logo-ink-grad)" letter-spacing="12">
       <!-- 尋 -->
       <text x="0" y="78" stroke="#ffffff" stroke-width="1.5">尋</text>
       <!-- 章 -->

@@ -21,7 +21,7 @@
     <line x1="22" y1="100" x2="178" y2="100" stroke="url(#seal-red)" stroke-width="3" />
 
     <!-- 經典篆刻四字：【右上：尋】【右下：摘】【左上：章】【左下：句】 (傳統由右至左、由上至下讀法：尋章摘句) -->
-    <g font-family="'Noto Serif TC', 'Songti TC', 'Ma Shan Zheng', serif" font-weight="900" font-size="46" fill="url(#seal-red)" text-anchor="middle" dominant-baseline="central">
+    <g font-family="'Noto Serif TC', 'Songti TC', 'Source Han Serif TC', serif" font-weight="900" font-size="46" fill="url(#seal-red)" text-anchor="middle" dominant-baseline="central">
       <!-- 右上 (Top-Right): 尋 -->
       <text x="142" y="62">尋</text>
       <!-- 左上 (Top-Left): 章 -->

@@ -60,7 +60,7 @@
 
   <!-- Title "尋章摘句" -->
   <g transform="translate(68, 38)">
-    <text x="0" y="0" font-family="'Ma Shan Zheng', 'Noto Serif TC', serif" font-weight="900" font-size="29" fill="url(#hdr-ink)" letter-spacing="4">
+    <text x="0" y="0" font-family="'Noto Serif TC', 'Songti TC', 'Source Han Serif TC', serif" font-weight="900" font-size="29" fill="url(#hdr-ink)" letter-spacing="4">
       尋章摘句
     </text>
   </g>
