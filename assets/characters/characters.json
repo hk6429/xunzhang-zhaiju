@@ -9,11 +9,13 @@
     "themeColor": "#0284c7",
     "accentColor": "#facc15",
     "exclusiveItem": "dashen-bian",
+    "artImage": "assets/art/characters/jiang-taigong.jpg",
+    "artPalette": ["#0284c7", "#facc15", "#dc2626", "#1e293b", "#f8fafc"],
     "expressions": {
-      "idle": "assets/characters/jiang-taigong/idle.svg",
-      "thinking": "assets/characters/jiang-taigong/thinking.svg",
-      "victory": "assets/characters/jiang-taigong/victory.svg",
-      "panic": "assets/characters/jiang-taigong/panic.svg"
+      "idle": "assets/characters/jiang-taigong/idle.png",
+      "thinking": "assets/characters/jiang-taigong/thinking.png",
+      "victory": "assets/characters/jiang-taigong/victory.png",
+      "panic": "assets/characters/jiang-taigong/panic.png"
     },
     "quotes": {
       "idle": "老夫在此垂釣，願者上鉤～",
@@ -32,11 +34,13 @@
     "themeColor": "#e11d48",
     "accentColor": "#10b981",
     "exclusiveItem": "qiankun-quan",
+    "artImage": "assets/art/characters/nezha.jpg",
+    "artPalette": ["#e11d48", "#10b981", "#f59e0b", "#1e293b", "#fff1f2"],
     "expressions": {
-      "idle": "assets/characters/nezha/idle.svg",
-      "thinking": "assets/characters/nezha/thinking.svg",
-      "victory": "assets/characters/nezha/victory.svg",
-      "panic": "assets/characters/nezha/panic.svg"
+      "idle": "assets/characters/nezha/idle.png",
+      "thinking": "assets/characters/nezha/thinking.png",
+      "victory": "assets/characters/nezha/victory.png",
+      "panic": "assets/characters/nezha/panic.png"
     },
     "quotes": {
       "idle": "這點字謎小陣，小爺我閉著眼睛也能破！",
@@ -55,11 +59,13 @@
     "themeColor": "#0284c7",
     "accentColor": "#ca8a04",
     "exclusiveItem": "sanjian-liangren-dao",
+    "artImage": "assets/art/characters/yang-jian.jpg",
+    "artPalette": ["#0284c7", "#ca8a04", "#dc2626", "#334155", "#eff6ff"],
     "expressions": {
-      "idle": "assets/characters/yang-jian/idle.svg",
-      "thinking": "assets/characters/yang-jian/thinking.svg",
-      "victory": "assets/characters/yang-jian/victory.svg",
-      "panic": "assets/characters/yang-jian/panic.svg"
+      "idle": "assets/characters/yang-jian/idle.png",
+      "thinking": "assets/characters/yang-jian/thinking.png",
+      "victory": "assets/characters/yang-jian/victory.png",
+      "panic": "assets/characters/yang-jian/panic.png"
     },
     "quotes": {
       "idle": "哮天，守住陣眼，且看本君破陣。",
@@ -78,11 +84,13 @@
     "themeColor": "#db2777",
     "accentColor": "#fda4af",
     "exclusiveItem": "yinhun-deng",
+    "artImage": "assets/art/characters/su-daji.jpg",
+    "artPalette": ["#db2777", "#fda4af", "#9333ea", "#be185d", "#fdf2f8"],
     "expressions": {
-      "idle": "assets/characters/su-daji/idle.svg",
-      "thinking": "assets/characters/su-daji/thinking.svg",
-      "victory": "assets/characters/su-daji/victory.svg",
-      "panic": "assets/characters/su-daji/panic.svg"
+      "idle": "assets/characters/su-daji/idle.png",
+      "thinking": "assets/characters/su-daji/thinking.png",
+      "victory": "assets/characters/su-daji/victory.png",
+      "panic": "assets/characters/su-daji/panic.png"
     },
     "quotes": {
       "idle": "呵呵～道友，這字謎可比你想像中更有趣呢～",
@@ -101,11 +109,13 @@
     "themeColor": "#7e22ce",
     "accentColor": "#eab308",
     "exclusiveItem": "yin-yang-jing",
+    "artImage": "assets/art/characters/shen-gongbao.jpg",
+    "artPalette": ["#7e22ce", "#eab308", "#18181b", "#a855f7", "#faf5ff"],
     "expressions": {
-      "idle": "assets/characters/shen-gongbao/idle.svg",
-      "thinking": "assets/characters/shen-gongbao/thinking.svg",
-      "victory": "assets/characters/shen-gongbao/victory.svg",
-      "panic": "assets/characters/shen-gongbao/panic.svg"
+      "idle": "assets/characters/shen-gongbao/idle.png",
+      "thinking": "assets/characters/shen-gongbao/thinking.png",
+      "victory": "assets/characters/shen-gongbao/victory.png",
+      "panic": "assets/characters/shen-gongbao/panic.png"
     },
     "quotes": {
       "idle": "道友請留步！老夫看你骨骼驚奇，不如來解一題？",
@@ -124,11 +134,13 @@
     "themeColor": "#0d9488",
     "accentColor": "#f59e0b",
     "exclusiveItem": "fenglei-chui",
+    "artImage": "assets/art/characters/lei-zhenzi.jpg",
+    "artPalette": ["#0d9488", "#f59e0b", "#06b6d4", "#134e4a", "#f0fdfa"],
     "expressions": {
-      "idle": "assets/characters/lei-zhenzi/idle.svg",
-      "thinking": "assets/characters/lei-zhenzi/thinking.svg",
-      "victory": "assets/characters/lei-zhenzi/victory.svg",
-      "panic": "assets/characters/lei-zhenzi/panic.svg"
+      "idle": "assets/characters/lei-zhenzi/idle.png",
+      "thinking": "assets/characters/lei-zhenzi/thinking.png",
+      "victory": "assets/characters/lei-zhenzi/victory.png",
+      "panic": "assets/characters/lei-zhenzi/panic.png"
     },
     "quotes": {
       "idle": "雙翼展風雷！今天也要全力以赴破陣！",
@@ -147,11 +159,13 @@
     "themeColor": "#d97706",
     "accentColor": "#ef4444",
     "exclusiveItem": "jiulong-shenhuozhao",
+    "artImage": "assets/art/characters/taiyi-zhenren.jpg",
+    "artPalette": ["#d97706", "#ef4444", "#fbbf24", "#78350f", "#fffbeb"],
     "expressions": {
-      "idle": "assets/characters/taiyi-zhenren/idle.svg",
-      "thinking": "assets/characters/taiyi-zhenren/thinking.svg",
-      "victory": "assets/characters/taiyi-zhenren/victory.svg",
-      "panic": "assets/characters/taiyi-zhenren/panic.svg"
+      "idle": "assets/characters/taiyi-zhenren/idle.png",
+      "thinking": "assets/characters/taiyi-zhenren/thinking.png",
+      "victory": "assets/characters/taiyi-zhenren/victory.png",
+      "panic": "assets/characters/taiyi-zhenren/panic.png"
     },
     "quotes": {
       "idle": "貧道乾元山太乙是也！徒兒莫慌，飲一杯仙酒再破陣！",
@@ -170,17 +184,44 @@
     "themeColor": "#854d0e",
     "accentColor": "#eab308",
     "exclusiveItem": "kunxian-sheng",
+    "artImage": "assets/art/characters/tuxing-sun.jpg",
+    "artPalette": ["#854d0e", "#eab308", "#78350f", "#451a03", "#fefce8"],
     "expressions": {
-      "idle": "assets/characters/tuxing-sun/idle.svg",
-      "thinking": "assets/characters/tuxing-sun/thinking.svg",
-      "victory": "assets/characters/tuxing-sun/victory.svg",
-      "panic": "assets/characters/tuxing-sun/panic.svg"
+      "idle": "assets/characters/tuxing-sun/idle.png",
+      "thinking": "assets/characters/tuxing-sun/thinking.png",
+      "victory": "assets/characters/tuxing-sun/victory.png",
+      "panic": "assets/characters/tuxing-sun/panic.png"
     },
     "quotes": {
       "idle": "嘿咻！地上風光好，且看俺老土如何神出鬼沒！",
       "thinking": "字格在地底下也有連線嗎？等俺鑽下去瞧瞧……",
       "victory": "地行術破陣！連捆仙繩都沒用上，俺就搞定啦！",
       "panic": "哎喲喂！撞到地脈花崗岩了！腦袋卡住拔不出來啦！"
+    }
+  },
+  {
+    "id": "moling",
+    "name": "墨靈仙童",
+    "title": "玄墨小神君・品牌吉祥物",
+    "ratio": "1:1",
+    "style": "國風Q版潑墨漫畫",
+    "desc": "太極混元簪、靈動大眼、手握玄天如意毫筆與打神金鞭，文墨神仙雙修的品牌吉祥物。",
+    "themeColor": "#0284c7",
+    "accentColor": "#facc15",
+    "exclusiveItem": "dashen-bian",
+    "artImage": "assets/art/characters/moling.jpg",
+    "artPalette": ["#0284c7", "#facc15", "#0ea5e9", "#0f172a", "#f0f9ff"],
+    "expressions": {
+      "idle": "assets/characters/moling/idle.png",
+      "thinking": "assets/characters/moling/thinking.png",
+      "victory": "assets/characters/moling/victory.png",
+      "panic": "assets/characters/moling/panic.png"
+    },
+    "quotes": {
+      "idle": "歡迎來到尋章摘句！文道大千，墨靈伴你破萬陣！",
+      "thinking": "墨聚成字，字化乾坤……且看小仙童推演一番！",
+      "victory": "破陣成功！墨靈為你點贊，文思通神！",
+      "panic": "哎呀呀！靈墨告急，快隨小仙童前去研墨！"
     }
   }
 ]

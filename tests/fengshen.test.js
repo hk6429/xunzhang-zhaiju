@@ -99,20 +99,20 @@ test('getExaminer 能取得太乙真人與姜太公輪流出題考官', () => {
 
 test('renderGuardianSvg 產生包含正確 class、data 屬性與路徑之立繪標籤', () => {
   const htmlIdle = renderGuardianSvg('nezha', 'idle');
-  assert.ok(htmlIdle.includes('assets/characters/nezha/idle.svg'));
+  assert.ok(htmlIdle.includes('assets/characters/nezha/idle.png'));
   assert.ok(htmlIdle.includes('fengshen-avatar-img'));
   assert.ok(htmlIdle.includes('data-mood="idle"'));
 
   const htmlPanic = renderGuardianSvg('taiyi', 'panic');
-  assert.ok(htmlPanic.includes('assets/characters/taiyi/panic.svg') || htmlPanic.includes('assets/characters/taiyi-zhenren/panic.svg'));
+  assert.ok(htmlPanic.includes('assets/characters/taiyi/panic.png') || htmlPanic.includes('assets/characters/taiyi-zhenren/panic.png'));
   assert.ok(htmlPanic.includes('data-mood="panic"'));
 
   const htmlMoling = renderGuardianSvg('moling', 'victory');
-  assert.ok(htmlMoling.includes('assets/characters/moling/victory.svg'));
+  assert.ok(htmlMoling.includes('assets/characters/moling/victory.png'));
   assert.ok(htmlMoling.includes('data-mood="victory"'));
 });
 
 test('getCharacterAvatar 能取得對應表情之資產路徑', () => {
-  assert.equal(getCharacterAvatar('jiang-taigong', 'idle'), 'assets/characters/jiang-taigong/idle.svg');
-  assert.equal(getCharacterAvatar('moling', 'panic'), 'assets/characters/moling/panic.svg');
+  assert.equal(getCharacterAvatar('jiang-taigong', 'idle'), 'assets/characters/jiang-taigong/idle.png');
+  assert.equal(getCharacterAvatar('moling', 'panic'), 'assets/characters/moling/panic.png');
 });

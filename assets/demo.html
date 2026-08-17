@@ -327,7 +327,7 @@
         card.className = 'group-card';
         card.innerHTML = `
           <div class="group-img-box">
-            <img src="${group.svgPath}" alt="${group.title}" class="group-img">
+            <img src="${group.imagePath || group.svgPath}" alt="${group.title}" class="group-img">
           </div>
           <div class="group-info">
             <div class="group-title">${group.title}</div>
@@ -394,7 +394,7 @@
         const badgeClass = item.rarity === 'SSR' ? 'badge-ssr' : 'badge-sr';
         card.innerHTML = `
           <div class="item-icon-box">
-            <img src="${item.svgPath}" alt="${item.name}" class="item-icon">
+            <img src="${item.imagePath || item.svgPath}" alt="${item.name}" class="item-icon">
           </div>
           <div class="item-name">${item.name}</div>
           <div class="item-meta">

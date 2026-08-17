@@ -88,9 +88,10 @@
   --shadow-gold: 0 0 18px rgba(197, 154, 63, 0.38);
   --shadow-curio: 0 6px 22px rgba(39, 24, 18, 0.18), inset 0 0 0 1px rgba(197, 154, 63, 0.35);
 
-  /* 宮廷權威字型 */
+  /* 宮廷國風開源字型體系 (楷書・行書・宋體) */
   --font-serif: "Noto Serif TC", "Source Han Serif TC", "Songti TC", "PMingLiU", serif;
-  --font-title: "Noto Serif TC", "Source Han Serif TC", "PingFang TC", serif;
+  --font-title: "LXGW WenKai TC", "Kaiti TC", "BiauKai", "DFKai-SB", "Noto Serif TC", serif;
+  --font-kai: "LXGW WenKai TC", "Kaiti TC", "BiauKai", "DFKai-SB", "Noto Serif TC", serif;
   --font-calligraphy: "LXGW WenKai TC", "Kaiti TC", "BiauKai", "DFKai-SB", "Noto Serif TC", serif;
 }
 
@@ -1523,15 +1524,15 @@ main {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  height: 205px;
-  margin-top: 0.25rem;
+  height: 68px;
+  margin-top: 0.15rem;
 }
 
 .standee-img-container.stage-large .fengshen-standee-img {
-  max-height: 200px;
+  max-height: 60px;
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 6px 14px rgba(26, 23, 20, 0.2));
+  filter: drop-shadow(0 3px 6px rgba(26, 23, 20, 0.18));
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   animation: standee-float 4s ease-in-out infinite;
 }
@@ -2068,17 +2069,17 @@ main {
 .companion-avatar-wrap {
   position: relative;
   z-index: 2;
-  height: 195px;
+  height: 68px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
 }
 
 .companion-avatar-wrap .fengshen-avatar-img {
-  max-height: 185px;
+  max-height: 60px;
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 6px 12px rgba(24, 20, 17, 0.22));
+  filter: drop-shadow(0 3px 6px rgba(24, 20, 17, 0.2));
   animation: standee-float 4s ease-in-out infinite;
   transition: transform 0.25s ease;
 }

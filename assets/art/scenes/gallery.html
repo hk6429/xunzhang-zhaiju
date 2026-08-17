@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>故宮宮廷古風 × 封神名陣密室 — 大型場景插圖總覽</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&family=Noto+Sans+TC:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="scenes-preload.css">
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --bg-card: #0f172a;
+      --gold-primary: #eab308;
+      --gold-light: #fde047;
+      --vermilion: #dc2626;
+      --text-light: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: 'Noto Sans TC', sans-serif;
+      min-height: 100vh;
+      padding: 40px 24px;
+      line-height: 1.6;
+    }
+
+    header {
+      max-width: 1280px;
+      margin: 0 auto 48px auto;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 18px;
+      background: rgba(234, 179, 8, 0.15);
+      border: 1px solid var(--gold-primary);
+      border-radius: 9999px;
+      color: var(--gold-light);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 12px;
+      letter-spacing: 3px;
+      text-shadow: 0 0 20px rgba(253, 224, 71, 0.25);
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 16px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .scenes-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 56px;
+    }
+
+    .scene-card {
+      background: var(--bg-card);
+      border-radius: 20px;
+      border: 1px solid rgba(234, 179, 8, 0.2);
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      transition: border-color 0.3s ease;
+    }
+
+    @media (max-width: 1024px) {
+      .scene-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .scene-card:hover {
+      border-color: rgba(253, 224, 71, 0.6);
+    }
+
+    .scene-preview-wrapper {
+      position: relative;
+      background: #020617;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .scene-preview-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .scene-card:hover .scene-preview-wrapper img {
+      transform: scale(1.02);
+    }
+
+    .scene-info {
+      padding: 32px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .scene-header {
+      margin-bottom: 20px;
+    }
+
+    .scene-tag {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+
+    .scene-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 26px;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .scene-sub {
+      color: #38bdf8;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .scene-desc {
+      color: #cbd5e1;
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .meta-section-title {
+      font-size: 13px;
+      color: var(--gold-primary);
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .pill {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #e2e8f0;
+    }
+
+    .palette-list {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .color-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--gold-primary);
+      color: #0f172a;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      box-shadow: 0 0 15px rgba(253, 224, 71, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">故宮古風 × 封神名陣</div>
+    <h1>大型密室場景插圖與海報畫廊</h1>
+    <p class="subtitle">為《尋章摘句》專屬打造的 7 大高解析度宮廷古風密室逃脫場景插圖，融合宋代青綠山水、明清宮廷琉璃殿宇與封神太極玄幻元素。</p>
+  </header>
+
+  <main class="scenes-grid" id="scenesContainer">
+    <!-- Dynamic scenes will be rendered by JS -->
+  </main>
+
+  <script type="module">
+    import { SCENE_SYSTEM } from './scenes-registry.js';
+
+    const container = document.getElementById('scenesContainer');
+
+    SCENE_SYSTEM.scenes.forEach(scene => {
+      const card = document.createElement('article');
+      card.className = 'scene-card';
+
+      const paletteHtml = Object.entries(scene.colorPalette).map(([key, hex]) => 
+        `<div class="color-dot" style="background-color: ${hex};" title="${key}: ${hex}"></div>`
+      ).join('');
+
+      const elementsHtml = scene.visualElements.map(el => 
+        `<span class="pill">${el}</span>`
+      ).join('');
+
+      card.innerHTML = `
+        <div class="scene-preview-wrapper">
+          <img src="${scene.path}" alt="${scene.title}" class="scene-loaded">
+        </div>
+        <div class="scene-info">
+          <div>
+            <div class="scene-header">
+              <div class="scene-tag">${scene.type}</div>
+              <h2 class="scene-title">${scene.title}</h2>
+              <div class="scene-sub">${scene.subtitle}</div>
+            </div>
+            <p class="scene-desc">${scene.description}</p>
+            
+            <div class="meta-section-title">核心視覺語彙</div>
+            <div class="pill-list">${elementsHtml}</div>
+
+            <div class="meta-section-title">標準色票</div>
+            <div class="palette-list">${paletteHtml}</div>
+          </div>
+
+          <div class="btn-group">
+            <a href="${scene.path}" target="_blank" class="btn btn-primary">檢視高解析大圖</a>
+            <button class="btn btn-secondary" onclick="navigator.clipboard.writeText('${scene.path}').then(()=>alert('已複製路徑：${scene.path}'))">複製圖片路徑</button>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+  </script>
+</body>
+</html>

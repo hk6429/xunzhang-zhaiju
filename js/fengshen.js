@@ -67,7 +67,8 @@ export const FENGSHEN_ARRAYS = [
       id: 'dashanbian_shard',
       name: '打神鞭・靈光碎片',
       icon: '⚡',
-      svgPath: 'assets/items/dashen-bian.svg',
+      svgPath: 'assets/items/dashen-bian.png',
+      imagePath: 'assets/items/dashen-bian.png',
       desc: '姜太公號令三界諸神之法寶碎片，凝聚浩然正氣。'
     }
   },
@@ -126,7 +127,8 @@ export const FENGSHEN_ARRAYS = [
       id: 'qiankunquan_shard',
       name: '乾坤圈・純金殘片',
       icon: '⭕',
-      svgPath: 'assets/items/qiankun-quan.svg',
+      svgPath: 'assets/items/qiankun-quan.png',
+      imagePath: 'assets/items/qiankun-quan.png',
       desc: '哪吒降妖伏魔之至寶碎片，擲出如流星破空。'
     }
   },
@@ -185,7 +187,8 @@ export const FENGSHEN_ARRAYS = [
       id: 'sanjianliangren_shard',
       name: '三尖兩刃刀・神鋒碎刃',
       icon: '🗡️',
-      svgPath: 'assets/items/sanjian-liangren-dao.svg',
+      svgPath: 'assets/items/sanjian-liangren-dao.png',
+      imagePath: 'assets/items/sanjian-liangren-dao.png',
       desc: '二郎真君斬妖除魔之無上神兵碎片，鋒銳無匹。'
     }
   },
@@ -281,7 +284,8 @@ export const FENGSHEN_ARRAYS = [
       id: 'yinhundeng_shard',
       name: '引魂燈・幽火晶石',
       icon: '🏮',
-      svgPath: 'assets/items/yinhun-deng.svg',
+      svgPath: 'assets/items/yinhun-deng.png',
+      imagePath: 'assets/items/yinhun-deng.png',
       desc: '蘇妲己與申公豹守護之幽冥靈燈碎片，能照徹迷局。'
     }
   },
@@ -377,7 +381,8 @@ export const FENGSHEN_ARRAYS = [
       id: 'zhuxianjian_shard',
       name: '誅仙古劍・混元劍鞘',
       icon: '⚔️',
-      svgPath: 'assets/items/fenglei-chui.svg',
+      svgPath: 'assets/items/fenglei-chui.png',
+      imagePath: 'assets/items/fenglei-chui.png',
       desc: '上古誅仙四劍之玄金劍鞘，散發萬道祥光。'
     }
   }
@@ -423,9 +428,9 @@ export function getExaminer(levelId = 1) {
       id: 'taiyi',
       name: '太乙真人',
       title: '文道主考仙官',
-      avatar: 'assets/characters/taiyi/thinking.svg',
-      happyAvatar: 'assets/characters/taiyi/victory.svg',
-      panicAvatar: 'assets/characters/taiyi/panic.svg',
+      avatar: 'assets/characters/taiyi/thinking.png',
+      happyAvatar: 'assets/characters/taiyi/victory.png',
+      panicAvatar: 'assets/characters/taiyi/panic.png',
       speech: '「無量天尊！貧道特設此道成語考題，道友若能通曉其意，松煙墨氣自會化生！」',
       correctQuote: '「善哉善哉！博通經籍，文心通神！＋墨水滿載！」',
       wrongQuote: '「無妨，文道博大精深，記取此題，下回自能答對。」'
@@ -435,9 +440,9 @@ export function getExaminer(levelId = 1) {
     id: 'jiang-taigong',
     name: '姜太公',
     title: '文道策問天師',
-    avatar: 'assets/characters/jiang-taigong/thinking.svg',
-    happyAvatar: 'assets/characters/jiang-taigong/victory.svg',
-    panicAvatar: 'assets/characters/jiang-taigong/panic.svg',
+    avatar: 'assets/characters/jiang-taigong/thinking.png',
+    happyAvatar: 'assets/characters/jiang-taigong/victory.png',
+    panicAvatar: 'assets/characters/jiang-taigong/panic.png',
     speech: '「老夫以字句為卦，推演乾坤。道友請凝神作答，研墨增智！」',
     correctQuote: '「妙哉！文思如泉湧，真乃棟樑之才！墨汁已聚！」',
     wrongQuote: '「莫急莫躁，勝敗乃兵家常事，下題定能中鵠。」'
@@ -445,8 +450,8 @@ export function getExaminer(levelId = 1) {
 }
 
 /**
- * 產生高品質 Q 版角色立繪或 SVG 標籤
- * 統一對接 assets/characters/ 的 1:1 向量立繪
+ * 產生高品質 Q 版角色立繪標籤
+ * 統一對接 assets/characters/ 的 1:1 點陣/立繪
  */
 export function renderGuardianSvg(guardianId, mood = 'idle') {
   // 將舊 id 規範化為 characterId
@@ -464,7 +469,7 @@ export function renderGuardianSvg(guardianId, mood = 'idle') {
   else if (mood === 'panic' || mood === 'shock' || mood === 'timeout') exprKey = 'panic';
 
   const char = getCharacterById(charId);
-  const src = (char && char.expressions && char.expressions[exprKey]) || `assets/characters/${charId}/${exprKey}.svg`;
+  const src = (char && char.expressions && char.expressions[exprKey]) || `assets/characters/${charId}/${exprKey}.png`;
   const name = (char && char.name) || guardianId;
 
   return `<img src="${src}" alt="${name}" class="fengshen-avatar-img ${charId}" data-char="${charId}" data-mood="${exprKey}" loading="lazy" />`;

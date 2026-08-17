@@ -1460,10 +1460,10 @@ const charRegistry = characters.map(c => ({
   ratio: '1:1',
   style: '水墨國風 Q版',
   expressions: {
-    idle: `assets/characters/${c.id}/idle.svg`,
-    thinking: `assets/characters/${c.id}/thinking.svg`,
-    victory: `assets/characters/${c.id}/victory.svg`,
-    panic: `assets/characters/${c.id}/panic.svg`,
+    idle: `assets/characters/${c.id}/idle.png`,
+    thinking: `assets/characters/${c.id}/thinking.png`,
+    victory: `assets/characters/${c.id}/victory.png`,
+    panic: `assets/characters/${c.id}/panic.png`,
   }
 }));
 
@@ -1473,7 +1473,8 @@ const itemsRegistry = itemsData.map(i => ({
   owner: i.owner,
   desc: i.desc,
   rarity: i.rarity,
-  svgPath: `assets/items/${i.id}.svg`
+  svgPath: `assets/items/${i.id}.png`,
+  imagePath: `assets/items/${i.id}.png`
 }));
 
 fs.writeFileSync(

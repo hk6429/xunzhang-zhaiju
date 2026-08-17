@@ -217,7 +217,7 @@ function renderChambers() {
 
       <div class="chamber-treasure-preview">
         <div class="treasure-preview-icon-box">
-          <img src="${arr.treasureShard.svgPath || 'assets/items/dashen-bian.svg'}" alt="${arr.treasureShard.name}" class="treasure-preview-img" />
+          <img src="${arr.treasureShard.imagePath || arr.treasureShard.svgPath || 'assets/items/dashen-bian.png'}" alt="${arr.treasureShard.name}" class="treasure-preview-img" />
           <span class="treasure-icon hidden">${arr.treasureShard.icon}</span>
         </div>
         <div class="treasure-text">
