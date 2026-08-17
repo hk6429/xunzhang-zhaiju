@@ -82,8 +82,17 @@ main { max-width: 640px; margin: 0 auto; padding: 1rem; }
   color: var(--indigo);
 }
 
-/* ── 關卡地圖 ───────────────────────── */
-.level-map {
+/* ── 關卡地圖（v3：章節分區） ─────────── */
+.chapter-section { margin-bottom: 1.3rem; }
+.chapter-title {
+  font-size: 1.02rem;
+  letter-spacing: .18em;
+  color: var(--indigo);
+  border-left: .3rem solid var(--gold);
+  padding-left: .5rem;
+  margin-bottom: .6rem;
+}
+.chapter-levels {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: .8rem;
@@ -108,6 +117,16 @@ main { max-width: 640px; margin: 0 auto; padding: 1rem; }
 .level-card .lv-name { font-size: 1.05rem; display: block; }
 .level-card .lv-stars { color: var(--gold); letter-spacing: .15em; display: block; margin-top: .3rem; }
 .level-card .lv-lock { color: var(--ink-soft); font-size: .85rem; display: block; margin-top: .3rem; }
+.lv-badges { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .3rem; }
+.lv-badge {
+  font-size: .72rem;
+  letter-spacing: .03em;
+  background: var(--paper-deep);
+  color: var(--ink-soft);
+  border-radius: 6px;
+  padding: .08rem .4rem;
+  white-space: nowrap;
+}
 
 /* ── 遊戲盤面 ───────────────────────── */
 .game-top {
@@ -118,6 +137,19 @@ main { max-width: 640px; margin: 0 auto; padding: 1rem; }
 }
 .game-level-title { font-size: 1.1rem; letter-spacing: .15em; }
 .ink-display { margin-left: auto; font-size: 1.05rem; color: var(--indigo); }
+
+/* v3 倒數計時：墨色；剩 ≤20% 警戒紅 #a33 脈動 */
+.timer-display {
+  font-size: 1.02rem;
+  letter-spacing: .05em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.timer-display.warn { color: #a33; animation: timer-pulse 1s ease-in-out infinite; }
+@keyframes timer-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .55; transform: scale(1.07); }
+}
 
 .grid {
   display: grid;
@@ -134,7 +166,8 @@ main { max-width: 640px; margin: 0 auto; padding: 1rem; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: clamp(1.3rem, 6vw, 1.9rem);
+  /* v3：字級依盤面尺寸縮放（盤面寬≒min(92vw,420px)），12×12 手機不跑版 */
+  font-size: clamp(.78rem, calc(min(92vw, 420px) * .58 / var(--grid-n, 5)), 1.9rem);
   background: var(--cell-bg);
   border: 1px solid var(--cell-border);
   border-radius: var(--radius);
@@ -301,6 +334,17 @@ main { max-width: 640px; margin: 0 auto; padding: 1rem; }
 .hint-btn:disabled { opacity: .45; cursor: not-allowed; }
 .hint-btn.earn { background: var(--indigo); color: #fdf9ee; }
 .hint-btn.earn small { color: #d6e2ec; }
+.hint-btn.earn:disabled { opacity: 1; } /* 賺墨水永不停用 */
+
+/* v3 提示限次顯示 */
+.hint-quota {
+  flex-basis: 100%;
+  text-align: center;
+  font-size: .88rem;
+  letter-spacing: .08em;
+  color: var(--ink-soft);
+}
+.hint-quota.exhausted { color: #a33; }
 .hint-msg { text-align: center; margin-top: .6rem; min-height: 1.3em; color: var(--vermilion); font-size: .92rem; }
 
 /* ── 圖鑑 ───────────────────────────── */
@@ -440,6 +484,31 @@ main { max-width: 640px; margin: 0 auto; padding: 1rem; }
 .quiz-feedback { min-height: 1.5em; margin-top: .7rem; color: var(--indigo); }
 #quiz-next { margin-top: .5rem; }
 
+/* v3 超時（時辰已到）：沙漏意象純 CSS */
+.timeout-modal { text-align: center; }
+.timeout-badge { background: #a33; }
+.timeout-title { font-size: 1.4rem; letter-spacing: .25em; margin-bottom: .5rem; color: #a33; }
+.timeout-desc { line-height: 1.7; margin-bottom: .9rem; }
+.timeout-modal .settings-actions { justify-content: center; }
+.timeout-hourglass {
+  width: 40px;
+  margin: 0 auto .7rem;
+  border-top: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  padding: 2px 0;
+}
+.timeout-hourglass::before,
+.timeout-hourglass::after {
+  content: "";
+  display: block;
+  width: 0;
+  margin: 0 auto;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+}
+.timeout-hourglass::before { border-top: 19px solid #a33; }       /* 上半沙已流盡（餘紅沙） */
+.timeout-hourglass::after { border-bottom: 19px solid var(--ink-soft); } /* 下半積沙 */
+
 /* 通關 */
 .complete-modal { text-align: center; }
 #complete-title { font-size: 1.4rem; letter-spacing: .25em; margin-bottom: .6rem; }
@@ -452,5 +521,6 @@ main { max-width: 640px; margin: 0 auto; padding: 1rem; }
   main { padding: .7rem; }
   .grid { gap: 4px; }
   .hint-btn { padding: .4rem .55rem; font-size: .84rem; }
-  .level-map { grid-template-columns: repeat(2, 1fr); }
+  .chapter-levels { grid-template-columns: repeat(2, 1fr); }
+  .game-top { gap: .45rem; flex-wrap: wrap; }
 }

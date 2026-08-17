@@ -3,8 +3,11 @@
     {
       "id": 1,
       "chapter": 1,
+      "chapterTitle": "初窺門徑",
       "size": 5,
       "layout": "full",
+      "timeLimit": null,
+      "hintCap": null,
       "directions": [
         "E",
         "S"
@@ -41,47 +44,50 @@
       ],
       "grid": [
         [
-          "足",
+          "悟",
           "目",
-          "璧",
-          "冬",
+          "益",
+          "掃",
           "一"
         ],
         [
           "恍",
           "不",
-          "新",
-          "益",
+          "槍",
+          "鄲",
           "心"
         ],
         [
           "然",
           "轉",
-          "落",
-          "器",
+          "威",
+          "餐",
           "一"
         ],
         [
           "大",
           "睛",
-          "螳",
-          "味",
+          "隔",
+          "尺",
           "意"
         ],
         [
           "悟",
-          "威",
-          "忙",
-          "古",
-          "春"
+          "炭",
+          "老",
+          "收",
+          "遍"
         ]
       ]
     },
     {
       "id": 2,
       "chapter": 1,
+      "chapterTitle": "初窺門徑",
       "size": 5,
       "layout": "full",
+      "timeLimit": null,
+      "hintCap": null,
       "directions": [
         "E",
         "S"
@@ -89,76 +95,477 @@
       "targetDisplay": "clue",
       "targets": [
         {
-          "phraseId": "p0060",
+          "phraseId": "p0018",
           "start": [
-            4,
-            1
+            0,
+            3
           ],
-          "dir": "E",
+          "dir": "S",
           "clueIndex": 0
         },
         {
-          "phraseId": "p0018",
+          "phraseId": "p0060",
           "start": [
-            2,
-            0
+            1,
+            2
           ],
-          "dir": "E",
+          "dir": "S",
           "clueIndex": 0
         },
         {
           "phraseId": "p0050",
           "start": [
-            1,
-            1
+            0,
+            4
           ],
-          "dir": "E",
+          "dir": "S",
           "clueIndex": 0
         }
       ],
       "grid": [
         [
-          "唇",
-          "憂",
-          "失",
-          "琴",
-          "發"
+          "一",
+          "改",
+          "晨",
+          "雪",
+          "刻"
         ],
         [
-          "百",
-          "刻",
-          "舟",
-          "求",
+          "招",
+          "逆",
+          "未",
+          "中",
+          "舟"
+        ],
+        [
+          "速",
+          "異",
+          "雨",
+          "送",
+          "求"
+        ],
+        [
+          "守",
+          "點",
+          "綢",
+          "炭",
           "劍"
         ],
         [
-          "雪",
-          "中",
-          "送",
-          "炭",
-          "十"
-        ],
-        [
-          "城",
-          "楚",
-          "城",
-          "見",
-          "馬"
-        ],
-        [
-          "餅",
-          "未",
-          "雨",
-          "綢",
-          "繆"
+          "重",
+          "嗟",
+          "繆",
+          "嚼",
+          "來"
         ]
       ]
     },
     {
       "id": 3,
       "chapter": 1,
+      "chapterTitle": "初窺門徑",
       "size": 5,
       "layout": "full",
+      "timeLimit": null,
+      "hintCap": null,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0010",
+          "start": [
+            0,
+            3
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0037",
+          "start": [
+            4,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0012",
+          "start": [
+            1,
+            0
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0030",
+          "start": [
+            0,
+            1
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        }
+      ],
+      "grid": [
+        [
+          "拾",
+          "大",
+          "陽",
+          "亡",
+          "富"
+        ],
+        [
+          "杯",
+          "器",
+          "安",
+          "羊",
+          "喝"
+        ],
+        [
+          "弓",
+          "晚",
+          "遷",
+          "補",
+          "蟬"
+        ],
+        [
+          "蛇",
+          "成",
+          "編",
+          "牢",
+          "槍"
+        ],
+        [
+          "影",
+          "同",
+          "心",
+          "協",
+          "力"
+        ]
+      ]
+    },
+    {
+      "id": 4,
+      "chapter": 1,
+      "chapterTitle": "初窺門徑",
+      "size": 5,
+      "layout": "full",
+      "timeLimit": null,
+      "hintCap": null,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0019",
+          "start": [
+            1,
+            0
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0044",
+          "start": [
+            1,
+            2
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0041",
+          "start": [
+            1,
+            1
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0027",
+          "start": [
+            1,
+            3
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          "集",
+          "瀣",
+          "晦",
+          "子",
+          "生"
+        ],
+        [
+          "千",
+          "七",
+          "五",
+          "三",
+          "金"
+        ],
+        [
+          "載",
+          "手",
+          "花",
+          "心",
+          "兔"
+        ],
+        [
+          "難",
+          "八",
+          "八",
+          "二",
+          "城"
+        ],
+        [
+          "逢",
+          "腳",
+          "門",
+          "意",
+          "炎"
+        ]
+      ]
+    },
+    {
+      "id": 5,
+      "chapter": 1,
+      "chapterTitle": "初窺門徑",
+      "size": 5,
+      "layout": "full",
+      "timeLimit": null,
+      "hintCap": null,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0021",
+          "start": [
+            3,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0056",
+          "start": [
+            1,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0024",
+          "start": [
+            0,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0058",
+          "start": [
+            4,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          "名",
+          "副",
+          "其",
+          "實",
+          "後"
+        ],
+        [
+          "鷸",
+          "蚌",
+          "相",
+          "爭",
+          "席"
+        ],
+        [
+          "尚",
+          "弄",
+          "非",
+          "的",
+          "十"
+        ],
+        [
+          "樓",
+          "專",
+          "心",
+          "致",
+          "志"
+        ],
+        [
+          "靜",
+          "一",
+          "鳴",
+          "驚",
+          "人"
+        ]
+      ]
+    },
+    {
+      "id": 6,
+      "chapter": 1,
+      "chapterTitle": "初窺門徑",
+      "size": 7,
+      "layout": "cross",
+      "timeLimit": null,
+      "hintCap": null,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0013",
+          "start": [
+            3,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0052",
+          "start": [
+            3,
+            0
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0017",
+          "start": [
+            1,
+            2
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0012",
+          "start": [
+            1,
+            1
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "杯",
+          "錦",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "弓",
+          "上",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "畫",
+          "蛇",
+          "添",
+          "足",
+          null,
+          null,
+          null
+        ],
+        [
+          "餅",
+          "影",
+          "花",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "充",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "飢",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ]
+      ]
+    },
+    {
+      "id": 7,
+      "chapter": 1,
+      "chapterTitle": "初窺門徑",
+      "size": 7,
+      "layout": "cross",
+      "timeLimit": null,
+      "hintCap": null,
       "directions": [
         "E",
         "S"
@@ -168,255 +575,128 @@
         {
           "phraseId": "p0011",
           "start": [
-            3,
-            0
-          ],
-          "dir": "E",
-          "clueIndex": 2
-        },
-        {
-          "phraseId": "p0037",
-          "start": [
-            0,
+            2,
             4
           ],
           "dir": "S",
-          "clueIndex": 1
-        },
-        {
-          "phraseId": "p0013",
-          "start": [
-            4,
-            0
-          ],
-          "dir": "E",
-          "clueIndex": 1
-        },
-        {
-          "phraseId": "p0016",
-          "start": [
-            0,
-            0
-          ],
-          "dir": "E",
-          "clueIndex": 1
-        }
-      ],
-      "grid": [
-        [
-          "臥",
-          "薪",
-          "嘗",
-          "膽",
-          "同"
-        ],
-        [
-          "唇",
-          "山",
-          "冬",
-          "異",
-          "心"
-        ],
-        [
-          "門",
-          "喜",
-          "少",
-          "杯",
-          "協"
-        ],
-        [
-          "對",
-          "牛",
-          "彈",
-          "琴",
-          "力"
-        ],
-        [
-          "畫",
-          "蛇",
-          "添",
-          "足",
-          "食"
-        ]
-      ]
-    },
-    {
-      "id": 4,
-      "chapter": 1,
-      "size": 5,
-      "layout": "full",
-      "directions": [
-        "E",
-        "S"
-      ],
-      "targetDisplay": "clue",
-      "targets": [
-        {
-          "phraseId": "p0026",
-          "start": [
-            1,
-            1
-          ],
-          "dir": "E",
           "clueIndex": 2
         },
-        {
-          "phraseId": "p0055",
-          "start": [
-            1,
-            0
-          ],
-          "dir": "S",
-          "clueIndex": 1
-        },
-        {
-          "phraseId": "p0024",
-          "start": [
-            2,
-            1
-          ],
-          "dir": "E",
-          "clueIndex": 1
-        },
-        {
-          "phraseId": "p0006",
-          "start": [
-            0,
-            0
-          ],
-          "dir": "E",
-          "clueIndex": 1
-        }
-      ],
-      "grid": [
-        [
-          "守",
-          "株",
-          "待",
-          "兔",
-          "虎"
-        ],
-        [
-          "螳",
-          "見",
-          "異",
-          "思",
-          "遷"
-        ],
-        [
-          "螂",
-          "名",
-          "副",
-          "其",
-          "實"
-        ],
-        [
-          "捕",
-          "雲",
-          "下",
-          "副",
-          "味"
-        ],
-        [
-          "蟬",
-          "霜",
-          "喜",
-          "兔",
-          "城"
-        ]
-      ]
-    },
-    {
-      "id": 5,
-      "chapter": 1,
-      "size": 5,
-      "layout": "full",
-      "directions": [
-        "E",
-        "S"
-      ],
-      "targetDisplay": "clue",
-      "targets": [
         {
           "phraseId": "p0042",
           "start": [
-            0,
-            0
-          ],
-          "dir": "S",
-          "clueIndex": 1
-        },
-        {
-          "phraseId": "p0035",
-          "start": [
-            1,
+            3,
             3
           ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0001",
+          "start": [
+            3,
+            5
+          ],
           "dir": "S",
           "clueIndex": 1
         },
         {
-          "phraseId": "p0046",
+          "phraseId": "p0027",
           "start": [
-            0,
-            1
+            6,
+            2
           ],
           "dir": "E",
-          "clueIndex": 2
-        },
-        {
-          "phraseId": "p0014",
-          "start": [
-            1,
-            4
-          ],
-          "dir": "S",
           "clueIndex": 1
         }
       ],
       "grid": [
         [
-          "九",
-          "四",
-          "通",
-          "八",
-          "達"
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
         ],
         [
-          "牛",
-          "意",
-          "途",
-          "集",
-          "完"
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
         ],
         [
-          "一",
-          "實",
-          "虎",
-          "思",
-          "璧"
-        ],
-        [
-          "毛",
-          "策",
-          "雲",
-          "廣",
-          "歸"
-        ],
-        [
+          null,
+          null,
+          null,
+          null,
           "對",
-          "餅",
-          "磊",
-          "益",
-          "趙"
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "九",
+          "牛",
+          "一",
+          "毛"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "彈",
+          "心",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "琴",
+          "一",
+          null
+        ],
+        [
+          null,
+          null,
+          "三",
+          "心",
+          "二",
+          "意",
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          6,
+          5
         ]
       ]
     },
     {
-      "id": 6,
+      "id": 8,
       "chapter": 1,
-      "size": 7,
+      "chapterTitle": "初窺門徑",
+      "size": 8,
       "layout": "cross",
+      "timeLimit": null,
+      "hintCap": null,
       "directions": [
         "E",
         "S"
@@ -424,37 +704,46 @@
       "targetDisplay": "clue",
       "targets": [
         {
-          "phraseId": "p0052",
+          "phraseId": "p0002",
           "start": [
-            2,
-            2
+            4,
+            1
           ],
           "dir": "E",
           "clueIndex": 2
         },
         {
-          "phraseId": "p0013",
+          "phraseId": "p0038",
           "start": [
             2,
-            2
+            4
           ],
           "dir": "S",
           "clueIndex": 1
         },
         {
-          "phraseId": "p0017",
+          "phraseId": "p0031",
           "start": [
-            4,
-            0
+            3,
+            3
           ],
           "dir": "E",
           "clueIndex": 1
         },
         {
-          "phraseId": "p0012",
+          "phraseId": "p0030",
           "start": [
-            3,
-            0
+            0,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0029",
+          "start": [
+            0,
+            4
           ],
           "dir": "E",
           "clueIndex": 1
@@ -466,6 +755,57 @@
           null,
           null,
           null,
+          "恍",
+          "然",
+          "大",
+          "悟"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "器",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "眾",
+          null,
+          "晚",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "有",
+          "志",
+          "竟",
+          "成",
+          null
+        ],
+        [
+          null,
+          "水",
+          "到",
+          "渠",
+          "成",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "城",
           null,
           null,
           null
@@ -477,45 +817,11 @@
           null,
           null,
           null,
-          null
-        ],
-        [
-          null,
-          null,
-          "畫",
-          "餅",
-          "充",
-          "飢",
-          null
-        ],
-        [
-          "杯",
-          "弓",
-          "蛇",
-          "影",
-          null,
-          null,
-          null
-        ],
-        [
-          "錦",
-          "上",
-          "添",
-          "花",
-          null,
           null,
           null
         ],
         [
           null,
-          null,
-          "足",
-          null,
-          null,
-          null,
-          null
-        ],
-        [
           null,
           null,
           null,
@@ -527,24 +833,31 @@
       ],
       "revealed": [
         [
-          2,
-          2
+          0,
+          6
         ],
         [
           3,
-          2
+          4
+        ],
+        [
+          3,
+          6
         ],
         [
           4,
-          2
+          4
         ]
       ]
     },
     {
-      "id": 7,
+      "id": 9,
       "chapter": 1,
-      "size": 7,
+      "chapterTitle": "初窺門徑",
+      "size": 8,
       "layout": "cross",
+      "timeLimit": null,
+      "hintCap": null,
       "directions": [
         "E",
         "S"
@@ -586,6 +899,15 @@
           ],
           "dir": "S",
           "clueIndex": 1
+        },
+        {
+          "phraseId": "p0012",
+          "start": [
+            0,
+            4
+          ],
+          "dir": "S",
+          "clueIndex": 1
         }
       ],
       "grid": [
@@ -594,8 +916,9 @@
           null,
           null,
           null,
-          null,
+          "杯",
           "錦",
+          null,
           null
         ],
         [
@@ -603,8 +926,9 @@
           null,
           null,
           null,
-          null,
+          "弓",
           "上",
+          null,
           null
         ],
         [
@@ -614,15 +938,17 @@
           "畫",
           "蛇",
           "添",
-          "足"
+          "足",
+          null
         ],
         [
           null,
           null,
           null,
           "龍",
-          null,
+          "影",
           "花",
+          null,
           null
         ],
         [
@@ -630,6 +956,7 @@
           null,
           null,
           "點",
+          null,
           null,
           null,
           null
@@ -641,9 +968,21 @@
           "睛",
           null,
           null,
+          null,
           null
         ],
         [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
           null,
           null,
           null,
@@ -660,6 +999,10 @@
         ],
         [
           2,
+          4
+        ],
+        [
+          2,
           5
         ],
         [
@@ -669,10 +1012,13 @@
       ]
     },
     {
-      "id": 8,
+      "id": 10,
       "chapter": 1,
+      "chapterTitle": "初窺門徑",
       "size": 8,
       "layout": "cross",
+      "timeLimit": null,
+      "hintCap": null,
       "directions": [
         "E",
         "S"
@@ -680,16 +1026,411 @@
       "targetDisplay": "clue",
       "targets": [
         {
-          "phraseId": "p0038",
+          "phraseId": "p0047",
           "start": [
             3,
-            3
+            4
           ],
           "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0023",
+          "start": [
+            5,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0027",
+          "start": [
+            3,
+            4
+          ],
+          "dir": "E",
           "clueIndex": 2
         },
         {
-          "phraseId": "p0030",
+          "phraseId": "p0039",
+          "start": [
+            2,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0001",
+          "start": [
+            0,
+            7
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "一"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "心"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "齊",
+          null,
+          "一"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "三",
+          "心",
+          "二",
+          "意"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "顧",
+          "協",
+          null,
+          null
+        ],
+        [
+          null,
+          "名",
+          "列",
+          "前",
+          "茅",
+          "力",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "廬",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          5,
+          4
+        ]
+      ]
+    },
+    {
+      "id": 11,
+      "chapter": 2,
+      "chapterTitle": "廟口智慧",
+      "size": 7,
+      "layout": "full",
+      "timeLimit": 300,
+      "hintCap": 3,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0149",
+          "start": [
+            1,
+            2
+          ],
+          "dir": "S",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0174",
+          "start": [
+            0,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0144",
+          "start": [
+            1,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0125",
+          "start": [
+            1,
+            1
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          "天",
+          "下",
+          "烏",
+          "鴉",
+          "一",
+          "般",
+          "黑"
+        ],
+        [
+          "還",
+          "打",
+          "事",
+          "自",
+          "文",
+          "響",
+          "退"
+        ],
+        [
+          "枕",
+          "鐵",
+          "實",
+          "西",
+          "個",
+          "鼓",
+          "杯"
+        ],
+        [
+          "者",
+          "趁",
+          "勝",
+          "俱",
+          "眼",
+          "不",
+          "竟"
+        ],
+        [
+          "顰",
+          "熱",
+          "於",
+          "盜",
+          "牛",
+          "用",
+          "井"
+        ],
+        [
+          "蚌",
+          "馬",
+          "雄",
+          "發",
+          "餐",
+          "重",
+          "詩"
+        ],
+        [
+          "底",
+          "重",
+          "辯",
+          "針",
+          "紙",
+          "槌",
+          "和"
+        ]
+      ]
+    },
+    {
+      "id": 12,
+      "chapter": 2,
+      "chapterTitle": "廟口智慧",
+      "size": 7,
+      "layout": "full",
+      "timeLimit": 300,
+      "hintCap": 3,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0165",
+          "start": [
+            5,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0142",
+          "start": [
+            0,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0163",
+          "start": [
+            4,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0122",
+          "start": [
+            2,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          "家",
+          "和",
+          "萬",
+          "事",
+          "興",
+          "拾",
+          "蛇"
+        ],
+        [
+          "取",
+          "狂",
+          "形",
+          "響",
+          "果",
+          "方",
+          "才"
+        ],
+        [
+          "悛",
+          "畫",
+          "忠",
+          "言",
+          "逆",
+          "耳",
+          "狐"
+        ],
+        [
+          "杯",
+          "狀",
+          "舟",
+          "算",
+          "篳",
+          "拙",
+          "挽"
+        ],
+        [
+          "好",
+          "漢",
+          "不",
+          "吃",
+          "眼",
+          "前",
+          "虧"
+        ],
+        [
+          "一",
+          "樣",
+          "米",
+          "養",
+          "百",
+          "樣",
+          "人"
+        ],
+        [
+          "形",
+          "拍",
+          "後",
+          "佛",
+          "穫",
+          "注",
+          "曬"
+        ]
+      ]
+    },
+    {
+      "id": 13,
+      "chapter": 2,
+      "chapterTitle": "廟口智慧",
+      "size": 7,
+      "layout": "full",
+      "timeLimit": 300,
+      "hintCap": 3,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0151",
+          "start": [
+            0,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0159",
           "start": [
             5,
             0
@@ -698,25 +1439,268 @@
           "clueIndex": 1
         },
         {
-          "phraseId": "p0031",
+          "phraseId": "p0141",
+          "start": [
+            6,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0199",
           "start": [
             4,
-            2
+            1
           ],
           "dir": "E",
           "clueIndex": 1
         },
         {
-          "phraseId": "p0002",
+          "phraseId": "p0162",
           "start": [
-            1,
-            5
+            3,
+            0
           ],
-          "dir": "S",
+          "dir": "E",
+          "clueIndex": 0
+        }
+      ],
+      "grid": [
+        [
+          "活",
+          "到",
+          "老",
+          "學",
+          "到",
+          "老",
+          "渠"
+        ],
+        [
+          "琢",
+          "前",
+          "驚",
+          "熱",
+          "靜",
+          "豆",
+          "炭"
+        ],
+        [
+          "義",
+          "施",
+          "紅",
+          "苦",
+          "下",
+          "涼",
+          "點"
+        ],
+        [
+          "車",
+          "到",
+          "山",
+          "前",
+          "必",
+          "有",
+          "路"
+        ],
+        [
+          "天",
+          "天",
+          "有",
+          "不",
+          "測",
+          "風",
+          "雲"
+        ],
+        [
+          "好",
+          "馬",
+          "不",
+          "吃",
+          "回",
+          "頭",
+          "草"
+        ],
+        [
+          "暗",
+          "舟",
+          "鐵",
+          "杵",
+          "磨",
+          "成",
+          "針"
+        ]
+      ]
+    },
+    {
+      "id": 14,
+      "chapter": 2,
+      "chapterTitle": "廟口智慧",
+      "size": 7,
+      "layout": "full",
+      "timeLimit": 300,
+      "hintCap": 3,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0133",
+          "start": [
+            6,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0124",
+          "start": [
+            0,
+            0
+          ],
+          "dir": "E",
           "clueIndex": 1
         },
         {
-          "phraseId": "p0029",
+          "phraseId": "p0168",
+          "start": [
+            1,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0131",
+          "start": [
+            5,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0132",
+          "start": [
+            4,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 0
+        }
+      ],
+      "grid": [
+        [
+          "樹",
+          "大",
+          "招",
+          "風",
+          "喜",
+          "王",
+          "異"
+        ],
+        [
+          "近",
+          "水",
+          "樓",
+          "台",
+          "先",
+          "得",
+          "月"
+        ],
+        [
+          "語",
+          "二",
+          "發",
+          "貽",
+          "載",
+          "忘",
+          "四"
+        ],
+        [
+          "左",
+          "走",
+          "將",
+          "挽",
+          "鳴",
+          "躲",
+          "低"
+        ],
+        [
+          "止",
+          "薑",
+          "是",
+          "老",
+          "的",
+          "辣",
+          "實"
+        ],
+        [
+          "病",
+          "急",
+          "亂",
+          "投",
+          "醫",
+          "墨",
+          "翁"
+        ],
+        [
+          "璧",
+          "寸",
+          "三",
+          "思",
+          "而",
+          "後",
+          "行"
+        ]
+      ]
+    },
+    {
+      "id": 15,
+      "chapter": 2,
+      "chapterTitle": "廟口智慧",
+      "size": 9,
+      "layout": "cross",
+      "timeLimit": 300,
+      "hintCap": 3,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0156",
+          "start": [
+            2,
+            4
+          ],
+          "dir": "S",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0172",
+          "start": [
+            3,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0170",
+          "start": [
+            2,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0153",
           "start": [
             3,
             0
@@ -734,63 +1718,1707 @@
           null,
           null,
           null,
+          null,
           null
         ],
         [
           null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "吃",
+          "三",
+          null,
+          null,
+          null
+        ],
+        [
+          "一",
+          "個",
+          "蘿",
+          "蔔",
+          "一",
+          "個",
+          "坑",
+          null,
+          null
+        ],
+        [
+          "分",
+          null,
+          null,
+          null,
+          "塹",
+          "和",
+          null,
+          null,
+          null
+        ],
+        [
+          "錢",
+          null,
+          null,
+          null,
+          "長",
+          "尚",
+          null,
+          null,
+          null
+        ],
+        [
+          "一",
+          null,
+          null,
+          null,
+          "一",
+          "沒",
+          null,
+          null,
+          null
+        ],
+        [
+          "分",
+          null,
+          null,
+          null,
+          "智",
+          "水",
+          null,
+          null,
+          null
+        ],
+        [
+          "貨",
+          null,
+          null,
+          null,
+          null,
+          "喝",
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ]
+      ]
+    },
+    {
+      "id": 16,
+      "chapter": 2,
+      "chapterTitle": "廟口智慧",
+      "size": 9,
+      "layout": "cross",
+      "timeLimit": 300,
+      "hintCap": 3,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0123",
+          "start": [
+            2,
+            3
+          ],
+          "dir": "S",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0167",
+          "start": [
+            3,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0200",
+          "start": [
+            0,
+            1
+          ],
+          "dir": "S",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0150",
+          "start": [
+            0,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          "天",
+          "無",
+          "絕",
+          "人",
+          "之",
+          "路",
+          null,
+          null
+        ],
+        [
+          null,
+          "下",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "沒",
+          null,
+          "熟",
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "有",
+          "錢",
+          "能",
+          "使",
+          "鬼",
+          "推",
+          "磨",
+          null
+        ],
+        [
+          null,
+          "不",
+          null,
+          "生",
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "散",
+          null,
+          "巧",
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "的",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "筵",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "席",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          0,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          3
+        ]
+      ]
+    },
+    {
+      "id": 17,
+      "chapter": 2,
+      "chapterTitle": "廟口智慧",
+      "size": 9,
+      "layout": "cross",
+      "timeLimit": 300,
+      "hintCap": 3,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0129",
+          "start": [
+            2,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0135",
+          "start": [
+            6,
+            4
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0192",
+          "start": [
+            0,
+            7
+          ],
+          "dir": "S",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0155",
+          "start": [
+            7,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "有",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "借",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "人",
+          null,
+          "有",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "紅",
+          null,
+          "還",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "是",
+          null,
+          "再",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "非",
+          null,
+          "借",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "貪",
+          "多",
+          "嚼",
+          "不",
+          "爛"
+        ],
+        [
+          null,
+          null,
+          null,
+          "無",
+          "理",
+          "寸",
+          "步",
+          "難",
+          "行"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          6,
+          5
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          7
+        ]
+      ]
+    },
+    {
+      "id": 18,
+      "chapter": 2,
+      "chapterTitle": "廟口智慧",
+      "size": 10,
+      "layout": "cross",
+      "timeLimit": 330,
+      "hintCap": 3,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0169",
+          "start": [
+            2,
+            4
+          ],
+          "dir": "S",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0193",
+          "start": [
+            7,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0185",
+          "start": [
+            2,
+            1
+          ],
+          "dir": "S",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0136",
+          "start": [
+            5,
+            3
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0194",
+          "start": [
+            1,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 0
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "天",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "三",
+          null,
+          null,
+          "一",
+          null,
+          "下",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "天",
+          null,
+          null,
+          "個",
+          null,
+          "沒",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "打",
+          null,
+          null,
+          "巴",
+          null,
+          "有",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "魚",
+          null,
+          "天",
+          "掌",
+          null,
+          "白",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "兩",
+          null,
+          "下",
+          "拍",
+          null,
+          "吃",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "天",
+          "下",
+          "無",
+          "不",
+          "散",
+          "的",
+          "筵",
+          "席",
+          null
+        ],
+        [
+          null,
+          "曬",
+          null,
+          "難",
+          "響",
+          null,
+          "午",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "網",
+          null,
+          "事",
+          null,
+          null,
+          "餐",
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          7,
+          1
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          6
+        ]
+      ]
+    },
+    {
+      "id": 19,
+      "chapter": 2,
+      "chapterTitle": "廟口智慧",
+      "size": 10,
+      "layout": "cross",
+      "timeLimit": 330,
+      "hintCap": 3,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0164",
+          "start": [
+            6,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0184",
+          "start": [
+            0,
+            4
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0173",
+          "start": [
+            0,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0171",
+          "start": [
+            7,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0145",
+          "start": [
+            3,
+            8
+          ],
+          "dir": "S",
+          "clueIndex": 0
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          "靠",
+          null,
+          "貨",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "山",
+          null,
+          "比",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "吃",
+          null,
+          "三",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "山",
+          null,
+          "家",
+          null,
+          "遠",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "靠",
+          null,
+          "不",
+          null,
+          "親",
+          null
+        ],
+        [
           null,
           null,
           null,
           null,
           "水",
           null,
+          "吃",
+          null,
+          "不",
           null
         ],
         [
-          null,
-          null,
-          null,
-          null,
-          null,
-          "到",
-          null,
-          null
-        ],
-        [
-          "恍",
-          null,
-          null,
-          "眾",
-          null,
-          "渠",
-          null,
-          null
-        ],
-        [
-          "然",
-          null,
-          "有",
-          "志",
-          "竟",
-          "成",
-          null,
-          null
-        ],
-        [
+          "貪",
+          "小",
+          "便",
+          "宜",
+          "吃",
           "大",
-          "器",
-          "晚",
-          "成",
+          "虧",
+          null,
+          "如",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "遠",
+          "水",
+          "救",
+          "不",
+          "了",
+          "近",
+          "火"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "鄰",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          6,
+          4
+        ],
+        [
+          6,
+          6
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          8
+        ]
+      ]
+    },
+    {
+      "id": 20,
+      "chapter": 2,
+      "chapterTitle": "廟口智慧",
+      "size": 10,
+      "layout": "cross",
+      "timeLimit": 330,
+      "hintCap": 3,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0179",
+          "start": [
+            2,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0183",
+          "start": [
+            4,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0161",
+          "start": [
+            2,
+            1
+          ],
+          "dir": "S",
+          "clueIndex": 0
+        },
+        {
+          "phraseId": "p0186",
+          "start": [
+            1,
+            2
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0131",
+          "start": [
+            1,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 0
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           null,
           null,
           null,
           null
         ],
         [
-          "悟",
           null,
           null,
+          "病",
+          "急",
+          "亂",
+          "投",
+          "醫",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "人",
+          "從",
+          null,
+          null,
+          null,
+          "種",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "心",
+          "口",
+          null,
+          null,
+          null,
+          "瓜",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "不",
+          "入",
+          "虎",
+          "穴",
+          "焉",
+          "得",
+          "虎",
+          "子",
+          null
+        ],
+        [
+          null,
+          "足",
+          "禍",
+          null,
+          null,
+          null,
+          "瓜",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "蛇",
+          "從",
+          null,
+          null,
+          null,
+          "種",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "吞",
+          "口",
+          null,
+          null,
+          null,
+          "豆",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "象",
+          "出",
+          null,
+          null,
+          null,
+          "得",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "豆",
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          1,
+          2
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          6
+        ]
+      ]
+    },
+    {
+      "id": 21,
+      "chapter": 3,
+      "chapterTitle": "成語風雲",
+      "size": 8,
+      "layout": "full",
+      "timeLimit": 270,
+      "hintCap": 2,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0090",
+          "start": [
+            6,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0110",
+          "start": [
+            4,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0076",
+          "start": [
+            1,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0113",
+          "start": [
+            0,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0119",
+          "start": [
+            4,
+            0
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          "其",
+          "遷",
+          "維",
+          "公",
+          "斗",
+          "玉",
+          "道",
+          "子"
+        ],
+        [
+          "諱",
+          "疾",
+          "忌",
+          "醫",
+          "裝",
+          "石",
+          "而",
+          "耘"
+        ],
+        [
+          "恆",
+          "道",
+          "防",
+          "動",
+          "趨",
+          "俱",
+          "計",
+          "皇"
+        ],
+        [
+          "諾",
+          "雨",
+          "尺",
+          "易",
+          "於",
+          "焚",
+          "雄",
+          "悟"
+        ],
+        [
+          "運",
+          "在",
+          "笑",
+          "作",
+          "繭",
+          "自",
+          "縛",
+          "狡"
+        ],
+        [
+          "籌",
+          "言",
+          "罄",
+          "素",
+          "得",
+          "投",
+          "大",
+          "乘"
+        ],
+        [
+          "帷",
+          "苗",
+          "老",
+          "馬",
+          "識",
+          "途",
+          "口",
+          "丘"
+        ],
+        [
+          "幄",
+          "步",
+          "南",
+          "台",
+          "從",
+          "木",
+          "穫",
+          "者"
+        ]
+      ]
+    },
+    {
+      "id": 22,
+      "chapter": 3,
+      "chapterTitle": "成語風雲",
+      "size": 8,
+      "layout": "full",
+      "timeLimit": 270,
+      "hintCap": 2,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0071",
+          "start": [
+            6,
+            4
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0109",
+          "start": [
+            0,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0091",
+          "start": [
+            4,
+            0
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0097",
+          "start": [
+            1,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0104",
+          "start": [
+            2,
+            3
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          "擋",
+          "前",
+          "騎",
+          "虎",
+          "難",
+          "下",
+          "掩",
+          "裡"
+        ],
+        [
+          "繭",
+          "狐",
+          "駟",
+          "才",
+          "高",
+          "八",
+          "斗",
+          "霜"
+        ],
+        [
+          "失",
+          "靜",
+          "拔",
+          "見",
+          "非",
+          "目",
+          "樣",
+          "綢"
+        ],
+        [
+          "散",
+          "鷸",
+          "顧",
+          "利",
+          "群",
+          "左",
+          "橋",
+          "對"
+        ],
+        [
+          "鴻",
+          "八",
+          "香",
+          "忘",
+          "方",
+          "性",
+          "大",
+          "則"
+        ],
+        [
+          "鵠",
+          "膽",
+          "鉤",
+          "義",
+          "梅",
+          "鷸",
+          "逆",
+          "道"
+        ],
+        [
+          "之",
+          "暗",
+          "勝",
+          "掩",
+          "尸",
+          "位",
+          "素",
+          "餐"
+        ],
+        [
+          "志",
+          "作",
+          "蘿",
           "城",
+          "晦",
+          "手",
+          "果",
+          "見"
+        ]
+      ]
+    },
+    {
+      "id": 23,
+      "chapter": 3,
+      "chapterTitle": "成語風雲",
+      "size": 8,
+      "layout": "full",
+      "timeLimit": 270,
+      "hintCap": 2,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0079",
+          "start": [
+            1,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0061",
+          "start": [
+            1,
+            1
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0118",
+          "start": [
+            0,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0108",
+          "start": [
+            6,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0064",
+          "start": [
+            5,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0065",
+          "start": [
+            1,
+            7
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          "晨",
+          "深",
+          "謀",
+          "遠",
+          "慮",
+          "投",
+          "玉",
+          "地"
+        ],
+        [
+          "虧",
+          "篳",
+          "狡",
+          "兔",
+          "三",
+          "窟",
+          "鬼",
+          "暴"
+        ],
+        [
+          "色",
+          "路",
+          "擊",
+          "神",
+          "嚴",
+          "體",
+          "鳥",
+          "虎"
+        ],
+        [
+          "西",
+          "藍",
+          "食",
+          "經",
+          "打",
+          "擊",
+          "疾",
+          "馮"
+        ],
+        [
+          "動",
+          "縷",
+          "蔔",
+          "烹",
+          "巴",
+          "地",
+          "里",
+          "河"
+        ],
+        [
+          "見",
+          "罄",
+          "竹",
+          "難",
+          "書",
+          "尺",
+          "齒",
+          "曬"
+        ],
+        [
+          "體",
+          "對",
+          "進",
+          "退",
+          "維",
+          "谷",
+          "在",
+          "尚"
+        ],
+        [
+          "忍",
+          "語",
+          "醜",
+          "佛",
+          "吃",
+          "杯",
+          "足",
+          "爛"
+        ]
+      ]
+    },
+    {
+      "id": 24,
+      "chapter": 3,
+      "chapterTitle": "成語風雲",
+      "size": 8,
+      "layout": "full",
+      "timeLimit": 270,
+      "hintCap": 2,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0067",
+          "start": [
+            0,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0105",
+          "start": [
+            1,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0102",
+          "start": [
+            6,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0101",
+          "start": [
+            1,
+            4
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0084",
+          "start": [
+            7,
+            4
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0103",
+          "start": [
+            3,
+            1
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          "注",
+          "鞭",
+          "辟",
+          "入",
+          "裡",
+          "氣",
+          "貫",
+          "韜"
+        ],
+        [
+          "鴉",
+          "入",
+          "補",
+          "磨",
+          "弄",
+          "見",
+          "忘",
+          "炊"
+        ],
+        [
+          "魚",
+          "兵",
+          "到",
+          "副",
+          "巧",
+          "本",
+          "恩",
+          "彈"
+        ],
+        [
+          "防",
+          "過",
+          "巧",
+          "載",
+          "成",
+          "山",
+          "負",
+          "發"
+        ],
+        [
+          "舟",
+          "河",
+          "江",
+          "安",
+          "拙",
+          "在",
+          "義",
+          "嚼"
+        ],
+        [
+          "三",
+          "拆",
+          "花",
+          "深",
+          "晨",
+          "報",
+          "露",
+          "使"
+        ],
+        [
+          "發",
+          "橋",
+          "由",
+          "東",
+          "窗",
+          "事",
+          "發",
+          "舟"
+        ],
+        [
+          "弓",
+          "針",
+          "遷",
+          "午",
+          "趨",
+          "炎",
+          "附",
+          "勢"
+        ]
+      ]
+    },
+    {
+      "id": 25,
+      "chapter": 3,
+      "chapterTitle": "成語風雲",
+      "size": 9,
+      "layout": "cross",
+      "timeLimit": 270,
+      "hintCap": 2,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0093",
+          "start": [
+            3,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0105",
+          "start": [
+            0,
+            3
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0106",
+          "start": [
+            1,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0095",
+          "start": [
+            2,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0104",
+          "start": [
+            0,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          "見",
+          "利",
+          "忘",
+          "義",
           null,
           null,
           null,
@@ -798,6 +3426,654 @@
         ],
         [
           null,
+          null,
+          null,
+          "恩",
+          "將",
+          "仇",
+          "報",
+          null,
+          null
+        ],
+        [
+          null,
+          "忍",
+          "辱",
+          "負",
+          "重",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "義",
+          "正",
+          "辭",
+          "嚴",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          3
+        ]
+      ]
+    },
+    {
+      "id": 26,
+      "chapter": 3,
+      "chapterTitle": "成語風雲",
+      "size": 9,
+      "layout": "cross",
+      "timeLimit": 270,
+      "hintCap": 2,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0088",
+          "start": [
+            2,
+            3
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0094",
+          "start": [
+            3,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0105",
+          "start": [
+            0,
+            4
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0087",
+          "start": [
+            4,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0104",
+          "start": [
+            0,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          "見",
+          "利",
+          "忘",
+          "義",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "恩",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "尾",
+          "負",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "大",
+          "義",
+          "滅",
+          "親",
+          null,
+          null
+        ],
+        [
+          null,
+          "怙",
+          "惡",
+          "不",
+          "悛",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "掉",
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          0,
+          4
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          3
+        ]
+      ]
+    },
+    {
+      "id": 27,
+      "chapter": 3,
+      "chapterTitle": "成語風雲",
+      "size": 9,
+      "layout": "cross",
+      "timeLimit": 270,
+      "hintCap": 2,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0069",
+          "start": [
+            2,
+            3
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0109",
+          "start": [
+            4,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0065",
+          "start": [
+            3,
+            1
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0064",
+          "start": [
+            2,
+            2
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0103",
+          "start": [
+            6,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "罄",
+          "甘",
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "暴",
+          "竹",
+          "拜",
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "騎",
+          "虎",
+          "難",
+          "下",
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "馮",
+          "書",
+          "風",
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "過",
+          "河",
+          "拆",
+          "橋",
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          4,
+          1
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": 28,
+      "chapter": 3,
+      "chapterTitle": "成語風雲",
+      "size": 10,
+      "layout": "cross",
+      "timeLimit": 300,
+      "hintCap": 2,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0106",
+          "start": [
+            5,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0105",
+          "start": [
+            4,
+            3
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0094",
+          "start": [
+            7,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0088",
+          "start": [
+            6,
+            2
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0104",
+          "start": [
+            4,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0087",
+          "start": [
+            8,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "見",
+          "利",
+          "忘",
+          "義",
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "恩",
+          "將",
+          "仇",
+          "報",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "尾",
+          "負",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "大",
+          "義",
+          "滅",
+          "親",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "怙",
+          "惡",
+          "不",
+          "悛",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "掉",
           null,
           null,
           null,
@@ -813,24 +4089,31 @@
           3
         ],
         [
-          4,
-          5
-        ],
-        [
-          5,
-          0
-        ],
-        [
           5,
           3
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          8,
+          2
         ]
       ]
     },
     {
-      "id": 9,
-      "chapter": 1,
-      "size": 8,
+      "id": 29,
+      "chapter": 3,
+      "chapterTitle": "成語風雲",
+      "size": 10,
       "layout": "cross",
+      "timeLimit": 300,
+      "hintCap": 2,
       "directions": [
         "E",
         "S"
@@ -838,7 +4121,795 @@
       "targetDisplay": "clue",
       "targets": [
         {
-          "phraseId": "p0036",
+          "phraseId": "p0088",
+          "start": [
+            2,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0094",
+          "start": [
+            3,
+            5
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0105",
+          "start": [
+            0,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0087",
+          "start": [
+            4,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0106",
+          "start": [
+            1,
+            6
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0104",
+          "start": [
+            0,
+            4
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          "見",
+          "利",
+          "忘",
+          "義",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "恩",
+          "將",
+          "仇",
+          "報"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "尾",
+          "負",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "大",
+          "義",
+          "滅",
+          "親",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "怙",
+          "惡",
+          "不",
+          "悛",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "掉",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          0,
+          6
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          4,
+          5
+        ]
+      ]
+    },
+    {
+      "id": 30,
+      "chapter": 3,
+      "chapterTitle": "成語風雲",
+      "size": 10,
+      "layout": "cross",
+      "timeLimit": 300,
+      "hintCap": 2,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0104",
+          "start": [
+            5,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0105",
+          "start": [
+            5,
+            4
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0094",
+          "start": [
+            4,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0093",
+          "start": [
+            8,
+            4
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0088",
+          "start": [
+            4,
+            4
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0087",
+          "start": [
+            2,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "怙",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "惡",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "尾",
+          "大",
+          "不",
+          "掉",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "見",
+          "利",
+          "忘",
+          "義",
+          "悛",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "恩",
+          "滅",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "負",
+          "親",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "義",
+          "正",
+          "辭",
+          "嚴",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          4,
+          5
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          8,
+          4
+        ]
+      ]
+    },
+    {
+      "id": 31,
+      "chapter": 4,
+      "chapterTitle": "龍虎混戰",
+      "size": 9,
+      "layout": "full",
+      "timeLimit": 270,
+      "hintCap": 2,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0004",
+          "start": [
+            4,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0099",
+          "start": [
+            5,
+            4
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0188",
+          "start": [
+            1,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0191",
+          "start": [
+            3,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0128",
+          "start": [
+            2,
+            4
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0111",
+          "start": [
+            0,
+            4
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          "回",
+          "寸",
+          "益",
+          "爛",
+          "自",
+          "食",
+          "其",
+          "果",
+          "招"
+        ],
+        [
+          "家",
+          "家",
+          "有",
+          "本",
+          "難",
+          "念",
+          "的",
+          "經",
+          "巧"
+        ],
+        [
+          "咬",
+          "母",
+          "詩",
+          "異",
+          "民",
+          "以",
+          "食",
+          "為",
+          "天"
+        ],
+        [
+          "十",
+          "年",
+          "樹",
+          "木",
+          "百",
+          "年",
+          "樹",
+          "人",
+          "精"
+        ],
+        [
+          "玉",
+          "光",
+          "明",
+          "磊",
+          "落",
+          "飢",
+          "齊",
+          "見",
+          "鼓"
+        ],
+        [
+          "蘿",
+          "北",
+          "循",
+          "蟲",
+          "汗",
+          "無",
+          "明",
+          "竹",
+          "毛"
+        ],
+        [
+          "才",
+          "神",
+          "願",
+          "春",
+          "牛",
+          "買",
+          "熟",
+          "二",
+          "謀"
+        ],
+        [
+          "無",
+          "防",
+          "嘗",
+          "老",
+          "充",
+          "完",
+          "意",
+          "亂",
+          "劍"
+        ],
+        [
+          "宜",
+          "正",
+          "少",
+          "爛",
+          "棟",
+          "辣",
+          "眼",
+          "躲",
+          "繼"
+        ]
+      ]
+    },
+    {
+      "id": 32,
+      "chapter": 4,
+      "chapterTitle": "龍虎混戰",
+      "size": 9,
+      "layout": "full",
+      "timeLimit": 270,
+      "hintCap": 2,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0115",
+          "start": [
+            1,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0157",
+          "start": [
+            0,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0148",
+          "start": [
+            4,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0015",
+          "start": [
+            7,
+            5
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0114",
+          "start": [
+            5,
+            0
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0178",
+          "start": [
+            2,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          "列",
+          "相",
+          "各",
+          "人",
+          "自",
+          "掃",
+          "門",
+          "前",
+          "雪"
+        ],
+        [
+          "鬼",
+          "錢",
+          "蚍",
+          "蜉",
+          "撼",
+          "樹",
+          "石",
+          "狡",
+          "沉"
+        ],
+        [
+          "涼",
+          "一",
+          "分",
+          "耕",
+          "耘",
+          "一",
+          "分",
+          "收",
+          "穫"
+        ],
+        [
+          "柴",
+          "施",
+          "幄",
+          "樣",
+          "助",
+          "沉",
+          "枕",
+          "笑",
+          "湖"
+        ],
+        [
+          "王",
+          "耘",
+          "家",
+          "醜",
+          "不",
+          "可",
+          "外",
+          "揚",
+          "釣"
+        ],
+        [
+          "螳",
+          "以",
+          "吃",
+          "影",
+          "飛",
+          "耘",
+          "元",
+          "之",
+          "意"
+        ],
+        [
+          "臂",
+          "散",
+          "外",
+          "忍",
+          "民",
+          "歸",
+          "病",
+          "鞭",
+          "識"
+        ],
+        [
+          "當",
+          "富",
+          "縷",
+          "虎",
+          "位",
+          "破",
+          "釜",
+          "沉",
+          "舟"
+        ],
+        [
+          "車",
+          "烹",
+          "由",
+          "虎",
+          "裡",
+          "道",
+          "到",
+          "白",
+          "實"
+        ]
+      ]
+    },
+    {
+      "id": 33,
+      "chapter": 4,
+      "chapterTitle": "龍虎混戰",
+      "size": 9,
+      "layout": "full",
+      "timeLimit": 270,
+      "hintCap": 2,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0049",
+          "start": [
+            2,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0045",
+          "start": [
+            4,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0046",
           "start": [
             1,
             4
@@ -847,16 +4918,1939 @@
           "clueIndex": 2
         },
         {
-          "phraseId": "p0039",
+          "phraseId": "p0195",
+          "start": [
+            0,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0025",
+          "start": [
+            6,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0182",
+          "start": [
+            8,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0190",
+          "start": [
+            1,
+            8
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          "冰",
+          "凍",
+          "三",
+          "尺",
+          "非",
+          "一",
+          "日",
+          "之",
+          "寒"
+        ],
+        [
+          "火",
+          "言",
+          "語",
+          "形",
+          "四",
+          "藍",
+          "未",
+          "雅",
+          "早"
+        ],
+        [
+          "同",
+          "鳳",
+          "捕",
+          "花",
+          "通",
+          "鴻",
+          "掩",
+          "香",
+          "起"
+        ],
+        [
+          "遍",
+          "蛙",
+          "筆",
+          "真",
+          "八",
+          "黑",
+          "耳",
+          "錦",
+          "的"
+        ],
+        [
+          "知",
+          "邯",
+          "爛",
+          "樹",
+          "達",
+          "四",
+          "盜",
+          "餅",
+          "鳥"
+        ],
+        [
+          "畫",
+          "班",
+          "言",
+          "漸",
+          "端",
+          "面",
+          "鈴",
+          "楚",
+          "兒"
+        ],
+        [
+          "半",
+          "途",
+          "而",
+          "廢",
+          "拆",
+          "楚",
+          "速",
+          "鳥",
+          "有"
+        ],
+        [
+          "盟",
+          "縛",
+          "有",
+          "畫",
+          "利",
+          "歌",
+          "母",
+          "炎",
+          "蟲"
+        ],
+        [
+          "人",
+          "靠",
+          "衣",
+          "裝",
+          "佛",
+          "靠",
+          "金",
+          "裝",
+          "吃"
+        ]
+      ]
+    },
+    {
+      "id": 34,
+      "chapter": 4,
+      "chapterTitle": "龍虎混戰",
+      "size": 9,
+      "layout": "full",
+      "timeLimit": 270,
+      "hintCap": 2,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0177",
+          "start": [
+            1,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0077",
           "start": [
             4,
+            2
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0009",
+          "start": [
+            0,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0147",
+          "start": [
+            0,
+            1
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0057",
+          "start": [
+            0,
+            0
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0040",
+          "start": [
+            0,
+            7
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0138",
+          "start": [
+            4,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          "塞",
+          "人",
+          "右",
+          "拔",
+          "苗",
+          "助",
+          "長",
+          "手",
+          "同"
+        ],
+        [
+          "翁",
+          "算",
+          "既",
+          "利",
+          "行",
+          "杵",
+          "明",
+          "忙",
+          "樓"
+        ],
+        [
+          "失",
+          "不",
+          "事",
+          "陰",
+          "錦",
+          "亂",
+          "槍",
+          "腳",
+          "盡"
+        ],
+        [
+          "馬",
+          "如",
+          "北",
+          "米",
+          "素",
+          "餅",
+          "易",
+          "亂",
+          "晴"
+        ],
+        [
+          "行",
+          "天",
+          "抱",
+          "杵",
+          "便",
+          "天",
+          "躲",
+          "明",
+          "錢"
+        ],
+        [
+          "席",
+          "算",
+          "薪",
+          "竟",
+          "午",
+          "下",
+          "暗",
+          "貫",
+          "天"
+        ],
+        [
+          "暗",
+          "還",
+          "救",
+          "擊",
+          "穴",
+          "父",
+          "箭",
+          "苗",
+          "思"
+        ],
+        [
+          "海",
+          "鴻",
+          "火",
+          "種",
+          "半",
+          "母",
+          "難",
+          "駟",
+          "井"
+        ],
+        [
+          "爭",
+          "編",
+          "枕",
+          "時",
+          "退",
+          "心",
+          "防",
+          "尺",
+          "情"
+        ]
+      ]
+    },
+    {
+      "id": 35,
+      "chapter": 4,
+      "chapterTitle": "龍虎混戰",
+      "size": 10,
+      "layout": "cross",
+      "timeLimit": 270,
+      "hintCap": 2,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0189",
+          "start": [
+            6,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0086",
+          "start": [
+            5,
+            3
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0034",
+          "start": [
+            7,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0022",
+          "start": [
+            8,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0184",
+          "start": [
+            1,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0126",
+          "start": [
+            2,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "靠",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "隔",
+          "行",
+          "如",
+          "隔",
+          "山",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "吃",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "山",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "嗟",
+          null,
+          null,
+          "靠",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "兵",
+          "來",
+          "將",
+          "擋",
+          "水",
+          "來",
+          "土",
+          "掩"
+        ],
+        [
+          null,
+          null,
+          "持",
+          "之",
+          "以",
+          "恆",
+          "吃",
+          null,
+          null,
+          null
+        ],
+        [
+          "廢",
+          "寢",
+          "忘",
+          "食",
+          null,
+          null,
+          "水",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          2,
+          6
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          6,
+          6
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          8,
+          3
+        ]
+      ]
+    },
+    {
+      "id": 36,
+      "chapter": 4,
+      "chapterTitle": "龍虎混戰",
+      "size": 10,
+      "layout": "cross",
+      "timeLimit": 270,
+      "hintCap": 2,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0082",
+          "start": [
+            4,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0113",
+          "start": [
+            4,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0143",
+          "start": [
+            4,
+            2
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0088",
+          "start": [
+            5,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0164",
+          "start": [
+            0,
+            1
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0135",
+          "start": [
+            0,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          "貪",
+          "多",
+          "嚼",
+          "不",
+          "爛",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "小",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "便",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "宜",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "吃",
+          "玉",
+          "石",
+          "俱",
+          "焚",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "尾",
+          "大",
+          "不",
+          "掉",
+          null,
+          "膏",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "虧",
+          "琢",
+          null,
+          null,
+          "繼",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "不",
+          null,
+          null,
+          "晷",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "成",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "器",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          0,
+          1
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ]
+      ]
+    },
+    {
+      "id": 37,
+      "chapter": 4,
+      "chapterTitle": "龍虎混戰",
+      "size": 10,
+      "layout": "cross",
+      "timeLimit": 270,
+      "hintCap": 2,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0074",
+          "start": [
+            2,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0098",
+          "start": [
+            4,
+            6
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0044",
+          "start": [
+            4,
+            8
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0139",
+          "start": [
+            7,
+            4
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0146",
+          "start": [
+            4,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0166",
+          "start": [
+            9,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "邯",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "鄲",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "有",
+          "學",
+          "富",
+          "五",
+          "車"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "志",
+          "步",
+          null,
+          "花",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "者",
+          null,
+          null,
+          "八",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "好",
+          "事",
+          "不",
+          "出",
+          "門",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "竟",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "一",
+          "失",
+          "足",
+          "成",
+          "千",
+          "古",
+          "恨",
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          8
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          9,
+          5
+        ]
+      ]
+    },
+    {
+      "id": 38,
+      "chapter": 4,
+      "chapterTitle": "龍虎混戰",
+      "size": 11,
+      "layout": "cross",
+      "timeLimit": 300,
+      "hintCap": 1,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0134",
+          "start": [
+            5,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0137",
+          "start": [
+            2,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0053",
+          "start": [
+            2,
+            5
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0197",
+          "start": [
+            1,
+            8
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0091",
+          "start": [
+            4,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0058",
+          "start": [
+            7,
+            5
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "皇",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "杞",
+          "人",
+          "憂",
+          "天",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "窮",
+          null,
+          "不",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "鴻",
+          "鵠",
+          "之",
+          "志",
+          null,
+          "負",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "欲",
+          "速",
+          "則",
+          "不",
+          "達",
+          "苦",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "窮",
+          null,
+          "心",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "一",
+          "鳴",
+          "驚",
+          "人",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          7,
+          8
+        ]
+      ]
+    },
+    {
+      "id": 39,
+      "chapter": 4,
+      "chapterTitle": "龍虎混戰",
+      "size": 11,
+      "layout": "cross",
+      "timeLimit": 300,
+      "hintCap": 1,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0127",
+          "start": [
+            4,
+            4
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0130",
+          "start": [
+            3,
+            8
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0142",
+          "start": [
+            2,
+            4
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0075",
+          "start": [
+            6,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0068",
+          "start": [
+            3,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0051",
+          "start": [
+            6,
+            2
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "家",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "曲",
+          "高",
+          "和",
+          "寡",
+          null,
+          null,
+          "患",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "萬",
+          "事",
+          "起",
+          "頭",
+          "難",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "事",
+          null,
+          null,
+          null,
+          "見",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "望",
+          "洋",
+          "興",
+          "嘆",
+          null,
+          null,
+          "真",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "梅",
+          null,
+          null,
+          null,
+          null,
+          null,
+          "情",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "止",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "渴",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          4,
+          8
+        ],
+        [
+          6,
+          2
+        ],
+        [
+          6,
+          4
+        ]
+      ]
+    },
+    {
+      "id": 40,
+      "chapter": 4,
+      "chapterTitle": "龍虎混戰",
+      "size": 11,
+      "layout": "cross",
+      "timeLimit": 300,
+      "hintCap": 1,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0180",
+          "start": [
+            1,
+            4
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0140",
+          "start": [
+            4,
+            4
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0092",
+          "start": [
+            1,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0198",
+          "start": [
+            1,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0080",
+          "start": [
+            1,
+            2
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0109",
+          "start": [
+            8,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "一",
+          "諾",
+          "千",
+          "金",
+          "一",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "丘",
+          null,
+          "里",
+          null,
+          "言",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "之",
+          null,
+          "之",
+          null,
+          "既",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "貉",
+          null,
+          "行",
+          "行",
+          "出",
+          "狀",
+          "元",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "始",
+          null,
+          "駟",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "於",
+          null,
+          "馬",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "足",
+          null,
+          "難",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "騎",
+          "虎",
+          "難",
+          "下",
+          null,
+          "追",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          8,
+          4
+        ]
+      ]
+    },
+    {
+      "id": 41,
+      "chapter": 5,
+      "chapterTitle": "宗師試煉",
+      "size": 10,
+      "layout": "full",
+      "timeLimit": 240,
+      "hintCap": 1,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0158",
+          "start": [
+            8,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0026",
+          "start": [
+            1,
             1
           ],
           "dir": "E",
           "clueIndex": 1
         },
         {
-          "phraseId": "p0021",
+          "phraseId": "p0085",
+          "start": [
+            4,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0048",
+          "start": [
+            3,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0154",
+          "start": [
+            9,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0160",
+          "start": [
+            0,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0016",
+          "start": [
+            2,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          "畫",
+          "辭",
+          "一",
+          "日",
+          "之",
+          "計",
+          "在",
+          "於",
+          "晨",
+          "廢"
+        ],
+        [
+          "晨",
+          "見",
+          "異",
+          "思",
+          "遷",
+          "花",
+          "墨",
+          "象",
+          "比",
+          "求"
+        ],
+        [
+          "沆",
+          "深",
+          "臥",
+          "薪",
+          "嘗",
+          "膽",
+          "形",
+          "蚍",
+          "和",
+          "防"
+        ],
+        [
+          "響",
+          "窟",
+          "東",
+          "施",
+          "效",
+          "顰",
+          "悟",
+          "石",
+          "待",
+          "群"
+        ],
+        [
+          "力",
+          "挽",
+          "狂",
+          "瀾",
+          "洛",
+          "識",
+          "喝",
+          "活",
+          "嚼",
+          "蔔"
+        ],
+        [
+          "果",
+          "十",
+          "作",
+          "白",
+          "計",
+          "威",
+          "嘗",
+          "添",
+          "兒",
+          "鄲"
+        ],
+        [
+          "琢",
+          "茅",
+          "火",
+          "本",
+          "冬",
+          "門",
+          "槍",
+          "姜",
+          "效",
+          "不"
+        ],
+        [
+          "櫝",
+          "大",
+          "月",
+          "追",
+          "鴻",
+          "五",
+          "有",
+          "俱",
+          "掃",
+          "鳴"
+        ],
+        [
+          "眾",
+          "人",
+          "拾",
+          "柴",
+          "火",
+          "焰",
+          "高",
+          "成",
+          "風",
+          "蟬"
+        ],
+        [
+          "雲",
+          "有",
+          "理",
+          "走",
+          "遍",
+          "天",
+          "下",
+          "幄",
+          "嘗",
+          "多"
+        ]
+      ]
+    },
+    {
+      "id": 42,
+      "chapter": 5,
+      "chapterTitle": "宗師試煉",
+      "size": 10,
+      "layout": "full",
+      "timeLimit": 240,
+      "hintCap": 1,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0073",
+          "start": [
+            2,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0112",
+          "start": [
+            6,
+            0
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0014",
+          "start": [
+            6,
+            1
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0033",
+          "start": [
+            2,
+            1
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0196",
+          "start": [
+            0,
+            7
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0081",
           "start": [
             3,
             2
@@ -865,7 +6859,1083 @@
           "clueIndex": 1
         },
         {
-          "phraseId": "p0037",
+          "phraseId": "p0008",
+          "start": [
+            4,
+            3
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          "的",
+          "以",
+          "歸",
+          "飛",
+          "集",
+          "筵",
+          "富",
+          "姜",
+          "名",
+          "抱"
+        ],
+        [
+          "漢",
+          "晚",
+          "路",
+          "嘗",
+          "通",
+          "文",
+          "當",
+          "太",
+          "速",
+          "人"
+        ],
+        [
+          "貉",
+          "循",
+          "正",
+          "買",
+          "櫝",
+          "還",
+          "珠",
+          "公",
+          "冰",
+          "鵠"
+        ],
+        [
+          "墨",
+          "序",
+          "分",
+          "辣",
+          "膏",
+          "鈴",
+          "用",
+          "釣",
+          "盡",
+          "器"
+        ],
+        [
+          "佛",
+          "漸",
+          "道",
+          "狐",
+          "早",
+          "識",
+          "巴",
+          "魚",
+          "日",
+          "白"
+        ],
+        [
+          "日",
+          "進",
+          "揚",
+          "假",
+          "烹",
+          "施",
+          "買",
+          "願",
+          "歸",
+          "文"
+        ],
+        [
+          "咎",
+          "完",
+          "鑣",
+          "虎",
+          "庸",
+          "退",
+          "字",
+          "者",
+          "了",
+          "假"
+        ],
+        [
+          "由",
+          "璧",
+          "救",
+          "威",
+          "注",
+          "俱",
+          "薑",
+          "上",
+          "推",
+          "琢"
+        ],
+        [
+          "自",
+          "歸",
+          "虧",
+          "悟",
+          "拜",
+          "施",
+          "始",
+          "鉤",
+          "忠",
+          "湖"
+        ],
+        [
+          "取",
+          "趙",
+          "庸",
+          "木",
+          "願",
+          "趨",
+          "仇",
+          "咎",
+          "補",
+          "晷"
+        ]
+      ]
+    },
+    {
+      "id": 43,
+      "chapter": 5,
+      "chapterTitle": "宗師試煉",
+      "size": 10,
+      "layout": "full",
+      "timeLimit": 240,
+      "hintCap": 1,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0107",
+          "start": [
+            3,
+            8
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0187",
+          "start": [
+            1,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0063",
+          "start": [
+            4,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0054",
+          "start": [
+            7,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0036",
+          "start": [
+            5,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0078",
+          "start": [
+            0,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0175",
+          "start": [
+            2,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0089",
+          "start": [
+            3,
+            4
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          "十",
+          "婆",
+          "為",
+          "兔",
+          "死",
+          "狗",
+          "烹",
+          "事",
+          "達",
+          "轉"
+        ],
+        [
+          "冰",
+          "十",
+          "王",
+          "婆",
+          "賣",
+          "瓜",
+          "自",
+          "賣",
+          "自",
+          "誇"
+        ],
+        [
+          "江",
+          "山",
+          "易",
+          "改",
+          "本",
+          "性",
+          "難",
+          "移",
+          "編",
+          "沉"
+        ],
+        [
+          "忌",
+          "勝",
+          "借",
+          "助",
+          "城",
+          "下",
+          "之",
+          "盟",
+          "兩",
+          "忍"
+        ],
+        [
+          "洛",
+          "陽",
+          "紙",
+          "貴",
+          "辱",
+          "靜",
+          "難",
+          "烹",
+          "全",
+          "五"
+        ],
+        [
+          "在",
+          "班",
+          "後",
+          "星",
+          "器",
+          "益",
+          "群",
+          "當",
+          "其",
+          "寢"
+        ],
+        [
+          "知",
+          "虎",
+          "老",
+          "井",
+          "行",
+          "智",
+          "策",
+          "追",
+          "美",
+          "惡"
+        ],
+        [
+          "遍",
+          "露",
+          "唇",
+          "亡",
+          "齒",
+          "寒",
+          "群",
+          "威",
+          "內",
+          "竹"
+        ],
+        [
+          "爭",
+          "多",
+          "暴",
+          "般",
+          "飛",
+          "鑣",
+          "力",
+          "散",
+          "寒",
+          "小"
+        ],
+        [
+          "果",
+          "目",
+          "才",
+          "拾",
+          "喜",
+          "七",
+          "門",
+          "牛",
+          "乘",
+          "作"
+        ]
+      ]
+    },
+    {
+      "id": 44,
+      "chapter": 5,
+      "chapterTitle": "宗師試煉",
+      "size": 10,
+      "layout": "full",
+      "timeLimit": 240,
+      "hintCap": 1,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0121",
+          "start": [
+            4,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0006",
+          "start": [
+            1,
+            7
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0070",
+          "start": [
+            0,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0032",
+          "start": [
+            0,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0072",
+          "start": [
+            6,
+            8
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0059",
+          "start": [
+            2,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0152",
+          "start": [
+            4,
+            3
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0181",
+          "start": [
+            2,
+            9
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          "婦",
+          "精",
+          "益",
+          "求",
+          "精",
+          "首",
+          "首",
+          "亂",
+          "知",
+          "蜉"
+        ],
+        [
+          "理",
+          "郎",
+          "下",
+          "得",
+          "望",
+          "鼠",
+          "深",
+          "守",
+          "於",
+          "於"
+        ],
+        [
+          "用",
+          "高",
+          "枕",
+          "無",
+          "憂",
+          "兩",
+          "滅",
+          "株",
+          "邯",
+          "巧"
+        ],
+        [
+          "禍",
+          "鴉",
+          "沆",
+          "棟",
+          "帷",
+          "端",
+          "味",
+          "待",
+          "來",
+          "婦"
+        ],
+        [
+          "救",
+          "歌",
+          "隔",
+          "龍",
+          "席",
+          "熱",
+          "知",
+          "兔",
+          "蚍",
+          "難"
+        ],
+        [
+          "汗",
+          "枕",
+          "之",
+          "生",
+          "底",
+          "炭",
+          "足",
+          "頭",
+          "誇",
+          "為"
+        ],
+        [
+          "郎",
+          "送",
+          "咬",
+          "龍",
+          "動",
+          "短",
+          "常",
+          "勝",
+          "附",
+          "無"
+        ],
+        [
+          "乘",
+          "行",
+          "循",
+          "鳳",
+          "趁",
+          "櫝",
+          "樂",
+          "忠",
+          "庸",
+          "米"
+        ],
+        [
+          "蚌",
+          "韋",
+          "拔",
+          "生",
+          "思",
+          "人",
+          "象",
+          "出",
+          "風",
+          "之"
+        ],
+        [
+          "沉",
+          "露",
+          "早",
+          "鳳",
+          "吃",
+          "掩",
+          "絕",
+          "明",
+          "雅",
+          "炊"
+        ]
+      ]
+    },
+    {
+      "id": 45,
+      "chapter": 5,
+      "chapterTitle": "宗師試煉",
+      "size": 11,
+      "layout": "cross",
+      "timeLimit": 270,
+      "hintCap": 1,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0055",
+          "start": [
+            4,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0114",
+          "start": [
+            4,
+            3
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0162",
+          "start": [
+            7,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0150",
+          "start": [
+            2,
+            9
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0007",
+          "start": [
+            6,
+            7
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0147",
+          "start": [
+            2,
+            5
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0088",
+          "start": [
+            0,
+            7
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "尾",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "大",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "人",
+          "算",
+          "不",
+          "如",
+          "天",
+          "算"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "掉",
+          null,
+          "無",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "螳",
+          "螂",
+          "捕",
+          "蟬",
+          null,
+          null,
+          "絕",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "臂",
+          null,
+          null,
+          null,
+          null,
+          null,
+          "人",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "當",
+          null,
+          null,
+          null,
+          "井",
+          "底",
+          "之",
+          "蛙"
+        ],
+        [
+          null,
+          null,
+          null,
+          "車",
+          "到",
+          "山",
+          "前",
+          "必",
+          "有",
+          "路",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          2,
+          7
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          6,
+          9
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          9
+        ]
+      ]
+    },
+    {
+      "id": 46,
+      "chapter": 5,
+      "chapterTitle": "宗師試煉",
+      "size": 11,
+      "layout": "cross",
+      "timeLimit": 270,
+      "hintCap": 1,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0028",
+          "start": [
+            5,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0043",
+          "start": [
+            4,
+            3
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0191",
+          "start": [
+            6,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0176",
+          "start": [
+            1,
+            10
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0003",
+          "start": [
+            6,
+            7
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0197",
+          "start": [
+            2,
+            4
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0018",
+          "start": [
+            9,
+            6
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "前"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "皇",
+          "天",
+          "不",
+          "負",
+          "苦",
+          "心",
+          "人"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "種"
+        ],
+        [
+          null,
+          null,
+          null,
+          "十",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "樹"
+        ],
+        [
+          null,
+          null,
+          null,
+          "全",
+          "神",
+          "貫",
+          "注",
+          null,
+          null,
+          null,
+          "後"
+        ],
+        [
+          null,
+          null,
+          null,
+          "十",
+          "年",
+          "樹",
+          "木",
+          "百",
+          "年",
+          "樹",
+          "人"
+        ],
+        [
+          null,
+          null,
+          null,
+          "美",
+          null,
+          null,
+          null,
+          "發",
+          null,
+          null,
+          "乘"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "百",
+          null,
+          null,
+          "涼"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "雪",
+          "中",
+          "送",
+          "炭",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          2,
+          10
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          6,
+          10
+        ],
+        [
+          9,
+          7
+        ]
+      ]
+    },
+    {
+      "id": 47,
+      "chapter": 5,
+      "chapterTitle": "宗師試煉",
+      "size": 11,
+      "layout": "cross",
+      "timeLimit": 270,
+      "hintCap": 1,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0116",
+          "start": [
+            5,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0044",
           "start": [
             2,
             3
@@ -874,7 +7944,43 @@
           "clueIndex": 1
         },
         {
-          "phraseId": "p0038",
+          "phraseId": "p0098",
+          "start": [
+            2,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0017",
+          "start": [
+            3,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0101",
+          "start": [
+            5,
+            4
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0046",
+          "start": [
+            4,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0123",
           "start": [
             6,
             1
@@ -892,53 +7998,6 @@
           null,
           null,
           null,
-          null
-        ],
-        [
-          null,
-          null,
-          null,
-          null,
-          "群",
-          null,
-          null,
-          null
-        ],
-        [
-          null,
-          null,
-          null,
-          "同",
-          "策",
-          null,
-          null,
-          null
-        ],
-        [
-          null,
-          null,
-          "專",
-          "心",
-          "群",
-          null,
-          null,
-          null
-        ],
-        [
-          null,
-          "齊",
-          "心",
-          "協",
-          "力",
-          null,
-          null,
-          null
-        ],
-        [
-          null,
-          null,
-          "致",
-          "力",
           null,
           null,
           null,
@@ -946,15 +8005,400 @@
         ],
         [
           null,
-          "眾",
-          "志",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "學",
+          "富",
+          "五",
+          "車",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "錦",
+          "上",
+          "添",
+          "花",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "四",
+          "通",
+          "八",
+          "達",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "班",
+          "門",
+          "弄",
+          "斧",
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "熟",
+          "能",
+          "生",
+          "巧",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
           "成",
-          "城",
+          null,
+          null,
+          null,
           null,
           null,
           null
         ],
         [
+          null,
+          null,
+          null,
+          null,
+          "拙",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          6,
+          4
+        ]
+      ]
+    },
+    {
+      "id": 48,
+      "chapter": 5,
+      "chapterTitle": "宗師試煉",
+      "size": 12,
+      "layout": "cross",
+      "timeLimit": 270,
+      "hintCap": 1,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0035",
+          "start": [
+            3,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0133",
+          "start": [
+            4,
+            5
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0062",
+          "start": [
+            2,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0032",
+          "start": [
+            6,
+            5
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0180",
+          "start": [
+            1,
+            9
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0089",
+          "start": [
+            8,
+            8
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0013",
+          "start": [
+            7,
+            6
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "千",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "韋",
+          null,
+          null,
+          null,
+          "里",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "編",
+          "集",
+          null,
+          null,
+          "之",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "三",
+          "思",
+          "而",
+          "後",
+          "行",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "絕",
+          "廣",
+          null,
+          null,
+          "始",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "精",
+          "益",
+          "求",
+          "精",
+          "於",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "畫",
+          "蛇",
+          "添",
+          "足",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "城",
+          "下",
+          "之",
+          "盟"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
           null,
           null,
           null,
@@ -968,27 +8412,38 @@
       "revealed": [
         [
           4,
-          2
+          5
         ],
         [
           4,
-          3
+          6
         ],
         [
           4,
-          4
+          9
         ],
         [
           6,
-          2
+          6
+        ],
+        [
+          7,
+          9
+        ],
+        [
+          8,
+          9
         ]
       ]
     },
     {
-      "id": 10,
-      "chapter": 1,
-      "size": 8,
+      "id": 49,
+      "chapter": 5,
+      "chapterTitle": "宗師試煉",
+      "size": 12,
       "layout": "cross",
+      "timeLimit": 270,
+      "hintCap": 1,
       "directions": [
         "E",
         "S"
@@ -996,45 +8451,347 @@
       "targetDisplay": "clue",
       "targets": [
         {
+          "phraseId": "p0066",
+          "start": [
+            5,
+            4
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
           "phraseId": "p0058",
           "start": [
-            2,
-            4
+            5,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0158",
+          "start": [
+            8,
+            5
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0097",
+          "start": [
+            7,
+            11
           ],
           "dir": "S",
           "clueIndex": 1
         },
         {
-          "phraseId": "p0053",
+          "phraseId": "p0038",
+          "start": [
+            8,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0143",
+          "start": [
+            10,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0087",
+          "start": [
+            8,
+            2
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        }
+      ],
+      "grid": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "沆",
+          "瀣",
+          "一",
+          "氣",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "鳴",
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "驚",
+          null,
+          null,
+          null,
+          null,
+          "才"
+        ],
+        [
+          null,
+          null,
+          "怙",
+          null,
+          null,
+          "眾",
+          "人",
+          "拾",
+          "柴",
+          "火",
+          "焰",
+          "高"
+        ],
+        [
+          null,
+          null,
+          "惡",
+          null,
+          null,
+          "志",
+          null,
+          null,
+          null,
+          null,
+          null,
+          "八"
+        ],
+        [
+          null,
+          "玉",
+          "不",
+          "琢",
+          "不",
+          "成",
+          "器",
+          null,
+          null,
+          null,
+          null,
+          "斗"
+        ],
+        [
+          null,
+          null,
+          "悛",
+          null,
+          null,
+          "城",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          5,
+          6
+        ],
+        [
+          8,
+          5
+        ],
+        [
+          8,
+          6
+        ],
+        [
+          8,
+          11
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          10,
+          5
+        ]
+      ]
+    },
+    {
+      "id": 50,
+      "chapter": 5,
+      "chapterTitle": "宗師試煉",
+      "size": 12,
+      "layout": "cross",
+      "timeLimit": 300,
+      "hintCap": 1,
+      "directions": [
+        "E",
+        "S"
+      ],
+      "targetDisplay": "clue",
+      "targets": [
+        {
+          "phraseId": "p0083",
+          "start": [
+            3,
+            6
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0165",
           "start": [
             5,
             3
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
-          "phraseId": "p0001",
-          "start": [
-            2,
-            2
-          ],
-          "dir": "E",
-          "clueIndex": 2
-        },
-        {
-          "phraseId": "p0042",
+          "phraseId": "p0176",
           "start": [
             0,
-            2
+            9
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0166",
+          "start": [
+            5,
+            3
           ],
           "dir": "S",
           "clueIndex": 1
         },
         {
-          "phraseId": "p0011",
+          "phraseId": "p0030",
           "start": [
-            1,
+            8,
+            0
+          ],
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0117",
+          "start": [
+            6,
+            0
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0181",
+          "start": [
+            0,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0155",
+          "start": [
+            2,
             1
           ],
           "dir": "E",
@@ -1045,40 +8802,14 @@
         [
           null,
           null,
-          "九",
           null,
           null,
           null,
-          null,
-          null
-        ],
-        [
-          null,
-          "對",
-          "牛",
-          "彈",
-          "琴",
+          "巧",
           null,
           null,
-          null
-        ],
-        [
           null,
-          null,
-          "一",
-          "心",
-          "一",
-          "意",
-          null,
-          null
-        ],
-        [
-          null,
-          null,
-          "毛",
-          null,
-          "鳴",
-          null,
+          "前",
           null,
           null
         ],
@@ -1087,19 +8818,27 @@
           null,
           null,
           null,
-          "驚",
           null,
-          null,
-          null
-        ],
-        [
+          "婦",
           null,
           null,
           null,
-          "杞",
           "人",
-          "憂",
-          "天",
+          null,
+          null
+        ],
+        [
+          null,
+          "無",
+          "理",
+          "寸",
+          "步",
+          "難",
+          "行",
+          null,
+          null,
+          "種",
+          null,
           null
         ],
         [
@@ -1108,11 +8847,117 @@
           null,
           null,
           null,
+          "為",
+          "韜",
+          null,
+          null,
+          "樹",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "無",
+          "光",
+          null,
+          null,
+          "後",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "一",
+          "樣",
+          "米",
+          "養",
+          "百",
+          "樣",
+          "人",
+          null,
+          null
+        ],
+        [
+          "貽",
+          null,
+          null,
+          "失",
+          null,
+          "之",
+          "晦",
+          null,
+          null,
+          "乘",
+          null,
+          null
+        ],
+        [
+          "笑",
+          null,
+          null,
+          "足",
+          null,
+          "炊",
+          null,
+          null,
+          null,
+          "涼",
+          null,
+          null
+        ],
+        [
+          "大",
+          "器",
+          "晚",
+          "成",
+          null,
+          null,
+          null,
+          null,
+          null,
           null,
           null,
           null
         ],
         [
+          "方",
+          null,
+          null,
+          "千",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "古",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "恨",
           null,
           null,
           null,
@@ -1125,20 +8970,32 @@
       ],
       "revealed": [
         [
-          1,
-          2
-        ],
-        [
           2,
-          2
-        ],
-        [
-          2,
-          4
+          5
         ],
         [
           5,
-          4
+          3
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          5,
+          9
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          3
         ]
       ]
     }

@@ -20,7 +20,7 @@
 <main>
   <!-- 關卡地圖 -->
   <section id="view-map" class="view">
-    <h2 class="view-title">關卡地圖・第一章</h2>
+    <h2 class="view-title">關卡地圖</h2>
     <div id="level-map" class="level-map"></div>
   </section>
 
@@ -29,15 +29,17 @@
     <div class="game-top">
       <button type="button" id="btn-back-map" class="ghost-btn">← 地圖</button>
       <span id="game-level-title" class="game-level-title">第 1 關</span>
+      <span id="timer-display" class="timer-display hidden" aria-live="off">⏳ <span id="timer-time">--:--</span></span>
       <span class="ink-display">🖋 <span id="ink-amount">0</span></span>
     </div>
     <div id="grid" class="grid" aria-label="字格盤面"></div>
     <div id="cross-input-row" class="cross-input-row hidden">
-      <input id="cross-input" type="text" maxlength="8" autocomplete="off" placeholder="輸入四字成語">
+      <input id="cross-input" type="text" maxlength="12" autocomplete="off" placeholder="輸入答案">
       <button type="button" id="cross-submit" class="primary-btn">確認</button>
     </div>
     <ul id="target-list" class="target-list"></ul>
     <div class="hint-bar">
+      <span id="hint-quota" class="hint-quota hidden" aria-live="polite"></span>
       <button type="button" id="btn-hint-circle" class="hint-btn">圈首字<small>1 墨</small></button>
       <button type="button" id="btn-hint-flash" class="hint-btn">閃現整句<small>3 墨</small></button>
       <button type="button" id="btn-hint-reveal" class="hint-btn">直接揭示<small>5 墨</small></button>
@@ -104,6 +106,20 @@
     </div>
     <p id="quiz-feedback" class="quiz-feedback" aria-live="polite"></p>
     <button type="button" id="quiz-next" class="primary-btn hidden">下一題</button>
+  </div>
+</div>
+
+<!-- 超時（時辰已到）：無 ×、點背景不關 -->
+<div id="modal-timeout" class="modal-backdrop hidden">
+  <div class="modal timeout-modal">
+    <div class="timeout-hourglass" aria-hidden="true"></div>
+    <p class="card-badge timeout-badge">超時</p>
+    <h3 class="timeout-title">時辰已到</h3>
+    <p class="timeout-desc muted">香已燃盡，本關尚未尋得全部章句。</p>
+    <div class="settings-actions">
+      <button type="button" id="btn-retry-level" class="primary-btn">重新挑戰</button>
+      <button type="button" id="btn-timeout-map" class="ghost-btn">回地圖</button>
+    </div>
   </div>
 </div>
 

@@ -1,36 +1,34 @@
 #!/usr/bin/env node
 /**
- * 尋章摘句 — 關卡產生器 v2（第 1 章 10 關：關1–5 full 5×5、關6–7 cross 7×7、關8–10 cross 8×8）
+ * 尋章摘句 — 關卡產生器 v3（50 關課程表：五章／諺語俗語變長目標／timeLimit＋hintCap）
  *
  * 用法：node tools/generate-levels.mjs <phrases.json路徑> <輸出levels.json路徑> [seed]
  *
- * v2：targetDisplay 一律 "clue"（每目標帶 clueIndex）；新增 cross 填字版型
- *（第一詞置中央附近，其後每詞與已放置詞恰交叉一個字、E 交 S，全體連通；
- *  grid 目標格存答案字、其餘 null；revealed = 所有交叉格）。
+ * v3：
+ * - 課程表表驅動（tools/curriculum.mjs，照 docs/SCHEMA.md 逐格照抄）：
+ *   章/關段/版型/尺寸/內容池/目標數/timeLimit/hintCap/線索曲線。
+ * - full 支援 4–9 字變長目標（諺語俗語）；碰撞檢查一律對「全語料 text 集合」掃
+ *   （每條語料各以自身長度掃一輪，涵蓋 4–9 字，不會漏掃該關內容池以外的長度）。
+ * - cross 支援變長詞交叉（規則不變：E 交 S、恰一交叉、首尾外一格留空、連通）；
+ *   大盤面加回溯節點預算，超額即放棄本輪、換一批候選（seed bump 重洗 pool）重試，
+ *   30 次 seed 重試上限維持。
+ * - 內容池過濾照 SCHEMA（成語·常用/成語·進階/諺語俗語/混合各半/全庫）；跨關優先不重複。
+ * - 線索曲線：釋義（關1–2）／輪換創意（現行邏輯）／各半（釋義/情境）／
+ *   創意優先／幾乎全創意／全創意（後三檔皆＝有創意型就用、缺料才退釋義）。
  *
  * 確定性：自寫 mulberry32 seeded PRNG，同 seed 同輸出；不使用 Date.now()。
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { CURRICULUM, inPool, isChengyu, charLen, expectedTargetCounts } from './curriculum.mjs';
 
-const LEVEL_CONFIG = [
-  { layout: 'full',  size: 5, targets: 3 },
-  { layout: 'full',  size: 5, targets: 3 },
-  { layout: 'full',  size: 5, targets: 4 },
-  { layout: 'full',  size: 5, targets: 4 },
-  { layout: 'full',  size: 5, targets: 4 },
-  { layout: 'cross', size: 7, targets: 4 },
-  { layout: 'cross', size: 7, targets: 4 },
-  { layout: 'cross', size: 8, targets: 5 },
-  { layout: 'cross', size: 8, targets: 5 },
-  { layout: 'cross', size: 8, targets: 5 },
-];
 const CREATIVE_STYLES = ['急轉彎', '典故', '諧音', '情境'];
 const DEFAULT_SEED = 20260818;
-const MAX_FILL_TRIES = 300;   // full：干擾字重填上限
-const MAX_LAYOUT_TRIES = 80;  // full：目標擺盤重試上限
-const MAX_SEED_BUMPS = 30;    // 換 seed 重擺上限
+const MAX_FILL_TRIES = 300;      // full：干擾字重填上限
+const MAX_LAYOUT_TRIES = 80;     // full：目標擺盤重試上限
+const MAX_SEED_BUMPS = 30;       // 換 seed（＝換一批候選重洗）重試上限
+const CROSS_NODE_BUDGET = 200000; // cross：單輪回溯節點預算，超額放棄本輪
 
 // 約 100 字國中常用字池（干擾字備用，避免生僻字）
 const COMMON_CHARS = [...new Set(
@@ -68,39 +66,53 @@ function cellsInBounds(cells, size) {
   return cells.every(([r, c]) => r >= 0 && r < size && c >= 0 && c < size);
 }
 
-// ---------- 線索選擇 ----------
-/**
- * 關 1–2：選 style="釋義"。
- * 關 3 起：優先輪換創意型（急轉彎/典故/諧音/情境），同關內 style 盡量不重複；
- * 該成語沒有可用創意型才退回任一創意型，再不行退「釋義」。
- */
-function pickClueIndex(phrase, levelId, slot, usedStyles) {
+// ---------- 線索選擇（v3 六檔曲線） ----------
+function pickClueIndex(phrase, curve, slot, usedStyles) {
   const clues = phrase.clues ?? [];
   const idxOf = style => clues.findIndex(c => c.style === style);
-  if (levelId <= 2) {
-    const i = idxOf('釋義');
-    return i >= 0 ? i : 0;
+  const shiyi = () => { const i = idxOf('釋義'); return i >= 0 ? i : 0; };
+  // 現行輪換邏輯：依 slot 輪換創意型、同關 style 盡量不重複；退任一創意；再退釋義
+  const creative = () => {
+    for (let k = 0; k < CREATIVE_STYLES.length; k++) {
+      const style = CREATIVE_STYLES[(slot + k) % CREATIVE_STYLES.length];
+      if (usedStyles.has(style)) continue;
+      const i = idxOf(style);
+      if (i >= 0) { usedStyles.add(style); return i; }
+    }
+    const i = clues.findIndex(c => CREATIVE_STYLES.includes(c.style));
+    if (i >= 0) { usedStyles.add(clues[i].style); return i; }
+    return -1;
+  };
+  switch (curve) {
+    case '釋義':
+      return shiyi();
+    case '各半': { // 釋義/情境各半：偶數 slot 釋義、奇數 slot 情境（缺情境退其他創意，再退釋義）
+      if (slot % 2 === 0) return shiyi();
+      const i = idxOf('情境');
+      if (i >= 0) { usedStyles.add('情境'); return i; }
+      const j = creative();
+      return j >= 0 ? j : shiyi();
+    }
+    case '輪換':
+    case '創意優先':
+    case '幾乎全創意':
+    case '全創意': { // 有創意型就用；除非缺料否則不用釋義
+      const i = creative();
+      return i >= 0 ? i : shiyi();
+    }
+    default:
+      throw new Error(`未知線索曲線：${curve}`);
   }
-  for (let k = 0; k < CREATIVE_STYLES.length; k++) {
-    const style = CREATIVE_STYLES[(slot + k) % CREATIVE_STYLES.length];
-    if (usedStyles.has(style)) continue;
-    const i = idxOf(style);
-    if (i >= 0) { usedStyles.add(style); return i; }
-  }
-  const i = clues.findIndex(c => CREATIVE_STYLES.includes(c.style));
-  if (i >= 0) { usedStyles.add(clues[i].style); return i; }
-  const j = idxOf('釋義');
-  return j >= 0 ? j : 0;
 }
-function assignClues(levelId, targets, byId) {
+function assignClues(curve, targets, byId) {
   const usedStyles = new Set();
   return targets.map((t, slot) => ({
     ...t,
-    clueIndex: pickClueIndex(byId.get(t.phraseId), levelId, slot, usedStyles),
+    clueIndex: pickClueIndex(byId.get(t.phraseId), curve, slot, usedStyles),
   }));
 }
 
-// ---------- full：方向掃描＋碰撞檢查（沿用 v1） ----------
+// ---------- full：方向掃描＋碰撞檢查 ----------
 function gridLines(grid) {
   const size = grid.length;
   const e = grid.map(row => row.join(''));
@@ -117,6 +129,10 @@ function countSub(lines, word) {
   }
   return n;
 }
+/**
+ * 碰撞檢查：目標恰出現 1 次；「全語料 text 集合」逐條掃描（每條以自身長度掃，
+ * 天然涵蓋 4–9 字變長條目——不是只掃該關內容池會出現的長度）；黑名單含反向。
+ */
 function collisionCheck(grid, targetTexts, allTexts, blacklist) {
   const { e, s } = gridLines(grid);
   const es = [...e, ...s];
@@ -140,21 +156,22 @@ function collisionCheck(grid, targetTexts, allTexts, blacklist) {
   return violations;
 }
 
-// ---------- full：目標擺盤（回溯法，沿用 v1） ----------
+// ---------- full：目標擺盤（回溯法；text 變長 4–9 字皆適用） ----------
 function tryFullLayout(phrases, size, rng) {
   const grid = Array.from({ length: size }, () => Array(size).fill(null));
   const targets = [];
   const order = shuffle(phrases, rng);
 
   function candidates(text) {
+    const chars = [...text];
     const out = [];
     for (const dir of ['E', 'S']) {
-      const maxR = dir === 'S' ? size - text.length : size - 1;
-      const maxC = dir === 'E' ? size - text.length : size - 1;
+      const maxR = dir === 'S' ? size - chars.length : size - 1;
+      const maxC = dir === 'E' ? size - chars.length : size - 1;
       for (let r = 0; r <= maxR; r++) {
         for (let c = 0; c <= maxC; c++) {
-          const cells = placementCells([r, c], dir, text.length);
-          if (cells.every(([rr, cc], i) => grid[rr][cc] === null || grid[rr][cc] === text[i])) {
+          const cells = placementCells([r, c], dir, chars.length);
+          if (cells.every(([rr, cc], i) => grid[rr][cc] === null || grid[rr][cc] === chars[i])) {
             out.push({ start: [r, c], dir, cells });
           }
         }
@@ -166,9 +183,10 @@ function tryFullLayout(phrases, size, rng) {
   function backtrack(idx) {
     if (idx === order.length) return true;
     const p = order[idx];
+    const chars = [...p.text];
     for (const cand of shuffle(candidates(p.text), rng)) {
       const prev = cand.cells.map(([r, c]) => grid[r][c]);
-      cand.cells.forEach(([r, c], i) => { grid[r][c] = p.text[i]; });
+      cand.cells.forEach(([r, c], i) => { grid[r][c] = chars[i]; });
       targets.push({ phraseId: p.id, start: cand.start, dir: cand.dir });
       if (backtrack(idx + 1)) return true;
       targets.pop();
@@ -180,9 +198,9 @@ function tryFullLayout(phrases, size, rng) {
   return backtrack(0) ? { grid, targets } : null;
 }
 
-function buildFullLevel(id, size, targetPhrases, allTexts, distractorPool, blacklist, byId, rng) {
+function buildFullLevel(cfg, targetPhrases, allTexts, distractorPool, blacklist, byId, rng) {
   for (let layoutTry = 0; layoutTry < MAX_LAYOUT_TRIES; layoutTry++) {
-    const layout = tryFullLayout(targetPhrases, size, rng);
+    const layout = tryFullLayout(targetPhrases, cfg.size, rng);
     if (!layout) continue;
     const fixed = layout.grid.map(row => row.slice());
     for (let fillTry = 0; fillTry < MAX_FILL_TRIES; fillTry++) {
@@ -190,9 +208,11 @@ function buildFullLevel(id, size, targetPhrases, allTexts, distractorPool, black
       const violations = collisionCheck(grid, targetPhrases.map(p => p.text), allTexts, blacklist);
       if (violations.length === 0) {
         return {
-          id, chapter: 1, size, layout: 'full',
+          id: cfg.id, chapter: cfg.chapter, chapterTitle: cfg.chapterTitle,
+          size: cfg.size, layout: 'full',
+          timeLimit: cfg.timeLimit, hintCap: cfg.hintCap,
           directions: ['E', 'S'], targetDisplay: 'clue',
-          targets: assignClues(id, layout.targets, byId), grid,
+          targets: assignClues(cfg.curve, layout.targets, byId), grid,
         };
       }
     }
@@ -200,23 +220,28 @@ function buildFullLevel(id, size, targetPhrases, allTexts, distractorPool, black
   return null;
 }
 
-// ---------- cross：填字擺盤（回溯法） ----------
+// ---------- cross：填字擺盤（回溯法；變長詞適用） ----------
 /**
- * 演算法：第一個成語放盤面中央附近（E/S 皆可，±1 抖動）；
- * 之後每個成語必須與「已放置的某一個詞」共用恰好一個字交叉（新詞方向與被交叉詞垂直，
+ * 演算法：第一個詞放盤面中央附近（E/S 皆可，±1 抖動）；
+ * 之後每個詞必須與「已放置的某一個詞」共用恰好一個字交叉（新詞方向與被交叉詞垂直，
  * 即 E 詞交 S 詞），其餘格必須全空，且詞首前一格／詞尾後一格必須為空（避免路徑黏連）。
- * 已是交叉點的格不再被第三個詞使用。挑不出可交叉的成語就回溯換成語。
+ * 已是交叉點的格不再被第三個詞使用。挑不出可交叉的詞就回溯換詞。
  * 結果必然連通、每詞至少交叉一次；revealed = 所有交叉格。
+ * v3：quota（混合池各半配額）＋節點預算（大盤面回溯壓力大，超額放棄本輪，
+ * 由外層 seed bump 重洗 pool＝「換一批候選重試」）。
  */
-function tryCrossLayout(pool, want, size, rng) {
+function tryCrossLayout(pool, want, size, rng, quota) {
   const grid = Array.from({ length: size }, () => Array(size).fill(null));
   const placed = []; // { phrase, start, dir, cells }
   const ownerCount = new Map(); // 'r,c' -> 共用該格的詞數
   const key = (r, c) => `${r},${c}`;
   const filled = (r, c) => r >= 0 && r < size && c >= 0 && c < size && grid[r][c] !== null;
+  const remain = quota ? { ...quota } : null;
+  let nodes = 0;
+  let aborted = false;
 
   function firstCandidates(text) {
-    const len = [...text].length;
+    const len = charLen(text);
     const out = [];
     for (const dir of ['E', 'S']) {
       const baseR = dir === 'E' ? Math.floor(size / 2) : Math.floor((size - len) / 2);
@@ -282,16 +307,23 @@ function tryCrossLayout(pool, want, size, rng) {
 
   const usedIds = new Set();
   function backtrack(count) {
+    if (aborted) return false;
+    if (++nodes > CROSS_NODE_BUDGET) { aborted = true; return false; }
     if (count === want) return true;
     for (const p of pool) {
       if (usedIds.has(p.id)) continue;
+      const cat = isChengyu(p) ? 'c' : 'y';
+      if (remain && remain[cat] <= 0) continue; // 混合池配額用罄
       const cands = count === 0 ? firstCandidates(p.text) : crossCandidates(p.text);
       for (const cand of shuffle(cands, rng)) {
         usedIds.add(p.id);
+        if (remain) remain[cat]--;
         place(p, cand);
         if (backtrack(count + 1)) return true;
         unplace();
+        if (remain) remain[cat]++;
         usedIds.delete(p.id);
+        if (aborted) return false;
       }
     }
     return false;
@@ -311,19 +343,40 @@ function tryCrossLayout(pool, want, size, rng) {
   };
 }
 
-function buildCrossLevel(id, size, want, pool, byId, rng) {
-  const layout = tryCrossLayout(pool, want, size, rng);
+function buildCrossLevel(cfg, want, pool, byId, rng, quota) {
+  const layout = tryCrossLayout(pool, want, cfg.size, rng, quota);
   if (!layout) return null;
   return {
     level: {
-      id, chapter: 1, size, layout: 'cross',
+      id: cfg.id, chapter: cfg.chapter, chapterTitle: cfg.chapterTitle,
+      size: cfg.size, layout: 'cross',
+      timeLimit: cfg.timeLimit, hintCap: cfg.hintCap,
       directions: ['E', 'S'], targetDisplay: 'clue',
-      targets: assignClues(id, layout.targets, byId),
+      targets: assignClues(cfg.curve, layout.targets, byId),
       grid: layout.grid,
       revealed: layout.revealed,
     },
     usedPhrases: layout.usedPhrases,
   };
+}
+
+// ---------- 內容池選料（跨關優先不重複） ----------
+function orderByUnused(list, usedIds, rng) {
+  const un = list.filter(p => !usedIds.has(p.id));
+  const used = list.filter(p => usedIds.has(p.id));
+  return [...shuffle(un, rng), ...shuffle(used, rng)];
+}
+function poolFits(phrases, cfg) {
+  return phrases.filter(p => inPool(p, cfg.pool) && charLen(p.text) <= cfg.size);
+}
+function chooseFullTargets(cfg, exp, phrases, usedIds, rng) {
+  const fits = poolFits(phrases, cfg);
+  if (cfg.pool === '混合') {
+    const c = orderByUnused(fits.filter(isChengyu), usedIds, rng).slice(0, exp.chengyu);
+    const y = orderByUnused(fits.filter(p => !isChengyu(p)), usedIds, rng).slice(0, exp.yanyu);
+    return shuffle([...c, ...y], rng);
+  }
+  return orderByUnused(fits, usedIds, rng).slice(0, exp.total);
 }
 
 // ---------- 主流程 ----------
@@ -351,48 +404,43 @@ function main() {
   const levels = [];
   let seed = baseSeed;
   let rng = mulberry32(seed);
-  let unused = phrases.slice(); // 跨關盡量不重複
+  const usedIds = new Set(); // 跨關優先不重複（各池共用一份使用紀錄）
 
-  for (let i = 0; i < LEVEL_CONFIG.length; i++) {
-    const cfg = LEVEL_CONFIG[i];
-    const id = i + 1;
-    let want = cfg.targets;
-    if (want > phrases.length) {
-      console.warn(`[警告] 語料只有 ${phrases.length} 條，第 ${id} 關目標數 ${want} → 退化為 ${phrases.length}`);
-      want = phrases.length;
+  for (const cfg of CURRICULUM) {
+    const exp = expectedTargetCounts(cfg, phrases);
+    if (exp.total < cfg.targets) {
+      console.warn(`[警告] 語料不足：第 ${cfg.id} 關（池=${cfg.pool}，尺寸 ${cfg.size}）目標數 ${cfg.targets} → 退化為 ${exp.total}`);
+    }
+    if (exp.total === 0) {
+      console.error(`[錯誤] 第 ${cfg.id} 關內容池「${cfg.pool}」無可用語料（長度 ≤ ${cfg.size}），中止。`);
+      process.exit(1);
     }
 
     let level = null;
     let bumps = 0;
     while (!level) {
       if (cfg.layout === 'full') {
-        if (unused.length < want) unused = phrases.slice(); // 語料耗盡 → 允許跨關重複
-        const chosen = shuffle(unused, rng).slice(0, want);
-        level = buildFullLevel(id, cfg.size, chosen, allTexts, distractorPool, blacklist, byId, rng);
-        if (level) {
-          const ids = new Set(chosen.map(p => p.id));
-          unused = unused.filter(p => !ids.has(p.id));
-        }
+        const chosen = chooseFullTargets(cfg, exp, phrases, usedIds, rng);
+        level = buildFullLevel(cfg, chosen, allTexts, distractorPool, blacklist, byId, rng);
+        if (level) chosen.forEach(p => usedIds.add(p.id));
       } else {
-        // cross：優先用未用過的語料，不足以交叉時回溯自動落到已用過的
-        const rest = phrases.filter(p => !unused.includes(p));
-        const pool = [...shuffle(unused, rng), ...shuffle(rest, rng)];
-        const built = buildCrossLevel(id, cfg.size, want, pool, byId, rng);
+        const fits = poolFits(phrases, cfg);
+        const pool = orderByUnused(fits, usedIds, rng);
+        const quota = cfg.pool === '混合' ? { c: exp.chengyu, y: exp.yanyu } : null;
+        const built = buildCrossLevel(cfg, exp.total, pool, byId, rng, quota);
         if (built) {
           level = built.level;
-          const ids = new Set(built.usedPhrases.map(p => p.id));
-          unused = unused.filter(p => !ids.has(p.id));
-          if (unused.length === 0) unused = phrases.slice();
+          built.usedPhrases.forEach(p => usedIds.add(p.id));
         }
       }
       if (!level) {
         bumps++;
         if (bumps > MAX_SEED_BUMPS) {
-          console.error(`[錯誤] 第 ${id} 關在 ${MAX_SEED_BUMPS} 次換 seed 後仍無法收斂，中止。`);
+          console.error(`[錯誤] 第 ${cfg.id} 關在 ${MAX_SEED_BUMPS} 次換 seed 後仍無法收斂，中止。`);
           process.exit(1);
         }
         seed += 1;
-        console.warn(`[警告] 第 ${id} 關擺盤/填充未收斂，換 seed=${seed} 重擺`);
+        console.warn(`[警告] 第 ${cfg.id} 關擺盤/填充未收斂，換 seed=${seed} 重擺（重洗候選）`);
         rng = mulberry32(seed);
       }
     }
@@ -402,7 +450,7 @@ function main() {
   writeFileSync(outPath, JSON.stringify({ levels }, null, 2) + '\n', 'utf8');
   console.log(`已產出 ${levels.length} 關 → ${outPath}（seed=${baseSeed}）`);
   const uniqueTargets = new Set(levels.flatMap(l => l.targets.map(t => t.phraseId)));
-  console.log(`目標成語共 ${levels.reduce((n, l) => n + l.targets.length, 0)} 個（不重複 ${uniqueTargets.size} 條）`);
+  console.log(`目標條目共 ${levels.reduce((n, l) => n + l.targets.length, 0)} 個（不重複 ${uniqueTargets.size} 條）`);
 }
 
 main();

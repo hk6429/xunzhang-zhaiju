@@ -4,8 +4,15 @@ import { createGrid, targetPath, pathKey } from './grid.js';
 import { buildQuestions } from './learnquiz.js';
 
 const FLASH_MS = 2000;
+const TICK_MS = 200;
 
 const $ = (id) => document.getElementById(id);
+
+function fmtTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+}
 
 /**
  * 開始一關。回傳 { destroy() }。
@@ -48,6 +55,11 @@ export function startLevel(ctx) {
   let selectedTargetId = null;
   let finished = false;
 
+  // ── v3：計時與提示限次（關卡內暫態；v2 資料缺欄位視為 null） ──
+  const timeLimit = (typeof level.timeLimit === 'number' && level.timeLimit > 0) ? level.timeLimit : null;
+  const hintCap = (typeof level.hintCap === 'number' && level.hintCap >= 0) ? level.hintCap : null;
+  let hintsUsed = 0;
+
   // ── DOM ──────────────────────────────
   $('game-level-title').textContent = `第 ${level.id} 關`;
   const msgEl = $('hint-msg');
@@ -66,11 +78,90 @@ export function startLevel(ctx) {
     revealed: level.revealed || [],
   });
 
+  function capExhausted() {
+    return hintCap != null && hintsUsed >= hintCap;
+  }
+
   function refreshInk() {
     $('ink-amount').textContent = String(hintEngine.getInk());
-    $('btn-hint-circle').disabled = finished || !hintEngine.canSpend('circle');
-    $('btn-hint-flash').disabled = finished || !hintEngine.canSpend('flash');
-    $('btn-hint-reveal').disabled = finished || !hintEngine.canSpend('reveal');
+    const capped = capExhausted();
+    $('btn-hint-circle').disabled = finished || capped || !hintEngine.canSpend('circle');
+    $('btn-hint-flash').disabled = finished || capped || !hintEngine.canSpend('flash');
+    $('btn-hint-reveal').disabled = finished || capped || !hintEngine.canSpend('reveal');
+    // 提示限次顯示（三種合計）；hintCap null＝不顯示（行為同 v2）
+    const quota = $('hint-quota');
+    if (hintCap == null) {
+      quota.classList.add('hidden');
+    } else {
+      quota.classList.remove('hidden');
+      const left = Math.max(0, hintCap - hintsUsed);
+      quota.textContent = capped ? `提示 0/${hintCap}・本關提示已用罄` : `提示 ${left}/${hintCap}`;
+      quota.classList.toggle('exhausted', capped);
+    }
+  }
+
+  // ── v3：倒數計時 ──────────────────────
+  // 暫停原則：計時器每 TICK_MS 醒來一次，只有在「當下沒有任何 modal 開啟」時
+  // 才把上次醒來到現在的實際流逝時間（performance.now 差值）扣進剩餘時間；
+  // modal 開啟期間每次醒來仍會把 lastTick 推到 now，等於那段時間被丟棄——
+  // 不是「開著 modal 仍在扣」的假暫停，誤差上限僅一個 tick（200ms）。
+  const timerEl = $('timer-display');
+  const timerTimeEl = $('timer-time');
+  let remainingMs = timeLimit != null ? timeLimit * 1000 : 0;
+  let timerId = null;
+  let lastTick = 0;
+
+  function isAnyModalOpen() {
+    return !!document.querySelector('.modal-backdrop:not(.hidden)');
+  }
+
+  function renderTimer() {
+    if (timeLimit == null) return;
+    const sec = Math.max(0, Math.ceil(remainingMs / 1000));
+    timerTimeEl.textContent = fmtTime(sec);
+    timerEl.classList.toggle('warn', remainingMs <= timeLimit * 1000 * 0.2);
+  }
+
+  function timerTick() {
+    const now = performance.now();
+    if (!finished && !isAnyModalOpen()) remainingMs -= (now - lastTick);
+    lastTick = now;
+    renderTimer();
+    if (remainingMs <= 0 && !finished) handleTimeout();
+  }
+
+  function stopTimer() {
+    if (timerId != null) { clearInterval(timerId); timerId = null; }
+  }
+
+  function startTimer() {
+    if (timeLimit == null || finished) {
+      timerEl.classList.add('hidden');
+      return;
+    }
+    timerEl.classList.remove('hidden');
+    renderTimer();
+    lastTick = performance.now();
+    timerId = setInterval(timerTick, TICK_MS);
+  }
+
+  // ── v3：超時 ─────────────────────────
+  function handleTimeout() {
+    finished = true;
+    stopTimer();
+    remainingMs = 0;
+    renderTimer();
+    refreshInk();
+    setSelected(null);
+    $('modal-card').classList.add('hidden');
+    $('modal-quiz').classList.add('hidden');
+    $('modal-timeout').classList.remove('hidden');
+  }
+
+  function clearFoundForRetry() {
+    // SCHEMA v3：重新挑戰＝本關 found 清空並落盤；已入圖鑑收藏不回收
+    levelSave.found = [];
+    ctx.persist();
   }
 
   // ── 目標清單（v2：線索卡） ─────────────
@@ -203,6 +294,10 @@ export function startLevel(ctx) {
 
   function useHint(tier) {
     if (finished) return;
+    if (capExhausted()) {
+      say('本關提示次數已用罄，墨水可留到別關使用。');
+      return;
+    }
     const t = pickHintTarget();
     if (!t) return;
     if (!hintEngine.canSpend(tier)) {
@@ -211,6 +306,7 @@ export function startLevel(ctx) {
     }
     if (!hintEngine.spend(tier)) { refreshInk(); return; }
     usedHint = true;
+    if (hintCap != null) hintsUsed += 1; // 三種提示合計，spend 成功才計次
     if (tier === 'circle') {
       if (isCross) {
         // cross：永久顯示該詞首格的字
@@ -251,6 +347,7 @@ export function startLevel(ctx) {
   function finishLevel() {
     if (finished) return;
     finished = true;
+    stopTimer();
     const stars = computeStars();
     levelSave.stars = Math.max(levelSave.stars, stars);
     ctx.persist();
@@ -400,6 +497,17 @@ export function startLevel(ctx) {
   on('cross-submit', 'click', submitCross);
   on('cross-input', 'keydown', (ev) => { if (ev.key === 'Enter') submitCross(); });
   on('btn-back-map', 'click', () => ctx.onExit());
+  on('btn-retry-level', 'click', () => {
+    clearFoundForRetry();
+    $('modal-timeout').classList.add('hidden');
+    if (typeof ctx.onRetry === 'function') ctx.onRetry(); // 重進本關＝盤面/計時/提示次數/星等狀態全重置
+    else ctx.onExit();
+  });
+  on('btn-timeout-map', 'click', () => {
+    clearFoundForRetry(); // 超時離場同樣清空，避免「回地圖再進」帶著半完成盤面重置計時
+    $('modal-timeout').classList.add('hidden');
+    ctx.onExit();
+  });
   on('btn-complete-map', 'click', () => {
     $('modal-complete').classList.add('hidden');
     ctx.onExit();
@@ -424,17 +532,24 @@ export function startLevel(ctx) {
   if (targets.every((t) => t.found) && targets.length) {
     // 上次已全部找到但可能沒結算：直接視為完成、不再重複結算
     finished = true;
+    refreshInk();
   }
+  startTimer(); // timeLimit null 或已完成＝隱藏不計時
 
   return {
     destroy() {
+      stopTimer(); // 離開關卡必清計時器
       clearTimeout(msgTimer);
       for (const [el, ev, fn] of listeners) el.removeEventListener(ev, fn);
       grid.destroy();
       $('cross-input-row').classList.add('hidden');
+      $('timer-display').classList.add('hidden');
+      $('timer-display').classList.remove('warn');
+      $('hint-quota').classList.add('hidden');
       $('modal-quiz').classList.add('hidden');
       $('modal-complete').classList.add('hidden');
       $('modal-card').classList.add('hidden');
+      $('modal-timeout').classList.add('hidden');
     },
   };
 }
