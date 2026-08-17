@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%">
+  <defs>
+    <filter id="ink-shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#1c1917" flood-opacity="0.18" />
+    </filter>
+    <filter id="glow-gold" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="gold-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+    <linearGradient id="skin-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff1f2"/>
+      <stop offset="100%" stop-color="#fed7aa"/>
+    </linearGradient>
+    <radialGradient id="blush-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#fb7185" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g id="jiang-taigong-idle">
+    <!-- Taoist Robe (Body - 1:1 ratio height approx 80px) -->
+    <path d="M 90 150 L 70 215 C 70 220 170 220 170 215 L 150 150 Z" fill="#f8fafc" stroke="#1e293b" stroke-width="4.5" stroke-linejoin="round" filter="url(#ink-shadow)"/>
+    <path d="M 120 150 L 120 215" stroke="#0ea5e9" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 85 180 Q 120 190 155 180" stroke="#0284c7" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <circle cx="120" cy="183" r="7" fill="#fef08a" stroke="#ca8a04" stroke-width="2.5"/>
+
+    <!-- Tiny Feet -->
+    <ellipse cx="98" cy="216" rx="10" ry="5" fill="#1c1917"/>
+    <ellipse cx="142" cy="216" rx="10" ry="5" fill="#1c1917"/>
+
+    <!-- Arms holding whip and apricot flag -->
+    <path d="M 90 160 Q 65 170 60 150" stroke="#292524" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="60" cy="150" r="7" fill="#fed7aa" stroke="#292524" stroke-width="2.5"/>
+    <path d="M 60 165 L 50 110" stroke="#ca8a04" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="50" cy="110" r="5" fill="#eab308"/>
+    <path d="M 52 135 L 45 135" stroke="#78350f" stroke-width="2.5"/>
+    <path d="M 54 125 L 47 125" stroke="#78350f" stroke-width="2.5"/>
+    <path d="M 56 145 L 49 145" stroke="#78350f" stroke-width="2.5"/>
+
+    <path d="M 150 160 Q 175 168 180 150" stroke="#292524" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="180" cy="150" r="7" fill="#fed7aa" stroke="#292524" stroke-width="2.5"/>
+    <path d="M 180 185 L 180 85" stroke="#78350f" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M 180 90 Q 210 100 180 120 Z" fill="#facc15" stroke="#ca8a04" stroke-width="3" filter="url(#ink-shadow)"/>
+    <circle cx="195" cy="105" r="3" fill="#b45309"/>
+
+    <!-- Huge Chibi Head -->
+    <ellipse cx="120" cy="100" rx="46" ry="42" fill="url(#skin-grad)" stroke="#1c1917" stroke-width="4.5" filter="url(#ink-shadow)"/>
+
+    <!-- Rosy Cheeks -->
+    <ellipse cx="88" cy="106" rx="9" ry="5" fill="url(#blush-grad)"/>
+    <ellipse cx="152" cy="106" rx="9" ry="5" fill="url(#blush-grad)"/>
+
+    <!-- Facial Features -->
+    <path d="M 94 88 Q 102 85 110 88" stroke="#ffffff" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <path d="M 130 88 Q 138 85 146 88" stroke="#ffffff" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <circle cx="102" cy="98" r="7" fill="#1c1917" />
+    <circle cx="100" cy="96" r="2.5" fill="#ffffff" />
+    <circle cx="138" cy="98" r="7" fill="#1c1917" />
+    <circle cx="136" cy="96" r="2.5" fill="#ffffff" />
+    <ellipse cx="120" cy="104" rx="2.5" ry="1.5" fill="#ea580c"/>
+    <path d="M 115 116 Q 120 121 125 116" stroke="#292524" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+    <!-- White Hair & Topknot / Daoist Crown -->
+    <path d="M 74 100 C 65 70 95 45 120 45 C 145 45 175 70 166 100 C 160 80 145 60 120 60 C 95 60 80 80 74 100 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+    <circle cx="120" cy="40" r="16" fill="#ffffff" stroke="#1c1917" stroke-width="4"/>
+    <path d="M 106 42 L 134 42 L 130 30 L 110 30 Z" fill="#0284c7" stroke="#1c1917" stroke-width="3"/>
+    <path d="M 98 38 L 142 38" stroke="#ca8a04" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- Fluffy Long White Beard -->
+    <path d="M 102 115 Q 120 145 120 160 Q 120 145 138 115 C 130 120 110 120 102 115 Z" fill="#ffffff" stroke="#e2e8f0" stroke-width="3.5" filter="url(#ink-shadow)"/>
+    <path d="M 112 122 Q 120 145 120 152" stroke="#cbd5e1" stroke-width="2" fill="none"/>
+  </g>
+</svg>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%">
+  <defs>
+    <filter id="ink-shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#1c1917" flood-opacity="0.18" />
+    </filter>
+    <filter id="glow-red" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="pink-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fbcfe8"/>
+      <stop offset="50%" stop-color="#f43f5e"/>
+      <stop offset="100%" stop-color="#be123c"/>
+    </linearGradient>
+    <linearGradient id="skin-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff1f2"/>
+      <stop offset="100%" stop-color="#fed7aa"/>
+    </linearGradient>
+    <radialGradient id="blush-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#fb7185" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g id="su-daji-idle">
+    <!-- Nine Tails -->
+    <g id="fox-tails" opacity="0.95">
+      <path d="M 120 170 Q 30 190 20 130 Q 35 100 65 150 Z" fill="url(#pink-grad)" filter="url(#ink-shadow)"/>
+      <path d="M 120 170 Q 210 190 220 130 Q 205 100 175 150 Z" fill="url(#pink-grad)" filter="url(#ink-shadow)"/>
+      <path d="M 120 170 Q 45 220 30 170 Q 60 140 85 165 Z" fill="#fda4af"/>
+      <path d="M 120 170 Q 195 220 210 170 Q 180 140 155 165 Z" fill="#fda4af"/>
+      <path d="M 120 175 Q 120 235 110 225 Q 130 225 120 175 Z" fill="#f43f5e"/>
+    </g>
+
+    <!-- Hanfu Dress -->
+    <path d="M 92 148 L 76 215 C 76 220 164 220 164 215 L 148 148 Z" fill="#fff1f2" stroke="#be123c" stroke-width="4" stroke-linejoin="round" filter="url(#ink-shadow)"/>
+    <path d="M 88 175 Q 120 185 152 175" stroke="#e11d48" stroke-width="8" fill="none"/>
+    <circle cx="120" cy="180" r="5" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+    <path d="M 120 185 L 115 210 M 120 185 L 125 210" stroke="#be123c" stroke-width="3" stroke-linecap="round"/>
+
+    <ellipse cx="98" cy="216" rx="8" ry="4.5" fill="#be123c"/>
+    <ellipse cx="142" cy="216" rx="8" ry="4.5" fill="#be123c"/>
+
+    <!-- Left hand holding Soul Lantern & Right hand on cheek -->
+    <path d="M 88 155 Q 60 165 55 145" stroke="#1c1917" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <circle cx="55" cy="145" r="6.5" fill="#fed7aa" stroke="#1c1917" stroke-width="2"/>
+    <path d="M 55 145 L 55 160" stroke="#ca8a04" stroke-width="2.5"/>
+    <g transform="translate(55, 175)">
+      <polygon points="0,-12 12,0 0,12 -12,0" fill="#f43f5e" filter="url(#glow-red)"/>
+      <polygon points="0,-7 7,0 0,7 -7,0" fill="#fef08a"/>
+      <path d="M -12 0 L 12 0" stroke="#ca8a04" stroke-width="2"/>
+      <path d="M 0 12 L 0 24" stroke="#e11d48" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <path d="M 152 155 Q 165 140 156 120" stroke="#1c1917" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <circle cx="156" cy="120" r="6.5" fill="#fed7aa" stroke="#1c1917" stroke-width="2"/>
+
+    <!-- Huge Chibi Head -->
+    <ellipse cx="120" cy="100" rx="45" ry="42" fill="url(#skin-grad)" stroke="#1c1917" stroke-width="4.5" filter="url(#ink-shadow)"/>
+
+    <!-- Fox Ears -->
+    <g id="fox-ears">
+      <path d="M 75 75 L 60 30 L 95 55 Z" fill="#f43f5e" stroke="#1c1917" stroke-width="3.5" stroke-linejoin="round"/>
+      <path d="M 73 68 L 66 40 L 88 56 Z" fill="#fed7aa"/>
+      <path d="M 165 75 L 180 30 L 145 55 Z" fill="#f43f5e" stroke="#1c1917" stroke-width="3.5" stroke-linejoin="round"/>
+      <path d="M 167 68 L 174 40 L 152 56 Z" fill="#fed7aa"/>
+    </g>
+
+    <!-- Rosy Cheeks -->
+    <ellipse cx="88" cy="108" rx="9" ry="6" fill="url(#blush-grad)"/>
+    <ellipse cx="152" cy="108" rx="9" ry="6" fill="url(#blush-grad)"/>
+
+    <!-- Facial Features -->
+    <path d="M 94 86 Q 102 82 108 86" stroke="#831843" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <path d="M 146 86 Q 138 82 132 86" stroke="#831843" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <path d="M 94 95 Q 102 90 110 98" stroke="#be123c" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <circle cx="104" cy="98" r="6" fill="#831843"/>
+    <circle cx="102" cy="96" r="2" fill="#ffffff"/>
+    <path d="M 146 95 Q 138 90 130 98" stroke="#be123c" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <circle cx="136" cy="98" r="6" fill="#831843"/>
+    <circle cx="134" cy="96" r="2" fill="#ffffff"/>
+    <ellipse cx="120" cy="105" rx="2" ry="1.5" fill="#be123c"/>
+    <path d="M 115 115 Q 120 121 127 114" stroke="#be123c" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+    <!-- Peony Hair & Bun -->
+    <path d="M 76 92 C 72 65 95 56 120 56 C 145 56 168 65 164 92 C 150 75 138 72 120 72 C 102 72 90 75 76 92 Z" fill="#1c1917"/>
+    <circle cx="120" cy="50" r="12" fill="#1c1917"/>
+    <circle cx="120" cy="50" r="7" fill="#f43f5e" stroke="#fef08a" stroke-width="2"/>
+    <path d="M 108 52 L 132 52" stroke="#ca8a04" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>

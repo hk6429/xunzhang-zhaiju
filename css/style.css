@@ -1,20 +1,22 @@
-/* 尋章摘句 — 溫潤紙墨風 */
+/* 尋章摘句 — 潑墨國風 × 封神密室逃脫主題 */
+@import url('fengshen-ink.css');
+
 :root {
-  --paper: #f7f2e6;
-  --paper-deep: #efe7d3;
-  --ink: #2b2620;
-  --ink-soft: #6b6155;
-  --vermilion: #b3402a;
-  --indigo: #2a4d69;
-  --gold: #b8860b;
-  --cell-bg: #fffdf6;
-  --cell-border: #d8cdb4;
+  --paper: #f4ebd9;
+  --paper-deep: #e5d7be;
+  --ink: #181411;
+  --ink-soft: #53493e;
+  --vermilion: #b92b27;
+  --indigo: #203847;
+  --gold: #c69224;
+  --cell-bg: #fdfaf2;
+  --cell-border: #c8b99c;
   --radius: 12px;
-  --found-0: #f3d9c9;
-  --found-1: #cfdde6;
-  --found-2: #dbe6cf;
-  --found-3: #e6d3e0;
-  --found-4: #efe3bd;
+  --found-0: #eecbc0;
+  --found-1: #c6dce8;
+  --found-2: #cde0c7;
+  --found-3: #ded0e4;
+  --found-4: #ede1b9;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -79,6 +81,7 @@ main { max-width: 640px; margin: 0 auto; padding: 1rem; }
 /* 寬螢幕（電腦）：盤面在左、線索卡與提示按鈕固定在盤面右側，不必往下捲；窄螢幕維持上下堆疊 */
 @media (min-width: 960px) {
   main:has(#view-game:not(.hidden)) { max-width: 1100px; }
+  main:has(#view-chamber:not(.hidden)) { max-width: 860px; }
   #view-game .game-layout { display: flex; gap: 1.5rem; align-items: flex-start; }
   #view-game .game-board { flex: 1 1 auto; min-width: 0; }
   #view-game .game-panel {

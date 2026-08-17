@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%">
+  <defs>
+    <filter id="ink-shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#1c1917" flood-opacity="0.18" />
+    </filter>
+    <linearGradient id="skin-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff1f2"/>
+      <stop offset="100%" stop-color="#fed7aa"/>
+    </linearGradient>
+    <radialGradient id="blush-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#fb7185" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g id="shen-gongbao-panic">
+    <path d="M 90 148 L 76 215 C 76 220 164 220 164 215 L 150 148 Z" fill="#3b0764" stroke="#1c1917" stroke-width="4.5" stroke-linejoin="round" filter="url(#ink-shadow)"/>
+    <path d="M 120 148 L 120 215" stroke="#9333ea" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="120" cy="180" r="7" fill="#facc15" stroke="#1c1917" stroke-width="2"/>
+
+    <ellipse cx="96" cy="216" rx="9" ry="5" fill="#1c1917"/>
+    <ellipse cx="144" cy="216" rx="9" ry="5" fill="#1c1917"/>
+
+    <!-- Panicked arms -->
+    <path d="M 85 155 Q 60 140 68 120" stroke="#1c1917" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="68" cy="120" r="7" fill="#fed7aa" stroke="#1c1917" stroke-width="2.5"/>
+    <path d="M 155 155 Q 180 140 172 120" stroke="#1c1917" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="172" cy="120" r="7" fill="#fed7aa" stroke="#1c1917" stroke-width="2.5"/>
+
+    <g id="black-tiger" transform="translate(38, 175)">
+      <ellipse cx="20" cy="18" rx="14" ry="9" fill="#334155" stroke="#0f172a" stroke-width="2"/>
+      <circle cx="20" cy="8" r="10" fill="#334155"/>
+      <ellipse cx="16" cy="7" rx="3" ry="3.5" fill="#ffffff"/>
+      <ellipse cx="24" cy="7" rx="3" ry="3.5" fill="#ffffff"/>
+    </g>
+
+    <!-- Huge Chibi Head -->
+    <ellipse cx="120" cy="100" rx="45" ry="42" fill="url(#skin-grad)" stroke="#1c1917" stroke-width="4.5" filter="url(#ink-shadow)"/>
+
+    <ellipse cx="88" cy="108" rx="8" ry="4.5" fill="url(#blush-grad)"/>
+    <ellipse cx="152" cy="108" rx="8" ry="4.5" fill="url(#blush-grad)"/>
+
+    <!-- Panic Face & Tears -->
+    <path d="M 94 83 Q 102 90 110 86" stroke="#1c1917" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <path d="M 130 86 Q 138 90 146 83" stroke="#1c1917" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <ellipse cx="102" cy="98" rx="8" ry="10" fill="#ffffff" stroke="#1c1917" stroke-width="3.5"/>
+    <circle cx="102" cy="99" r="4" fill="#7e22ce"/>
+    <ellipse cx="138" cy="98" rx="8" ry="10" fill="#ffffff" stroke="#1c1917" stroke-width="3.5"/>
+    <circle cx="138" cy="99" r="4" fill="#7e22ce"/>
+    <ellipse cx="120" cy="105" rx="2" ry="1.5" fill="#7e22ce"/>
+    <path d="M 112 120 Q 116 114 120 120 T 128 120" stroke="#1c1917" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+
+    <path d="M 75 80 C 75 75 82 70 82 65 C 82 70 89 75 89 80 A 7 7 0 1 1 75 80 Z" fill="#38bdf8" stroke="#0284c7" stroke-width="2" transform="rotate(-20 82 75)"/>
+    <path d="M 160 80 C 160 75 167 70 167 65 C 167 70 174 75 174 80 A 7 7 0 1 1 160 80 Z" fill="#38bdf8" stroke="#0284c7" stroke-width="2" transform="rotate(20 167 75)"/>
+
+    <!-- Cap & Mustache -->
+    <path d="M 74 95 C 72 65 95 56 120 56 C 145 56 168 65 166 95 C 155 76 138 72 120 72 C 102 72 85 76 74 95 Z" fill="#1c1917"/>
+    <path d="M 108 56 L 132 56 L 128 32 L 112 32 Z" fill="#581c87" stroke="#1c1917" stroke-width="3"/>
+    <circle cx="120" cy="32" r="5" fill="#a855f7" stroke="#facc15" stroke-width="2"/>
+
+    <path d="M 112 112 Q 102 116 98 120" stroke="#1c1917" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <path d="M 128 112 Q 138 116 142 120" stroke="#1c1917" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>

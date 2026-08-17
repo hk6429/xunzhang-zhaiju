@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%">
+  <defs>
+    <filter id="ink-shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#1c1917" flood-opacity="0.18" />
+    </filter>
+    <linearGradient id="skin-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff1f2"/>
+      <stop offset="100%" stop-color="#fed7aa"/>
+    </linearGradient>
+    <radialGradient id="blush-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#fb7185" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g id="jiang-taigong-thinking">
+    <path d="M 90 150 L 70 215 C 70 220 170 220 170 215 L 150 150 Z" fill="#f8fafc" stroke="#1e293b" stroke-width="4.5" stroke-linejoin="round" filter="url(#ink-shadow)"/>
+    <path d="M 120 150 L 120 215" stroke="#0ea5e9" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 85 180 Q 120 190 155 180" stroke="#0284c7" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <circle cx="120" cy="183" r="7" fill="#fef08a" stroke="#ca8a04" stroke-width="2.5"/>
+
+    <ellipse cx="98" cy="216" rx="10" ry="5" fill="#1c1917"/>
+    <ellipse cx="142" cy="216" rx="10" ry="5" fill="#1c1917"/>
+
+    <!-- Left hand stroking beard -->
+    <path d="M 90 160 Q 95 145 112 135" stroke="#292524" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="112" cy="135" r="7" fill="#fed7aa" stroke="#292524" stroke-width="2.5"/>
+    <path d="M 150 160 Q 165 170 160 178" stroke="#292524" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="160" cy="178" r="7" fill="#fed7aa" stroke="#292524" stroke-width="2.5"/>
+
+    <!-- Thought bubble with divination '卦' -->
+    <g transform="translate(165, 35)">
+      <circle cx="10" cy="20" r="5" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/>
+      <circle cx="20" cy="8" r="9" fill="#f8fafc" stroke="#64748b" stroke-width="2"/>
+      <circle cx="38" cy="-5" r="16" fill="#ffffff" stroke="#64748b" stroke-width="2.5" filter="url(#ink-shadow)"/>
+      <text x="38" y="0" font-family="'Noto Serif TC', serif" font-weight="900" font-size="16" fill="#0284c7" text-anchor="middle" dominant-baseline="middle">卦</text>
+    </g>
+
+    <!-- Huge Chibi Head -->
+    <ellipse cx="120" cy="100" rx="46" ry="42" fill="url(#skin-grad)" stroke="#1c1917" stroke-width="4.5" filter="url(#ink-shadow)"/>
+
+    <ellipse cx="88" cy="106" rx="9" ry="5" fill="url(#blush-grad)"/>
+    <ellipse cx="152" cy="106" rx="9" ry="5" fill="url(#blush-grad)"/>
+
+    <!-- Eyebrows & Thinking Eyes -->
+    <path d="M 94 85 Q 102 82 110 87" stroke="#ffffff" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <path d="M 130 89 Q 138 83 146 84" stroke="#ffffff" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <circle cx="102" cy="94" r="6" fill="#1c1917" />
+    <circle cx="101" cy="92" r="2" fill="#ffffff" />
+    <circle cx="138" cy="94" r="6" fill="#1c1917" />
+    <circle cx="137" cy="92" r="2" fill="#ffffff" />
+    <ellipse cx="120" cy="104" rx="2.5" ry="1.5" fill="#ea580c"/>
+    <ellipse cx="120" cy="115" rx="3.5" ry="5" fill="#292524"/>
+
+    <!-- Hair & Beard -->
+    <path d="M 74 100 C 65 70 95 45 120 45 C 145 45 175 70 166 100 C 160 80 145 60 120 60 C 95 60 80 80 74 100 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+    <circle cx="120" cy="40" r="16" fill="#ffffff" stroke="#1c1917" stroke-width="4"/>
+    <path d="M 106 42 L 134 42 L 130 30 L 110 30 Z" fill="#0284c7" stroke="#1c1917" stroke-width="3"/>
+    <path d="M 98 38 L 142 38" stroke="#ca8a04" stroke-width="4" stroke-linecap="round"/>
+
+    <path d="M 102 115 Q 120 145 120 160 Q 120 145 138 115 C 130 120 110 120 102 115 Z" fill="#ffffff" stroke="#e2e8f0" stroke-width="3.5" filter="url(#ink-shadow)"/>
+    <path d="M 112 122 Q 120 145 120 152" stroke="#cbd5e1" stroke-width="2" fill="none"/>
+  </g>
+</svg>

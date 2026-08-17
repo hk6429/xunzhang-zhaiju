@@ -1,13 +1,18 @@
-// js/app.js — 入口：資料載入、視圖切換、地圖／圖鑑／設定
+// js/app.js — 入口：資料載入、視圖切換、密室大廳／地圖／圖鑑／設定
 import { createHintEngine } from './hints.js';
 import { createCollection } from './collection.js';
 import { startLevel } from './game.js';
 import {
   loadSave, persistSave, resetSave, exportCode, importCode, defaultSave,
 } from './progress.js';
+import {
+  FENGSHEN_ARRAYS,
+  getArrayByChapter,
+  renderGuardianSvg,
+} from './fengshen.js';
 
 const $ = (id) => document.getElementById(id);
-const VIEWS = ['map', 'game', 'collection', 'settings'];
+const VIEWS = ['chamber', 'map', 'game', 'collection', 'settings'];
 const CN_NUM = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
 
 function fmtTime(sec) {
@@ -40,7 +45,6 @@ async function fetchJson(url) {
 async function loadData() {
   let demo = false;
   let levelsDoc;
-  // 本機測試可用 ?levels=…&phrases=… 指定替代資料（如 v2 假關卡）
   const params = new URLSearchParams(window.location.search);
   const levelsUrl = params.get('levels') || 'data/levels.json';
   const phrasesUrl = params.get('phrases') || 'data/phrases.json';
@@ -70,22 +74,26 @@ function showView(name) {
     currentGame.destroy();
     currentGame = null;
   }
-  for (const v of VIEWS) $(`view-${v}`).classList.toggle('hidden', v !== name);
+  for (const v of VIEWS) {
+    const el = $(`view-${v}`);
+    if (el) el.classList.toggle('hidden', v !== name);
+  }
   for (const btn of document.querySelectorAll('.nav-btn')) {
     btn.classList.toggle('active', btn.dataset.view === name);
   }
+  if (name === 'chamber') renderChambers();
   if (name === 'map') renderMap();
   if (name === 'collection') renderCollection();
 }
 
-// ── 關卡地圖 ─────────────────────────
+// ── 關卡解鎖判斷 ─────────────────────
 function isUnlocked(id) {
   if (id === 1) return true;
   const prev = save.levels[String(id - 1)];
   return !!(prev && prev.stars >= 1);
 }
 
-// ── 修為稱號：只跟真實學習量掛鉤（星等總和＋圖鑑收藏數），純展示不影響數值 ──
+// ── 修為稱號 ─────────────────────────
 const RANKS = [
   { need: 0, title: '白丁' },
   { need: 6, title: '童生' },
@@ -96,7 +104,7 @@ const RANKS = [
   { need: 140, title: '狀元' },
 ];
 function computeRank(totalStars, collected) {
-  const score = totalStars + Math.floor(collected / 10); // 每收藏 10 句折 1 星修為
+  const score = totalStars + Math.floor(collected / 10);
   let cur = RANKS[0];
   let next = null;
   for (const r of RANKS) {
@@ -110,7 +118,7 @@ function totalStarsOf(saveObj) {
   return Object.values(saveObj.levels).reduce((s, lv) => s + (lv.stars || 0), 0);
 }
 
-// 找玩家目前推進到的「前線關」：第一個已解鎖但還沒拿星的關
+// 找玩家目前推進到的「前線關」
 function frontierLevelId() {
   for (const lv of levels) {
     const rec = save.levels[String(lv.id)];
@@ -119,10 +127,116 @@ function frontierLevelId() {
   return levels.length ? levels[levels.length - 1].id : 1;
 }
 
-// ── 路徑式關卡節點（Candy Crush 式一關一格）──────────
-const NODE_GAP = 92;   // 節點水平間距
-const NODE_AMP = 30;   // 路徑上下起伏幅度
-const STRIP_H = 168;   // 每章路徑帶高度
+// ── 封神密室大廳／陣法選擇視圖 ───────
+function renderChambers() {
+  const box = $('chamber-list');
+  if (!box) return;
+  box.innerHTML = '';
+
+  const totalStars = totalStarsOf(save);
+  const collected = collection ? collection.list().length : 0;
+  const { cur } = computeRank(totalStars, collected);
+
+  for (const arr of FENGSHEN_ARRAYS) {
+    const [startId, endId] = arr.levelRange;
+    const chapterLevels = levels.filter((l) => l.id >= startId && l.id <= endId);
+    const completedLevels = chapterLevels.filter((l) => save.levels[String(l.id)] && save.levels[String(l.id)].stars > 0);
+    const chapterStars = chapterLevels.reduce((sum, l) => sum + (save.levels[String(l.id)]?.stars || 0), 0);
+    const maxStars = chapterLevels.length * 3;
+    const isChapterUnlocked = isUnlocked(startId);
+    const isAllDone = chapterLevels.length > 0 && completedLevels.length === chapterLevels.length;
+
+    // 尋找此陣法的前線關
+    const frontierInArray = chapterLevels.find((l) => isUnlocked(l.id) && (!save.levels[String(l.id)] || save.levels[String(l.id)].stars === 0))?.id || startId;
+
+    const card = document.createElement('div');
+    card.className = `chamber-card ${isChapterUnlocked ? (isAllDone ? 'done' : 'active') : 'locked'}`;
+    card.style.setProperty('--chamber-color', arr.color);
+    card.style.setProperty('--chamber-accent', arr.accentColor);
+
+    const statusBadge = isAllDone
+      ? '<span class="chamber-status-badge win">👑 陣法已破</span>'
+      : isChapterUnlocked
+      ? '<span class="chamber-status-badge open">🔓 破陣試煉中</span>'
+      : '<span class="chamber-status-badge lock">🔒 封印未啟</span>';
+
+    card.innerHTML = `
+      <div class="chamber-card-header">
+        <div class="chamber-badge-group">
+          <span class="chamber-element-badge">${arr.element}</span>
+          ${statusBadge}
+        </div>
+        <h3 class="chamber-title">${arr.title}</h3>
+        <p class="chamber-alias">${arr.alias}</p>
+      </div>
+
+      <div class="chamber-guardian-section">
+        <div class="chamber-guardian-avatar">
+          ${renderGuardianSvg(arr.guardian.id, isAllDone ? 'win' : 'idle')}
+        </div>
+        <div class="chamber-guardian-info">
+          <strong class="chamber-guardian-name">${arr.guardian.name}</strong>
+          <span class="chamber-guardian-title">${arr.guardian.title}</span>
+          <p class="chamber-guardian-quote">「${arr.guardian.clickQuotes[0]}」</p>
+        </div>
+      </div>
+
+      <p class="chamber-lore">${arr.lore}</p>
+
+      <div class="chamber-progress-box">
+        <div class="chamber-progress-text">
+          <span>破陣進度：${completedLevels.length} / ${chapterLevels.length} 關</span>
+          <span>${chapterStars} / ${maxStars} ★</span>
+        </div>
+        <div class="chamber-progress-bar">
+          <div class="chamber-progress-fill" style="width: ${chapterLevels.length ? (completedLevels.length / chapterLevels.length) * 100 : 0}%"></div>
+        </div>
+      </div>
+
+      <div class="chamber-treasure-preview">
+        <span class="treasure-icon">${arr.treasureShard.icon}</span>
+        <div class="treasure-text">
+          <small>破陣法寶</small>
+          <strong>${arr.treasureShard.name}</strong>
+        </div>
+      </div>
+
+      <div class="chamber-card-actions">
+        <button type="button" class="primary-btn chamber-enter-btn" ${!isChapterUnlocked ? 'disabled' : ''}>
+          ${isAllDone ? '重探陣法' : (isChapterUnlocked ? `進入陣法（第 ${frontierInArray} 關）` : '🔒 通關上一陣法解鎖')}
+        </button>
+        <button type="button" class="ghost-btn chamber-map-btn">
+          地圖路徑
+        </button>
+      </div>
+    `;
+
+    // 進入按鈕
+    const enterBtn = card.querySelector('.chamber-enter-btn');
+    if (enterBtn && isChapterUnlocked) {
+      enterBtn.addEventListener('click', () => enterLevel(frontierInArray));
+    }
+
+    // 地圖按鈕
+    const mapBtn = card.querySelector('.chamber-map-btn');
+    if (mapBtn) {
+      mapBtn.addEventListener('click', () => {
+        showView('map');
+        setTimeout(() => {
+          const sec = document.querySelector(`.chapter-section[data-chapter="${arr.chapter}"]`);
+          if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      });
+    }
+
+    box.appendChild(card);
+  }
+}
+
+// ── 路徑式關卡節點 ───────────────────
+const NODE_GAP = 92;
+const NODE_AMP = 30;
+const STRIP_H = 168;
 function nodePos(i) {
   return { x: 52 + i * NODE_GAP, y: STRIP_H / 2 - 8 + Math.round(NODE_AMP * Math.sin(i * 1.15)) };
 }
@@ -182,7 +296,7 @@ function makePathStrip(list, frontier) {
   const width = 52 + (list.length - 1) * NODE_GAP + 60;
   canvas.style.width = `${width}px`;
   canvas.style.height = `${STRIP_H}px`;
-  // SVG 蜿蜒路徑：以二次貝茲把相鄰節點圓心串起來
+  
   const pts = list.map((_, i) => nodePos(i));
   let d = `M ${pts[0].x} ${pts[0].y}`;
   for (let i = 1; i < pts.length; i++) {
@@ -208,7 +322,6 @@ function renderMap() {
   const box = $('level-map');
   box.innerHTML = '';
 
-  // 修為列：稱號隨總星數與收藏數成長（純學習量掛鉤）
   const totalStars = totalStarsOf(save);
   const collected = collection ? collection.list().length : 0;
   const { cur, next, score } = computeRank(totalStars, collected);
@@ -221,7 +334,6 @@ function renderMap() {
   box.appendChild(bar);
 
   const frontier = frontierLevelId();
-  // 依 chapter 分區塊；每區顯示章名（chapterTitle 缺省＝只顯「第Ｎ章」）
   const chapters = new Map();
   for (const lv of levels) {
     const ch = typeof lv.chapter === 'number' ? lv.chapter : 1;
@@ -232,17 +344,25 @@ function renderMap() {
   }
   const ordered = [...chapters.entries()].sort((a, b) => a[0] - b[0]);
   for (const [ch, entry] of ordered) {
+    const arrInfo = getArrayByChapter(ch);
     const section = document.createElement('section');
     section.className = 'chapter-section';
+    section.dataset.chapter = String(ch);
+
     const h = document.createElement('h3');
     h.className = 'chapter-title';
     const cn = CN_NUM[ch] || String(ch);
-    h.textContent = entry.title ? `第${cn}章・${entry.title}` : `第${cn}章`;
+    h.innerHTML = `
+      <span class="chapter-num">第${cn}章</span>
+      <span class="chapter-name">${entry.title ? entry.title : ''}</span>
+      <span class="chapter-array-tag" style="background:${arrInfo.color}">${arrInfo.name}</span>
+      <span class="chapter-guardian-tag">${arrInfo.guardian.name}護陣</span>
+    `;
     section.appendChild(h);
     section.appendChild(makePathStrip(entry.list.sort((a, b) => a.id - b.id), frontier));
     box.appendChild(section);
   }
-  // 自動把前線關捲進視野
+
   requestAnimationFrame(() => {
     const curNode = box.querySelector('.path-node.current');
     if (curNode) curNode.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'auto' });
@@ -264,12 +384,12 @@ function enterLevel(id) {
     save,
     persist,
     hasNext: !!levelsById[id + 1],
-    onExit: () => showView('map'),
+    onExit: () => showView('chamber'),
     onRetry: () => enterLevel(id),
     onComplete: () => persist(),
     onNext: () => {
       if (levelsById[id + 1] && isUnlocked(id + 1)) enterLevel(id + 1);
-      else showView('map');
+      else showView('chamber');
     },
   });
 }
@@ -334,7 +454,7 @@ function bindSettings() {
     collection = createCollection(save.collection);
     persist();
     settingsSay('匯入成功！');
-    renderMap();
+    renderChambers();
   });
   $('btn-reset').addEventListener('click', () => {
     if (!window.confirm('確定要清除全部進度嗎？此動作無法復原。')) return;
@@ -345,7 +465,7 @@ function bindSettings() {
     $('export-code').value = '';
     $('import-code').value = '';
     settingsSay('已重置進度。');
-    renderMap();
+    renderChambers();
   });
 }
 
@@ -357,7 +477,6 @@ function bindGlobal() {
   for (const btn of document.querySelectorAll('.modal-close')) {
     btn.addEventListener('click', () => $(btn.dataset.close).classList.add('hidden'));
   }
-  // 點知識卡背景關閉（quiz/complete 不設，避免誤觸）
   $('modal-card').addEventListener('click', (ev) => {
     if (ev.target === $('modal-card')) $('modal-card').classList.add('hidden');
   });
@@ -378,7 +497,7 @@ async function main() {
     console.error(err);
     return;
   }
-  showView('map');
+  showView('chamber');
 }
 
 main();

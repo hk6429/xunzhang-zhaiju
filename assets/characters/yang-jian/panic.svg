@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%">
+  <defs>
+    <filter id="ink-shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#1c1917" flood-opacity="0.18" />
+    </filter>
+    <linearGradient id="gold-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+    <linearGradient id="skin-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff1f2"/>
+      <stop offset="100%" stop-color="#fed7aa"/>
+    </linearGradient>
+    <radialGradient id="blush-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#fb7185" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g id="yang-jian-panic">
+    <path d="M 80 150 C 50 180 60 225 70 230 C 120 235 170 235 210 215 C 200 170 160 150 160 150 Z" fill="#0284c7" opacity="0.9" filter="url(#ink-shadow)"/>
+
+    <path d="M 90 148 L 78 212 C 78 218 162 218 162 212 L 150 148 Z" fill="#e2e8f0" stroke="#1e293b" stroke-width="4.5" stroke-linejoin="round" filter="url(#ink-shadow)"/>
+    <circle cx="120" cy="175" r="11" fill="url(#gold-grad)" stroke="#ca8a04" stroke-width="2.5"/>
+    <circle cx="120" cy="175" r="5" fill="#f8fafc"/>
+    <path d="M 86 188 Q 120 196 154 188" stroke="#ca8a04" stroke-width="4" fill="none"/>
+
+    <ellipse cx="96" cy="214" rx="9" ry="5" fill="#334155" stroke="#1e293b" stroke-width="2"/>
+    <ellipse cx="144" cy="214" rx="9" ry="5" fill="#334155" stroke="#1e293b" stroke-width="2"/>
+
+    <!-- Panicked arms & bewildered dog -->
+    <path d="M 85 155 Q 60 140 68 120" stroke="#1e293b" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="68" cy="120" r="7" fill="#fed7aa" stroke="#1e293b" stroke-width="2.5"/>
+    <path d="M 155 155 Q 180 140 172 120" stroke="#1e293b" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="172" cy="120" r="7" fill="#fed7aa" stroke="#1e293b" stroke-width="2.5"/>
+
+    <g id="xiaotian-dog" transform="translate(38, 178)">
+      <ellipse cx="15" cy="18" rx="12" ry="8" fill="#1c1917" stroke="#475569" stroke-width="2"/>
+      <circle cx="15" cy="6" r="9" fill="#1c1917"/>
+      <ellipse cx="12" cy="5" rx="3" ry="3.5" fill="#ffffff"/>
+      <ellipse cx="18" cy="5" rx="3" ry="3.5" fill="#ffffff"/>
+      <circle cx="12" cy="5" r="1.5" fill="#1c1917"/>
+      <circle cx="18" cy="5" r="1.5" fill="#1c1917"/>
+    </g>
+
+    <!-- Huge Chibi Head -->
+    <ellipse cx="120" cy="100" rx="45" ry="42" fill="url(#skin-grad)" stroke="#1e293b" stroke-width="4.5" filter="url(#ink-shadow)"/>
+
+    <ellipse cx="88" cy="108" rx="8" ry="4.5" fill="url(#blush-grad)"/>
+    <ellipse cx="152" cy="108" rx="8" ry="4.5" fill="url(#blush-grad)"/>
+
+    <!-- Panicked Third Eye -->
+    <g transform="translate(120, 76)">
+      <ellipse cx="0" cy="0" rx="6" ry="7" fill="#ffffff" stroke="#ca8a04" stroke-width="2"/>
+      <circle cx="0" cy="0" r="3" fill="#ef4444"/>
+    </g>
+
+    <!-- Facial Features -->
+    <path d="M 94 83 Q 102 90 110 86" stroke="#1e293b" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <path d="M 130 86 Q 138 90 146 83" stroke="#1e293b" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <ellipse cx="102" cy="98" rx="8" ry="10" fill="#ffffff" stroke="#1e293b" stroke-width="3.5"/>
+    <circle cx="102" cy="99" r="4" fill="#1e293b"/>
+    <ellipse cx="138" cy="98" rx="8" ry="10" fill="#ffffff" stroke="#1e293b" stroke-width="3.5"/>
+    <circle cx="138" cy="99" r="4" fill="#1e293b"/>
+    <ellipse cx="120" cy="105" rx="2" ry="1.5" fill="#ea580c"/>
+    <path d="M 112 120 Q 116 114 120 120 T 128 120" stroke="#1e293b" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+
+    <!-- Sweat -->
+    <path d="M 75 80 C 75 75 82 70 82 65 C 82 70 89 75 89 80 A 7 7 0 1 1 75 80 Z" fill="#38bdf8" stroke="#0284c7" stroke-width="2" transform="rotate(-20 82 75)"/>
+    <path d="M 160 80 C 160 75 167 70 167 65 C 167 70 174 75 174 80 A 7 7 0 1 1 160 80 Z" fill="#38bdf8" stroke="#0284c7" stroke-width="2" transform="rotate(20 167 75)"/>
+
+    <!-- Crown & Hair -->
+    <path d="M 74 95 C 72 65 95 56 120 56 C 145 56 168 65 166 95 C 155 76 138 72 120 72 C 102 72 85 76 74 95 Z" fill="#1e293b"/>
+    <polygon points="120,38 126,56 114,56" fill="url(#gold-grad)" stroke="#ca8a04" stroke-width="2"/>
+    <polygon points="105,44 114,58 102,58" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/>
+    <polygon points="135,44 138,58 126,58" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/>
+    <circle cx="120" cy="56" r="5" fill="#0284c7" stroke="#ffffff" stroke-width="1.5"/>
+  </g>
+</svg>

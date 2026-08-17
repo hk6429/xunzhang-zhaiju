@@ -3,35 +3,89 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>尋章摘句</title>
+<title>尋章摘句 — 封神密室逃脫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+TC:wght@400;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/fengshen-ink.css">
 </head>
 <body>
 <header class="app-header">
-  <h1 class="app-title">尋章摘句</h1>
+  <div class="app-brand">
+    <span class="app-seal" aria-hidden="true">封神</span>
+    <h1 class="app-title">尋章摘句</h1>
+  </div>
   <span id="demo-badge" class="demo-badge hidden">試玩資料</span>
   <nav class="app-nav">
-    <button type="button" class="nav-btn" data-view="map">地圖</button>
-    <button type="button" class="nav-btn" data-view="collection">圖鑑</button>
+    <button type="button" class="nav-btn active" data-view="chamber">密室大廳</button>
+    <button type="button" class="nav-btn" data-view="map">關卡地圖</button>
+    <button type="button" class="nav-btn" data-view="collection">摘句圖鑑</button>
     <button type="button" class="nav-btn" data-view="settings">設定</button>
   </nav>
 </header>
 
 <main>
+  <!-- 封神密室大廳／陣法選擇視圖 -->
+  <section id="view-chamber" class="view">
+    <div class="chamber-hero">
+      <div class="chamber-hero-tag">封神演義・文道試煉</div>
+      <h2 class="chamber-hero-title">五大封神密室陣法</h2>
+      <p class="chamber-hero-desc">太極初開，萬仙雲集。五大上古玄門密室封鎖文道天機，攜手 Q 版守護仙人，摘句尋章，破陣封神！</p>
+    </div>
+    <div id="chamber-list" class="chamber-grid"></div>
+  </section>
+
   <!-- 關卡地圖 -->
-  <section id="view-map" class="view">
+  <section id="view-map" class="view hidden">
     <h2 class="view-title">關卡地圖</h2>
     <div id="level-map" class="level-map"></div>
   </section>
 
-  <!-- 遊戲盤面 -->
+  <!-- 遊戲盤面（密室破陣介面） -->
   <section id="view-game" class="view hidden">
     <div class="game-top">
-      <button type="button" id="btn-back-map" class="ghost-btn">← 地圖</button>
-      <span id="game-level-title" class="game-level-title">第 1 關</span>
-      <span id="timer-display" class="timer-display hidden" aria-live="off">⏳ <span id="timer-time">--:--</span></span>
-      <span class="ink-display">🖋 <span id="ink-amount">0</span></span>
+      <button type="button" id="btn-back-map" class="ghost-btn">← 大廳</button>
+      
+      <div class="game-title-group">
+        <span id="game-array-badge" class="game-array-badge">乾坤太極陣</span>
+        <span id="game-level-title" class="game-level-title">第 1 關</span>
+      </div>
+
+      <!-- 密室沉浸式 HUD：時辰燃香計時器 -->
+      <div id="timer-display" class="timer-display hidden" aria-live="off">
+        <div class="incense-burner-mini" aria-hidden="true">
+          <div class="incense-stick-wrap">
+            <div id="incense-stick-bar" class="incense-stick-bar"></div>
+            <div class="incense-ember-dot"></div>
+          </div>
+          <span class="incense-censer-icon">🪔</span>
+        </div>
+        <span class="timer-text-wrap">
+          <small class="timer-tag">時辰燃香</small>
+          <span id="timer-time">--:--</span>
+        </span>
+      </div>
+
+      <!-- 密室沉浸式 HUD：松煙端硯計量器 -->
+      <div class="ink-display" id="ink-display-hud" title="墨水硯台・答題可研墨">
+        <span class="ink-dish-icon">🖋</span>
+        <span class="ink-text-wrap">
+          <small class="ink-tag">文思墨水</small>
+          <span id="ink-amount">0</span>
+        </span>
+      </div>
     </div>
+
+    <!-- 密室破陣封印進度條 -->
+    <div id="seal-progress-bar" class="seal-progress-bar">
+      <div class="seal-header">
+        <span class="seal-title">⚡ 密室陣眼封印</span>
+        <span id="seal-count" class="seal-count">0 / 0 陣眼已破</span>
+      </div>
+      <div id="seal-runes" class="seal-runes"></div>
+    </div>
+
     <div class="game-layout">
       <div class="game-board">
         <div id="grid" class="grid" aria-label="字格盤面"></div>
@@ -40,8 +94,22 @@
           <button type="button" id="cross-submit" class="primary-btn">確認</button>
         </div>
       </div>
+
       <aside class="game-panel">
+        <!-- 角色伴隨互動視窗：Q 版守護仙人 / 破陣夥伴 -->
+        <div id="fengshen-companion" class="fengshen-companion clickable" title="點擊向守護仙人請教破陣玄機">
+          <div id="companion-avatar-wrap" class="companion-avatar-wrap"></div>
+          <div class="companion-bubble">
+            <div class="companion-bubble-header">
+              <span id="companion-name" class="companion-name">姜子牙・太公引路</span>
+              <span class="companion-hint-badge">💡 點擊請教</span>
+            </div>
+            <p id="companion-text" class="companion-text">太極生兩儀，字句藏玄機。道友請凝神破陣！</p>
+          </div>
+        </div>
+
         <ul id="target-list" class="target-list"></ul>
+
         <div class="hint-bar">
           <span id="hint-quota" class="hint-quota hidden" aria-live="polite"></span>
           <button type="button" id="btn-hint-circle" class="hint-btn">圈首字<small>1 墨</small></button>
@@ -115,29 +183,57 @@
   </div>
 </div>
 
-<!-- 超時（時辰已到）：無 ×、點背景不關 -->
+<!-- 超時（被困陣中・仙人救駕）：無 ×、點背景不關 -->
 <div id="modal-timeout" class="modal-backdrop hidden">
-  <div class="modal timeout-modal">
-    <div class="timeout-hourglass" aria-hidden="true"></div>
-    <p class="card-badge timeout-badge">超時</p>
-    <h3 class="timeout-title">時辰已到</h3>
-    <p class="timeout-desc muted">香已燃盡，本關尚未尋得全部章句。</p>
+  <div class="modal timeout-modal fengshen-settle-timeout">
+    <p class="card-badge timeout-badge">困於陣中</p>
+    <h3 class="timeout-title">時辰已到・陣法閉合</h3>
+    
+    <div class="timeout-rescue-wrap">
+      <div id="timeout-guardian-avatar" class="settle-avatar"></div>
+      <div class="timeout-rescue-bubble">
+        <strong id="timeout-guardian-name" class="rescue-name">守護仙人急施援手</strong>
+        <p id="timeout-guardian-speech" class="rescue-speech">莫慌！仙人在此施法破開虛空護你周全！</p>
+      </div>
+    </div>
+
+    <p class="timeout-desc muted">香已燃盡，陰陽逆轉。幸得仙人破界相救，速速重整旗鼓！</p>
     <div class="settings-actions">
-      <button type="button" id="btn-retry-level" class="primary-btn">重新挑戰</button>
-      <button type="button" id="btn-timeout-map" class="ghost-btn">回地圖</button>
+      <button type="button" id="btn-retry-level" class="primary-btn">仙人救駕・重新破陣</button>
+      <button type="button" id="btn-timeout-map" class="ghost-btn">暫退法壇・回大廳</button>
     </div>
   </div>
 </div>
 
-<!-- 通關結算 -->
+<!-- 通關結算（破陣成功・封神榜題名） -->
 <div id="modal-complete" class="modal-backdrop hidden">
-  <div class="modal complete-modal">
-    <p class="card-badge">通關</p>
-    <h3 id="complete-title">尋章功成</h3>
+  <div class="modal complete-modal fengshen-settle-win">
+    <p class="card-badge">破陣功成</p>
+    <h3 id="complete-title">尋章功成・位列封神</h3>
+    <p id="complete-array-name" class="complete-array-name">乾坤太極陣・第 1 關 陣眼破解</p>
     <p id="complete-stars" class="complete-stars"></p>
+
+    <!-- 仙人祝賀語 -->
+    <div class="complete-guardian-feedback">
+      <div id="complete-guardian-avatar" class="settle-avatar"></div>
+      <p id="complete-guardian-speech" class="settle-speech">道友神采奕奕，破此迷陣，真有通天之能！</p>
+    </div>
+
+    <!-- 封神法寶碎片獲取展示 -->
+    <div id="complete-treasure-box" class="complete-treasure-box">
+      <div class="treasure-header">✨ 獲賜封神法寶碎片</div>
+      <div class="treasure-card">
+        <span id="treasure-icon" class="treasure-icon">⚡</span>
+        <div class="treasure-info">
+          <strong id="treasure-name" class="treasure-name">打神鞭・靈光碎片</strong>
+          <p id="treasure-desc" class="treasure-desc">姜太公號令三界諸神之法寶碎片，凝聚浩然正氣。</p>
+        </div>
+      </div>
+    </div>
+
     <div class="settings-actions">
-      <button type="button" id="btn-next-level" class="primary-btn">下一關</button>
-      <button type="button" id="btn-complete-map" class="ghost-btn">回地圖</button>
+      <button type="button" id="btn-next-level" class="primary-btn">破下一陣</button>
+      <button type="button" id="btn-complete-map" class="ghost-btn">回大廳</button>
     </div>
   </div>
 </div>

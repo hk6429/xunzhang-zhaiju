@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>尋章摘句 - 封神 Q 版角色與法寶視覺資產圖鑑</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --primary: #0284c7;
+      --border: #e2e8f0;
+      --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: #0f172a;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+    .section-title {
+      font-size: 1.5rem;
+      margin: 2.5rem 0 1.2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .char-card {
+      background: var(--card-bg);
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .char-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12);
+    }
+    .avatar-box {
+      width: 180px;
+      height: 180px;
+      background: #f1f5f9;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      border: 3px solid #e2e8f0;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .char-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .char-title {
+      font-size: 0.85rem;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .char-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 1rem;
+      min-height: 2.7rem;
+    }
+    .mood-tabs {
+      display: flex;
+      gap: 0.35rem;
+      background: #f1f5f9;
+      padding: 0.25rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      width: 100%;
+    }
+    .mood-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 0.4rem 0.2rem;
+      font-size: 0.8rem;
+      border-radius: 0.35rem;
+      cursor: pointer;
+      font-weight: 600;
+      color: #475569;
+      transition: all 0.2s;
+    }
+    .mood-btn.active {
+      background: #ffffff;
+      color: #0f172a;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+    .char-quote {
+      background: #f8fafc;
+      border-left: 3px solid var(--primary);
+      padding: 0.5rem 0.75rem;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: #334155;
+      width: 100%;
+      border-radius: 0 0.4rem 0.4rem 0;
+      min-height: 2.4rem;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Items Grid */
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .item-card {
+      background: var(--card-bg);
+      border-radius: 0.85rem;
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .item-icon-box {
+      width: 110px;
+      height: 110px;
+      margin-bottom: 0.75rem;
+    }
+    .item-icon {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .item-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .item-meta {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .badge {
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 1rem;
+      font-weight: 700;
+    }
+    .badge-ssr {
+      background: #fef08a;
+      color: #854d0e;
+      border: 1px solid #ca8a04;
+    }
+    .badge-sr {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #0284c7;
+    }
+    .item-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .item-effect {
+      font-size: 0.8rem;
+      color: #047857;
+      background: #ecfdf5;
+      padding: 0.35rem 0.6rem;
+      border-radius: 0.4rem;
+      width: 100%;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>尋章摘句・封神視覺資產圖鑑</h1>
+      <p class="subtitle">頭身比 1:1 Q 版封神角色立繪（4 種表情）與水墨秘寶道具</p>
+    </header>
+
+    <h2 class="section-title">🎎 封神 Q 版角色立繪集 (1:1 大頭萌系)</h2>
+    <div class="grid" id="characters-container"></div>
+
+    <h2 class="section-title">🔮 封神法寶與密室道具圖鑑</h2>
+    <div class="items-grid" id="items-container"></div>
+  </div>
+
+  <script type="module">
+    import { CHARACTERS } from './characters/character-registry.js';
+    import { ITEMS } from './items/items-registry.js';
+
+    // Render Characters
+    const charContainer = document.getElementById('characters-container');
+    CHARACTERS.forEach(char => {
+      const card = document.createElement('div');
+      card.className = 'char-card';
+      card.innerHTML = `
+        <div class="avatar-box" id="box-${char.id}">
+          <img src="${char.expressions.idle}" alt="${char.name}" class="avatar-img" id="img-${char.id}">
+        </div>
+        <div class="char-name">${char.name}</div>
+        <div class="char-title">${char.title}</div>
+        <div class="char-desc">${char.desc}</div>
+        <div class="mood-tabs">
+          <button class="mood-btn active" data-char="${char.id}" data-mood="idle">待機</button>
+          <button class="mood-btn" data-char="${char.id}" data-mood="thinking">沉思</button>
+          <button class="mood-btn" data-char="${char.id}" data-mood="victory">破陣</button>
+          <button class="mood-btn" data-char="${char.id}" data-mood="panic">驚慌</button>
+        </div>
+        <div class="char-quote" id="quote-${char.id}">${char.quotes.idle}</div>
+      `;
+      charContainer.appendChild(card);
+    });
+
+    // Mood Tab Click Handler
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('mood-btn')) {
+        const btn = e.target;
+        const charId = btn.getAttribute('data-char');
+        const mood = btn.getAttribute('data-mood');
+        const char = CHARACTERS.find(c => c.id === charId);
+
+        // Update active class
+        btn.parentElement.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Update image & quote
+        const img = document.getElementById(`img-${charId}`);
+        const quote = document.getElementById(`quote-${charId}`);
+        if (img && char) {
+          img.src = char.expressions[mood];
+        }
+        if (quote && char) {
+          quote.innerText = char.quotes[mood];
+        }
+      }
+    });
+
+    // Render Items
+    const itemsContainer = document.getElementById('items-container');
+    ITEMS.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'item-card';
+      const badgeClass = item.rarity === 'SSR' ? 'badge-ssr' : 'badge-sr';
+      card.innerHTML = `
+        <div class="item-icon-box">
+          <img src="${item.svgPath}" alt="${item.name}" class="item-icon">
+        </div>
+        <div class="item-name">${item.name}</div>
+        <div class="item-meta">
+          <span class="badge ${badgeClass}">${item.rarity}</span>
+          <span style="font-size:0.75rem; color:#64748b;">${item.owner}</span>
+        </div>
+        <div class="item-desc">${item.desc}</div>
+        <div class="item-effect">⚡ ${item.gameEffect}</div>
+      `;
+      itemsContainer.appendChild(card);
+    });
+  </script>
+</body>
+</html>

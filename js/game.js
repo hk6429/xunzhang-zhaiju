@@ -1,10 +1,16 @@
 // js/game.js — 單關遊戲流程：比對、提示、學習題、星等結算
-// v2：目標清單線索化（targetDisplay:"clue"）＋ cross 填字互動
+// 整合：封神密室逃脫機制、Q 版守護仙人伴隨互動、燃香/硯台 HUD、破陣封印條
 import { createGrid, targetPath, pathKey } from './grid.js';
 import { buildQuestions } from './learnquiz.js';
+import {
+  getArrayByLevelId,
+  renderGuardianSvg,
+  getRandomQuote,
+} from './fengshen.js';
 
 const FLASH_MS = 2000;
 const TICK_MS = 200;
+const BAGUA_RUNES = ['乾', '坤', '坎', '離', '震', '巽', '艮', '兌', '天', '地'];
 
 const $ = (id) => document.getElementById(id);
 
@@ -16,25 +22,16 @@ function fmtTime(sec) {
 
 /**
  * 開始一關。回傳 { destroy() }。
- * @param {object} ctx
- *   level        關卡物件（SCHEMA levels[]；v2 支援 layout:"cross" 與 targetDisplay:"clue"）
- *   phrases      全語料陣列
- *   phrasesById  Map/Object：phraseId → phrase
- *   hintEngine   js/hints.js createHintEngine 實例
- *   collection   js/collection.js createCollection 實例
- *   save         存檔物件（本模組更新 save.levels / save.quizStats）
- *   persist()    要求 app 寫檔
- *   onExit()     返回地圖
- *   onComplete(levelId, stars)  通關後（app 更新地圖/解鎖）
- *   hasNext      是否還有下一關可去
- *   onNext()     前往下一關
  */
 export function startLevel(ctx) {
   const { level, phrases, phrasesById, hintEngine, collection, save } = ctx;
   const size = level.size;
   const isCross = level.layout === 'cross';
-  // targetDisplay 相容：v1 "text"（fixtures fallback）與 v2 "clue"
   const clueMode = level.targetDisplay === 'clue';
+
+  // ── 封神密室陣法與守護仙人 ──────────────
+  const arrayInfo = getArrayByLevelId(level.id);
+  const guardian = arrayInfo.guardian;
 
   // ── 目標資料 ──────────────────────────
   const targets = level.targets.map((t, i) => {
@@ -43,7 +40,8 @@ export function startLevel(ctx) {
     const clue = (phrase && Array.isArray(phrase.clues) && phrase.clues.length)
       ? (phrase.clues[t.clueIndex] || phrase.clues[0])
       : null;
-    return { ...t, phrase, path, clue, key: path ? pathKey(path) : null, colorIdx: i, found: false };
+    const rune = BAGUA_RUNES[i % BAGUA_RUNES.length];
+    return { ...t, phrase, path, clue, rune, key: path ? pathKey(path) : null, colorIdx: i, found: false };
   }).filter((t) => t.phrase && t.path);
 
   const levelKey = String(level.id);
@@ -55,19 +53,90 @@ export function startLevel(ctx) {
   let selectedTargetId = null;
   let finished = false;
 
-  // ── v3：計時與提示限次（關卡內暫態；v2 資料缺欄位視為 null） ──
+  // ── 計時與提示限次 ────────────────────
   const timeLimit = (typeof level.timeLimit === 'number' && level.timeLimit > 0) ? level.timeLimit : null;
   const hintCap = (typeof level.hintCap === 'number' && level.hintCap >= 0) ? level.hintCap : null;
   let hintsUsed = 0;
 
-  // ── DOM ──────────────────────────────
+  // ── DOM 頂部標題與陣法徽章 ───────────
   $('game-level-title').textContent = `第 ${level.id} 關`;
+  const arrayBadgeEl = $('game-array-badge');
+  if (arrayBadgeEl) {
+    arrayBadgeEl.textContent = arrayInfo.name;
+    arrayBadgeEl.style.borderColor = arrayInfo.color;
+  }
+
   const msgEl = $('hint-msg');
   let msgTimer = null;
   function say(text) {
     msgEl.textContent = text;
     clearTimeout(msgTimer);
     msgTimer = setTimeout(() => { msgEl.textContent = ''; }, 2600);
+  }
+
+  // ── Q 版守護仙人伴隨系統 ──────────────
+  const avatarWrap = $('companion-avatar-wrap');
+  const companionName = $('companion-name');
+  const companionText = $('companion-text');
+  const companionWidget = $('fengshen-companion');
+  let speechTimer = null;
+
+  function setCompanion(mood = 'idle', customText = null, isTalking = true) {
+    if (avatarWrap) {
+      avatarWrap.innerHTML = renderGuardianSvg(guardian.id, mood);
+    }
+    if (companionName) {
+      companionName.textContent = `${guardian.name}・${guardian.shortTitle}`;
+    }
+    if (companionText && customText) {
+      companionText.textContent = customText;
+    }
+    if (companionWidget && isTalking) {
+      companionWidget.classList.remove('speaking');
+      void companionWidget.offsetWidth;
+      companionWidget.classList.add('speaking');
+      clearTimeout(speechTimer);
+      speechTimer = setTimeout(() => {
+        if (companionWidget) companionWidget.classList.remove('speaking');
+      }, 3500);
+    }
+  }
+
+  // 開場仙人問候
+  setCompanion('idle', guardian.greeting, true);
+
+  // 點擊仙人獲取隨機密室提示對白
+  function handleCompanionClick() {
+    const quote = getRandomQuote(guardian.clickQuotes);
+    setCompanion('thinking', quote, true);
+  }
+  if (companionWidget) {
+    companionWidget.addEventListener('click', handleCompanionClick);
+  }
+
+  // ── 密室破陣封印條 ────────────────────
+  const sealBar = $('seal-progress-bar');
+  const sealCountEl = $('seal-count');
+  const sealRunesEl = $('seal-runes');
+
+  function renderSealProgress() {
+    if (!sealRunesEl) return;
+    const foundCount = targets.filter((t) => t.found).length;
+    const totalCount = targets.length;
+    if (sealCountEl) {
+      sealCountEl.textContent = `${foundCount} / ${totalCount} 陣眼已破`;
+    }
+    sealRunesEl.innerHTML = '';
+    targets.forEach((t) => {
+      const runeEl = document.createElement('div');
+      runeEl.className = `seal-rune-node ${t.found ? 'unsealed' : 'locked'}`;
+      runeEl.title = t.found ? `【${t.rune}】印已破：${t.phrase.text}` : `【${t.rune}】字陣眼尚未破解`;
+      runeEl.innerHTML = `
+        <span class="rune-symbol">${t.rune}</span>
+        <span class="rune-status">${t.found ? '解' : '封'}</span>
+      `;
+      sealRunesEl.appendChild(runeEl);
+    });
   }
 
   const grid = createGrid($('grid'), level.grid, {
@@ -83,12 +152,13 @@ export function startLevel(ctx) {
   }
 
   function refreshInk() {
-    $('ink-amount').textContent = String(hintEngine.getInk());
+    const ink = hintEngine.getInk();
+    $('ink-amount').textContent = String(ink);
     const capped = capExhausted();
     $('btn-hint-circle').disabled = finished || capped || !hintEngine.canSpend('circle');
     $('btn-hint-flash').disabled = finished || capped || !hintEngine.canSpend('flash');
     $('btn-hint-reveal').disabled = finished || capped || !hintEngine.canSpend('reveal');
-    // 提示限次顯示（三種合計）；hintCap null＝不顯示（行為同 v2）
+    
     const quota = $('hint-quota');
     if (hintCap == null) {
       quota.classList.add('hidden');
@@ -100,16 +170,14 @@ export function startLevel(ctx) {
     }
   }
 
-  // ── v3：倒數計時 ──────────────────────
-  // 暫停原則：計時器每 TICK_MS 醒來一次，只有在「當下沒有任何 modal 開啟」時
-  // 才把上次醒來到現在的實際流逝時間（performance.now 差值）扣進剩餘時間；
-  // modal 開啟期間每次醒來仍會把 lastTick 推到 now，等於那段時間被丟棄——
-  // 不是「開著 modal 仍在扣」的假暫停，誤差上限僅一個 tick（200ms）。
+  // ── 燃香倒數計時器 ────────────────────
   const timerEl = $('timer-display');
   const timerTimeEl = $('timer-time');
+  const stickBarEl = $('incense-stick-bar');
   let remainingMs = timeLimit != null ? timeLimit * 1000 : 0;
   let timerId = null;
   let lastTick = 0;
+  let warnedLowTime = false;
 
   function isAnyModalOpen() {
     return !!document.querySelector('.modal-backdrop:not(.hidden)');
@@ -119,7 +187,19 @@ export function startLevel(ctx) {
     if (timeLimit == null) return;
     const sec = Math.max(0, Math.ceil(remainingMs / 1000));
     timerTimeEl.textContent = fmtTime(sec);
-    timerEl.classList.toggle('warn', remainingMs <= timeLimit * 1000 * 0.2);
+    const isWarn = remainingMs <= timeLimit * 1000 * 0.2;
+    timerEl.classList.toggle('warn', isWarn);
+    
+    // 更新燃香進度條長度 (100% -> 0%)
+    if (stickBarEl) {
+      const pct = Math.max(0, Math.min(100, (remainingMs / (timeLimit * 1000)) * 100));
+      stickBarEl.style.height = `${pct}%`;
+    }
+
+    if (isWarn && !warnedLowTime && !finished) {
+      warnedLowTime = true;
+      setCompanion('shock', '燃香將盡，陰陽逆轉！道友凝神，速破此陣！', true);
+    }
   }
 
   function timerTick() {
@@ -145,7 +225,7 @@ export function startLevel(ctx) {
     timerId = setInterval(timerTick, TICK_MS);
   }
 
-  // ── v3：超時 ─────────────────────────
+  // ── 超時（被困陣中・仙人救駕） ─────────
   function handleTimeout() {
     finished = true;
     stopTimer();
@@ -155,16 +235,30 @@ export function startLevel(ctx) {
     setSelected(null);
     $('modal-card').classList.add('hidden');
     $('modal-quiz').classList.add('hidden');
+    
+    // 渲染超時救援視窗
+    const rescueAvatar = $('timeout-guardian-avatar');
+    if (rescueAvatar) {
+      rescueAvatar.innerHTML = renderGuardianSvg(guardian.id, 'timeout');
+    }
+    const rescueName = $('timeout-guardian-name');
+    if (rescueName) {
+      rescueName.textContent = `${guardian.name} 施法救駕`;
+    }
+    const rescueSpeech = $('timeout-guardian-speech');
+    if (rescueSpeech) {
+      rescueSpeech.textContent = getRandomQuote(guardian.timeoutQuotes);
+    }
+
     $('modal-timeout').classList.remove('hidden');
   }
 
   function clearFoundForRetry() {
-    // SCHEMA v3：重新挑戰＝本關 found 清空並落盤；已入圖鑑收藏不回收
     levelSave.found = [];
     ctx.persist();
   }
 
-  // ── 目標清單（v2：線索卡） ─────────────
+  // ── 目標清單（線索卡） ───────────────
   function renderTargets() {
     const ul = $('target-list');
     ul.innerHTML = '';
@@ -173,21 +267,20 @@ export function startLevel(ctx) {
       const li = document.createElement('li');
       li.className = 'target-card';
       if (t.found) {
-        // 翻面：顯示成語＋劃線
         li.classList.add('done');
-        li.textContent = t.phrase.text;
+        li.innerHTML = `<span class="target-done-tag">⚡ 已破</span> ${t.phrase.text}`;
       } else if (clueMode && t.clue) {
         const tag = document.createElement('span');
         tag.className = 'clue-tag';
         tag.dataset.style = t.clue.style || '釋義';
-        tag.textContent = t.clue.style || '釋義';
+        tag.textContent = `【${t.rune}】${t.clue.style || '釋義'}`;
         li.appendChild(tag);
         const txt = document.createElement('span');
         txt.className = 'clue-text';
         txt.textContent = t.clue.text || '';
         li.appendChild(txt);
       } else {
-        li.textContent = t.phrase.text;
+        li.textContent = `【${t.rune}】${t.phrase.text}`;
       }
       if (t.phraseId === selectedTargetId && !t.found) li.classList.add('selected');
       li.addEventListener('click', () => {
@@ -228,7 +321,6 @@ export function startLevel(ctx) {
     if (!here.length) return;
     let next;
     if (here.length > 1) {
-      // 一格屬兩詞：再點一次切換詞
       const idx = here.findIndex((t) => t.phraseId === selectedTargetId);
       next = here[(idx + 1) % here.length];
     } else {
@@ -248,13 +340,14 @@ export function startLevel(ctx) {
     const val = $('cross-input').value.trim();
     if (!val) return;
     if (val === t.phrase.text) {
-      fillTargetChars(t); // 整詞填入（含帶動交叉格）
+      fillTargetChars(t);
       markFound(t, { real: true });
     } else {
       const row = $('cross-input-row');
       row.classList.remove('invalid');
-      void row.offsetWidth; // 重觸發動畫
+      void row.offsetWidth;
       row.classList.add('invalid');
+      setCompanion('shock', '字句稍有出入，道友再細細思量！', true);
     }
   }
 
@@ -264,14 +357,16 @@ export function startLevel(ctx) {
     grid.markFound(t.path, t.colorIdx);
     if (!levelSave.found.includes(t.phraseId)) levelSave.found.push(t.phraseId);
     if (real) {
-      collection.add(t.phraseId); // SCHEMA：只有真實找到才入集
+      collection.add(t.phraseId);
       showKnowledgeCard(t.phrase);
+      setCompanion('happy', getRandomQuote(guardian.findQuotes), true);
     }
     if (selectedTargetId === t.phraseId) selectedTargetId = null;
     renderTargets();
+    renderSealProgress();
     if (isCross) updateCrossSelection();
     ctx.persist();
-    if (targets.every((x) => x.found)) setTimeout(finishLevel, real ? 350 : 250);
+    if (targets.every((x) => x.found)) setTimeout(finishLevel, real ? 400 : 250);
   }
 
   function handleSelect(path) {
@@ -306,10 +401,11 @@ export function startLevel(ctx) {
     }
     if (!hintEngine.spend(tier)) { refreshInk(); return; }
     usedHint = true;
-    if (hintCap != null) hintsUsed += 1; // 三種提示合計，spend 成功才計次
+    if (hintCap != null) hintsUsed += 1;
+    setCompanion('thinking', getRandomQuote(guardian.hintQuotes), true);
+
     if (tier === 'circle') {
       if (isCross) {
-        // cross：永久顯示該詞首格的字
         grid.setChar(t.path[0][0], t.path[0][1], t.phrase.text[0]);
         say(`已顯示「${t.phrase.text[0]}」字。`);
       } else {
@@ -318,7 +414,6 @@ export function startLevel(ctx) {
       }
     } else if (tier === 'flash') {
       if (isCross) {
-        // cross：未填格暫顯答案字 2 秒
         t.path.forEach(([r, c], i) => {
           if (!grid.isFilled(r, c)) grid.tempChar(r, c, t.phrase.text[i], FLASH_MS);
         });
@@ -330,14 +425,14 @@ export function startLevel(ctx) {
     } else if (tier === 'reveal') {
       usedReveal = true;
       say(`已揭示「${t.phrase.text}」。`);
-      if (isCross) fillTargetChars(t); // 整詞直接填入
-      markFound(t, { real: false }); // 維持 1★ 與不入圖鑑
+      if (isCross) fillTargetChars(t);
+      markFound(t, { real: false });
     }
     refreshInk();
     ctx.persist();
   }
 
-  // ── 星等與通關 ────────────────────────
+  // ── 星等與通關（破陣結算） ────────────
   function computeStars() {
     if (usedReveal) return 1;
     if (usedHint) return 2;
@@ -352,15 +447,46 @@ export function startLevel(ctx) {
     levelSave.stars = Math.max(levelSave.stars, stars);
     ctx.persist();
     refreshInk();
-    $('modal-card').classList.add('hidden'); // 通關時關閉殘留的知識卡，避免疊在結算視窗底下
+    $('modal-card').classList.add('hidden');
+
+    // 渲染封神破陣結算視窗
+    const completeTitle = $('complete-title');
+    if (completeTitle) completeTitle.textContent = '尋章功成・位列封神';
+    
+    const arrayNameEl = $('complete-array-name');
+    if (arrayNameEl) {
+      arrayNameEl.textContent = `${arrayInfo.title}・第 ${level.id} 關 陣眼破解`;
+    }
+
     $('complete-stars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars);
+    
+    const completeAvatar = $('complete-guardian-avatar');
+    if (completeAvatar) {
+      completeAvatar.innerHTML = renderGuardianSvg(guardian.id, 'win');
+    }
+    const completeSpeech = $('complete-guardian-speech');
+    if (completeSpeech) {
+      completeSpeech.textContent = getRandomQuote(guardian.winQuotes);
+    }
+
+    // 封神法寶碎片掉落展示
+    const shard = arrayInfo.treasureShard;
+    if (shard) {
+      const iconEl = $('treasure-icon');
+      const nameEl = $('treasure-name');
+      const descEl = $('treasure-desc');
+      if (iconEl) iconEl.textContent = shard.icon;
+      if (nameEl) nameEl.textContent = shard.name;
+      if (descEl) descEl.textContent = shard.desc;
+    }
+
     $('btn-next-level').classList.toggle('hidden', !ctx.hasNext);
     $('modal-complete').classList.remove('hidden');
     if (typeof ctx.onComplete === 'function') ctx.onComplete(level.id, stars);
   }
 
   // ── 學習題（賺墨水） ──────────────────
-  let quiz = null; // { questions, idx, earned }
+  let quiz = null;
 
   function openQuiz() {
     const targetIds = level.targets.map((t) => t.phraseId);
@@ -415,10 +541,11 @@ export function startLevel(ctx) {
       const gained = q.type === 'choice' ? 1 : 2;
       quiz.earned += gained;
       $('quiz-feedback').textContent = `答對了！＋${gained} 墨 🖋`;
+      setCompanion('happy', getRandomQuote(guardian.quizQuotes), false);
     } else {
       $('quiz-feedback').textContent = `可惜，正解是「${q.answer}」。`;
+      setCompanion('thinking', '此題甚深，道友記住此典，下回必能答對！', false);
     }
-    // 鎖定作答並標示正誤
     if (q.type === 'choice') {
       for (const b of $('quiz-options').querySelectorAll('button')) {
         b.disabled = true;
@@ -483,6 +610,7 @@ export function startLevel(ctx) {
   const listeners = [];
   function on(id, ev, fn) {
     const el = $(id);
+    if (!el) return;
     el.addEventListener(ev, fn);
     listeners.push([el, ev, fn]);
   }
@@ -500,11 +628,11 @@ export function startLevel(ctx) {
   on('btn-retry-level', 'click', () => {
     clearFoundForRetry();
     $('modal-timeout').classList.add('hidden');
-    if (typeof ctx.onRetry === 'function') ctx.onRetry(); // 重進本關＝盤面/計時/提示次數/星等狀態全重置
+    if (typeof ctx.onRetry === 'function') ctx.onRetry();
     else ctx.onExit();
   });
   on('btn-timeout-map', 'click', () => {
-    clearFoundForRetry(); // 超時離場同樣清空，避免「回地圖再進」帶著半完成盤面重置計時
+    clearFoundForRetry();
     $('modal-timeout').classList.add('hidden');
     ctx.onExit();
   });
@@ -517,7 +645,7 @@ export function startLevel(ctx) {
     if (typeof ctx.onNext === 'function') ctx.onNext();
   });
 
-  // ── 初始化：還原本關已找到（含之前 session） ──
+  // ── 初始化：還原本關已找到 ───────────
   $('cross-input-row').classList.add('hidden');
   for (const t of targets) {
     if (levelSave.found.includes(t.phraseId)) {
@@ -527,19 +655,21 @@ export function startLevel(ctx) {
     }
   }
   renderTargets();
+  renderSealProgress();
   refreshInk();
   msgEl.textContent = '';
   if (targets.every((t) => t.found) && targets.length) {
-    // 上次已全部找到但可能沒結算：直接視為完成、不再重複結算
     finished = true;
     refreshInk();
   }
-  startTimer(); // timeLimit null 或已完成＝隱藏不計時
+  startTimer();
 
   return {
     destroy() {
-      stopTimer(); // 離開關卡必清計時器
+      stopTimer();
       clearTimeout(msgTimer);
+      clearTimeout(speechTimer);
+      if (companionWidget) companionWidget.removeEventListener('click', handleCompanionClick);
       for (const [el, ev, fn] of listeners) el.removeEventListener(ev, fn);
       grid.destroy();
       $('cross-input-row').classList.add('hidden');
