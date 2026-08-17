@@ -10,8 +10,8 @@ export const ITEMS = [
     category: "專屬神器",
     rarity: "SSR",
     desc: "元始天尊所賜天庭神器，節節盤龍符印，破邪鎮煞。",
-    svgPath: "assets/items/dashen-bian.png",
-    imagePath: "assets/items/dashen-bian.png",
+    svgPath: "assets/items/dashen-bian.svg",
+    imagePath: "assets/items/dashen-bian.svg",
     gameEffect: "每局可免費使用一次「直指陣眼（直接揭示首句）」"
   },
   {
@@ -21,8 +21,8 @@ export const ITEMS = [
     category: "護體靈寶",
     rarity: "SSR",
     desc: "金蓮萬朵護體，諸邪避退、萬法不侵之第一防禦聖物。",
-    svgPath: "assets/items/xinhuang-qi.png",
-    imagePath: "assets/items/xinhuang-qi.png",
+    svgPath: "assets/items/xinhuang-qi.svg",
+    imagePath: "assets/items/xinhuang-qi.svg",
     gameEffect: "答錯題目時保護墨水不被扣除"
   },
   {
@@ -32,8 +32,8 @@ export const ITEMS = [
     category: "專屬神器",
     rarity: "SSR",
     desc: "崑崙至寶金鐲，祭出可碎山裂石，威震四海八荒。",
-    svgPath: "assets/items/qiankun-quan.png",
-    imagePath: "assets/items/qiankun-quan.png",
+    svgPath: "assets/items/qiankun-quan.svg",
+    imagePath: "assets/items/qiankun-quan.svg",
     gameEffect: "點擊可震碎盤面隨機 3 個無用干擾字"
   },
   {
@@ -43,8 +43,8 @@ export const ITEMS = [
     category: "靈動飄帶",
     rarity: "SR",
     desc: "七尺紅綾，翻江倒海、晃動乾坤之靈動仙綢。",
-    svgPath: "assets/items/huntian-ling.png",
-    imagePath: "assets/items/huntian-ling.png",
+    svgPath: "assets/items/huntian-ling.svg",
+    imagePath: "assets/items/huntian-ling.svg",
     gameEffect: "延長滿盤尋句拖曳時間緩衝"
   },
   {
@@ -54,8 +54,8 @@ export const ITEMS = [
     category: "飛行神具",
     rarity: "SSR",
     desc: "足踏雙輪，風火呼嘯，瞬息萬里之行空仙器。",
-    svgPath: "assets/items/fenghuo-lun.png",
-    imagePath: "assets/items/fenghuo-lun.png",
+    svgPath: "assets/items/fenghuo-lun.svg",
+    imagePath: "assets/items/fenghuo-lun.svg",
     gameEffect: "倒數計時增加 30 秒疾風時辰"
   },
   {
@@ -65,8 +65,8 @@ export const ITEMS = [
     category: "專屬神器",
     rarity: "SSR",
     desc: "天界戰神兵刃，三刃寒芒吐露，劈山破海無堅不摧。",
-    svgPath: "assets/items/sanjian-liangren-dao.png",
-    imagePath: "assets/items/sanjian-liangren-dao.png",
+    svgPath: "assets/items/sanjian-liangren-dao.svg",
+    imagePath: "assets/items/sanjian-liangren-dao.svg",
     gameEffect: "直接標示出十字填字盤的核心交叉字"
   },
   {
@@ -76,8 +76,8 @@ export const ITEMS = [
     category: "靈獸神符",
     rarity: "SR",
     desc: "喚出神犬哮天之護道靈符，撲咬妖邪、循味追凶。",
-    svgPath: "assets/items/xiaotian-quan.png",
-    imagePath: "assets/items/xiaotian-quan.png",
+    svgPath: "assets/items/xiaotian-quan.svg",
+    imagePath: "assets/items/xiaotian-quan.svg",
     gameEffect: "自動嗅出下一個最容易答對的成語首字"
   },
   {
@@ -87,8 +87,8 @@ export const ITEMS = [
     category: "幽冥靈寶",
     rarity: "SSR",
     desc: "幽幽粉火，魅惑心神，引百獸群妖之幽冥宮燈。",
-    svgPath: "assets/items/yinhun-deng.png",
-    imagePath: "assets/items/yinhun-deng.png",
+    svgPath: "assets/items/yinhun-deng.svg",
+    imagePath: "assets/items/yinhun-deng.svg",
     gameEffect: "照亮盤面隱藏詞彙所在的局部九宮格區域"
   },
   {
@@ -98,8 +98,8 @@ export const ITEMS = [
     category: "幻術玉飾",
     rarity: "SR",
     desc: "千年天狐靈力凝結之玉簪，佩之可通魅惑千幻法。",
-    svgPath: "assets/items/jiuwei-linghu.png",
-    imagePath: "assets/items/jiuwei-linghu.png",
+    svgPath: "assets/items/jiuwei-linghu.svg",
+    imagePath: "assets/items/jiuwei-linghu.svg",
     gameEffect: "墨水題目獲得雙倍墨水點數獎勵"
   },
   {
@@ -109,8 +109,8 @@ export const ITEMS = [
     category: "專屬神器",
     rarity: "SSR",
     desc: "天雷雙擊之神器，敲擊時雷聲轟鳴，電光四射。",
-    svgPath: "assets/items/fenglei-chui.png",
-    imagePath: "assets/items/fenglei-chui.png",
+    svgPath: "assets/items/fenglei-chui.svg",
+    imagePath: "assets/items/fenglei-chui.svg",
     gameEffect: "召喚金雷閃現整個成語路徑 2 秒"
   },
   {
@@ -120,8 +120,8 @@ export const ITEMS = [
     category: "太極仙器",
     rarity: "SSR",
     desc: "照徹世間虛實，反轉吉凶之太極仙鏡。",
-    svgPath: "assets/items/yin-yang-jing.png",
-    imagePath: "assets/items/yin-yang-jing.png",
+    svgPath: "assets/items/yin-yang-jing.svg",
+    imagePath: "assets/items/yin-yang-jing.svg",
     gameEffect: "可將當前關卡所有線索難度暫時降低一級"
   },
   {
@@ -131,8 +131,8 @@ export const ITEMS = [
     category: "硃砂靈符",
     rarity: "SR",
     desc: "硃砂靈符一貼，定住時辰，萬物靜止。",
-    svgPath: "assets/items/dingshen-fu.png",
-    imagePath: "assets/items/dingshen-fu.png",
+    svgPath: "assets/items/dingshen-fu.svg",
+    imagePath: "assets/items/dingshen-fu.svg",
     gameEffect: "凍結關卡倒數計時 15 秒"
   }
 ];

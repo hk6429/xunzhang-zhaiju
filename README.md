@@ -21,7 +21,10 @@
 python3 -m http.server 8642   # 本機試玩 http://localhost:8642
 node tools/generate-levels.mjs data/phrases.json data/levels.json [seed]  # 重產關卡（確定性）
 node tools/validate.mjs data/phrases.json data/levels.json                # 硬閘門驗證
+node tools/validate-visuals.mjs                                          # 美術資產契約驗證
 node --test                                                               # 模組不變式測試
 ```
+
+美術資產驗證會檢查 `index.html` 與各 registry 的 SVG／PNG／JPG 圖片參照是否存在、九位 Q 版角色是否具備 1:1 國風潑墨 metadata，以及首頁、五章密室與通關慶典等七個主要場景是否齊全。
 
 介面契約凍結於 `docs/SCHEMA.md`。

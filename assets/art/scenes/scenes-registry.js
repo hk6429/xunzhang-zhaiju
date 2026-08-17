@@ -1,11 +1,11 @@
 /**
  * 尋章摘句 — 故宮宮廷古風 × 封神名陣密室大插圖場景註冊表 (Scenes Registry)
- * @version 1.0.0
+ * @version 1.1.0
  * @author 故宮古風密室場景與大插圖 AI 生圖工程師
  */
 
 export const SCENE_SYSTEM = {
-  version: "1.0.0",
+  version: "1.1.0",
   basePath: "assets/art/scenes/",
   theme: "故宮宮廷古風 × 封神密室逃脫",
 
@@ -17,8 +17,9 @@ export const SCENE_SYSTEM = {
       subtitle: "太極初開 · 萬仙破陣",
       type: "hero-banner",
       aspectRatio: "16:9",
-      path: "assets/art/scenes/palace-hero-banner.jpg",
-      aiPath: "assets/art/scenes/palace-hero-banner.jpg",
+      path: "assets/art/generated/hero-home.png",
+      fallbackPath: "assets/art/scenes/palace-hero-banner.svg",
+      alt: "姜太公、哪吒與楊戩化身一比一頭身的 Q 版封神人物，在國風潑墨仙境中迎接玩家破陣",
       description: "故宮金鑾殿宇巍峨矗立於晨曦金光之中，青綠山水雲霧繚繞，遠方仙閣廊橋凌空懸浮，虛空之中太極符篆與上古金印浮現，展現恢弘大器的破陣迎賓氣魄。",
       visualElements: ["故宮重簷廡殿頂", "青綠山水群峰", "晨曦金光祥雲", "虛空太極神印", "懸浮仙閣廊橋"],
       colorPalette: {
@@ -36,8 +37,9 @@ export const SCENE_SYSTEM = {
       subtitle: "第一重關 · 陰陽定乾坤",
       type: "chamber-scene",
       aspectRatio: "16:9",
-      path: "assets/art/scenes/chamber-taiji.jpg",
-      aiPath: "assets/art/scenes/chamber-taiji.jpg",
+      path: "assets/art/generated/chamber-taiji.png",
+      fallbackPath: "assets/art/scenes/chamber-taiji.svg",
+      alt: "乾坤太極陣的陰陽陣盤、盤龍殿柱與星斗穹頂",
       description: "太極八卦主殿堂，黑曜石與漢白玉鑲嵌的巨型陰陽太極陣盤於地面散發玄光，蟠龍巨柱金石浮雕，殿頂周天星斗流轉，空中懸浮旋轉金光符文，充滿密室玄機。",
       visualElements: ["陰陽太極陣盤", "盤龍金石巨柱", "周天星斗藻井", "懸浮太極符文光環", "青銅香爐古鼎"],
       colorPalette: {
@@ -55,8 +57,9 @@ export const SCENE_SYSTEM = {
       subtitle: "第二重關 · 狂瀾奪造化",
       type: "chamber-scene",
       aspectRatio: "16:9",
-      path: "assets/art/scenes/chamber-huanghe.jpg",
-      aiPath: "assets/art/scenes/chamber-huanghe.jpg",
+      path: "assets/art/generated/chamber-huanghe.png",
+      fallbackPath: "assets/art/scenes/chamber-huanghe.svg",
+      alt: "九曲黃河陣的混元金斗、黃河浪濤與九曲廊橋",
       description: "上古名陣九曲黃河，狂濤駭浪中青綠山水環抱，水上懸空九曲廊橋相連；中央上古神重器「混元金斗」懸空凝聚萬丈金光與水龍波瀾，光華萬道。",
       visualElements: ["混元金斗神尊", "九曲波濤狂瀾", "懸空水上廊橋", "青綠山水峭壁", "水煞靈紋光柱"],
       colorPalette: {
@@ -74,8 +77,9 @@ export const SCENE_SYSTEM = {
       subtitle: "第三重關 · 天火破絕煞",
       type: "chamber-scene",
       aspectRatio: "16:9",
-      path: "assets/art/scenes/chamber-shijue.jpg",
-      aiPath: "assets/art/scenes/chamber-shijue.jpg",
+      path: "assets/art/generated/chamber-shijue.png",
+      fallbackPath: "assets/art/scenes/chamber-shijue.svg",
+      alt: "十絕烈焰陣的青銅神鼎、天火與十柄降魔神劍",
       description: "玄金重鎖封閉的十絕神殿密室，中央上古通天青銅神鼎熾烈天火噴湧，地裂熔金玄煞裂紋流淌，十柄降魔神劍懸浮於虛空之中散發天煞烈芒。",
       visualElements: ["通天青銅神鼎", "熾烈十絕天火", "懸空降魔神劍", "地裂熔金玄煞", "玄鐵重鎖神門"],
       colorPalette: {
@@ -93,8 +97,9 @@ export const SCENE_SYSTEM = {
       subtitle: "第四重關 · 摘星破迷障",
       type: "chamber-scene",
       aspectRatio: "16:9",
-      path: "assets/art/scenes/chamber-chaoge.jpg",
-      aiPath: "assets/art/scenes/chamber-chaoge.jpg",
+      path: "assets/art/generated/chamber-chaoge.png",
+      fallbackPath: "assets/art/scenes/chamber-chaoge.svg",
+      alt: "朝歌幻境的摘星樓、九尾狐光與幽青狐火",
       description: "朝歌鹿台摘星樓之朱紅宮闕，巨大血月之下九尾天狐仙尾幻光遮天蔽日，粉紫與天青狐火宮燈幽幽浮游，充滿迷離魅惑與破除心魔幻境的挑戰。",
       visualElements: ["摘星樓朱紅宮闕", "九尾天狐幻光仙尾", "浮游狐火宮燈", "迷幻血月", "青丘幻霧"],
       colorPalette: {
@@ -112,8 +117,9 @@ export const SCENE_SYSTEM = {
       subtitle: "第五重關 · 萬仙歸位",
       type: "chamber-scene",
       aspectRatio: "16:9",
-      path: "assets/art/scenes/chamber-wanxian.jpg",
-      aiPath: "assets/art/scenes/chamber-wanxian.jpg",
+      path: "assets/art/generated/chamber-wanxian.png",
+      fallbackPath: "assets/art/scenes/chamber-wanxian.svg",
+      alt: "萬仙誅仙陣的封神古卷、誅仙四劍與星河法壇",
       description: "封神終極破陣之地，太古封神古卷橫貫星河穹頂，金光柱與天青光柱貫穿天地；誅仙、戮仙、陷仙、絕仙四神劍飛舞成陣，太古金文光芒照耀乾坤。",
       visualElements: ["太古封神古卷", "通天文字光柱", "誅仙四神劍飛劍陣", "萬仙大陣太極中央印", "星河金芒法台"],
       colorPalette: {
@@ -131,8 +137,9 @@ export const SCENE_SYSTEM = {
       subtitle: "金榜題名 · 群仙同慶",
       type: "victory-banner",
       aspectRatio: "16:9",
-      path: "assets/art/scenes/victory-celebration.jpg",
-      aiPath: "assets/art/scenes/victory-celebration.jpg",
+      path: "assets/art/generated/victory-celebration.png",
+      fallbackPath: "assets/art/scenes/victory-celebration.svg",
+      alt: "Q 版封神群仙在國風潑墨金光中歡慶玩家破陣封神",
       description: "破陣通關後的故宮金鑾殿前盛大慶功插圖！漫天金花彩帶與璀璨煙火綻放，金榜題名封神金卷高懸，墨靈太公仙童、哪吒、楊戩、妲己、申公豹全體Q版齊聚同賀！",
       visualElements: ["金榜題名敕賜金卷", "故宮金鑾慶功殿台", "漫天璀璨煙火彩帶", "墨靈太公仙童萌態", "哪吒/楊戩/妲己/申公豹歡慶群像"],
       colorPalette: {
@@ -143,6 +150,28 @@ export const SCENE_SYSTEM = {
         background: "#4c0519" // 華燈慶典紅
       },
       atmosphere: "歡樂喜慶、金榜題名、成就圓滿"
+    },
+    {
+      id: "chamber-map",
+      title: "五大封神密室全景圖",
+      subtitle: "循圖入陣 · 五關封神",
+      type: "map-banner",
+      aspectRatio: "16:9",
+      path: "assets/art/generated/chamber-map.png",
+      fallbackPath: "assets/art/scenes/chamber-wanxian.svg",
+      alt: "五大封神密室沿著潑墨山河展開的關卡地圖",
+      atmosphere: "玄奇壯闊、層層闖關、墨韻流動"
+    },
+    {
+      id: "game-board",
+      title: "封神文陣破關圖",
+      subtitle: "尋章摘句 · 以文破陣",
+      type: "game-banner",
+      aspectRatio: "16:9",
+      path: "assets/art/generated/game-board.png",
+      fallbackPath: "assets/art/scenes/chamber-taiji.svg",
+      alt: "Q 版封神人物在潑墨文字符陣前施法破關",
+      atmosphere: "緊張靈動、文墨交鋒、仙術破陣"
     }
   ],
 
@@ -157,7 +186,13 @@ export const SCENE_SYSTEM = {
       return new Promise((resolve) => {
         const img = new Image();
         img.onload = () => resolve({ id: scene.id, status: "loaded", src: scene.path });
-        img.onerror = () => resolve({ id: scene.id, status: "error", src: scene.path });
+        img.onerror = () => {
+          if (scene.fallbackPath && img.src !== new URL(scene.fallbackPath, document.baseURI).href) {
+            img.src = scene.fallbackPath;
+            return;
+          }
+          resolve({ id: scene.id, status: "error", src: scene.path });
+        };
         img.src = scene.path;
       });
     });

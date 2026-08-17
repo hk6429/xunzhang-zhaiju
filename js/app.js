@@ -13,6 +13,7 @@ import {
   getCharacterById,
   getRandomQuote,
 } from './fengshen.js';
+import { SCENE_SYSTEM } from '../assets/art/scenes/scenes-registry.js';
 
 const $ = (id) => document.getElementById(id);
 const VIEWS = ['chamber', 'map', 'game', 'collection', 'settings'];
@@ -178,9 +179,14 @@ function renderChambers() {
     `).join('');
 
     const initialG = guardiansList[0];
+    const sceneId = ['chamber-taiji', 'chamber-huanghe', 'chamber-shijue', 'chamber-chaoge', 'chamber-wanxian'][arr.chapter - 1];
+    const chamberScene = SCENE_SYSTEM.getSceneById(sceneId);
 
     card.innerHTML = `
       <div class="chamber-card-watermark" aria-hidden="true">${arr.name.slice(0, 2)}</div>
+      <figure class="chamber-scene-figure">
+        <img src="${chamberScene.path}" alt="${chamberScene.alt}" class="chamber-scene-img" loading="lazy" decoding="async">
+      </figure>
       <div class="chamber-card-header">
         <div class="chamber-badge-group">
           <span class="chamber-element-badge">${arr.element}</span>
@@ -217,7 +223,7 @@ function renderChambers() {
 
       <div class="chamber-treasure-preview">
         <div class="treasure-preview-icon-box">
-          <img src="${arr.treasureShard.imagePath || arr.treasureShard.svgPath || 'assets/items/dashen-bian.png'}" alt="${arr.treasureShard.name}" class="treasure-preview-img" />
+          <img src="${arr.treasureShard.imagePath || arr.treasureShard.svgPath || 'assets/items/dashen-bian.svg'}" alt="${arr.treasureShard.name}" class="treasure-preview-img" loading="lazy" decoding="async">
           <span class="treasure-icon hidden">${arr.treasureShard.icon}</span>
         </div>
         <div class="treasure-text">

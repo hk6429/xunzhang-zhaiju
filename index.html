@@ -6,6 +6,7 @@
 <title>尋章摘句 — 封神密室逃脫</title>
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.svg">
+<link rel="preload" as="image" href="assets/art/generated/hero-home.png" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Serif+TC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
@@ -16,7 +17,7 @@
 <header class="app-header">
   <div class="app-brand" id="brand-interactive" role="button" tabindex="0" title="點擊與墨靈仙童對話">
     <div class="brand-mascot-wrap">
-      <img src="assets/mascot.svg" alt="墨靈仙童" class="brand-mascot-icon" id="header-mascot-img">
+      <img src="assets/mascot.svg" alt="墨靈仙童" class="brand-mascot-icon" id="header-mascot-img" width="512" height="512" loading="eager" decoding="async">
       <span class="mascot-sparkle-dot"></span>
     </div>
     <div class="brand-title-group">
@@ -43,7 +44,7 @@
   <section id="view-chamber" class="view">
     <div class="chamber-hero palace-hero-card">
       <div class="palace-hero-banner-wrap">
-        <img src="assets/characters/trio-welcome.png" alt="故宮封神三仙迎賓" class="palace-hero-banner-img" />
+        <img src="assets/art/generated/hero-home.png" alt="姜太公、哪吒與楊戩化身一比一頭身的 Q 版封神人物，在國風潑墨仙境中迎接玩家破陣" class="palace-hero-banner-img" width="1672" height="941" loading="eager" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='assets/art/scenes/palace-hero-banner.svg'">
         <div class="palace-hero-overlay"></div>
       </div>
       <div class="palace-hero-body">
@@ -58,6 +59,10 @@
   <!-- 關卡地圖 -->
   <section id="view-map" class="view hidden">
     <h2 class="view-title">關卡地圖</h2>
+    <figure class="section-story-figure map-story-figure">
+      <img src="assets/art/generated/chamber-map.png" alt="五大封神密室沿著潑墨山河展開的關卡地圖" class="section-story-img" width="1672" height="941" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/art/scenes/chamber-wanxian.svg'">
+      <figcaption hidden>循圖入陣，依序破解五座封神密室。</figcaption>
+    </figure>
     <div id="level-map" class="level-map"></div>
   </section>
 
@@ -104,6 +109,11 @@
       </div>
       <div id="seal-runes" class="seal-runes"></div>
     </div>
+
+    <figure class="section-story-figure game-story-figure">
+      <img src="assets/art/generated/game-board.png" alt="Q 版封神人物在潑墨文字符陣前施法破關" class="section-story-img" width="1672" height="941" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/art/scenes/chamber-taiji.svg'">
+      <figcaption hidden>尋章摘句，以文墨之力破解封神字陣。</figcaption>
+    </figure>
 
     <div class="game-layout">
       <div class="game-board palace-jade-board">
@@ -160,6 +170,11 @@
         <button type="button" class="col-tab-btn" data-coltab="characters">🎎 封神群仙錄</button>
       </div>
     </div>
+
+    <figure class="section-story-figure collection-story-figure">
+      <img src="assets/characters/battle-clash.svg" alt="Q 版哪吒與楊戩迎戰蘇妲己和申公豹的封神潑墨群像" class="section-story-img" loading="lazy" decoding="async">
+      <figcaption hidden>封神群仙以文會友，收錄玩家摘得的佳句與角色。</figcaption>
+    </figure>
 
     <!-- 摘句典藏分頁 -->
     <div id="coltab-pane-phrases" class="coltab-pane">
@@ -283,7 +298,7 @@
 
       <!-- 大尺寸群仙破陣大合照海報 -->
       <div class="complete-group-photo-wrap">
-        <img src="assets/characters/group-victory.png" alt="群仙破陣大合照" class="complete-group-photo-img" loading="eager" />
+        <img src="assets/art/generated/victory-celebration.png" alt="Q 版封神群仙在國風潑墨金光中歡慶玩家破陣封神" class="complete-group-photo-img" width="1672" height="941" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/art/scenes/victory-celebration.svg'">
         <div class="group-photo-silk-ribbon">✨ 萬仙同慶・名列金榜 ✨</div>
       </div>
 
@@ -298,7 +313,7 @@
         <div class="treasure-header">✨ 御賜封神法寶碎片</div>
         <div class="treasure-card">
           <div class="treasure-icon-wrap">
-            <img id="treasure-img" class="treasure-shard-img" src="assets/items/dashen-bian.png" alt="法寶碎片" />
+            <img id="treasure-img" class="treasure-shard-img" src="assets/items/dashen-bian.svg" alt="姜太公的打神鞭法寶碎片" loading="lazy" decoding="async">
             <span id="treasure-icon" class="treasure-icon hidden">⚡</span>
           </div>
           <div class="treasure-info">
