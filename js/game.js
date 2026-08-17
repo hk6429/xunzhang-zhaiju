@@ -1,8 +1,8 @@
 // js/game.js — 單關遊戲流程：比對、提示、學習題、星等結算
+// v2：目標清單線索化（targetDisplay:"clue"）＋ cross 填字互動
 import { createGrid, targetPath, pathKey } from './grid.js';
 import { buildQuestions } from './learnquiz.js';
 
-const COST_LABEL = { circle: '圈首字', flash: '閃現整句', reveal: '直接揭示' };
 const FLASH_MS = 2000;
 
 const $ = (id) => document.getElementById(id);
@@ -10,7 +10,7 @@ const $ = (id) => document.getElementById(id);
 /**
  * 開始一關。回傳 { destroy() }。
  * @param {object} ctx
- *   level        關卡物件（SCHEMA levels[]）
+ *   level        關卡物件（SCHEMA levels[]；v2 支援 layout:"cross" 與 targetDisplay:"clue"）
  *   phrases      全語料陣列
  *   phrasesById  Map/Object：phraseId → phrase
  *   hintEngine   js/hints.js createHintEngine 實例
@@ -25,12 +25,18 @@ const $ = (id) => document.getElementById(id);
 export function startLevel(ctx) {
   const { level, phrases, phrasesById, hintEngine, collection, save } = ctx;
   const size = level.size;
+  const isCross = level.layout === 'cross';
+  // targetDisplay 相容：v1 "text"（fixtures fallback）與 v2 "clue"
+  const clueMode = level.targetDisplay === 'clue';
 
   // ── 目標資料 ──────────────────────────
   const targets = level.targets.map((t, i) => {
     const phrase = phrasesById[t.phraseId];
     const path = phrase ? targetPath(t, phrase.text.length, size) : null;
-    return { ...t, phrase, path, key: path ? pathKey(path) : null, colorIdx: i, found: false };
+    const clue = (phrase && Array.isArray(phrase.clues) && phrase.clues.length)
+      ? (phrase.clues[t.clueIndex] || phrase.clues[0])
+      : null;
+    return { ...t, phrase, path, clue, key: path ? pathKey(path) : null, colorIdx: i, found: false };
   }).filter((t) => t.phrase && t.path);
 
   const levelKey = String(level.id);
@@ -52,7 +58,13 @@ export function startLevel(ctx) {
     msgTimer = setTimeout(() => { msgEl.textContent = ''; }, 2600);
   }
 
-  const grid = createGrid($('grid'), level.grid, { onSelect: handleSelect });
+  const grid = createGrid($('grid'), level.grid, {
+    onSelect: handleSelect,
+    onCellTap: handleCellTap,
+  }, {
+    mode: isCross ? 'cross' : 'full',
+    revealed: level.revealed || [],
+  });
 
   function refreshInk() {
     $('ink-amount').textContent = String(hintEngine.getInk());
@@ -61,20 +73,97 @@ export function startLevel(ctx) {
     $('btn-hint-reveal').disabled = finished || !hintEngine.canSpend('reveal');
   }
 
+  // ── 目標清單（v2：線索卡） ─────────────
   function renderTargets() {
     const ul = $('target-list');
     ul.innerHTML = '';
+    ul.classList.toggle('clue-cards', clueMode);
     for (const t of targets) {
       const li = document.createElement('li');
-      li.textContent = t.phrase.text;
-      if (t.found) li.classList.add('done');
+      li.className = 'target-card';
+      if (t.found) {
+        // 翻面：顯示成語＋劃線
+        li.classList.add('done');
+        li.textContent = t.phrase.text;
+      } else if (clueMode && t.clue) {
+        const tag = document.createElement('span');
+        tag.className = 'clue-tag';
+        tag.dataset.style = t.clue.style || '釋義';
+        tag.textContent = t.clue.style || '釋義';
+        li.appendChild(tag);
+        const txt = document.createElement('span');
+        txt.className = 'clue-text';
+        txt.textContent = t.clue.text || '';
+        li.appendChild(txt);
+      } else {
+        li.textContent = t.phrase.text;
+      }
       if (t.phraseId === selectedTargetId && !t.found) li.classList.add('selected');
       li.addEventListener('click', () => {
         if (t.found) return;
-        selectedTargetId = (selectedTargetId === t.phraseId) ? null : t.phraseId;
-        renderTargets();
+        setSelected(selectedTargetId === t.phraseId ? null : t.phraseId);
       });
       ul.appendChild(li);
+    }
+  }
+
+  // ── cross：選詞與輸入列 ────────────────
+  function setSelected(id) {
+    selectedTargetId = id;
+    renderTargets();
+    if (isCross) updateCrossSelection();
+  }
+
+  function updateCrossSelection() {
+    const row = $('cross-input-row');
+    const t = targets.find((x) => x.phraseId === selectedTargetId && !x.found);
+    if (t) {
+      grid.setActivePath(t.path);
+      row.classList.remove('hidden');
+      row.classList.remove('invalid');
+      const input = $('cross-input');
+      input.value = '';
+      input.focus();
+    } else {
+      grid.setActivePath([]);
+      row.classList.add('hidden');
+    }
+  }
+
+  function handleCellTap([r, c]) {
+    if (finished || !isCross) return;
+    const here = targets.filter((t) => !t.found
+      && t.path.some(([pr, pc]) => pr === r && pc === c));
+    if (!here.length) return;
+    let next;
+    if (here.length > 1) {
+      // 一格屬兩詞：再點一次切換詞
+      const idx = here.findIndex((t) => t.phraseId === selectedTargetId);
+      next = here[(idx + 1) % here.length];
+    } else {
+      next = here[0];
+    }
+    setSelected(next.phraseId);
+  }
+
+  function fillTargetChars(t) {
+    t.path.forEach(([r, c], i) => grid.setChar(r, c, t.phrase.text[i]));
+  }
+
+  function submitCross() {
+    if (finished) return;
+    const t = targets.find((x) => x.phraseId === selectedTargetId && !x.found);
+    if (!t) return;
+    const val = $('cross-input').value.trim();
+    if (!val) return;
+    if (val === t.phrase.text) {
+      fillTargetChars(t); // 整詞填入（含帶動交叉格）
+      markFound(t, { real: true });
+    } else {
+      const row = $('cross-input-row');
+      row.classList.remove('invalid');
+      void row.offsetWidth; // 重觸發動畫
+      row.classList.add('invalid');
     }
   }
 
@@ -89,6 +178,7 @@ export function startLevel(ctx) {
     }
     if (selectedTargetId === t.phraseId) selectedTargetId = null;
     renderTargets();
+    if (isCross) updateCrossSelection();
     ctx.persist();
     if (targets.every((x) => x.found)) setTimeout(finishLevel, real ? 350 : 250);
   }
@@ -122,15 +212,30 @@ export function startLevel(ctx) {
     if (!hintEngine.spend(tier)) { refreshInk(); return; }
     usedHint = true;
     if (tier === 'circle') {
-      grid.circleCell(t.path[0][0], t.path[0][1]);
-      say(`已圈出「${t.phrase.text[0]}」字位置。`);
+      if (isCross) {
+        // cross：永久顯示該詞首格的字
+        grid.setChar(t.path[0][0], t.path[0][1], t.phrase.text[0]);
+        say(`已顯示「${t.phrase.text[0]}」字。`);
+      } else {
+        grid.circleCell(t.path[0][0], t.path[0][1]);
+        say(`已圈出「${t.phrase.text[0]}」字位置。`);
+      }
     } else if (tier === 'flash') {
-      grid.flashPath(t.path, FLASH_MS);
-      say('整句路徑閃現 2 秒，看仔細！');
+      if (isCross) {
+        // cross：未填格暫顯答案字 2 秒
+        t.path.forEach(([r, c], i) => {
+          if (!grid.isFilled(r, c)) grid.tempChar(r, c, t.phrase.text[i], FLASH_MS);
+        });
+        say('答案字閃現 2 秒，看仔細！');
+      } else {
+        grid.flashPath(t.path, FLASH_MS);
+        say('整句路徑閃現 2 秒，看仔細！');
+      }
     } else if (tier === 'reveal') {
       usedReveal = true;
       say(`已揭示「${t.phrase.text}」。`);
-      markFound(t, { real: false });
+      if (isCross) fillTargetChars(t); // 整詞直接填入
+      markFound(t, { real: false }); // 維持 1★ 與不入圖鑑
     }
     refreshInk();
     ctx.persist();
@@ -292,6 +397,8 @@ export function startLevel(ctx) {
   on('quiz-next', 'click', nextQuestion);
   on('quiz-fill-submit', 'click', submitFill);
   on('quiz-fill-input', 'keydown', (ev) => { if (ev.key === 'Enter') submitFill(); });
+  on('cross-submit', 'click', submitCross);
+  on('cross-input', 'keydown', (ev) => { if (ev.key === 'Enter') submitCross(); });
   on('btn-back-map', 'click', () => ctx.onExit());
   on('btn-complete-map', 'click', () => {
     $('modal-complete').classList.add('hidden');
@@ -303,9 +410,11 @@ export function startLevel(ctx) {
   });
 
   // ── 初始化：還原本關已找到（含之前 session） ──
+  $('cross-input-row').classList.add('hidden');
   for (const t of targets) {
     if (levelSave.found.includes(t.phraseId)) {
       t.found = true;
+      if (isCross) fillTargetChars(t);
       grid.markFound(t.path, t.colorIdx);
     }
   }
@@ -322,6 +431,7 @@ export function startLevel(ctx) {
       clearTimeout(msgTimer);
       for (const [el, ev, fn] of listeners) el.removeEventListener(ev, fn);
       grid.destroy();
+      $('cross-input-row').classList.add('hidden');
       $('modal-quiz').classList.add('hidden');
       $('modal-complete').classList.add('hidden');
       $('modal-card').classList.add('hidden');

@@ -4,11 +4,12 @@
       "id": 1,
       "chapter": 1,
       "size": 5,
+      "layout": "full",
       "directions": [
         "E",
         "S"
       ],
-      "targetDisplay": "text",
+      "targetDisplay": "clue",
       "targets": [
         {
           "phraseId": "p0020",
@@ -16,7 +17,8 @@
             0,
             1
           ],
-          "dir": "S"
+          "dir": "S",
+          "clueIndex": 0
         },
         {
           "phraseId": "p0001",
@@ -24,7 +26,8 @@
             0,
             4
           ],
-          "dir": "S"
+          "dir": "S",
+          "clueIndex": 0
         },
         {
           "phraseId": "p0029",
@@ -32,7 +35,8 @@
             1,
             0
           ],
-          "dir": "S"
+          "dir": "S",
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -77,11 +81,12 @@
       "id": 2,
       "chapter": 1,
       "size": 5,
+      "layout": "full",
       "directions": [
         "E",
         "S"
       ],
-      "targetDisplay": "text",
+      "targetDisplay": "clue",
       "targets": [
         {
           "phraseId": "p0060",
@@ -89,7 +94,8 @@
             4,
             1
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 0
         },
         {
           "phraseId": "p0018",
@@ -97,7 +103,8 @@
             2,
             0
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 0
         },
         {
           "phraseId": "p0050",
@@ -105,7 +112,8 @@
             1,
             1
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -150,11 +158,12 @@
       "id": 3,
       "chapter": 1,
       "size": 5,
+      "layout": "full",
       "directions": [
         "E",
         "S"
       ],
-      "targetDisplay": "text",
+      "targetDisplay": "clue",
       "targets": [
         {
           "phraseId": "p0011",
@@ -162,7 +171,8 @@
             3,
             0
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 2
         },
         {
           "phraseId": "p0037",
@@ -170,7 +180,8 @@
             0,
             4
           ],
-          "dir": "S"
+          "dir": "S",
+          "clueIndex": 1
         },
         {
           "phraseId": "p0013",
@@ -178,7 +189,8 @@
             4,
             0
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 1
         },
         {
           "phraseId": "p0016",
@@ -186,7 +198,8 @@
             0,
             0
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 1
         }
       ],
       "grid": [
@@ -231,11 +244,12 @@
       "id": 4,
       "chapter": 1,
       "size": 5,
+      "layout": "full",
       "directions": [
         "E",
         "S"
       ],
-      "targetDisplay": "text",
+      "targetDisplay": "clue",
       "targets": [
         {
           "phraseId": "p0026",
@@ -243,7 +257,8 @@
             1,
             1
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 2
         },
         {
           "phraseId": "p0055",
@@ -251,7 +266,8 @@
             1,
             0
           ],
-          "dir": "S"
+          "dir": "S",
+          "clueIndex": 1
         },
         {
           "phraseId": "p0024",
@@ -259,7 +275,8 @@
             2,
             1
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 1
         },
         {
           "phraseId": "p0006",
@@ -267,7 +284,8 @@
             0,
             0
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 1
         }
       ],
       "grid": [
@@ -312,11 +330,12 @@
       "id": 5,
       "chapter": 1,
       "size": 5,
+      "layout": "full",
       "directions": [
         "E",
         "S"
       ],
-      "targetDisplay": "text",
+      "targetDisplay": "clue",
       "targets": [
         {
           "phraseId": "p0042",
@@ -324,7 +343,8 @@
             0,
             0
           ],
-          "dir": "S"
+          "dir": "S",
+          "clueIndex": 1
         },
         {
           "phraseId": "p0035",
@@ -332,7 +352,8 @@
             1,
             3
           ],
-          "dir": "S"
+          "dir": "S",
+          "clueIndex": 1
         },
         {
           "phraseId": "p0046",
@@ -340,7 +361,8 @@
             0,
             1
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 2
         },
         {
           "phraseId": "p0014",
@@ -348,7 +370,8 @@
             1,
             4
           ],
-          "dir": "S"
+          "dir": "S",
+          "clueIndex": 1
         }
       ],
       "grid": [
@@ -392,437 +415,730 @@
     {
       "id": 6,
       "chapter": 1,
-      "size": 5,
+      "size": 7,
+      "layout": "cross",
       "directions": [
         "E",
         "S"
       ],
-      "targetDisplay": "text",
+      "targetDisplay": "clue",
       "targets": [
         {
-          "phraseId": "p0058",
+          "phraseId": "p0052",
           "start": [
             2,
-            0
+            2
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 2
         },
         {
-          "phraseId": "p0049",
+          "phraseId": "p0013",
+          "start": [
+            2,
+            2
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0017",
           "start": [
             4,
             0
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 1
         },
         {
-          "phraseId": "p0057",
+          "phraseId": "p0012",
           "start": [
-            0,
-            1
-          ],
-          "dir": "E"
-        },
-        {
-          "phraseId": "p0052",
-          "start": [
-            1,
+            3,
             0
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 1
         }
       ],
       "grid": [
         [
-          "亡",
-          "塞",
-          "翁",
-          "失",
-          "馬"
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
         ],
         [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
           "畫",
           "餅",
           "充",
           "飢",
-          "金"
+          null
         ],
         [
-          "一",
-          "鳴",
-          "驚",
-          "人",
-          "低"
+          "杯",
+          "弓",
+          "蛇",
+          "影",
+          null,
+          null,
+          null
         ],
         [
+          "錦",
           "上",
-          "充",
-          "小",
-          "相",
-          "飢"
+          "添",
+          "花",
+          null,
+          null,
+          null
         ],
         [
-          "掩",
-          "耳",
-          "盜",
-          "鈴",
-          "近"
+          null,
+          null,
+          "足",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          4,
+          2
         ]
       ]
     },
     {
       "id": 7,
       "chapter": 1,
-      "size": 5,
+      "size": 7,
+      "layout": "cross",
       "directions": [
         "E",
         "S"
       ],
-      "targetDisplay": "text",
+      "targetDisplay": "clue",
       "targets": [
-        {
-          "phraseId": "p0031",
-          "start": [
-            0,
-            1
-          ],
-          "dir": "S"
-        },
-        {
-          "phraseId": "p0008",
-          "start": [
-            0,
-            4
-          ],
-          "dir": "S"
-        },
         {
           "phraseId": "p0005",
           "start": [
-            1,
-            2
-          ],
-          "dir": "S"
-        },
-        {
-          "phraseId": "p0034",
-          "start": [
-            1,
+            2,
             3
           ],
-          "dir": "S"
+          "dir": "S",
+          "clueIndex": 1
         },
         {
-          "phraseId": "p0044",
+          "phraseId": "p0020",
           "start": [
-            1,
+            5,
             0
           ],
-          "dir": "S"
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0013",
+          "start": [
+            2,
+            3
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0017",
+          "start": [
+            0,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 1
         }
       ],
       "grid": [
         [
-          "補",
-          "有",
-          "低",
-          "雪",
-          "狐"
+          null,
+          null,
+          null,
+          null,
+          null,
+          "錦",
+          null
         ],
         [
-          "五",
-          "志",
+          null,
+          null,
+          null,
+          null,
+          null,
+          "上",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
           "畫",
-          "持",
-          "假"
+          "蛇",
+          "添",
+          "足"
         ],
         [
-          "花",
-          "竟",
+          null,
+          null,
+          null,
           "龍",
-          "之",
-          "虎"
+          null,
+          "花",
+          null
         ],
         [
-          "八",
-          "成",
+          null,
+          null,
+          null,
           "點",
-          "以",
-          "威"
+          null,
+          null,
+          null
         ],
         [
-          "門",
-          "新",
+          "目",
+          "不",
+          "轉",
           "睛",
-          "恆",
-          "右"
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          5,
+          3
         ]
       ]
     },
     {
       "id": 8,
       "chapter": 1,
-      "size": 5,
+      "size": 8,
+      "layout": "cross",
       "directions": [
         "E",
         "S"
       ],
-      "targetDisplay": "text",
+      "targetDisplay": "clue",
       "targets": [
         {
-          "phraseId": "p0023",
+          "phraseId": "p0038",
           "start": [
-            1,
+            3,
+            3
+          ],
+          "dir": "S",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0030",
+          "start": [
+            5,
             0
           ],
-          "dir": "S"
+          "dir": "E",
+          "clueIndex": 1
         },
         {
-          "phraseId": "p0022",
-          "start": [
-            0,
-            2
-          ],
-          "dir": "S"
-        },
-        {
-          "phraseId": "p0019",
-          "start": [
-            0,
-            1
-          ],
-          "dir": "S"
-        },
-        {
-          "phraseId": "p0048",
-          "start": [
-            0,
-            4
-          ],
-          "dir": "S"
-        },
-        {
-          "phraseId": "p0051",
+          "phraseId": "p0031",
           "start": [
             4,
-            1
+            2
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0002",
+          "start": [
+            1,
+            5
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0029",
+          "start": [
+            3,
+            0
+          ],
+          "dir": "S",
+          "clueIndex": 1
         }
       ],
       "grid": [
         [
-          "陰",
-          "千",
-          "廢",
-          "問",
-          "東"
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
         ],
         [
-          "名",
-          "載",
-          "寢",
-          "晴",
-          "施"
+          null,
+          null,
+          null,
+          null,
+          null,
+          "水",
+          null,
+          null
         ],
         [
-          "列",
-          "難",
-          "忘",
-          "其",
-          "效"
+          null,
+          null,
+          null,
+          null,
+          null,
+          "到",
+          null,
+          null
         ],
         [
-          "前",
-          "逢",
-          "食",
-          "中",
-          "顰"
+          "恍",
+          null,
+          null,
+          "眾",
+          null,
+          "渠",
+          null,
+          null
         ],
         [
-          "茅",
-          "望",
-          "梅",
-          "止",
-          "渴"
+          "然",
+          null,
+          "有",
+          "志",
+          "竟",
+          "成",
+          null,
+          null
+        ],
+        [
+          "大",
+          "器",
+          "晚",
+          "成",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "悟",
+          null,
+          null,
+          "城",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          4,
+          3
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          5,
+          3
         ]
       ]
     },
     {
       "id": 9,
       "chapter": 1,
-      "size": 5,
+      "size": 8,
+      "layout": "cross",
       "directions": [
         "E",
         "S"
       ],
-      "targetDisplay": "text",
+      "targetDisplay": "clue",
       "targets": [
         {
-          "phraseId": "p0010",
+          "phraseId": "p0036",
           "start": [
             1,
-            2
+            4
           ],
-          "dir": "S"
-        },
-        {
-          "phraseId": "p0017",
-          "start": [
-            1,
-            1
-          ],
-          "dir": "S"
-        },
-        {
-          "phraseId": "p0004",
-          "start": [
-            0,
-            0
-          ],
-          "dir": "S"
+          "dir": "S",
+          "clueIndex": 2
         },
         {
           "phraseId": "p0039",
           "start": [
-            1,
-            3
-          ],
-          "dir": "S"
-        },
-        {
-          "phraseId": "p0053",
-          "start": [
-            0,
+            4,
             1
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0021",
+          "start": [
+            3,
+            2
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0037",
+          "start": [
+            2,
+            3
+          ],
+          "dir": "S",
+          "clueIndex": 1
+        },
+        {
+          "phraseId": "p0038",
+          "start": [
+            6,
+            1
+          ],
+          "dir": "E",
+          "clueIndex": 1
         }
       ],
       "grid": [
         [
-          "光",
-          "杞",
-          "人",
-          "憂",
-          "天"
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
         ],
         [
-          "明",
-          "錦",
-          "亡",
-          "齊",
-          "逢"
+          null,
+          null,
+          null,
+          null,
+          "群",
+          null,
+          null,
+          null
         ],
         [
-          "磊",
-          "上",
-          "羊",
+          null,
+          null,
+          null,
+          "同",
+          "策",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "專",
           "心",
-          "釜"
+          "群",
+          null,
+          null,
+          null
         ],
         [
-          "落",
-          "添",
-          "補",
+          null,
+          "齊",
+          "心",
           "協",
-          "恍"
+          "力",
+          null,
+          null,
+          null
         ],
         [
-          "望",
-          "花",
-          "牢",
+          null,
+          null,
+          "致",
           "力",
-          "通"
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "眾",
+          "志",
+          "成",
+          "城",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          6,
+          2
         ]
       ]
     },
     {
       "id": 10,
       "chapter": 1,
-      "size": 5,
+      "size": 8,
+      "layout": "cross",
       "directions": [
         "E",
         "S"
       ],
-      "targetDisplay": "text",
+      "targetDisplay": "clue",
       "targets": [
         {
-          "phraseId": "p0032",
+          "phraseId": "p0058",
           "start": [
             2,
-            1
+            4
           ],
-          "dir": "E"
+          "dir": "S",
+          "clueIndex": 1
         },
         {
-          "phraseId": "p0036",
+          "phraseId": "p0053",
           "start": [
-            1,
-            0
+            5,
+            3
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 2
         },
         {
-          "phraseId": "p0028",
+          "phraseId": "p0001",
+          "start": [
+            2,
+            2
+          ],
+          "dir": "E",
+          "clueIndex": 2
+        },
+        {
+          "phraseId": "p0042",
           "start": [
             0,
-            0
+            2
           ],
-          "dir": "E"
+          "dir": "S",
+          "clueIndex": 1
         },
         {
-          "phraseId": "p0040",
+          "phraseId": "p0011",
           "start": [
-            3,
-            0
-          ],
-          "dir": "E"
-        },
-        {
-          "phraseId": "p0033",
-          "start": [
-            4,
+            1,
             1
           ],
-          "dir": "E"
+          "dir": "E",
+          "clueIndex": 1
         }
       ],
       "grid": [
         [
-          "全",
-          "神",
-          "貫",
-          "注",
-          "序"
+          null,
+          null,
+          "九",
+          null,
+          null,
+          null,
+          null,
+          null
         ],
         [
-          "群",
-          "策",
-          "群",
-          "力",
-          "短"
+          null,
+          "對",
+          "牛",
+          "彈",
+          "琴",
+          null,
+          null,
+          null
         ],
         [
-          "致",
-          "精",
-          "益",
-          "求",
-          "精"
+          null,
+          null,
+          "一",
+          "心",
+          "一",
+          "意",
+          null,
+          null
         ],
         [
-          "手",
-          "忙",
-          "腳",
-          "亂",
-          "狐"
+          null,
+          null,
+          "毛",
+          null,
+          "鳴",
+          null,
+          null,
+          null
         ],
         [
-          "不",
-          "循",
-          "序",
-          "漸",
-          "進"
+          null,
+          null,
+          null,
+          null,
+          "驚",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "杞",
+          "人",
+          "憂",
+          "天",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "revealed": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          5,
+          4
         ]
       ]
     }

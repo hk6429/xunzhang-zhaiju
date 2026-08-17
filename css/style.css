@@ -175,23 +175,29 @@ main { max-width: 640px; margin: 0 auto; padding: 1rem; }
   75% { transform: translateX(4px); }
 }
 
-/* 目標清單 */
+/* 目標清單（v2：直列線索卡，每則一行卡） */
 .target-list {
   list-style: none;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: .5rem;
-  justify-content: center;
   margin-bottom: .9rem;
 }
-.target-list li {
-  font-size: 1rem;
-  letter-spacing: .1em;
+.target-list li.target-card {
+  display: flex;
+  align-items: flex-start;
+  gap: .55rem;
+  width: 100%;
+  font-size: .96rem;
+  line-height: 1.6;
+  letter-spacing: .05em;
   background: var(--cell-bg);
   border: 1px solid var(--cell-border);
-  border-radius: 999px;
-  padding: .3rem .8rem;
+  border-radius: var(--radius);
+  padding: .55rem .75rem;
   cursor: pointer;
+  text-align: left;
+  overflow-wrap: anywhere;
 }
 .target-list li.selected { border-color: var(--indigo); box-shadow: 0 0 0 2px rgba(42, 77, 105, .25); }
 .target-list li.done {
@@ -200,7 +206,75 @@ main { max-width: 640px; margin: 0 auto; padding: 1rem; }
   text-decoration-thickness: 2px;
   color: var(--ink-soft);
   cursor: default;
+  letter-spacing: .15em;
+  font-size: 1.05rem;
 }
+.clue-text { flex: 1; min-width: 0; }
+
+/* style 小標籤五色（柔和色票） */
+.clue-tag {
+  flex-shrink: 0;
+  font-size: .72rem;
+  letter-spacing: .1em;
+  border-radius: 6px;
+  padding: .12rem .45rem;
+  margin-top: .15rem;
+  background: var(--paper-deep);
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.clue-tag[data-style="釋義"]   { background: #dce8f0; color: #2a4d69; }
+.clue-tag[data-style="急轉彎"] { background: #f7e8bd; color: #8a6206; }
+.clue-tag[data-style="典故"]   { background: #e6d3e0; color: #7a4a6d; }
+.clue-tag[data-style="諧音"]   { background: #dbe6cf; color: #4e6b34; }
+.clue-tag[data-style="情境"]   { background: #f3d9c9; color: #94502f; }
+
+/* ── cross 填字格 ───────────────────── */
+.grid.grid-cross { touch-action: auto; }
+.cell.empty {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  pointer-events: none;
+}
+.cell.blank {
+  background: transparent;
+  border: 1.5px solid rgba(107, 97, 85, .45); /* 淡墨描邊 */
+  box-shadow: none;
+  cursor: pointer;
+}
+.cell.revealed {
+  background: #f1e5c2; /* 米金底 */
+  border-color: #cbb578;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.cell.filled { background: var(--cell-bg); color: var(--ink); }
+.cell.peek { color: var(--gold); background: #f9f0d8; }
+.cell.active { border-color: var(--indigo); box-shadow: 0 0 0 2px rgba(42, 77, 105, .3); }
+
+/* cross 輸入列 */
+.cross-input-row {
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  width: min(92vw, 420px);
+  margin: 0 auto .9rem;
+}
+.cross-input-row input {
+  font: inherit;
+  font-size: 1.15rem;
+  letter-spacing: .2em;
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  border: 1px solid var(--cell-border);
+  border-radius: var(--radius);
+  background: var(--cell-bg);
+  padding: .35rem .5rem;
+}
+.cross-input-row.invalid { animation: shake-red .35s ease; }
+.cross-input-row.invalid input { background: #f0c9c0; border-color: var(--vermilion); }
 
 /* 提示列 */
 .hint-bar {

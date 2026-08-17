@@ -34,10 +34,14 @@ async function fetchJson(url) {
 async function loadData() {
   let demo = false;
   let levelsDoc;
+  // 本機測試可用 ?levels=…&phrases=… 指定替代資料（如 v2 假關卡）
+  const params = new URLSearchParams(window.location.search);
+  const levelsUrl = params.get('levels') || 'data/levels.json';
+  const phrasesUrl = params.get('phrases') || 'data/phrases.json';
   try {
     [levelsDoc, phrases] = await Promise.all([
-      fetchJson('data/levels.json'),
-      fetchJson('data/phrases.json'),
+      fetchJson(levelsUrl),
+      fetchJson(phrasesUrl),
     ]);
   } catch {
     demo = true;
