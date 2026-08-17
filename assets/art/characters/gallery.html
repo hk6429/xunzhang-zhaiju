@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>尋章摘句 - 封神國風 1:1 Q版潑墨角色立繪鑑賞館</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0f172a;
+      --bg-card: rgba(30, 41, 59, 0.85);
+      --gold-primary: #f59e0b;
+      --gold-light: #fef08a;
+      --gold-border: rgba(245, 158, 11, 0.35);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --cinnabar: #dc2626;
+      --cyan-mineral: #0284c7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: radial-gradient(circle at 50% 20%, #1e293b 0%, #0f172a 60%, #020617 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 2.5rem 1.5rem;
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+      position: relative;
+    }
+
+    .sub-badge {
+      display: inline-block;
+      padding: 0.35rem 1.25rem;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--gold-border);
+      border-radius: 9999px;
+      color: var(--gold-primary);
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 2.75rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      background: linear-gradient(135deg, #ffffff 0%, #fef08a 50%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.75rem;
+    }
+
+    .lead-text {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1.75rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.6rem 1.25rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+    }
+
+    .stat-item strong {
+      color: var(--gold-primary);
+      margin-right: 0.35rem;
+    }
+
+    /* Grid Layout */
+    .character-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--gold-border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(245, 158, 11, 0.25);
+      border-color: var(--gold-primary);
+    }
+
+    .card-img-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #0b1120;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .card:hover .card-img-wrap img {
+      transform: scale(1.05);
+    }
+
+    .ratio-tag {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      color: var(--gold-light);
+      border: 1px solid var(--gold-border);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .role-tag {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--cinnabar);
+      color: #fff;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .card-header-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.5rem;
+    }
+
+    .char-name {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .char-title {
+      font-size: 0.875rem;
+      color: var(--gold-primary);
+      font-weight: 600;
+    }
+
+    .char-desc {
+      font-size: 0.925rem;
+      color: #cbd5e1;
+      line-height: 1.55;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .highlights-list {
+      list-style: none;
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .highlights-list li {
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .highlights-list li::before {
+      content: "✦";
+      color: var(--gold-primary);
+      font-size: 0.75rem;
+    }
+
+    .palette-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .color-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .quote-box {
+      margin-top: auto;
+      background: rgba(15, 23, 42, 0.6);
+      border-left: 3px solid var(--gold-primary);
+      padding: 0.75rem 1rem;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.85rem;
+      color: #f1f5f9;
+      font-style: italic;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding: 2rem 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="sub-badge">FENGSHEN CHIBI 1:1 ART COLLECTION</div>
+      <h1>封神國風 Q 版潑墨立繪鑑賞</h1>
+      <p class="lead-text">
+        1:1 超萌大頭身比例・故宮宮廷設色・泥金描邊・動態水墨飛濺・原創封神角色群仙譜
+      </p>
+      <div class="stats-bar">
+        <div class="stat-item"><strong>頭身比例</strong> 1:1 超萌大頭身 (Super-deformed Chibi)</div>
+        <div class="stat-item"><strong>美術風格</strong> 國風水墨潑墨 + 宮廷泥金設色</div>
+        <div class="stat-item"><strong>收錄角色</strong> 8+1 組原創核心立繪</div>
+        <div class="stat-item"><strong>版權歸屬</strong> 《尋章摘句》專案 100% 純原創</div>
+      </div>
+    </header>
+
+    <div class="character-grid" id="charGrid">
+      <!-- Cards will be populated by JS -->
+    </div>
+
+    <footer>
+      <p>© 2026 尋章摘句 (Xunzhang Zhaiju) - 國風封神文字解謎教育遊戲. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script type="module">
+    import { CHARACTERS } from '../../characters/character-registry.js';
+
+    const grid = document.getElementById('charGrid');
+
+    const ART_DATA = {
+      'jiang-taigong': {
+        img: 'jiang-taigong.jpg',
+        badge: '統帥・仙翁',
+        highlights: ['蓬鬆雪白仙髯與慈眉善目', '故宮明黃與孔雀藍刺繡道袍', '泥金流光勾勒法寶打神鞭', '周身靈動水墨筆觸與太極金令']
+      },
+      'nezha': {
+        img: 'nezha.jpg',
+        badge: '先鋒・童子',
+        highlights: ['雙抓髻包包頭繫鮮紅絲帶', '青碧蓮花護心胸甲', '環繞周身的飛舞赤紅混天綾', '腳踏熊熊烈焰風火雙輪']
+      },
+      'yang-jian': {
+        img: 'yang-jian.jpg',
+        badge: '戰神・真君',
+        highlights: ['鳳翅紫金頭盔與神威披風', '額間天眼神光洞察萬陣', '三尖兩刃神鋒寒芒爍爍', '身旁元氣可愛哮天犬助陣']
+      },
+      'su-daji': {
+        img: 'su-daji.jpg',
+        badge: '妖仙・狐主',
+        highlights: ['毛茸茸粉白狐耳與金步搖', '背後如花綻放的九條天狐尾', '手提精緻復古幽冥宮燈', '周圍幽藍粉紫靈動狐火']
+      },
+      'shen-gongbao': {
+        img: 'shen-gongbao.jpg',
+        badge: '國師・反派',
+        highlights: ['滑稽俏皮的八字鬍與歪嘴笑', '紫金玄色宮廷道袍與金邊', '懸浮發光的陰陽八卦鏡', '趴著眨大眼的胖萌黑點虎']
+      },
+      'lei-zhenzi': {
+        img: 'lei-zhenzi.jpg',
+        badge: '神將・羽仙',
+        highlights: ['華麗青金羽冠與呆萌鳥嘴', '大張的風雷流光雙羽翼', '雙持雷霆黃金錐與重錘', '金光璀璨的呆萌大圓眼']
+      },
+      'taiyi-zhenren': {
+        img: 'taiyi-zhenren.jpg',
+        badge: '仙師・大仙',
+        highlights: ['富態討喜的大圓臉與開懷笑顏', '威嚴華貴的純金五嶽冠', '烈焰繚繞的金光神火仙葫蘆', '銀絲太極拂塵仙氣縈繞']
+      },
+      'moling': {
+        img: 'moling.jpg',
+        badge: '吉祥物・神君',
+        highlights: ['太極陰陽金簪束髮靈動非凡', '揮灑水墨金光的巨型如意毛筆', '飄逸的書法字紋墨藍斗篷', '清澈靈動的湛藍琉璃大眼']
+      },
+      'tuxing-sun': {
+        img: 'tuxing-sun.jpg',
+        badge: '萌俠・穿山',
+        highlights: ['超萌毛茸茸小鼴鼠兜帽', '盤繞肩膀的璀璨捆仙金繩', '破土而出的碎石與金芒特效', '俏皮開朗的少年笑顏']
+      }
+    };
+
+    CHARACTERS.forEach(char => {
+      const art = ART_DATA[char.id] || {
+        img: `${char.id}.jpg`,
+        badge: '神仙',
+        highlights: ['1:1 超萌大頭身', '國風水墨潑墨設色', '泥金描邊流光']
+      };
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      
+      const paletteHtml = (char.artPalette || ['#0284c7', '#facc15', '#dc2626', '#1e293b'])
+        .map(c => `<div class="color-dot" style="background-color: ${c};" title="${c}"></div>`)
+        .join('');
+
+      const highlightsHtml = art.highlights
+        .map(h => `<li>${h}</li>`)
+        .join('');
+
+      card.innerHTML = `
+        <div class="card-img-wrap">
+          <img src="${char.artImage || art.img}" alt="${char.name}" onerror="this.src='../../characters/${char.id}/idle.svg'">
+          <span class="ratio-tag">頭身比 1:1</span>
+          <span class="role-tag">${art.badge}</span>
+        </div>
+        <div class="card-body">
+          <div class="card-header-info">
+            <h2 class="char-name">${char.name}</h2>
+            <span class="char-title">${char.title}</span>
+          </div>
+          <p class="char-desc">${char.desc}</p>
+          
+          <div class="section-title">美術視覺亮點</div>
+          <ul class="highlights-list">
+            ${highlightsHtml}
+          </ul>
+
+          <div class="section-title">宮廷設色票盤</div>
+          <div class="palette-row">
+            ${paletteHtml}
+          </div>
+
+          <div class="quote-box">
+            "${char.quotes?.idle || '文道大千，破萬陣！'}"
+          </div>
+        </div>
+      `;
+
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>

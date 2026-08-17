@@ -1,396 +1,648 @@
-/* 尋章摘句 — 潑墨國風 × 封神密室逃脫主題 */
+/* ==========================================================================
+   尋章摘句 — 故宮宮廷古典美學 × 綾絹裝裱密室逃脫主題 (Palace Imperial Classical Theme)
+   ========================================================================== */
+
 @import url('fengshen-ink.css');
 
 :root {
-  --paper: #f4ebd9;
-  --paper-deep: #e5d7be;
-  --ink: #181411;
-  --ink-soft: #53493e;
-  --vermilion: #b92b27;
-  --indigo: #203847;
-  --gold: #c69224;
-  --cell-bg: #fdfaf2;
-  --cell-border: #c8b99c;
+  /* ── 故宮宮廷經典配色體系 (Palace Imperial Palette) ── */
+  --palace-vermilion: #b82823;         /* 故宮硃牆紅 / 朱砂紅 */
+  --palace-vermilion-deep: #8e1e19;    /* 硃紅重彩 / 醇厚印泥色 */
+  --palace-vermilion-glow: rgba(184, 40, 35, 0.38);
+
+  --palace-indigo: #2c4a6f;            /* 霽藍景泰藍 / 霽青釉色 */
+  --palace-indigo-deep: #192e46;       /* 幽藍霽青 / 沉香墨藍 */
+  --palace-indigo-light: #3e6594;      /* 淺霽青天色 */
+
+  --palace-gold: #c59a3f;              /* 泥金描金 / 蒔金 */
+  --palace-gold-bright: #e8c15a;       /* 庫金明耀 / 泥金提亮 */
+  --palace-gold-dark: #8a6721;         /* 古銅泥金 / 烏金 */
+  --palace-gold-glow: rgba(197, 154, 63, 0.42);
+
+  --palace-jade: #2e5d4b;              /* 宮廷翡翠玉色 / 碧玉翡翠 */
+  --palace-jade-light: #46836b;        /* 青碧靈玉 */
+
+  --palace-ink: #1a1714;               /* 玄墨 / 徽墨 */
+  --palace-ink-deep: #0e0c0a;          /* 松煙重墨 */
+  --palace-ink-soft: #554b41;          /* 淡墨松煙 */
+  --palace-ink-faint: rgba(26, 23, 20, 0.08);
+
+  --palace-paper: #f7f1e5;             /* 宋代澄心堂仿古宣紙底 */
+  --palace-paper-deep: #ede3d1;        /* 煮硾熟宣底色 / 隔水宣紙 */
+  --palace-paper-card: #faf6ed;        /* 宋畫精裱玉版宣紙心 */
+  --palace-rosewood: #3d261d;          /* 故宮紫檀紅木 */
+  --palace-duan-stone: #32252b;        /* 紫袍玉帶紫端硯 */
+
+  /* 基礎別名映射 (相容原始邏輯) */
+  --paper: var(--palace-paper);
+  --paper-deep: var(--palace-paper-deep);
+  --ink: var(--palace-ink);
+  --ink-soft: var(--palace-ink-soft);
+  --vermilion: var(--palace-vermilion);
+  --indigo: var(--palace-indigo);
+  --gold: var(--palace-gold);
+  --jade: var(--palace-jade);
+
+  --cell-bg: #fcf9f2;                  /* 漢白玉溫潤白石底 */
+  --cell-border: #d4c5ab;              /* 泥金古宣描邊 */
   --radius: 12px;
-  --found-0: #eecbc0;
-  --found-1: #c6dce8;
-  --found-2: #cde0c7;
-  --found-3: #ded0e4;
-  --found-4: #ede1b9;
+  --radius-sm: 6px;
+  --radius-lg: 18px;
+
+  /* 五行破陣色調 (五行琉璃靈光) */
+  --found-0: #ebd3c8; /* 火靈赤霞・珊瑚紅 */
+  --found-1: #c9dbe7; /* 水靈幽瀾・霽青玉 */
+  --found-2: #cee0cb; /* 木靈青嵐・翡翠碧 */
+  --found-3: #e1d3e8; /* 坤土玄紫・紫袍玉 */
+  --found-4: #eee4c2; /* 乾金耀魄・泥金黃 */
+
+  /* 宮廷字型規範 */
+  --font-serif: "Noto Serif TC", "Source Han Serif TC", "Songti TC", "PMingLiU", serif;
+  --font-kai: "LXGW WenKai TC", "Kaiti TC", "BiauKai", "DFKai-SB", "Noto Serif TC", serif;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 html, body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  background-color: var(--palace-paper);
+  color: var(--palace-ink);
+  font-family: var(--font-serif);
   min-height: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
-  background-image: radial-gradient(circle at 20% 10%, rgba(184, 134, 11, .05), transparent 45%),
-                    radial-gradient(circle at 85% 90%, rgba(42, 77, 105, .05), transparent 45%);
+  background-image: 
+    radial-gradient(circle at 18% 12%, rgba(197, 154, 63, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 82% 88%, rgba(44, 74, 111, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(247, 241, 229, 0.94) 0%, rgba(237, 227, 209, 0.7) 100%);
+  background-attachment: fixed;
 }
 
 .hidden { display: none !important; }
-.muted { color: var(--ink-soft); }
+.muted { color: var(--palace-ink-soft); }
 
-/* ── Header ─────────────────────────── */
+/* ── 故宮宮廷 Header ─────────────────── */
 .app-header {
+  position: relative;
+  z-index: 10;
   display: flex;
   align-items: center;
-  gap: .6rem;
+  gap: 0.8rem;
   flex-wrap: wrap;
-  padding: .8rem 1rem;
-  border-bottom: 2px solid var(--paper-deep);
+  padding: 0.9rem 1.4rem;
+  background: linear-gradient(180deg, rgba(250, 246, 237, 0.96) 0%, rgba(247, 241, 229, 0.88) 100%);
+  border-bottom: 2px solid rgba(197, 154, 63, 0.45);
+  box-shadow: 
+    0 4px 18px rgba(26, 23, 20, 0.08),
+    inset 0 -1px 0 rgba(184, 40, 35, 0.35);
+  backdrop-filter: blur(8px);
 }
-.app-title {
-  font-size: 1.5rem;
-  letter-spacing: .35em;
-  color: var(--ink);
-  border-left: .35rem solid var(--vermilion);
-  padding-left: .5rem;
-}
-.demo-badge {
-  font-size: .75rem;
-  color: #fff;
-  background: var(--vermilion);
-  border-radius: 999px;
-  padding: .15rem .6rem;
-}
-.app-nav { margin-left: auto; display: flex; gap: .4rem; }
-.nav-btn {
-  font: inherit;
-  font-size: .95rem;
-  background: transparent;
-  color: var(--indigo);
-  border: 1px solid var(--cell-border);
-  border-radius: 999px;
-  padding: .3rem .9rem;
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
   cursor: pointer;
+  outline: none;
 }
+
+.brand-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.app-seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: #fff;
+  background: var(--palace-vermilion);
+  border: 1.5px solid var(--palace-gold-bright);
+  border-radius: 4px;
+  padding: 0.18rem 0.45rem;
+  line-height: 1.2;
+  box-shadow: 
+    0 2px 6px rgba(184, 40, 35, 0.4),
+    inset 0 0 0 1px rgba(142, 30, 25, 0.6);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.app-title {
+  font-family: var(--font-kai);
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  color: var(--palace-ink-deep);
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.7), 2px 2px 5px rgba(26, 23, 20, 0.15);
+}
+
+.demo-badge {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: linear-gradient(135deg, var(--palace-vermilion), var(--palace-vermilion-deep));
+  border: 1px solid var(--palace-gold-bright);
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  box-shadow: 0 2px 6px rgba(184, 40, 35, 0.3);
+}
+
+.app-nav {
+  margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nav-btn {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  background: rgba(250, 246, 237, 0.85);
+  color: var(--palace-indigo-deep);
+  border: 1px solid rgba(197, 154, 63, 0.55);
+  border-radius: 999px;
+  padding: 0.35rem 1rem;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(26, 23, 20, 0.05);
+  transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.nav-btn:hover {
+  background: #fff;
+  border-color: var(--palace-gold);
+  color: var(--palace-vermilion);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(197, 154, 63, 0.25);
+}
+
 .nav-btn.active {
-  background: var(--indigo);
-  color: #fdf9ee;
-  border-color: var(--indigo);
+  background: linear-gradient(135deg, var(--palace-indigo), var(--palace-indigo-deep));
+  color: #fdfaf2;
+  border-color: var(--palace-gold-bright);
+  box-shadow: 
+    0 3px 10px rgba(25, 46, 70, 0.35),
+    inset 0 1px 0 rgba(232, 193, 90, 0.4);
 }
 
-main { max-width: 640px; margin: 0 auto; padding: 1rem; }
+main {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 1.2rem 1rem 2.5rem;
+}
 
-/* 寬螢幕（電腦）：盤面在左、大尺寸立繪展演台與提示按鈕固定在盤面右側，不必往下捲；窄螢幕維持上下堆疊 */
+/* 寬螢幕排版 */
 @media (min-width: 960px) {
-  main:has(#view-game:not(.hidden)) { max-width: 1180px; }
-  main:has(#view-chamber:not(.hidden)) { max-width: 980px; }
-  #view-game .game-layout { display: flex; gap: 1.8rem; align-items: flex-start; }
+  main:has(#view-game:not(.hidden)) { max-width: 1200px; }
+  main:has(#view-chamber:not(.hidden)) { max-width: 1040px; }
+  #view-game .game-layout { display: flex; gap: 2rem; align-items: flex-start; }
   #view-game .game-board { flex: 1 1 auto; min-width: 0; }
   #view-game .game-panel {
-    flex: 0 0 400px;
+    flex: 0 0 420px;
     position: sticky;
-    top: .75rem;
+    top: 1rem;
     max-height: calc(100vh - 6.5rem);
     overflow-y: auto;
-    padding-right: .35rem;
+    padding-right: 0.4rem;
     display: flex;
     flex-direction: column;
   }
-  /* 電腦版大尺寸漫畫立繪展演台與提示列置頂 */
-  #view-game .game-panel .character-stage { order: -3; margin-bottom: .8rem; }
-  #view-game .game-panel .hint-bar { order: -2; margin-bottom: .6rem; }
+  #view-game .game-panel .character-stage { order: -3; margin-bottom: 0.9rem; }
+  #view-game .game-panel .hint-bar { order: -2; margin-bottom: 0.8rem; }
   #view-game .game-panel .hint-msg { order: -1; }
-  #view-game .grid { width: min(52vw, 580px); }
-  #view-game .cell { font-size: clamp(.78rem, calc(min(52vw, 580px) * .58 / var(--grid-n, 5)), 2.2rem); }
-}
-.view-title {
-  font-size: 1.15rem;
-  letter-spacing: .2em;
-  margin-bottom: .9rem;
-  color: var(--indigo);
+  #view-game .grid { width: min(52vw, 600px); }
+  #view-game .cell { font-size: clamp(0.82rem, calc(min(52vw, 600px) * 0.58 / var(--grid-n, 5)), 2.3rem); }
 }
 
-/* ── 關卡地圖（v3：章節分區） ─────────── */
-.chapter-section { margin-bottom: 1.3rem; }
+.view-title {
+  font-family: var(--font-kai);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  margin-bottom: 1.1rem;
+  color: var(--palace-indigo-deep);
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.35rem;
+}
+
+.view-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--palace-gold), var(--palace-vermilion), transparent);
+}
+
+/* ── 關卡地圖 (Level Map) ─────────── */
+.chapter-section { margin-bottom: 1.6rem; }
 .chapter-title {
-  font-size: 1.02rem;
-  letter-spacing: .18em;
-  color: var(--indigo);
-  border-left: .3rem solid var(--gold);
-  padding-left: .5rem;
-  margin-bottom: .6rem;
+  font-family: var(--font-kai);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--palace-indigo-deep);
+  border-left: 4px solid var(--palace-gold);
+  padding-left: 0.65rem;
+  margin-bottom: 0.8rem;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
 }
 .chapter-levels {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: .8rem;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.9rem;
 }
 
-/* ── 修為列（稱號＝總星數＋收藏數，純展示） ── */
+/* 修為列 */
 .map-progress {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: .6rem;
-  background: var(--cell-bg);
-  border: 1px solid var(--cell-border);
+  gap: 0.75rem;
+  background: var(--palace-paper-card);
+  border: 1px solid var(--palace-gold);
   border-radius: var(--radius);
-  padding: .55rem .8rem;
-  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 
+    0 4px 12px rgba(26, 23, 20, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
 }
 .rank-badge {
-  background: var(--indigo);
-  color: #fdf9ee;
+  background: linear-gradient(135deg, var(--palace-indigo), var(--palace-indigo-deep));
+  color: #fdfaf2;
+  border: 1px solid var(--palace-gold-bright);
   border-radius: 8px;
-  padding: .18rem .6rem;
-  letter-spacing: .12em;
-  font-size: .95rem;
+  padding: 0.25rem 0.75rem;
+  letter-spacing: 0.15em;
+  font-size: 0.95rem;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(25, 46, 70, 0.3);
 }
-.rank-stats { color: var(--ink); letter-spacing: .05em; }
-.rank-next { font-size: .82rem; }
+.rank-stats { color: var(--palace-ink-deep); letter-spacing: 0.06em; font-weight: 600; }
+.rank-next { font-size: 0.85rem; color: var(--palace-ink-soft); }
 
-/* ── 橫式闖關路徑（Candy Crush 式） ── */
-.path-strip { overflow-x: auto; padding-bottom: .3rem; }
+/* 闖關路徑節點 */
+.path-strip { overflow-x: auto; padding-bottom: 0.5rem; }
 .path-canvas { position: relative; }
 .path-svg { position: absolute; inset: 0; pointer-events: none; }
 .path-line {
   fill: none;
-  stroke: var(--gold);
+  stroke: var(--palace-gold);
   stroke-width: 5;
   stroke-linecap: round;
-  stroke-dasharray: 1 10;
-  opacity: .8;
+  stroke-dasharray: 2 10;
+  opacity: 0.85;
 }
 .path-node-wrap {
   position: absolute;
   transform: translate(-50%, -50%);
-  width: 64px;
+  width: 68px;
   text-align: center;
 }
 .path-node {
-  font: inherit;
-  width: 52px;
-  height: 52px;
+  font-family: var(--font-serif);
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  border: 2px solid var(--cell-border);
-  background: var(--cell-bg);
-  color: var(--ink);
-  font-size: 1.15rem;
+  border: 2px solid var(--palace-gold);
+  background: radial-gradient(circle, #ffffff 40%, var(--palace-paper-card) 100%);
+  color: var(--palace-ink-deep);
+  font-size: 1.2rem;
+  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(43, 38, 32, .18), inset 0 0 0 2px rgba(255, 255, 255, .55);
-  transition: transform .15s ease;
+  box-shadow: 
+    0 3px 8px rgba(26, 23, 20, 0.18),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.8);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.path-node:not(:disabled):hover { transform: scale(1.1); }
+.path-node:not(:disabled):hover {
+  transform: scale(1.14);
+  box-shadow: 
+    0 6px 16px rgba(197, 154, 63, 0.4),
+    inset 0 0 0 2px #fff;
+}
 .path-node.locked {
   cursor: not-allowed;
-  background: var(--paper-deep);
-  opacity: .6;
-  font-size: .95rem;
+  background: var(--palace-paper-deep);
+  border-color: #baa98f;
+  color: #8c7e6b;
+  opacity: 0.7;
+  font-size: 0.95rem;
 }
 .path-node.done {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: #3a2e14;
+  background: linear-gradient(135deg, var(--palace-gold-bright), var(--palace-gold));
+  border-color: var(--palace-gold-dark);
+  color: #2b200b;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 .path-node.current {
-  border-color: var(--vermilion);
-  box-shadow: 0 0 0 4px rgba(178, 58, 43, .25), 0 2px 6px rgba(43, 38, 32, .25);
-  animation: node-pulse 1.6s ease-in-out infinite;
+  border-color: var(--palace-vermilion);
+  background: radial-gradient(circle, #fff, #ffedea);
+  color: var(--palace-vermilion);
+  box-shadow: 0 0 0 4px rgba(184, 40, 35, 0.25), 0 3px 8px rgba(26, 23, 20, 0.25);
+  animation: node-pulse 1.8s ease-in-out infinite;
 }
 @keyframes node-pulse {
-  0%, 100% { box-shadow: 0 0 0 4px rgba(178, 58, 43, .25), 0 2px 6px rgba(43, 38, 32, .25); }
-  50% { box-shadow: 0 0 0 9px rgba(178, 58, 43, .08), 0 2px 6px rgba(43, 38, 32, .25); }
+  0%, 100% { box-shadow: 0 0 0 4px rgba(184, 40, 35, 0.28), 0 3px 8px rgba(26, 23, 20, 0.25); }
+  50% { box-shadow: 0 0 0 10px rgba(184, 40, 35, 0.08), 0 3px 8px rgba(26, 23, 20, 0.25); }
 }
 .path-marker {
   position: absolute;
-  top: -1.55rem;
+  top: -1.65rem;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 1.2rem;
-  animation: marker-bob 1.2s ease-in-out infinite;
+  font-size: 1.3rem;
+  animation: marker-bob 1.3s ease-in-out infinite;
 }
 @keyframes marker-bob {
   0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, -5px); }
+  50% { transform: translate(-50%, -6px); }
 }
 .path-stars {
   display: block;
-  color: var(--gold);
-  font-size: .78rem;
-  letter-spacing: .1em;
-  margin-top: .15rem;
-  text-shadow: 0 1px 1px rgba(43, 38, 32, .25);
-}
-.path-badges {
-  display: block;
-  font-size: .62rem;
-  color: var(--ink-soft);
-  white-space: nowrap;
-}
-.level-card {
-  font: inherit;
-  text-align: left;
-  background: var(--cell-bg);
-  border: 1px solid var(--cell-border);
-  border-radius: var(--radius);
-  padding: .8rem .9rem;
-  cursor: pointer;
-  box-shadow: 0 1px 3px rgba(43, 38, 32, .08);
-  transition: transform .15s ease;
-}
-.level-card:not(:disabled):hover { transform: translateY(-2px); }
-.level-card:disabled {
-  cursor: not-allowed;
-  opacity: .55;
-  background: var(--paper-deep);
-}
-.level-card .lv-name { font-size: 1.05rem; display: block; }
-.level-card .lv-stars { color: var(--gold); letter-spacing: .15em; display: block; margin-top: .3rem; }
-.level-card .lv-lock { color: var(--ink-soft); font-size: .85rem; display: block; margin-top: .3rem; }
-.lv-badges { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .3rem; }
-.lv-badge {
-  font-size: .72rem;
-  letter-spacing: .03em;
-  background: var(--paper-deep);
-  color: var(--ink-soft);
-  border-radius: 6px;
-  padding: .08rem .4rem;
-  white-space: nowrap;
+  color: var(--palace-gold-bright);
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  margin-top: 0.2rem;
+  text-shadow: 0 1px 2px rgba(26, 23, 20, 0.35);
 }
 
-/* ── 遊戲盤面 ───────────────────────── */
+/* 關卡卡片（紅木博古架風格） */
+.level-card {
+  font-family: var(--font-serif);
+  text-align: left;
+  background: var(--palace-paper-card);
+  border: 1px solid var(--palace-gold);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+  cursor: pointer;
+  box-shadow: 
+    0 2px 8px rgba(26, 23, 20, 0.07),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.level-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--palace-gold);
+}
+.level-card:not(:disabled):hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 6px 18px rgba(197, 154, 63, 0.22),
+    inset 0 0 0 1px #fff;
+  border-color: var(--palace-gold-bright);
+}
+.level-card:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background: var(--palace-paper-deep);
+  border-color: #c4b59e;
+}
+.level-card .lv-name {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--palace-ink-deep);
+  display: block;
+}
+.level-card .lv-stars {
+  color: var(--palace-gold);
+  letter-spacing: 0.18em;
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.95rem;
+}
+.level-card .lv-lock {
+  color: var(--palace-ink-soft);
+  font-size: 0.88rem;
+  display: block;
+  margin-top: 0.35rem;
+}
+
+/* ── 遊戲盤面頂部 (Game Top) ─────────────────── */
 .game-top {
   display: flex;
   align-items: center;
-  gap: .6rem;
-  margin-bottom: .8rem;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
-.game-level-title { font-size: 1.1rem; letter-spacing: .15em; }
-.ink-display { margin-left: auto; font-size: 1.05rem; color: var(--indigo); }
-
-/* v3 倒數計時：墨色；剩 ≤20% 警戒紅 #a33 脈動 */
-.timer-display {
-  font-size: 1.02rem;
-  letter-spacing: .05em;
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
+.game-level-title {
+  font-family: var(--font-kai);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--palace-ink-deep);
 }
-.timer-display.warn { color: #a33; animation: timer-pulse 1s ease-in-out infinite; }
-@keyframes timer-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: .55; transform: scale(1.07); }
+.ink-display {
+  margin-left: auto;
+  font-size: 1.08rem;
+  color: var(--palace-indigo-deep);
 }
 
+/* ── 密室字陣 (Grid & Cells - 故宮太極殿漢白玉字盤) ── */
 .grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
-  width: min(92vw, 420px);
-  margin: 0 auto 1rem;
+  gap: 8px;
+  width: min(92vw, 440px);
+  margin: 0 auto 1.2rem;
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
+  padding: 10px;
+  background: linear-gradient(145deg, #ede3d1, #dfd2bc);
+  border: 2px solid var(--palace-gold);
+  border-radius: var(--radius-lg);
+  box-shadow: 
+    0 8px 24px rgba(26, 23, 20, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+    inset 0 3px 8px rgba(26, 23, 20, 0.12);
 }
+
 .cell {
   aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* v3：字級依盤面尺寸縮放（盤面寬≒min(92vw,420px)），12×12 手機不跑版 */
-  font-size: clamp(.78rem, calc(min(92vw, 420px) * .58 / var(--grid-n, 5)), 1.9rem);
-  background: var(--cell-bg);
-  border: 1px solid var(--cell-border);
+  font-family: var(--font-serif);
+  font-size: clamp(0.85rem, calc(min(92vw, 440px) * 0.58 / var(--grid-n, 5)), 2rem);
+  font-weight: 700;
+  background: radial-gradient(circle at 35% 30%, #ffffff 0%, #f7f1e5 80%, #ebe0cd 100%);
+  color: var(--palace-ink-deep);
+  border: 1px solid var(--palace-gold);
   border-radius: var(--radius);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .5), 0 1px 2px rgba(43, 38, 32, .1);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(197, 154, 63, 0.4),
+    0 2px 5px rgba(26, 23, 20, 0.12);
   position: relative;
-  transition: background .15s ease, transform .15s ease;
+  cursor: pointer;
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.18s ease, box-shadow 0.18s ease;
 }
+
+.cell:hover {
+  transform: scale(1.06);
+  z-index: 2;
+  box-shadow: 
+    0 4px 12px rgba(197, 154, 63, 0.35),
+    inset 0 0 0 1px #fff;
+}
+
 .cell.preview {
-  background: #dce8f0;
-  border-color: var(--indigo);
-  transform: scale(1.04);
+  background: radial-gradient(circle at 50% 50%, #e2ecf5 0%, #c8dcf0 100%);
+  border-color: var(--palace-indigo);
+  color: var(--palace-indigo-deep);
+  transform: scale(1.08);
+  box-shadow: 
+    0 4px 14px rgba(44, 74, 111, 0.35),
+    inset 0 0 0 1.5px var(--palace-indigo);
 }
-.cell.invalid { animation: shake-red .35s ease; background: #f0c9c0; border-color: var(--vermilion); }
-.cell.flash { background: #f7e3b0; border-color: var(--gold); }
+
+.cell.invalid {
+  animation: shake-red 0.38s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  background: radial-gradient(circle, #fde4e2, #f5cac6);
+  border-color: var(--palace-vermilion);
+  color: var(--palace-vermilion-deep);
+}
+
+.cell.flash {
+  background: radial-gradient(circle, #fff7d6, #f7e19e);
+  border-color: var(--palace-gold-bright);
+  color: var(--palace-gold-dark);
+  box-shadow: 0 0 16px rgba(232, 193, 90, 0.6);
+}
+
 .cell.hint-circle::after {
   content: "";
   position: absolute;
   inset: 6%;
-  border: 3px solid var(--vermilion);
+  border: 3px solid var(--palace-vermilion);
   border-radius: 50%;
   pointer-events: none;
+  box-shadow: 0 0 8px rgba(184, 40, 35, 0.45);
 }
-.cell.found { animation: found-pop .4s ease; }
-.cell.found-0 { background: var(--found-0); }
-.cell.found-1 { background: var(--found-1); }
-.cell.found-2 { background: var(--found-2); }
-.cell.found-3 { background: var(--found-3); }
-.cell.found-4 { background: var(--found-4); }
+
+.cell.found {
+  animation: found-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  color: var(--palace-ink-deep);
+}
+.cell.found-0 { background: radial-gradient(circle, #fbf0ec, var(--found-0)); border-color: #d18d7f; }
+.cell.found-1 { background: radial-gradient(circle, #edf5fa, var(--found-1)); border-color: #7fa4c2; }
+.cell.found-2 { background: radial-gradient(circle, #edf5eb, var(--found-2)); border-color: #83b37d; }
+.cell.found-3 { background: radial-gradient(circle, #f5eff8, var(--found-3)); border-color: #af8cc2; }
+.cell.found-4 { background: radial-gradient(circle, #faf5e6, var(--found-4)); border-color: #c9b46e; }
 
 @keyframes found-pop {
   0% { transform: scale(1); }
-  45% { transform: scale(1.14); }
+  45% { transform: scale(1.18); }
   100% { transform: scale(1); }
 }
+
 @keyframes shake-red {
   0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-4px); }
-  75% { transform: translateX(4px); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }
 
-/* 目標清單（v2：直列線索卡，每則一行卡） */
+/* ── 目標清單 (Target List - 故宮紅木博古架卡片) ── */
 .target-list {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: .5rem;
-  margin-bottom: .9rem;
+  gap: 0.65rem;
+  margin-bottom: 1.1rem;
 }
+
 .target-list li.target-card {
   display: flex;
   align-items: flex-start;
-  gap: .55rem;
+  gap: 0.65rem;
   width: 100%;
-  font-size: .96rem;
-  line-height: 1.6;
-  letter-spacing: .05em;
-  background: var(--cell-bg);
-  border: 1px solid var(--cell-border);
+  font-family: var(--font-serif);
+  font-size: 0.98rem;
+  line-height: 1.65;
+  letter-spacing: 0.06em;
+  background: var(--palace-paper-card);
+  border: 1px solid var(--palace-gold);
   border-radius: var(--radius);
-  padding: .55rem .75rem;
+  padding: 0.7rem 0.9rem;
   cursor: pointer;
   text-align: left;
   overflow-wrap: anywhere;
+  box-shadow: 
+    0 2px 6px rgba(26, 23, 20, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  transition: all 0.22s ease;
+  position: relative;
 }
-.target-list li.selected { border-color: var(--indigo); box-shadow: 0 0 0 2px rgba(42, 77, 105, .25); }
+
+.target-list li.target-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--palace-gold-bright);
+  box-shadow: 0 4px 14px rgba(197, 154, 63, 0.22);
+}
+
+.target-list li.selected {
+  border-color: var(--palace-indigo);
+  background: #f0f6fa;
+  box-shadow: 0 0 0 2px rgba(44, 74, 111, 0.3), 0 4px 12px rgba(26, 23, 20, 0.08);
+}
+
 .target-list li.done {
   text-decoration: line-through;
-  text-decoration-color: var(--vermilion);
+  text-decoration-color: var(--palace-vermilion);
   text-decoration-thickness: 2px;
-  color: var(--ink-soft);
+  color: var(--palace-ink-soft);
+  opacity: 0.75;
+  background: #f2ece0;
+  border-color: #d1c4ae;
   cursor: default;
-  letter-spacing: .15em;
-  font-size: 1.05rem;
 }
+
 .clue-text { flex: 1; min-width: 0; }
 
-/* style 小標籤五色（柔和色票） */
 .clue-tag {
   flex-shrink: 0;
-  font-size: .72rem;
-  letter-spacing: .1em;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
   border-radius: 6px;
-  padding: .12rem .45rem;
-  margin-top: .15rem;
-  background: var(--paper-deep);
-  color: var(--ink-soft);
+  padding: 0.15rem 0.5rem;
+  margin-top: 0.15rem;
+  background: var(--palace-paper-deep);
+  color: var(--palace-ink-soft);
   white-space: nowrap;
+  font-weight: 600;
 }
-.clue-tag[data-style="釋義"]   { background: #dce8f0; color: #2a4d69; }
-.clue-tag[data-style="急轉彎"] { background: #f7e8bd; color: #8a6206; }
-.clue-tag[data-style="典故"]   { background: #e6d3e0; color: #7a4a6d; }
-.clue-tag[data-style="諧音"]   { background: #dbe6cf; color: #4e6b34; }
-.clue-tag[data-style="情境"]   { background: #f3d9c9; color: #94502f; }
 
-/* ── cross 填字格 ───────────────────── */
+.clue-tag[data-style="釋義"]   { background: #dce8f0; color: #203e58; border: 1px solid #b8d2e4; }
+.clue-tag[data-style="急轉彎"] { background: #faecc3; color: #7a5303; border: 1px solid #edd187; }
+.clue-tag[data-style="典故"]   { background: #eddce8; color: #693b5d; border: 1px solid #d9b8d2; }
+.clue-tag[data-style="諧音"]   { background: #e0edd3; color: #3e5e23; border: 1px solid #bcd9a3; }
+.clue-tag[data-style="情境"]   { background: #fae0d2; color: #853e1c; border: 1px solid #f0ba9f; }
+
+/* ── Cross 填字格 ───────────────────── */
 .grid.grid-cross { touch-action: auto; }
 .cell.empty {
   background: transparent;
@@ -400,255 +652,367 @@ main { max-width: 640px; margin: 0 auto; padding: 1rem; }
 }
 .cell.blank {
   background: transparent;
-  border: 1.5px solid rgba(107, 97, 85, .45); /* 淡墨描邊 */
+  border: 1.5px solid rgba(138, 103, 33, 0.45);
   box-shadow: none;
   cursor: pointer;
 }
 .cell.revealed {
-  background: #f1e5c2; /* 米金底 */
-  border-color: #cbb578;
-  color: var(--ink-soft);
+  background: #f5eccd;
+  border-color: var(--palace-gold);
+  color: var(--palace-ink-soft);
   cursor: pointer;
 }
-.cell.filled { background: var(--cell-bg); color: var(--ink); }
-.cell.peek { color: var(--gold); background: #f9f0d8; }
-.cell.active { border-color: var(--indigo); box-shadow: 0 0 0 2px rgba(42, 77, 105, .3); }
+.cell.filled { background: var(--cell-bg); color: var(--palace-ink-deep); }
+.cell.peek { color: var(--palace-gold); background: #fdf5df; }
+.cell.active {
+  border-color: var(--palace-indigo);
+  box-shadow: 0 0 0 2px rgba(44, 74, 111, 0.35);
+}
 
-/* cross 輸入列 */
 .cross-input-row {
   display: flex;
-  gap: .5rem;
+  gap: 0.6rem;
   justify-content: center;
-  width: min(92vw, 420px);
-  margin: 0 auto .9rem;
+  width: min(92vw, 440px);
+  margin: 0 auto 1.1rem;
 }
 .cross-input-row input {
-  font: inherit;
-  font-size: 1.15rem;
-  letter-spacing: .2em;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  letter-spacing: 0.25em;
   flex: 1;
   min-width: 0;
   text-align: center;
-  border: 1px solid var(--cell-border);
+  border: 1.5px solid var(--palace-gold);
   border-radius: var(--radius);
-  background: var(--cell-bg);
-  padding: .35rem .5rem;
+  background: var(--palace-paper-card);
+  padding: 0.45rem 0.6rem;
+  color: var(--palace-ink-deep);
+  outline: none;
+  box-shadow: inset 0 1px 3px rgba(26, 23, 20, 0.08);
 }
-.cross-input-row.invalid { animation: shake-red .35s ease; }
-.cross-input-row.invalid input { background: #f0c9c0; border-color: var(--vermilion); }
+.cross-input-row input:focus {
+  border-color: var(--palace-indigo);
+  box-shadow: 0 0 0 3px rgba(44, 74, 111, 0.25);
+}
+.cross-input-row.invalid { animation: shake-red 0.38s ease; }
+.cross-input-row.invalid input { background: #fce7e4; border-color: var(--palace-vermilion); }
 
-/* 提示列 */
+/* ── 提示列與按鈕 ───────────────────── */
 .hint-bar {
   display: flex;
-  gap: .5rem;
+  gap: 0.6rem;
   justify-content: center;
   flex-wrap: wrap;
 }
 .hint-btn {
-  font: inherit;
-  font-size: .9rem;
+  font-family: var(--font-serif);
+  font-size: 0.92rem;
+  font-weight: 600;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: .1rem;
-  background: var(--cell-bg);
-  color: var(--ink);
-  border: 1px solid var(--cell-border);
+  gap: 0.15rem;
+  background: var(--palace-paper-card);
+  color: var(--palace-ink-deep);
+  border: 1px solid var(--palace-gold);
   border-radius: var(--radius);
-  padding: .45rem .8rem;
+  padding: 0.5rem 0.9rem;
   cursor: pointer;
+  box-shadow: 0 2px 5px rgba(26, 23, 20, 0.06);
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
 }
-.hint-btn small { color: var(--ink-soft); font-size: .72rem; }
-.hint-btn:disabled { opacity: .45; cursor: not-allowed; }
-.hint-btn.earn { background: var(--indigo); color: #fdf9ee; }
-.hint-btn.earn small { color: #d6e2ec; }
-.hint-btn.earn:disabled { opacity: 1; } /* 賺墨水永不停用 */
+.hint-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--palace-gold-bright);
+  box-shadow: 0 4px 12px rgba(197, 154, 63, 0.3);
+}
+.hint-btn small { color: var(--palace-ink-soft); font-size: 0.74rem; }
+.hint-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.hint-btn.earn {
+  background: linear-gradient(135deg, var(--palace-indigo), var(--palace-indigo-deep));
+  color: #fdfaf2;
+  border-color: var(--palace-gold-bright);
+  box-shadow: 0 3px 10px rgba(25, 46, 70, 0.3);
+}
+.hint-btn.earn small { color: #d4e3f0; }
+.hint-btn.earn:disabled { opacity: 1; }
 
-/* v3 提示限次顯示 */
 .hint-quota {
   flex-basis: 100%;
   text-align: center;
-  font-size: .88rem;
-  letter-spacing: .08em;
-  color: var(--ink-soft);
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  color: var(--palace-ink-soft);
 }
-.hint-quota.exhausted { color: #a33; }
-.hint-msg { text-align: center; margin-top: .6rem; min-height: 1.3em; color: var(--vermilion); font-size: .92rem; }
+.hint-quota.exhausted { color: var(--palace-vermilion); font-weight: 700; }
+.hint-msg {
+  text-align: center;
+  margin-top: 0.7rem;
+  min-height: 1.4em;
+  color: var(--palace-vermilion);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
 
-/* ── 圖鑑 ───────────────────────────── */
+/* ── 國風按鈕全域 ───────────────────── */
+.primary-btn, .ghost-btn, .danger-btn {
+  font-family: var(--font-serif);
+  font-size: 0.98rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.45rem 1.25rem;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, var(--palace-indigo), var(--palace-indigo-deep));
+  color: #fdfaf2;
+  border: 1px solid var(--palace-gold-bright);
+  box-shadow: 0 3px 10px rgba(25, 46, 70, 0.35);
+}
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(25, 46, 70, 0.45), 0 0 10px rgba(232, 193, 90, 0.4);
+}
+
+.ghost-btn {
+  background: rgba(250, 246, 237, 0.9);
+  color: var(--palace-indigo-deep);
+  border: 1px solid var(--palace-gold);
+  box-shadow: 0 2px 6px rgba(26, 23, 20, 0.05);
+}
+.ghost-btn:hover {
+  background: #fff;
+  border-color: var(--palace-gold-bright);
+  color: var(--palace-vermilion);
+  transform: translateY(-1px);
+}
+
+.danger-btn {
+  background: linear-gradient(135deg, var(--palace-vermilion), var(--palace-vermilion-deep));
+  color: #fdfaf2;
+  border: 1px solid var(--palace-gold-bright);
+  box-shadow: 0 3px 10px rgba(184, 40, 35, 0.35);
+}
+.danger-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(184, 40, 35, 0.45);
+}
+
+/* ── 摘句圖鑑 ───────────────────────── */
 .collection-list {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: .7rem;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.8rem;
 }
 .collection-list button {
-  font: inherit;
+  font-family: var(--font-serif);
   width: 100%;
-  font-size: 1.05rem;
-  letter-spacing: .12em;
-  background: var(--cell-bg);
-  border: 1px solid var(--cell-border);
-  border-left: .3rem solid var(--gold);
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  background: var(--palace-paper-card);
+  border: 1px solid var(--palace-gold);
+  border-left: 4px solid var(--palace-gold);
   border-radius: var(--radius);
-  padding: .7rem .8rem;
+  padding: 0.8rem 0.9rem;
   cursor: pointer;
   text-align: left;
+  box-shadow: 0 2px 6px rgba(26, 23, 20, 0.06);
+  transition: all 0.22s ease;
+}
+.collection-list button:hover {
+  transform: translateY(-2px);
+  border-color: var(--palace-gold-bright);
+  border-left-color: var(--palace-vermilion);
+  box-shadow: 0 5px 15px rgba(197, 154, 63, 0.25);
 }
 
-/* ── 設定 ───────────────────────────── */
+/* ── 設定區塊 ───────────────────────── */
 .settings-block {
-  background: var(--cell-bg);
-  border: 1px solid var(--cell-border);
+  background: var(--palace-paper-card);
+  border: 1px solid var(--palace-gold);
   border-radius: var(--radius);
-  padding: .9rem;
-  margin-bottom: .9rem;
+  padding: 1.1rem;
+  margin-bottom: 1.1rem;
+  box-shadow: 0 3px 10px rgba(26, 23, 20, 0.06);
 }
-.settings-block h3 { font-size: 1rem; margin-bottom: .6rem; color: var(--indigo); }
+.settings-block h3 {
+  font-family: var(--font-kai);
+  font-size: 1.12rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--palace-indigo-deep);
+}
 .code-area {
   width: 100%;
-  min-height: 4.5rem;
+  min-height: 4.8rem;
   font-family: ui-monospace, monospace;
-  font-size: .8rem;
-  border: 1px solid var(--cell-border);
+  font-size: 0.85rem;
+  border: 1px solid var(--palace-gold);
   border-radius: 8px;
-  padding: .5rem;
-  background: var(--paper);
-  color: var(--ink);
+  padding: 0.6rem;
+  background: var(--palace-paper);
+  color: var(--palace-ink-deep);
   resize: vertical;
 }
-.settings-actions { display: flex; gap: .5rem; margin-top: .6rem; flex-wrap: wrap; }
+.settings-actions { display: flex; gap: 0.6rem; margin-top: 0.75rem; flex-wrap: wrap; }
 
-.primary-btn, .ghost-btn, .danger-btn {
-  font: inherit;
-  font-size: .95rem;
-  border-radius: 999px;
-  padding: .4rem 1.1rem;
-  cursor: pointer;
-}
-.primary-btn { background: var(--indigo); color: #fdf9ee; border: 1px solid var(--indigo); }
-.ghost-btn { background: transparent; color: var(--indigo); border: 1px solid var(--cell-border); }
-.danger-btn { background: var(--vermilion); color: #fdf9ee; border: 1px solid var(--vermilion); }
-
-/* ── Modal ──────────────────────────── */
+/* ── 彈窗系統 (Modals - 綾絹裝裱錦匣) ── */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(43, 38, 32, .45);
+  background: rgba(14, 12, 10, 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
-  z-index: 50;
+  padding: 1.2rem;
+  z-index: 100;
+  backdrop-filter: blur(5px);
 }
 .modal {
   position: relative;
-  width: min(92vw, 420px);
-  background: var(--paper);
-  border: 1px solid var(--cell-border);
-  border-radius: 16px;
-  padding: 1.3rem 1.2rem 1.2rem;
-  box-shadow: 0 12px 40px rgba(43, 38, 32, .35);
-  animation: modal-in .25s ease;
+  width: min(92vw, 460px);
+  background: var(--palace-paper-card);
+  border: 2px solid var(--palace-gold);
+  border-radius: 18px;
+  padding: 1.6rem 1.4rem 1.4rem;
+  box-shadow: 
+    0 16px 48px rgba(14, 12, 10, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.8),
+    inset 0 0 0 4px var(--palace-paper-deep);
+  animation: modal-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 @keyframes modal-in {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(18px) scale(0.96); }
   to { opacity: 1; transform: none; }
 }
 .modal-close {
   position: absolute;
-  top: .6rem;
-  right: .7rem;
+  top: 0.75rem;
+  right: 0.9rem;
   font: inherit;
   background: transparent;
   border: none;
-  font-size: 1.05rem;
-  color: var(--ink-soft);
+  font-size: 1.15rem;
+  color: var(--palace-ink-soft);
   cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.modal-close:hover {
+  transform: rotate(90deg);
+  color: var(--palace-vermilion);
 }
 .card-badge {
   display: inline-block;
-  font-size: .75rem;
+  font-family: var(--font-serif);
+  font-size: 0.78rem;
+  font-weight: 700;
   color: #fff;
-  background: var(--vermilion);
+  background: linear-gradient(135deg, var(--palace-vermilion), var(--palace-vermilion-deep));
+  border: 1px solid var(--palace-gold-bright);
   border-radius: 4px;
-  padding: .12rem .5rem;
-  margin-bottom: .6rem;
-  letter-spacing: .2em;
+  padding: 0.18rem 0.6rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.22em;
+  box-shadow: 0 2px 6px rgba(184, 40, 35, 0.35);
 }
-.card-text { font-size: 1.6rem; letter-spacing: .25em; margin-bottom: .7rem; }
-.card-meaning { margin-bottom: .55rem; line-height: 1.7; }
-.card-insight { color: var(--indigo); line-height: 1.7; margin-bottom: .55rem; }
-.card-source { color: var(--ink-soft); font-size: .85rem; }
+.card-text {
+  font-family: var(--font-kai);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  margin-bottom: 0.85rem;
+  color: var(--palace-ink-deep);
+}
+.card-meaning { margin-bottom: 0.65rem; line-height: 1.8; font-size: 1.02rem; }
+.card-insight { color: var(--palace-indigo-deep); line-height: 1.8; margin-bottom: 0.65rem; font-weight: 600; }
+.card-source { color: var(--palace-ink-soft); font-size: 0.9rem; }
 
-/* Quiz */
-.quiz-prompt { font-size: 1.15rem; line-height: 1.8; margin-bottom: .9rem; letter-spacing: .08em; }
-.quiz-options { display: grid; gap: .5rem; }
+/* 研墨答題 Modal */
+.quiz-prompt {
+  font-family: var(--font-serif);
+  font-size: 1.22rem;
+  font-weight: 600;
+  line-height: 1.85;
+  margin-bottom: 1.1rem;
+  letter-spacing: 0.08em;
+  color: var(--palace-ink-deep);
+}
+.quiz-options { display: grid; gap: 0.65rem; }
 .quiz-options button {
-  font: inherit;
-  font-size: 1rem;
-  letter-spacing: .12em;
-  background: var(--cell-bg);
-  border: 1px solid var(--cell-border);
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  background: var(--palace-paper-card);
+  border: 1px solid var(--palace-gold);
   border-radius: var(--radius);
-  padding: .55rem .8rem;
+  padding: 0.65rem 0.95rem;
   cursor: pointer;
   text-align: left;
+  box-shadow: 0 2px 5px rgba(26, 23, 20, 0.06);
+  transition: all 0.2s ease;
 }
-.quiz-options button:disabled { cursor: default; }
-.quiz-options button.correct { background: #dbe6cf; border-color: #6d8f4e; }
-.quiz-options button.wrong { background: #f0c9c0; border-color: var(--vermilion); }
-.quiz-fill { display: flex; gap: .5rem; }
-.quiz-fill input {
-  font: inherit;
-  font-size: 1.3rem;
-  width: 4rem;
-  text-align: center;
-  border: 1px solid var(--cell-border);
-  border-radius: var(--radius);
-  background: var(--cell-bg);
-  padding: .3rem;
+.quiz-options button:hover:not(:disabled) {
+  border-color: var(--palace-gold-bright);
+  transform: translateY(-1px);
 }
-.quiz-feedback { min-height: 1.5em; margin-top: .7rem; color: var(--indigo); }
-#quiz-next { margin-top: .5rem; }
+.quiz-options button.correct {
+  background: #e2f0d9;
+  border-color: var(--palace-jade);
+  color: var(--palace-jade);
+  font-weight: 700;
+}
+.quiz-options button.wrong {
+  background: #fde4e2;
+  border-color: var(--palace-vermilion);
+  color: var(--palace-vermilion-deep);
+}
 
-/* v3 超時（時辰已到）：沙漏意象純 CSS */
+/* 超時結算 */
 .timeout-modal { text-align: center; }
-.timeout-badge { background: #a33; }
-.timeout-title { font-size: 1.4rem; letter-spacing: .25em; margin-bottom: .5rem; color: #a33; }
-.timeout-desc { line-height: 1.7; margin-bottom: .9rem; }
+.timeout-title {
+  font-family: var(--font-kai);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  margin-bottom: 0.6rem;
+  color: var(--palace-vermilion);
+}
+.timeout-desc { line-height: 1.8; margin-bottom: 1.1rem; }
 .timeout-modal .settings-actions { justify-content: center; }
-.timeout-hourglass {
-  width: 40px;
-  margin: 0 auto .7rem;
-  border-top: 3px solid var(--ink);
-  border-bottom: 3px solid var(--ink);
-  padding: 2px 0;
-}
-.timeout-hourglass::before,
-.timeout-hourglass::after {
-  content: "";
-  display: block;
-  width: 0;
-  margin: 0 auto;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-}
-.timeout-hourglass::before { border-top: 19px solid #a33; }       /* 上半沙已流盡（餘紅沙） */
-.timeout-hourglass::after { border-bottom: 19px solid var(--ink-soft); } /* 下半積沙 */
 
-/* 通關 */
+/* 通關結算 */
 .complete-modal { text-align: center; }
-#complete-title { font-size: 1.4rem; letter-spacing: .25em; margin-bottom: .6rem; }
-.complete-stars { font-size: 2rem; color: var(--gold); letter-spacing: .3em; margin-bottom: .9rem; animation: found-pop .6s ease; }
+#complete-title {
+  font-family: var(--font-kai);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  margin-bottom: 0.75rem;
+  color: var(--palace-indigo-deep);
+}
+.complete-stars {
+  font-size: 2.2rem;
+  color: var(--palace-gold-bright);
+  letter-spacing: 0.35em;
+  margin-bottom: 1.1rem;
+  text-shadow: 0 2px 8px rgba(197, 154, 63, 0.45);
+  animation: found-pop 0.6s ease;
+}
 .complete-modal .settings-actions { justify-content: center; }
 
-/* ── RWD ────────────────────────────── */
-@media (max-width: 420px) {
-  .app-title { font-size: 1.25rem; }
-  main { padding: .7rem; }
-  .grid { gap: 4px; }
-  .hint-btn { padding: .4rem .55rem; font-size: .84rem; }
+/* ── 手機響應式 ─────────────────────── */
+@media (max-width: 440px) {
+  .app-title { font-size: 1.35rem; letter-spacing: 0.2em; }
+  main { padding: 0.8rem 0.6rem 2rem; }
+  .grid { gap: 5px; padding: 6px; }
+  .hint-btn { padding: 0.45rem 0.6rem; font-size: 0.86rem; }
   .chapter-levels { grid-template-columns: repeat(2, 1fr); }
-  .game-top { gap: .45rem; flex-wrap: wrap; }
+  .game-top { gap: 0.5rem; }
 }

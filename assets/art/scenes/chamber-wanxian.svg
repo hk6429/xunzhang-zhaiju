@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
+  <defs>
+    <!-- Background Cosmic & Divine Space Gradient -->
+    <radialGradient id="wanxianCosmos" cx="50%" cy="40%" r="80%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="35%" stop-color="#0f172a"/>
+      <stop offset="70%" stop-color="#050814"/>
+      <stop offset="100%" stop-color="#020307"/>
+    </radialGradient>
+
+    <!-- Divine Pillars of Light (太古文字光柱) -->
+    <linearGradient id="lightPillarCyan" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#0284c7" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="lightPillarGold" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#fde047" stop-opacity="0.95"/>
+      <stop offset="50%" stop-color="#eab308" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ca8a04" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="scrollPaper" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="50%" stop-color="#fde68a"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="zhuxianGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="15" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Sky & Cosmic Array Canvas -->
+  <rect width="1920" height="1080" fill="url(#wanxianCosmos)"/>
+
+  <!-- Ancient Fengshen Celestial Scroll Unfurling across Sky (太古封神古卷橫貫穹頂) -->
+  <g id="celestial-scroll" filter="url(#zhuxianGlow)">
+    <path d="M-100,240 C300,120 700,320 1100,160 C1500,60 1800,260 2050,180" fill="none" stroke="url(#scrollPaper)" stroke-width="130" opacity="0.85"/>
+    <path d="M-100,240 C300,120 700,320 1100,160 C1500,60 1800,260 2050,180" fill="none" stroke="#ca8a04" stroke-width="8" stroke-dasharray="14 10"/>
+    
+    <!-- Ancient Seal Characters floating on Scroll -->
+    <g fill="#78350f" font-family="'Noto Serif TC', serif" font-size="28" font-weight="900">
+      <text x="180" y="210">封神榜</text>
+      <text x="360" y="170">太乙</text>
+      <text x="540" y="220">哪吒</text>
+      <text x="720" y="250">楊戩</text>
+      <text x="920" y="220">太公</text>
+      <text x="1120" y="150">申公豹</text>
+      <text x="1320" y="120">妲己</text>
+      <text x="1520" y="190">雷震子</text>
+      <text x="1720" y="210">萬仙歸位</text>
+    </g>
+  </g>
+
+  <!-- Massive Vertical Light Pillars (太古通天文字金光柱) -->
+  <g id="light-pillars" filter="url(#zhuxianGlow)">
+    <!-- Center Grand Gold Pillar -->
+    <rect x="910" y="0" width="100" height="900" fill="url(#lightPillarGold)"/>
+    <!-- Left Cyan Pillar -->
+    <rect x="420" y="80" width="70" height="820" fill="url(#lightPillarCyan)"/>
+    <!-- Right Cyan Pillar -->
+    <rect x="1430" y="80" width="70" height="820" fill="url(#lightPillarCyan)"/>
+    <!-- Far Pillars -->
+    <rect x="160" y="160" width="40" height="740" fill="url(#lightPillarGold)" opacity="0.6"/>
+    <rect x="1720" y="160" width="40" height="740" fill="url(#lightPillarGold)" opacity="0.6"/>
+  </g>
+
+  <!-- Zhuxian Four Great Flying Sacred Swords in Formation (誅仙四劍群仙飛劍陣) -->
+  <g id="flying-swords" filter="url(#zhuxianGlow)">
+    <!-- 1. 誅仙劍 (Zhuxian Sword - Top Left) -->
+    <g transform="translate(680, 420) rotate(-45)">
+      <polygon points="-12,-180 12,-180 16,120 0,200 -16,120" fill="#38bdf8"/>
+      <line x1="0" y1="-170" x2="0" y2="180" stroke="#fff" stroke-width="4"/>
+      <circle cx="0" cy="200" r="14" fill="#0284c7"/>
+    </g>
+    <!-- 2. 戮仙劍 (Luxian Sword - Top Right) -->
+    <g transform="translate(1240, 420) rotate(45)">
+      <polygon points="-12,-180 12,-180 16,120 0,200 -16,120" fill="#f43f5e"/>
+      <line x1="0" y1="-170" x2="0" y2="180" stroke="#fff" stroke-width="4"/>
+      <circle cx="0" cy="200" r="14" fill="#be123c"/>
+    </g>
+    <!-- 3. 陷仙劍 (Xianxian Sword - Bottom Left) -->
+    <g transform="translate(620, 680) rotate(-75)">
+      <polygon points="-12,-180 12,-180 16,120 0,200 -16,120" fill="#fde047"/>
+      <line x1="0" y1="-170" x2="0" y2="180" stroke="#fff" stroke-width="4"/>
+      <circle cx="0" cy="200" r="14" fill="#eab308"/>
+    </g>
+    <!-- 4. 絕仙劍 (Juexian Sword - Bottom Right) -->
+    <g transform="translate(1300, 680) rotate(75)">
+      <polygon points="-12,-180 12,-180 16,120 0,200 -16,120" fill="#a855f7"/>
+      <line x1="0" y1="-170" x2="0" y2="180" stroke="#fff" stroke-width="4"/>
+      <circle cx="0" cy="200" r="14" fill="#7e22ce"/>
+    </g>
+  </g>
+
+  <!-- Central Great Grand Seal of Wanxian (中央萬仙通天神印) -->
+  <g transform="translate(960, 640)" filter="url(#zhuxianGlow)">
+    <circle cx="0" cy="0" r="260" fill="none" stroke="#fde047" stroke-width="6" stroke-dasharray="20 12"/>
+    <circle cx="0" cy="0" r="220" fill="#0f172a" fill-opacity="0.85" stroke="#38bdf8" stroke-width="3"/>
+    
+    <!-- Bagua & Star Array in Core -->
+    <polygon points="0,-180 127,-127 180,0 127,127 0,180 -127,127 -180,0 -127,-127" fill="none" stroke="#fde047" stroke-width="3"/>
+    
+    <!-- Central Text -->
+    <text x="0" y="-30" fill="#fde047" font-family="'Noto Serif TC', serif" font-size="42" font-weight="900" text-anchor="middle" letter-spacing="8">萬仙大陣</text>
+    <text x="0" y="35" fill="#38bdf8" font-family="'Noto Serif TC', serif" font-size="28" font-weight="900" text-anchor="middle" letter-spacing="6">終極破關</text>
+    
+    <!-- Surrounding Flying Ink Brush Calligraphy Particles -->
+    <circle cx="-120" cy="-80" r="6" fill="#fde047"/>
+    <circle cx="120" cy="-80" r="6" fill="#fde047"/>
+    <circle cx="-120" cy="80" r="6" fill="#38bdf8"/>
+    <circle cx="120" cy="80" r="6" fill="#38bdf8"/>
+  </g>
+
+  <!-- Ground Celestial Altar with Radiant Golden Lines -->
+  <polygon points="0,1080 300,750 1620,750 1920,1080" fill="#090d16"/>
+  <g stroke="#fde047" stroke-width="3" opacity="0.8" filter="url(#zhuxianGlow)">
+    <line x1="960" y1="750" x2="960" y2="1080"/>
+    <line x1="960" y1="750" x2="640" y2="1080"/>
+    <line x1="960" y1="750" x2="1280" y2="1080"/>
+    <line x1="960" y1="750" x2="320" y2="1080"/>
+    <line x1="960" y1="750" x2="1600" y2="1080"/>
+  </g>
+
+  <!-- Chamber Header Badge (萬仙誅仙封神殿銘牌) -->
+  <g transform="translate(80, 80)">
+    <rect x="0" y="0" width="350" height="90" rx="8" fill="#1e1b4b" fill-opacity="0.9" stroke="#fde047" stroke-width="2"/>
+    <text x="25" y="40" fill="#fde047" font-family="'Noto Serif TC', serif" font-size="24" font-weight="900">第五重關 · 萬仙誅仙封神殿</text>
+    <text x="25" y="68" fill="#c7d2fe" font-family="'Noto Sans TC', sans-serif" font-size="14">群仙飛劍 · 太古光柱 · 封神榜定乾坤</text>
+  </g>
+</svg>

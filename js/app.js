@@ -180,6 +180,7 @@ function renderChambers() {
     const initialG = guardiansList[0];
 
     card.innerHTML = `
+      <div class="chamber-card-watermark" aria-hidden="true">${arr.name.slice(0, 2)}</div>
       <div class="chamber-card-header">
         <div class="chamber-badge-group">
           <span class="chamber-element-badge">${arr.element}</span>
@@ -215,9 +216,12 @@ function renderChambers() {
       </div>
 
       <div class="chamber-treasure-preview">
-        <span class="treasure-icon">${arr.treasureShard.icon}</span>
+        <div class="treasure-preview-icon-box">
+          <img src="${arr.treasureShard.svgPath || 'assets/items/dashen-bian.svg'}" alt="${arr.treasureShard.name}" class="treasure-preview-img" />
+          <span class="treasure-icon hidden">${arr.treasureShard.icon}</span>
+        </div>
         <div class="treasure-text">
-          <small>破陣法寶</small>
+          <small>御賜破陣法寶</small>
           <strong>${arr.treasureShard.name}</strong>
         </div>
       </div>

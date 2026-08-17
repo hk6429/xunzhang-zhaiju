@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
+  <defs>
+    <!-- Dark Metallic & Flame Sky -->
+    <radialGradient id="shijueBackground" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#3b110e"/>
+      <stop offset="35%" stop-color="#1f0706"/>
+      <stop offset="70%" stop-color="#120504"/>
+      <stop offset="100%" stop-color="#050101"/>
+    </radialGradient>
+
+    <!-- Divine Flame and Lightning Gradients -->
+    <linearGradient id="flameGrad1" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#dc2626"/>
+      <stop offset="40%" stop-color="#ea580c"/>
+      <stop offset="75%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#fef08a"/>
+    </linearGradient>
+
+    <radialGradient id="cauldronFire" cx="50%" cy="60%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="25%" stop-color="#fde047"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="80%" stop-color="#991b1b"/>
+      <stop offset="100%" stop-color="#450a0a" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="bronzeAncient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#854d0e"/>
+      <stop offset="35%" stop-color="#ca8a04"/>
+      <stop offset="65%" stop-color="#451a03"/>
+      <stop offset="100%" stop-color="#1c1917"/>
+    </linearGradient>
+
+    <linearGradient id="swordSteel" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#94a3b8"/>
+      <stop offset="40%" stop-color="#f8fafc"/>
+      <stop offset="70%" stop-color="#cbd5e1"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="flameGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="14" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1920" height="1080" fill="url(#shijueBackground)"/>
+
+  <!-- Ancient Iron Chains & Ten Formation Seals (玄鐵重鎖與十絕天煞陣) -->
+  <g stroke="#78350f" stroke-width="8" opacity="0.65">
+    <path d="M0,0 L560,500"/>
+    <path d="M1920,0 L1360,500"/>
+    <path d="M100,0 L700,600"/>
+    <path d="M1820,0 L1220,600"/>
+  </g>
+  <!-- Chain Link Details -->
+  <g stroke="#f59e0b" stroke-width="2" stroke-dasharray="14 14" opacity="0.8">
+    <path d="M0,0 L560,500"/>
+    <path d="M1920,0 L1360,500"/>
+    <path d="M100,0 L700,600"/>
+    <path d="M1820,0 L1220,600"/>
+  </g>
+
+  <!-- Ten Mysterious Floating Swords (十絕降魔神劍懸陣) -->
+  <g id="ten-swords" filter="url(#flameGlow)">
+    <!-- Sword 1 (Left High) -->
+    <g transform="translate(340, 260) rotate(25)">
+      <polygon points="-8,-140 8,-140 12,100 0,160 -12,100" fill="url(#swordSteel)"/>
+      <rect x="-24" y="100" width="48" height="10" fill="#ca8a04" rx="2"/>
+      <rect x="-6" y="110" width="12" height="45" fill="#78350f"/>
+      <circle cx="0" cy="160" r="10" fill="#f59e0b"/>
+    </g>
+    <!-- Sword 2 (Left Mid) -->
+    <g transform="translate(520, 380) rotate(15)">
+      <polygon points="-8,-140 8,-140 12,100 0,160 -12,100" fill="url(#swordSteel)"/>
+      <rect x="-24" y="100" width="48" height="10" fill="#ca8a04" rx="2"/>
+      <rect x="-6" y="110" width="12" height="45" fill="#78350f"/>
+      <circle cx="0" cy="160" r="10" fill="#f59e0b"/>
+    </g>
+    <!-- Sword 3 (Right High) -->
+    <g transform="translate(1580, 260) rotate(-25)">
+      <polygon points="-8,-140 8,-140 12,100 0,160 -12,100" fill="url(#swordSteel)"/>
+      <rect x="-24" y="100" width="48" height="10" fill="#ca8a04" rx="2"/>
+      <rect x="-6" y="110" width="12" height="45" fill="#78350f"/>
+      <circle cx="0" cy="160" r="10" fill="#f59e0b"/>
+    </g>
+    <!-- Sword 4 (Right Mid) -->
+    <g transform="translate(1400, 380) rotate(-15)">
+      <polygon points="-8,-140 8,-140 12,100 0,160 -12,100" fill="url(#swordSteel)"/>
+      <rect x="-24" y="100" width="48" height="10" fill="#ca8a04" rx="2"/>
+      <rect x="-6" y="110" width="12" height="45" fill="#78350f"/>
+      <circle cx="0" cy="160" r="10" fill="#f59e0b"/>
+    </g>
+  </g>
+
+  <!-- Massive Chamber Altar Ground with Molten Cracks (地裂熔金玄煞台) -->
+  <polygon points="0,1080 350,620 1570,620 1920,1080" fill="#1c1917"/>
+
+  <!-- Glowing Lava / Energy Cracks on Stone Floor -->
+  <g stroke="#ea580c" stroke-width="4" fill="none" filter="url(#flameGlow)">
+    <polyline points="960,620 920,720 980,820 940,940 960,1080"/>
+    <polyline points="920,720 740,780 620,920 480,1080"/>
+    <polyline points="980,820 1180,890 1340,960 1480,1080"/>
+    <polyline points="740,780 820,880 760,1000"/>
+    <polyline points="1180,890 1120,980 1160,1080"/>
+  </g>
+  <g stroke="#fde047" stroke-width="1.5" fill="none" opacity="0.9">
+    <polyline points="960,620 920,720 980,820 940,940 960,1080"/>
+    <polyline points="920,720 740,780 620,920 480,1080"/>
+    <polyline points="980,820 1180,890 1340,960 1480,1080"/>
+  </g>
+
+  <!-- Center Ancient Bronze Ding Cauldron (中央上古通天神鼎) -->
+  <g transform="translate(960, 580)">
+    <!-- Blazing Fire inside and around Ding -->
+    <circle cx="0" cy="-60" r="220" fill="url(#cauldronFire)" filter="url(#flameGlow)"/>
+
+    <!-- Dynamic Flame Tongues (十絕神火熾焰) -->
+    <g fill="url(#flameGrad1)" filter="url(#flameGlow)" opacity="0.95">
+      <path d="M-80,-40 Q-110,-160 -60,-220 Q-20,-150 0,-70 Z"/>
+      <path d="M-20,-40 Q0,-180 40,-260 Q60,-170 20,-70 Z"/>
+      <path d="M20,-40 Q80,-190 100,-230 Q60,-130 60,-70 Z"/>
+      <path d="M-120,-30 Q-150,-120 -100,-180 Q-80,-120 -60,-60 Z"/>
+      <path d="M80,-30 Q120,-140 140,-180 Q100,-110 80,-60 Z"/>
+    </g>
+
+    <!-- Bronze Ding Structure (神鼎鼎身) -->
+    <!-- Ding Ears -->
+    <rect x="-180" y="-120" width="30" height="90" rx="6" fill="url(#bronzeAncient)" stroke="#f59e0b" stroke-width="3"/>
+    <rect x="150" y="-120" width="30" height="90" rx="6" fill="url(#bronzeAncient)" stroke="#f59e0b" stroke-width="3"/>
+    
+    <!-- Ding Rim -->
+    <rect x="-170" y="-40" width="340" height="35" rx="5" fill="url(#bronzeAncient)" stroke="#fde047" stroke-width="3"/>
+    
+    <!-- Ding Belly (鼎腹) -->
+    <path d="M-150,-5 C-160,110 -100,180 0,180 C100,180 160,110 150,-5 Z" fill="url(#bronzeAncient)" stroke="#fde047" stroke-width="4"/>
+    
+    <!-- Ancient Relief Mask (饕餮神紋) -->
+    <circle cx="0" cy="80" r="45" fill="#451a03" stroke="#f59e0b" stroke-width="3"/>
+    <circle cx="-20" cy="70" r="10" fill="#dc2626"/>
+    <circle cx="20" cy="70" r="10" fill="#dc2626"/>
+    <path d="M-30,105 Q0,125 30,105" stroke="#fde047" stroke-width="4" fill="none"/>
+
+    <!-- Ding Three Giant Legs (鼎足) -->
+    <polygon points="-120,160 -90,160 -80,260 -130,260" fill="url(#bronzeAncient)" stroke="#ca8a04" stroke-width="3"/>
+    <polygon points="90,160 120,160 130,260 80,260" fill="url(#bronzeAncient)" stroke="#ca8a04" stroke-width="3"/>
+    <polygon points="-20,170 20,170 15,280 -15,280" fill="url(#bronzeAncient)" stroke="#ca8a04" stroke-width="3"/>
+  </g>
+
+  <!-- Left & Right Iron Gates and Braziers (玄金重闕神門與烈火盆) -->
+  <g transform="translate(180, 520)">
+    <rect x="0" y="0" width="100" height="320" fill="#292524" stroke="#78350f" stroke-width="4"/>
+    <circle cx="50" cy="60" r="35" fill="url(#cauldronFire)" filter="url(#flameGlow)"/>
+  </g>
+  <g transform="translate(1640, 520)">
+    <rect x="0" y="0" width="100" height="320" fill="#292524" stroke="#78350f" stroke-width="4"/>
+    <circle cx="50" cy="60" r="35" fill="url(#cauldronFire)" filter="url(#flameGlow)"/>
+  </g>
+
+  <!-- Chamber Header Badge (十絕神殿密室銘牌) -->
+  <g transform="translate(80, 80)">
+    <rect x="0" y="0" width="340" height="90" rx="8" fill="#450a0a" fill-opacity="0.9" stroke="#dc2626" stroke-width="2"/>
+    <text x="25" y="40" fill="#f87171" font-family="'Noto Serif TC', serif" font-size="24" font-weight="900">第三重關 · 十絕神殿密室</text>
+    <text x="25" y="68" fill="#fca5a5" font-family="'Noto Sans TC', sans-serif" font-size="14">玄金重重 · 天火熾烈 · 神劍破絕煞</text>
+  </g>
+</svg>

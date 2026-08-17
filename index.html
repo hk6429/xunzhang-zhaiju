@@ -41,10 +41,16 @@
 <main>
   <!-- 封神密室大廳／陣法選擇視圖 -->
   <section id="view-chamber" class="view">
-    <div class="chamber-hero">
-      <div class="chamber-hero-tag">封神演義・文道試煉</div>
-      <h2 class="chamber-hero-title">五大封神密室陣法</h2>
-      <p class="chamber-hero-desc">太極初開，萬仙雲集。五大上古玄門密室封鎖文道天機，攜手 Q 版守護仙人，摘句尋章，破陣封神！</p>
+    <div class="chamber-hero palace-hero-card">
+      <div class="palace-hero-banner-wrap">
+        <img src="assets/characters/trio-welcome.svg" alt="故宮封神三仙迎賓" class="palace-hero-banner-img" />
+        <div class="palace-hero-overlay"></div>
+      </div>
+      <div class="palace-hero-body">
+        <div class="chamber-hero-tag"><span class="palace-seal-tag">故宮御覽</span> 封神演義・文道密室試煉</div>
+        <h2 class="chamber-hero-title">五大封神密室陣法</h2>
+        <p class="chamber-hero-desc">太極初開，萬仙雲集。五大上古玄門密室封鎖文道天機，攜手 1:1 Q版守護仙人，摘句尋章，破陣封神！</p>
+      </div>
     </div>
     <div id="chamber-list" class="chamber-grid"></div>
   </section>
@@ -100,7 +106,11 @@
     </div>
 
     <div class="game-layout">
-      <div class="game-board">
+      <div class="game-board palace-jade-board">
+        <div class="board-corner corner-tl"></div>
+        <div class="board-corner corner-tr"></div>
+        <div class="board-corner corner-bl"></div>
+        <div class="board-corner corner-br"></div>
         <div id="grid" class="grid" aria-label="字格盤面"></div>
         <div id="cross-input-row" class="cross-input-row hidden">
           <input id="cross-input" type="text" maxlength="12" autocomplete="off" placeholder="輸入答案">
@@ -109,13 +119,16 @@
       </div>
 
       <aside class="game-panel">
-        <!-- 角色伴隨互動視窗：Q 版守護仙人 / 破陣夥伴立繪展演台 -->
+        <!-- 角色伴隨互動視窗：Q 版守護仙人 / 故宮博古架立繪展演台 -->
         <div id="fengshen-companion" class="fengshen-companion clickable" title="點擊向守護仙人請教破陣玄機">
-          <div class="companion-standee-container">
+          <div class="companion-standee-container palace-bogu-stage">
+            <div class="bogu-shelf-lattice"></div>
+            <div class="bogu-cloud-halo"></div>
             <div id="companion-avatar-wrap" class="companion-avatar-wrap"></div>
+            <div class="bogu-jade-pedestal"></div>
             <div id="comic-sfx-tag" class="comic-sfx-tag hidden">妙！</div>
           </div>
-          <div class="companion-bubble comic-bubble">
+          <div class="companion-bubble comic-bubble bubble-brush">
             <div class="companion-bubble-header">
               <span id="companion-name" class="companion-name">姜太公・太公引路</span>
               <span class="companion-hint-badge">💡 點擊請教</span>
@@ -247,40 +260,58 @@
   </div>
 </div>
 
-<!-- 通關結算（破陣成功・封神榜題名） -->
+<!-- 通關結算（破陣成功・宮廷聖旨金榜題名） -->
 <div id="modal-complete" class="modal-backdrop hidden">
-  <div class="modal complete-modal fengshen-settle-win">
-    <p class="card-badge">破陣功成</p>
-    <h3 id="complete-title">尋章功成・位列封神</h3>
-    <p id="complete-array-name" class="complete-array-name">乾坤太極陣・第 1 關 陣眼破解</p>
-    <p id="complete-stars" class="complete-stars"></p>
-
-    <!-- 大尺寸群仙破陣大合照 -->
-    <div class="complete-group-photo-wrap">
-      <img src="assets/characters/group-victory.svg" alt="群仙破陣大合照" class="complete-group-photo-img" loading="eager" />
+  <div class="modal complete-modal fengshen-settle-win palace-edict-modal">
+    <!-- 聖旨金榜飾件 -->
+    <div class="edict-finial edict-finial-top"></div>
+    <div class="edict-header-banner">
+      <span class="edict-dragon-mark">🐉</span>
+      <span class="edict-plaque-title">奉天承運・御賜金榜</span>
+      <span class="edict-dragon-mark">🐉</span>
     </div>
 
-    <!-- 仙人祝賀語 -->
-    <div class="complete-guardian-feedback">
-      <div id="complete-guardian-avatar" class="settle-avatar"></div>
-      <p id="complete-guardian-speech" class="settle-speech">道友神采奕奕，破此迷陣，真有通天之能！</p>
-    </div>
+    <div class="edict-body-wrap">
+      <div class="palace-vermilion-seal-stamp" title="御筆親擢・文魁及第">
+        <span class="seal-inner-text">文魁及第</span>
+      </div>
 
-    <!-- 封神法寶碎片獲取展示 -->
-    <div id="complete-treasure-box" class="complete-treasure-box">
-      <div class="treasure-header">✨ 獲賜封神法寶碎片</div>
-      <div class="treasure-card">
-        <span id="treasure-icon" class="treasure-icon">⚡</span>
-        <div class="treasure-info">
-          <strong id="treasure-name" class="treasure-name">打神鞭・靈光碎片</strong>
-          <p id="treasure-desc" class="treasure-desc">姜太公號令三界諸神之法寶碎片，凝聚浩然正氣。</p>
+      <p class="card-badge edict-badge">破陣功成</p>
+      <h3 id="complete-title" class="complete-title">尋章功成・位列封神</h3>
+      <p id="complete-array-name" class="complete-array-name">乾坤太極陣・第 1 關 陣眼破解</p>
+      <p id="complete-stars" class="complete-stars"></p>
+
+      <!-- 大尺寸群仙破陣大合照海報 -->
+      <div class="complete-group-photo-wrap">
+        <img src="assets/characters/group-victory.svg" alt="群仙破陣大合照" class="complete-group-photo-img" loading="eager" />
+        <div class="group-photo-silk-ribbon">✨ 萬仙同慶・名列金榜 ✨</div>
+      </div>
+
+      <!-- 仙人祝賀語 -->
+      <div class="complete-guardian-feedback">
+        <div id="complete-guardian-avatar" class="settle-avatar"></div>
+        <p id="complete-guardian-speech" class="settle-speech">道友神采奕奕，破此迷陣，真有通天之能！</p>
+      </div>
+
+      <!-- 封神法寶碎片獲取展示 -->
+      <div id="complete-treasure-box" class="complete-treasure-box">
+        <div class="treasure-header">✨ 御賜封神法寶碎片</div>
+        <div class="treasure-card">
+          <div class="treasure-icon-wrap">
+            <img id="treasure-img" class="treasure-shard-img" src="assets/items/dashen-bian.svg" alt="法寶碎片" />
+            <span id="treasure-icon" class="treasure-icon hidden">⚡</span>
+          </div>
+          <div class="treasure-info">
+            <strong id="treasure-name" class="treasure-name">打神鞭・靈光碎片</strong>
+            <p id="treasure-desc" class="treasure-desc">姜太公號令三界諸神之法寶碎片，凝聚浩然正氣。</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="settings-actions">
-      <button type="button" id="btn-next-level" class="primary-btn">破下一陣</button>
-      <button type="button" id="btn-complete-map" class="ghost-btn">回大廳</button>
+      <div class="settings-actions">
+        <button type="button" id="btn-next-level" class="primary-btn">破下一陣</button>
+        <button type="button" id="btn-complete-map" class="ghost-btn">回大廳</button>
+      </div>
     </div>
   </div>
 </div>
@@ -293,7 +324,7 @@
     <div id="cutin-character-stage" class="cutin-character-stage"></div>
     <div class="cutin-kanji-wrap">
       <span class="cutin-kanji-stamp" id="cutin-kanji-stamp">破！</span>
-      <span class="cutin-kanji-sub" id="cutin-kanji-sub">陣眼勘破</span>
+      <span class="cutin-kanji-sub" id="cutin-kanji-sub">⚡ 陣眼勘破・金榜題名 ⚡</span>
     </div>
     <div class="cutin-bubble-wrap">
       <div class="cutin-comic-bubble" id="cutin-comic-bubble">

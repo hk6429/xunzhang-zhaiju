@@ -67,6 +67,7 @@ export const FENGSHEN_ARRAYS = [
       id: 'dashanbian_shard',
       name: '打神鞭・靈光碎片',
       icon: '⚡',
+      svgPath: 'assets/items/dashen-bian.svg',
       desc: '姜太公號令三界諸神之法寶碎片，凝聚浩然正氣。'
     }
   },
@@ -125,6 +126,7 @@ export const FENGSHEN_ARRAYS = [
       id: 'qiankunquan_shard',
       name: '乾坤圈・純金殘片',
       icon: '⭕',
+      svgPath: 'assets/items/qiankun-quan.svg',
       desc: '哪吒降妖伏魔之至寶碎片，擲出如流星破空。'
     }
   },
@@ -183,6 +185,7 @@ export const FENGSHEN_ARRAYS = [
       id: 'sanjianliangren_shard',
       name: '三尖兩刃刀・神鋒碎刃',
       icon: '🗡️',
+      svgPath: 'assets/items/sanjian-liangren-dao.svg',
       desc: '二郎真君斬妖除魔之無上神兵碎片，鋒銳無匹。'
     }
   },
@@ -278,6 +281,7 @@ export const FENGSHEN_ARRAYS = [
       id: 'yinhundeng_shard',
       name: '引魂燈・幽火晶石',
       icon: '🏮',
+      svgPath: 'assets/items/yinhun-deng.svg',
       desc: '蘇妲己與申公豹守護之幽冥靈燈碎片，能照徹迷局。'
     }
   },
@@ -373,6 +377,7 @@ export const FENGSHEN_ARRAYS = [
       id: 'zhuxianjian_shard',
       name: '誅仙古劍・混元劍鞘',
       icon: '⚔️',
+      svgPath: 'assets/items/fenglei-chui.svg',
       desc: '上古誅仙四劍之玄金劍鞘，散發萬道祥光。'
     }
   }

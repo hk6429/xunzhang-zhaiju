@@ -535,9 +535,14 @@ export function startLevel(ctx) {
     const shard = arrayInfo.treasureShard;
     if (shard) {
       const iconEl = $('treasure-icon');
+      const imgEl = $('treasure-img');
       const nameEl = $('treasure-name');
       const descEl = $('treasure-desc');
       if (iconEl) iconEl.textContent = shard.icon;
+      if (imgEl) {
+        imgEl.src = shard.svgPath || 'assets/items/dashen-bian.svg';
+        imgEl.alt = shard.name;
+      }
       if (nameEl) nameEl.textContent = shard.name;
       if (descEl) descEl.textContent = shard.desc;
     }

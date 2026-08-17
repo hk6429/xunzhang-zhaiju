@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e1635"/>
+      <stop offset="30%" stop-color="#3b2d54"/>
+      <stop offset="60%" stop-color="#7d5867"/>
+      <stop offset="85%" stop-color="#d99b6c"/>
+      <stop offset="100%" stop-color="#f5d79e"/>
+    </linearGradient>
+
+    <radialGradient id="sunGlow" cx="50%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="#fff6d6" stop-opacity="1"/>
+      <stop offset="25%" stop-color="#ffd56b" stop-opacity="0.85"/>
+      <stop offset="55%" stop-color="#f59e0b" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#7d5867" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Mountain Gradients (青綠山水) -->
+    <linearGradient id="mountFar" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2a475e" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#132338" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="mountGreen1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4ea397"/>
+      <stop offset="40%" stop-color="#286e64"/>
+      <stop offset="100%" stop-color="#113832"/>
+    </linearGradient>
+    <linearGradient id="mountGreen2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6bc2b5"/>
+      <stop offset="50%" stop-color="#2c8577"/>
+      <stop offset="100%" stop-color="#0e3d36"/>
+    </linearGradient>
+
+    <!-- Palace Colors -->
+    <linearGradient id="roofGold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffe680"/>
+      <stop offset="40%" stop-color="#e5a924"/>
+      <stop offset="100%" stop-color="#8c5807"/>
+    </linearGradient>
+    <linearGradient id="wallRed" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#b8332a"/>
+      <stop offset="70%" stop-color="#7a1912"/>
+      <stop offset="100%" stop-color="#420b07"/>
+    </linearGradient>
+    <linearGradient id="terraceMarble" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fbf9f5"/>
+      <stop offset="60%" stop-color="#d8d3c5"/>
+      <stop offset="100%" stop-color="#9e9786"/>
+    </linearGradient>
+
+    <!-- Golden Mist -->
+    <linearGradient id="goldCloudGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff8db" stop-opacity="0.95"/>
+      <stop offset="50%" stop-color="#fad980" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#d49a37" stop-opacity="0.5"/>
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="celestialGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#070b12" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Sky Canvas -->
+  <rect width="1920" height="1080" fill="url(#skyGrad)"/>
+  <circle cx="960" cy="380" r="520" fill="url(#sunGlow)"/>
+
+  <!-- Distant Blue-Green Peaks (遠景青綠群峰) -->
+  <path d="M-100,680 L180,320 L380,520 L620,240 L890,560 L1120,210 L1380,490 L1680,260 L1950,540 L2050,680 Z" fill="url(#mountFar)"/>
+  <path d="M-80,720 L120,410 L290,590 L510,340 L760,620 L1020,310 L1260,570 L1540,360 L1820,580 L2040,720 Z" fill="url(#mountGreen1)" opacity="0.85"/>
+
+  <!-- Swirling Celestial Clouds & Auspicious Auroras (祥雲繚繞) -->
+  <g opacity="0.75" filter="url(#celestialGlow)">
+    <path d="M0,450 C300,420 500,490 800,430 C1100,370 1350,460 1650,390 C1850,340 1920,380 1920,430 L1920,600 L0,600 Z" fill="url(#goldCloudGrad)" opacity="0.4"/>
+    <path d="M-50,580 C250,520 480,620 850,540 C1200,460 1480,590 1950,510 L1950,750 L-50,750 Z" fill="url(#goldCloudGrad)" opacity="0.5"/>
+  </g>
+
+  <!-- Midground Mountains with Mineral Pigment Highlights (石青石綠峰巒) -->
+  <g id="mid-mountains">
+    <polygon points="-50,850 140,460 320,850" fill="url(#mountGreen2)"/>
+    <polygon points="120,850 360,420 580,850" fill="url(#mountGreen1)"/>
+    <polygon points="1350,850 1590,400 1820,850" fill="url(#mountGreen2)"/>
+    <polygon points="1600,850 1780,480 2000,850" fill="url(#mountGreen1)"/>
+    <!-- Gold Contours on Peaks -->
+    <polyline points="130,480 140,460 160,510 200,580" stroke="#fde047" stroke-width="2.5" fill="none" opacity="0.7"/>
+    <polyline points="350,440 360,420 390,470 440,560" stroke="#fde047" stroke-width="3" fill="none" opacity="0.8"/>
+    <polyline points="1580,420 1590,400 1620,450 1680,560" stroke="#fde047" stroke-width="3" fill="none" opacity="0.8"/>
+  </g>
+
+  <!-- Floating Celestial Bridges & Flying Pavilions (懸浮仙閣祥雲廊橋) -->
+  <g id="floating-pavilions" filter="url(#softShadow)">
+    <!-- Left Celestial Pavilion -->
+    <g transform="translate(180, 220) scale(0.65)">
+      <ellipse cx="200" cy="180" rx="220" ry="40" fill="url(#goldCloudGrad)" filter="url(#celestialGlow)"/>
+      <polygon points="100,120 200,60 300,120 260,130 140,130" fill="url(#roofGold)"/>
+      <polygon points="120,60 200,10 280,60 250,70 150,70" fill="url(#roofGold)"/>
+      <rect x="150" y="70" width="100" height="40" fill="url(#wallRed)"/>
+      <rect x="130" y="130" width="140" height="50" fill="url(#wallRed)"/>
+      <circle cx="200" cy="5" r="8" fill="#ffd700" filter="url(#celestialGlow)"/>
+    </g>
+
+    <!-- Right Celestial Pavilion -->
+    <g transform="translate(1420, 200) scale(0.75)">
+      <ellipse cx="200" cy="180" rx="240" ry="45" fill="url(#goldCloudGrad)" filter="url(#celestialGlow)"/>
+      <polygon points="90,130 200,60 310,130 270,140 130,140" fill="url(#roofGold)"/>
+      <polygon points="120,60 200,10 280,60 250,70 150,70" fill="url(#roofGold)"/>
+      <rect x="150" y="70" width="100" height="40" fill="url(#wallRed)"/>
+      <rect x="120" y="140" width="160" height="50" fill="url(#wallRed)"/>
+      <circle cx="200" cy="5" r="9" fill="#ffd700" filter="url(#celestialGlow)"/>
+    </g>
+  </g>
+
+  <!-- Glowing Taoist Seals & Talisman Formations in Sky (虛空太極符篆光環) -->
+  <g id="celestial-formations" filter="url(#celestialGlow)" opacity="0.85">
+    <!-- Big Central Taiji Seal Halo -->
+    <g transform="translate(960, 220)">
+      <circle cx="0" cy="0" r="110" fill="none" stroke="#fde047" stroke-width="3" stroke-dasharray="8 6"/>
+      <circle cx="0" cy="0" r="92" fill="#181411" fill-opacity="0.45" stroke="#f59e0b" stroke-width="2"/>
+      <!-- Inner Trigrams -->
+      <path d="M-60,-60 L60,-60 M-70,-30 L70,-30 M-70,30 L70,30 M-60,60 L60,60" stroke="#fde047" stroke-width="3" opacity="0.6"/>
+      <!-- Glowing Ancient Seal Characters -->
+      <text x="0" y="10" fill="#fff6d6" font-family="'Noto Serif TC', 'Songti TC', serif" font-size="28" font-weight="900" text-anchor="middle" letter-spacing="6">太極破陣</text>
+    </g>
+
+    <!-- Floating Gold Talismans Left & Right -->
+    <g transform="translate(560, 180) rotate(-10)">
+      <rect x="0" y="0" width="55" height="130" rx="6" fill="#f59e0b" fill-opacity="0.3" stroke="#fde047" stroke-width="2"/>
+      <text x="28" y="45" fill="#fde047" font-family="'Noto Serif TC', serif" font-size="16" font-weight="900" text-anchor="middle">乾坤</text>
+      <text x="28" y="75" fill="#fde047" font-family="'Noto Serif TC', serif" font-size="16" font-weight="900" text-anchor="middle">御陣</text>
+      <text x="28" y="105" fill="#fde047" font-family="'Noto Serif TC', serif" font-size="16" font-weight="900" text-anchor="middle">奉敕</text>
+    </g>
+
+    <g transform="translate(1310, 160) rotate(12)">
+      <rect x="0" y="0" width="55" height="130" rx="6" fill="#f59e0b" fill-opacity="0.3" stroke="#fde047" stroke-width="2"/>
+      <text x="28" y="45" fill="#fde047" font-family="'Noto Serif TC', serif" font-size="16" font-weight="900" text-anchor="middle">萬仙</text>
+      <text x="28" y="75" fill="#fde047" font-family="'Noto Serif TC', serif" font-size="16" font-weight="900" text-anchor="middle">封印</text>
+      <text x="28" y="105" fill="#fde047" font-family="'Noto Serif TC', serif" font-size="16" font-weight="900" text-anchor="middle">解密</text>
+    </g>
+  </g>
+
+  <!-- Grand Imperial Forbidden City Central Hall (故宮金鑾太和殿大殿宇) -->
+  <g id="main-palace" transform="translate(960, 710)" filter="url(#softShadow)">
+    <!-- White Marble Tiered Base Platform (三層漢白玉雕欄臺基) -->
+    <!-- Base Tier 3 -->
+    <polygon points="-650,220 650,220 610,160 -610,160" fill="url(#terraceMarble)"/>
+    <rect x="-650" y="215" width="1300" height="15" fill="#9e9786"/>
+    <!-- Base Tier 2 -->
+    <polygon points="-580,160 580,160 540,110 -540,110" fill="url(#terraceMarble)"/>
+    <rect x="-580" y="155" width="1160" height="12" fill="#8f8876"/>
+    <!-- Base Tier 1 -->
+    <polygon points="-510,110 510,110 470,60 -470,60" fill="url(#terraceMarble)"/>
+    <rect x="-510" y="105" width="1020" height="12" fill="#7f7866"/>
+
+    <!-- Central Dragon Ramp (九龍御道浮雕石階) -->
+    <polygon points="-120,230 120,230 90,60 -90,60" fill="#78716c"/>
+    <polygon points="-100,230 100,230 75,60 -75,60" fill="#3b4252" stroke="#f59e0b" stroke-width="1.5"/>
+    <path d="M0,65 L0,225" stroke="#fde047" stroke-width="2" stroke-dasharray="4 8"/>
+
+    <!-- Main Hall Lower Structure (殿身下層與立柱) -->
+    <rect x="-420" y="-80" width="840" height="140" fill="url(#wallRed)"/>
+    <!-- Grand Red Columns -->
+    <g fill="#8b1e16" stroke="#f59e0b" stroke-width="1">
+      <rect x="-400" y="-80" width="28" height="140" rx="3"/>
+      <rect x="-310" y="-80" width="28" height="140" rx="3"/>
+      <rect x="-220" y="-80" width="28" height="140" rx="3"/>
+      <rect x="-130" y="-80" width="28" height="140" rx="3"/>
+      <rect x="102" y="-80" width="28" height="140" rx="3"/>
+      <rect x="192" y="-80" width="28" height="140" rx="3"/>
+      <rect x="282" y="-80" width="28" height="140" rx="3"/>
+      <rect x="372" y="-80" width="28" height="140" rx="3"/>
+    </g>
+
+    <!-- Palace Doors and Windows with Gold Lattice (格扇朱門金花欞) -->
+    <g fill="#2d0a08">
+      <rect x="-80" y="-60" width="160" height="120" stroke="#f59e0b" stroke-width="2"/>
+      <rect x="-65" y="-50" width="60" height="100" fill="#1a0504" stroke="#d97706" stroke-width="1"/>
+      <rect x="5" y="-50" width="60" height="100" fill="#1a0504" stroke="#d97706" stroke-width="1"/>
+    </g>
+
+    <!-- Lower Roof (重簷下簷) -->
+    <polygon points="-480,-80 480,-80 540,-130 510,-140 -510,-140 -540,-130" fill="url(#roofGold)" filter="url(#softShadow)"/>
+    <!-- Flying Eaves Upward Curves -->
+    <path d="M-540,-130 Q-580,-145 -600,-165 L-510,-140 Z" fill="#e5a924"/>
+    <path d="M540,-130 Q580,-145 600,-165 L510,-140 Z" fill="#e5a924"/>
+
+    <!-- Upper Hall Wall (上層殿身) -->
+    <rect x="-340" y="-200" width="680" height="70" fill="url(#wallRed)"/>
+
+    <!-- Imperial Plaque (金字九龍匾額 - 尋章摘句) -->
+    <g transform="translate(0, -170)">
+      <rect x="-100" y="-24" width="200" height="48" fill="#1e293b" stroke="#fde047" stroke-width="4" rx="4"/>
+      <rect x="-92" y="-18" width="184" height="36" fill="#0f172a" stroke="#d97706" stroke-width="1.5"/>
+      <text x="0" y="8" fill="#fde047" font-family="'Noto Serif TC', 'Songti TC', serif" font-size="22" font-weight="900" text-anchor="middle" letter-spacing="8">尋章摘句</text>
+    </g>
+
+    <!-- Upper Roof (重簷廡殿頂主簷) -->
+    <polygon points="-430,-200 430,-200 490,-260 460,-270 -460,-270 -490,-260" fill="url(#roofGold)" filter="url(#softShadow)"/>
+    <path d="M-490,-260 Q-540,-280 -570,-310 L-460,-270 Z" fill="#ffe680"/>
+    <path d="M490,-260 Q540,-280 570,-310 L460,-270 Z" fill="#ffe680"/>
+
+    <!-- Ridge Beasts & Main Ridge (正脊與吻獸、仙人走獸) -->
+    <rect x="-420" y="-285" width="840" height="18" fill="#d97706" rx="4"/>
+    <circle cx="0" cy="-290" r="16" fill="#fde047" stroke="#b45309" stroke-width="2"/>
+    <!-- Ridge Dragon Horns -->
+    <path d="M-420,-285 Q-450,-315 -440,-330 L-410,-285 Z" fill="#eab308"/>
+    <path d="M420,-285 Q450,-315 440,-330 L410,-285 Z" fill="#eab308"/>
+  </g>
+
+  <!-- Foreground Atmospheric Clouds & Floor Golden Mist (前瞻祥雲金霧) -->
+  <g id="foreground-clouds" filter="url(#softShadow)">
+    <path d="M-100,1080 L-100,920 C180,880 380,960 700,910 C1020,860 1340,950 1720,890 C1920,860 2050,910 2050,1080 Z" fill="url(#goldCloudGrad)" opacity="0.95"/>
+    <path d="M-100,1080 L-100,970 C240,940 560,1020 960,960 C1360,900 1680,1010 2050,950 L2050,1080 Z" fill="#132338" opacity="0.85"/>
+  </g>
+
+  <!-- Title & Calligraphic Seal (故宮封神大標與朱印) -->
+  <g transform="translate(100, 100)" filter="url(#softShadow)">
+    <rect x="0" y="0" width="380" height="110" rx="12" fill="#0f172a" fill-opacity="0.85" stroke="#eab308" stroke-width="2"/>
+    <text x="30" y="48" fill="#fde047" font-family="'Noto Serif TC', serif" font-size="32" font-weight="900" letter-spacing="4">故宮宮廷 · 封神密室</text>
+    <text x="30" y="85" fill="#f8fafc" font-family="'Noto Sans TC', sans-serif" font-size="16" font-weight="500" letter-spacing="2">太極破陣 · 萬仙會盟 · 尋章摘句</text>
+    <!-- Red Seal Stamp -->
+    <rect x="300" y="20" width="60" height="60" rx="6" fill="#b91c1c" stroke="#fca5a5" stroke-width="2"/>
+    <text x="330" y="46" fill="#fff" font-family="'Noto Serif TC', serif" font-size="14" font-weight="900" text-anchor="middle">破陣</text>
+    <text x="330" y="66" fill="#fff" font-family="'Noto Serif TC', serif" font-size="14" font-weight="900" text-anchor="middle">神印</text>
+  </g>
+</svg>

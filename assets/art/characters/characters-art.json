@@ -1,0 +1,120 @@
+{
+  "title": "尋章摘句 - 封神國風 Q 版潑墨漫畫角色立繪庫",
+  "version": "1.0.0",
+  "styleSpec": {
+    "ratio": "1:1 超萌大頭身 (Super-deformed Chibi 1:1)",
+    "artStyle": "國風水墨潑墨 + 故宮宮廷設色 (泥金描邊、硃砂與景泰藍點綴、水墨毛筆動態飛濺、生動超萌漫畫表情)",
+    "canvasSize": "1024x1024",
+    "license": "純原創美術立繪，無第三方版權爭議"
+  },
+  "characters": [
+    {
+      "id": "jiang-taigong",
+      "name": "姜太公",
+      "title": "封神統帥・太公望",
+      "ratio": "1:1",
+      "artImage": "assets/art/characters/jiang-taigong.jpg",
+      "sourceArtifact": "chibi_jiang_taigong_1786991100982.jpg",
+      "description": "白髮仙髯老頑童長老，手持打神鞭與太極金令，太極乾坤妙算無雙，大頭圓臉慈祥超萌。",
+      "palette": ["#0284c7", "#facc15", "#dc2626", "#1e293b", "#f8fafc"],
+      "weapons": ["打神鞭", "太極金令", "杏黃旗"],
+      "visualHighlights": ["蓬鬆雪白仙髯與劍眉", "故宮明黃與孔雀藍道袍", "泥金流光勾勒線條", "周身靈動水墨筆觸飛濺"]
+    },
+    {
+      "id": "nezha",
+      "name": "哪吒",
+      "title": "三壇海會・蓮花童子",
+      "ratio": "1:1",
+      "artImage": "assets/art/characters/nezha.jpg",
+      "sourceArtifact": "chibi_nezha_1786991115142.jpg",
+      "description": "雙抓髻包包頭、混天紅綢飄帶、乾坤金圈、腳踏風火雙輪，傲嬌熱血的護道小神將。",
+      "palette": ["#e11d48", "#10b981", "#f59e0b", "#1e293b", "#fff1f2"],
+      "weapons": ["乾坤圈", "混天綾", "風火輪"],
+      "visualHighlights": ["雙包髻繫紅絲帶", "青碧蓮花護心甲", "環繞周身的飛舞赤紅混天綾", "腳底烈焰風火雙輪"]
+    },
+    {
+      "id": "yang-jian",
+      "name": "楊戩",
+      "title": "清源妙道・二郎真君",
+      "ratio": "1:1",
+      "artImage": "assets/art/characters/yang-jian.jpg",
+      "sourceArtifact": "chibi_yang_jian_1786991128427.jpg",
+      "description": "額間天眼雷光洞察、手持三尖兩刃刀，身伴超萌二哈版哮天犬的高冷帥萌小將。",
+      "palette": ["#0284c7", "#ca8a04", "#dc2626", "#334155", "#eff6ff"],
+      "weapons": ["三尖兩刃神鋒", "天眼洞察", "萌犬哮天"],
+      "visualHighlights": ["鳳翅紫金頭盔", "額間湛藍金芒天眼神光", "神威三尖兩刃長槍", "身旁元氣可愛哮天犬"]
+    },
+    {
+      "id": "su-daji",
+      "name": "蘇妲己",
+      "title": "傾國九尾・天狐妖仙",
+      "ratio": "1:1",
+      "artImage": "assets/art/characters/su-daji.jpg",
+      "sourceArtifact": "chibi_su_daji_1786991139434.jpg",
+      "description": "粉墨九尾狐耳妖仙、幽冥粉紫狐火、手提引魂宮燈，心心眼與調皮狡黠的反派萌主。",
+      "palette": ["#db2777", "#fda4af", "#9333ea", "#be185d", "#fdf2f8"],
+      "weapons": ["引魂宮燈", "幽冥狐火", "九尾天狐仙法"],
+      "visualHighlights": ["毛茸茸粉白狐耳與金步搖", "背後如花綻放的九條天狐尾", "手提精緻復古宮燈", "周圍幽藍粉紫靈動狐火"]
+    },
+    {
+      "id": "shen-gongbao",
+      "name": "申公豹",
+      "title": "分水將軍・邪笑國師",
+      "ratio": "1:1",
+      "artImage": "assets/art/characters/shen-gongbao.jpg",
+      "sourceArtifact": "chibi_shen_gongbao_1786991155090.jpg",
+      "description": "八字鬍歪嘴喜劇魔頭，騎著圓滾滾胖黑點虎，口喊「道友請留步」的搞笑反派。",
+      "palette": ["#7e22ce", "#eab308", "#18181b", "#a855f7", "#faf5ff"],
+      "weapons": ["陰陽八卦鏡", "胖黑點虎坐騎", "開口留人咒"],
+      "visualHighlights": ["滑稽俏皮的八字鬍與歪嘴笑", "紫金玄色宮廷道袍", "懸浮發光的陰陽八卦鏡", "趴著眨大眼的胖萌黑點虎"]
+    },
+    {
+      "id": "lei-zhenzi",
+      "name": "雷震子",
+      "title": "九天應元・風雷神將",
+      "ratio": "1:1",
+      "artImage": "assets/art/characters/lei-zhenzi.jpg",
+      "sourceArtifact": "chibi_lei_zhenzi_1786991167981.jpg",
+      "description": "風雷雙翼、青面金睛、金錐落雷，呆萌鳥嘴小金剛元氣少年。",
+      "palette": ["#0d9488", "#f59e0b", "#06b6d4", "#134e4a", "#f0fdfa"],
+      "weapons": ["風雷黃金錐", "雷神金錘", "風雷雙翼"],
+      "visualHighlights": ["華麗青金羽冠", "大張的風雷流光雙羽翼", "雙持雷霆金錐與重錘", "金光璀璨的呆萌大圓眼"]
+    },
+    {
+      "id": "taiyi-zhenren",
+      "name": "太乙真人",
+      "title": "乾元洞府・金光大仙",
+      "ratio": "1:1",
+      "artImage": "assets/art/characters/taiyi-zhenren.jpg",
+      "sourceArtifact": "chibi_taiyi_zhenren_1786991182660.jpg",
+      "description": "圓滾滾酒葫蘆、大肚腩笑瞇瞇，太極拂塵與九龍神火罩護體的搞笑煉丹仙師。",
+      "palette": ["#d97706", "#ef4444", "#fbbf24", "#78350f", "#fffbeb"],
+      "weapons": ["乾元金光酒葫蘆", "太極拂塵", "九龍神火罩"],
+      "visualHighlights": ["富態討喜的大圓臉與開懷笑顏", "威嚴華貴的純金五嶽冠", "烈焰繚繞的金光神火仙葫蘆", "銀絲太極拂塵"]
+    },
+    {
+      "id": "moling",
+      "name": "墨靈仙童",
+      "title": "玄墨小神君・品牌吉祥物",
+      "ratio": "1:1",
+      "artImage": "assets/art/characters/moling.jpg",
+      "sourceArtifact": "chibi_moling_mascot_1786991198899.jpg",
+      "description": "太極混元簪、靈動大眼、手握玄天如意毫筆與打神金鞭，文墨神仙雙修的品牌吉祥物。",
+      "palette": ["#0284c7", "#facc15", "#0ea5e9", "#0f172a", "#f0f9ff"],
+      "weapons": ["如意毫筆", "太極混元簪", "玄天金鞭"],
+      "visualHighlights": ["太極陰陽金簪束髮", "揮灑水墨金光的巨型如意毛筆", "飄逸的書法字紋墨藍斗篷", "清澈靈動的湛藍琉璃大眼"]
+    },
+    {
+      "id": "tuxing-sun",
+      "name": "土行孫",
+      "title": "地行千載・穿山萌俠",
+      "ratio": "1:1",
+      "artImage": "assets/art/characters/tuxing-sun.jpg",
+      "sourceArtifact": "chibi_tuxing_sun_1786991221698.jpg",
+      "description": "地底鑽出、頭戴可愛小鼴鼠兜帽，手握鑌鐵短棍與捆仙金繩的神出鬼沒萌俠。",
+      "palette": ["#854d0e", "#eab308", "#78350f", "#451a03", "#fefce8"],
+      "weapons": ["鑌鐵短棍", "捆仙金繩", "地行術"],
+      "visualHighlights": ["超萌毛茸茸小鼴鼠兜帽", "盤繞肩膀的璀璨捆仙金繩", "破土而出的碎石與金芒特效", "俏皮開朗的少年笑顏"]
+    }
+  ]
+}

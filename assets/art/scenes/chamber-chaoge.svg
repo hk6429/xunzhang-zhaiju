@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
+  <defs>
+    <!-- Background Dreamy Purple & Crimson Sky -->
+    <linearGradient id="chaogeNight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#180c2e"/>
+      <stop offset="35%" stop-color="#3b0764"/>
+      <stop offset="70%" stop-color="#581c87"/>
+      <stop offset="100%" stop-color="#831843"/>
+    </linearGradient>
+
+    <!-- Nine-Tailed Fox Ethereal Fire Gradients (狐火九尾幻光) -->
+    <radialGradient id="foxFireCyan" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ecfeff"/>
+      <stop offset="30%" stop-color="#67e8f9"/>
+      <stop offset="65%" stop-color="#06b6d4" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0891b2" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="foxFireMagenta" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fdf4ff"/>
+      <stop offset="30%" stop-color="#f472b6"/>
+      <stop offset="70%" stop-color="#db2777" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#9d174d" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Palace Pavilion Gradients -->
+    <linearGradient id="chaogePavilionRoof" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e"/>
+      <stop offset="40%" stop-color="#be123c"/>
+      <stop offset="100%" stop-color="#4c0519"/>
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="illusionGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="16" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Sky Canvas -->
+  <rect width="1920" height="1080" fill="url(#chaogeNight)"/>
+
+  <!-- Giant Blood Moon & Fox Illusion Silhouette (血月與九尾仙狐法相) -->
+  <circle cx="960" cy="360" r="280" fill="#fda4af" opacity="0.25" filter="url(#illusionGlow)"/>
+  <circle cx="960" cy="360" r="240" fill="#ffe4e6" opacity="0.6"/>
+
+  <!-- Nine Ethereal Fox Tails Emanating from the Horizon (九尾天狐幻影仙尾) -->
+  <g id="nine-tails" filter="url(#illusionGlow)" opacity="0.85">
+    <!-- Tail 1 (Far Left) -->
+    <path d="M960,680 Q520,620 300,320 Q220,180 340,120 Q440,180 480,360 Q700,560 960,680" fill="url(#foxFireMagenta)"/>
+    <!-- Tail 2 (Left Mid) -->
+    <path d="M960,680 Q620,540 450,220 Q400,100 520,70 Q600,140 620,320 Q760,520 960,680" fill="url(#foxFireCyan)"/>
+    <!-- Tail 3 (Left Up) -->
+    <path d="M960,680 Q740,460 620,160 Q600,40 720,20 Q780,100 780,280 Q840,480 960,680" fill="url(#foxFireMagenta)"/>
+    <!-- Tail 4 (Center Left) -->
+    <path d="M960,680 Q840,420 800,120 Q820,0 900,10 Q940,90 920,260 Q920,460 960,680" fill="url(#foxFireCyan)"/>
+    <!-- Tail 5 (Center) -->
+    <path d="M960,680 Q930,380 960,80 Q980,-20 1020,-10 Q1040,70 1010,240 Q980,440 960,680" fill="url(#foxFireMagenta)"/>
+    <!-- Tail 6 (Center Right) -->
+    <path d="M960,680 Q1080,420 1120,120 Q1100,0 1020,10 Q980,90 1000,260 Q1000,460 960,680" fill="url(#foxFireCyan)"/>
+    <!-- Tail 7 (Right Up) -->
+    <path d="M960,680 Q1180,460 1300,160 Q1320,40 1200,20 Q1140,100 1140,280 Q1080,480 960,680" fill="url(#foxFireMagenta)"/>
+    <!-- Tail 8 (Right Mid) -->
+    <path d="M960,680 Q1300,540 1470,220 Q1520,100 1400,70 Q1320,140 1300,320 Q1160,520 960,680" fill="url(#foxFireCyan)"/>
+    <!-- Tail 9 (Far Right) -->
+    <path d="M960,680 Q1400,620 1620,320 Q1700,180 1580,120 Q1480,180 1440,360 Q1220,560 960,680" fill="url(#foxFireMagenta)"/>
+  </g>
+
+  <!-- Chaoge Multi-tiered Vermilion Palace Pavilion (朝歌鹿台摘星樓朱紅宮闕) -->
+  <g id="chaoge-palace" transform="translate(960, 680)" filter="url(#illusionGlow)">
+    <!-- Base Terraces -->
+    <polygon points="-420,160 420,160 380,100 -380,100" fill="#4c0519" stroke="#fda4af" stroke-width="2"/>
+    <polygon points="-360,100 360,100 320,40 -320,40" fill="#831843" stroke="#f472b6" stroke-width="2"/>
+
+    <!-- Pavilion Tier 1 -->
+    <rect x="-240" y="-80" width="480" height="120" fill="#9f1239" stroke="#fb7185" stroke-width="2"/>
+    <polygon points="-280,-80 280,-80 320,-130 290,-140 -290,-140 -320,-130" fill="url(#chaogePavilionRoof)"/>
+    <path d="M-320,-130 Q-360,-145 -380,-170 L-290,-140 Z" fill="#fda4af"/>
+    <path d="M320,-130 Q360,-145 380,-170 L290,-140 Z" fill="#fda4af"/>
+
+    <!-- Pavilion Tier 2 (摘星樓頂層) -->
+    <rect x="-180" y="-220" width="360" height="80" fill="#881337" stroke="#f43f5e" stroke-width="2"/>
+    <polygon points="-220,-220 220,-220 260,-270 230,-280 -230,-280 -260,-270" fill="url(#chaogePavilionRoof)"/>
+    <path d="M-260,-270 Q-300,-290 -320,-315 L-230,-280 Z" fill="#fda4af"/>
+    <path d="M260,-270 Q300,-290 320,-315 L230,-280 Z" fill="#fda4af"/>
+
+    <!-- Glowing Lanterns hanging from Eaves (幽幽狐火宮燈) -->
+    <g transform="translate(-250, -60)"><circle cx="0" cy="0" r="14" fill="#67e8f9" filter="url(#illusionGlow)"/><rect x="-6" y="-12" width="12" height="24" fill="#0891b2"/></g>
+    <g transform="translate(250, -60)"><circle cx="0" cy="0" r="14" fill="#67e8f9" filter="url(#illusionGlow)"/><rect x="-6" y="-12" width="12" height="24" fill="#0891b2"/></g>
+    <g transform="translate(-190, -200)"><circle cx="0" cy="0" r="12" fill="#f472b6" filter="url(#illusionGlow)"/><rect x="-5" y="-10" width="10" height="20" fill="#db2777"/></g>
+    <g transform="translate(190, -200)"><circle cx="0" cy="0" r="12" fill="#f472b6" filter="url(#illusionGlow)"/><rect x="-5" y="-10" width="10" height="20" fill="#db2777"/></g>
+  </g>
+
+  <!-- Mystical Fox Fire Wisps Floating around the Room (漫天浮游青幽狐火) -->
+  <g filter="url(#illusionGlow)">
+    <circle cx="280" cy="720" r="18" fill="url(#foxFireCyan)"/>
+    <circle cx="480" cy="850" r="14" fill="url(#foxFireMagenta)"/>
+    <circle cx="1440" cy="740" r="20" fill="url(#foxFireCyan)"/>
+    <circle cx="1680" cy="820" r="16" fill="url(#foxFireMagenta)"/>
+    <circle cx="820" cy="940" r="12" fill="url(#foxFireCyan)"/>
+    <circle cx="1120" cy="920" r="15" fill="url(#foxFireMagenta)"/>
+  </g>
+
+  <!-- Chamber Header Badge (朝歌幻境樓閣銘牌) -->
+  <g transform="translate(80, 80)">
+    <rect x="0" y="0" width="340" height="90" rx="8" fill="#581c87" fill-opacity="0.9" stroke="#f472b6" stroke-width="2"/>
+    <text x="25" y="40" fill="#f472b6" font-family="'Noto Serif TC', serif" font-size="24" font-weight="900">第四重關 · 朝歌幻境樓閣</text>
+    <text x="25" y="68" fill="#fbcfe8" font-family="'Noto Sans TC', sans-serif" font-size="14">朱紅宮闕 · 九尾狐影 · 摘星破迷障</text>
+  </g>
+</svg>

@@ -1,0 +1,229 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
+  <defs>
+    <!-- Celebration Sunset & Fireworks Sky -->
+    <radialGradient id="victorySky" cx="50%" cy="50%" r="75%">
+      <stop offset="0%" stop-color="#4c0519"/>
+      <stop offset="35%" stop-color="#831843"/>
+      <stop offset="65%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </radialGradient>
+
+    <!-- Golden Fireworks Burst -->
+    <radialGradient id="fireworkGold" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#fde047"/>
+      <stop offset="70%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#dc2626" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="fireworkCyan" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#38bdf8"/>
+      <stop offset="75%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Golden Scroll Gradients -->
+    <linearGradient id="victoryScrollGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb"/>
+      <stop offset="50%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="confettiGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Sky Canvas -->
+  <rect width="1920" height="1080" fill="url(#victorySky)"/>
+
+  <!-- Spectacular Fireworks in the Night Sky (故宮金鑾慶功煙火) -->
+  <g id="fireworks" filter="url(#confettiGlow)">
+    <!-- Firework 1 (Left High) -->
+    <g transform="translate(360, 240)">
+      <circle cx="0" cy="0" r="140" fill="url(#fireworkGold)" opacity="0.85"/>
+      <g stroke="#fde047" stroke-width="3" stroke-linecap="round">
+        <line x1="0" y1="0" x2="0" y2="-120"/><line x1="0" y1="0" x2="85" y2="-85"/>
+        <line x1="0" y1="0" x2="120" y2="0"/><line x1="0" y1="0" x2="85" y2="85"/>
+        <line x1="0" y1="0" x2="0" y2="120"/><line x1="0" y1="0" x2="-85" y2="85"/>
+        <line x1="0" y1="0" x2="-120" y2="0"/><line x1="0" y1="0" x2="-85" y2="-85"/>
+      </g>
+    </g>
+
+    <!-- Firework 2 (Right High) -->
+    <g transform="translate(1560, 220)">
+      <circle cx="0" cy="0" r="160" fill="url(#fireworkCyan)" opacity="0.85"/>
+      <g stroke="#38bdf8" stroke-width="3" stroke-linecap="round">
+        <line x1="0" y1="0" x2="0" y2="-140"/><line x1="0" y1="0" x2="99" y2="-99"/>
+        <line x1="0" y1="0" x2="140" y2="0"/><line x1="0" y1="0" x2="99" y2="99"/>
+        <line x1="0" y1="0" x2="0" y2="140"/><line x1="0" y1="0" x2="-99" y2="99"/>
+        <line x1="0" y1="0" x2="-140" y2="0"/><line x1="0" y1="0" x2="-99" y2="-99"/>
+      </g>
+    </g>
+
+    <!-- Firework 3 (Center High Gold) -->
+    <g transform="translate(960, 150)">
+      <circle cx="0" cy="0" r="180" fill="url(#fireworkGold)" opacity="0.9"/>
+    </g>
+  </g>
+
+  <!-- Golden Confetti & Streamers (漫天金花彩帶) -->
+  <g fill="#fde047" opacity="0.8">
+    <rect x="220" y="320" width="14" height="24" rx="3" transform="rotate(25 220 320)"/>
+    <rect x="480" y="180" width="16" height="16" rx="3" transform="rotate(45 480 180)"/>
+    <rect x="740" y="280" width="20" height="12" rx="3" transform="rotate(-15 740 280)"/>
+    <rect x="1180" y="260" width="18" height="14" rx="3" transform="rotate(35 1180 260)"/>
+    <rect x="1420" y="190" width="15" height="22" rx="3" transform="rotate(-40 1420 190)"/>
+    <rect x="1700" y="340" width="14" height="14" rx="3" transform="rotate(15 1700 340)"/>
+  </g>
+  <g fill="#f43f5e" opacity="0.8">
+    <rect x="310" y="210" width="16" height="20" rx="3" transform="rotate(-20 310 210)"/>
+    <rect x="620" y="340" width="14" height="14" rx="3" transform="rotate(30 620 340)"/>
+    <rect x="1300" y="320" width="18" height="12" rx="3" transform="rotate(60 1300 320)"/>
+    <rect x="1620" y="280" width="16" height="22" rx="3" transform="rotate(-10 1620 280)"/>
+  </g>
+  <g fill="#38bdf8" opacity="0.8">
+    <rect x="180" y="420" width="15" height="15" rx="3" transform="rotate(10 180 420)"/>
+    <rect x="850" y="220" width="14" height="20" rx="3" transform="rotate(-30 850 220)"/>
+    <rect x="1080" y="210" width="18" height="14" rx="3" transform="rotate(25 1080 210)"/>
+    <rect x="1780" y="410" width="16" height="18" rx="3" transform="rotate(50 1780 410)"/>
+  </g>
+
+  <!-- Golden Imperial Examination Board / Victory Plaque (金榜題名 · 破陣通關封神金卷) -->
+  <g transform="translate(960, 360)" filter="url(#confettiGlow)">
+    <!-- Main Scroll Body -->
+    <rect x="-380" y="-120" width="760" height="240" rx="16" fill="url(#victoryScrollGrad)" stroke="#b45309" stroke-width="8"/>
+    <rect x="-360" y="-100" width="720" height="200" rx="10" fill="none" stroke="#d97706" stroke-width="3" stroke-dasharray="8 6"/>
+
+    <!-- Scroll Rollers Left & Right -->
+    <rect x="-410" y="-140" width="30" height="280" rx="8" fill="#78350f" stroke="#ca8a04" stroke-width="4"/>
+    <circle cx="-395" cy="-140" r="18" fill="#fde047"/>
+    <circle cx="-395" cy="140" r="18" fill="#fde047"/>
+    
+    <rect x="380" y="-140" width="30" height="280" rx="8" fill="#78350f" stroke="#ca8a04" stroke-width="4"/>
+    <circle cx="395" cy="-140" r="18" fill="#fde047"/>
+    <circle cx="395" cy="140" r="18" fill="#fde047"/>
+
+    <!-- Gold Text Headline -->
+    <text x="0" y="-35" fill="#991b1b" font-family="'Noto Serif TC', serif" font-size="44" font-weight="900" text-anchor="middle" letter-spacing="10">金榜題名 · 破陣大成</text>
+    <text x="0" y="25" fill="#78350f" font-family="'Noto Serif TC', serif" font-size="24" font-weight="900" text-anchor="middle" letter-spacing="6">尋章摘句 · 萬仙歸位 · 密室封神</text>
+    <text x="0" y="65" fill="#ca8a04" font-family="'Noto Sans TC', sans-serif" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="4">★ 榮登仙籍 · 智勇雙全 · 終極通關 ★</text>
+
+    <!-- Imperial Red Stamp -->
+    <g transform="translate(240, 0)">
+      <rect x="0" y="-45" width="80" height="80" rx="8" fill="#b91c1c" stroke="#fca5a5" stroke-width="3"/>
+      <text x="40" y="-12" fill="#fff" font-family="'Noto Serif TC', serif" font-size="16" font-weight="900" text-anchor="middle">敕賜</text>
+      <text x="40" y="16" fill="#fff" font-family="'Noto Serif TC', serif" font-size="16" font-weight="900" text-anchor="middle">封神</text>
+    </g>
+  </g>
+
+  <!-- Golden Imperial Palace Platform Floor (金鑾殿臺基慶功台) -->
+  <polygon points="0,1080 200,640 1720,640 1920,1080" fill="#78350f"/>
+  <polygon points="20,1080 220,650 1700,650 1900,1080" fill="#b45309"/>
+  <!-- Red Carpet in Center -->
+  <polygon points="680,1080 820,650 1100,650 1240,1080" fill="#991b1b" stroke="#fde047" stroke-width="4"/>
+
+  <!-- Q-Version Fengshen Immortal Ensemble Celebrating (群仙同慶 Q版群像) -->
+  <!-- 1. Center Hero: 墨靈·太公仙童 (Center Mascot) -->
+  <g transform="translate(960, 780)" filter="url(#confettiGlow)">
+    <!-- Mascot Aura -->
+    <circle cx="0" cy="0" r="95" fill="#fde047" opacity="0.3"/>
+    <!-- Head & Body -->
+    <ellipse cx="0" cy="30" rx="45" ry="55" fill="#f8fafc" stroke="#1e293b" stroke-width="4"/>
+    <circle cx="0" cy="-40" r="50" fill="#fed7aa" stroke="#1e293b" stroke-width="4"/>
+    <!-- Cute Eyes & Cheeks -->
+    <ellipse cx="-18" cy="-40" rx="6" ry="9" fill="#0f172a"/>
+    <circle cx="-16" cy="-44" r="3" fill="#fff"/>
+    <ellipse cx="18" cy="-40" rx="6" ry="9" fill="#0f172a"/>
+    <circle cx="20" cy="-44" r="3" fill="#fff"/>
+    <circle cx="-28" cy="-28" r="10" fill="#fda4af" opacity="0.8"/>
+    <circle cx="28" cy="-28" r="10" fill="#fda4af" opacity="0.8"/>
+    <!-- Vermilion Forehead Mark -->
+    <polygon points="0,-65 -6,-52 0,-48 6,-52" fill="#dc2626"/>
+    <!-- Cute Smile -->
+    <path d="M-10,-24 Q0,-14 10,-24" fill="none" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
+    <!-- Taoist Bun & Ribbon -->
+    <circle cx="0" cy="-95" r="22" fill="#0f172a"/>
+    <rect x="-30" y="-95" width="60" height="10" fill="#dc2626" rx="4"/>
+    <!-- Raised Right Hand holding Celestial Brush -->
+    <line x1="40" y1="20" x2="80" y2="-30" stroke="#ca8a04" stroke-width="8" stroke-linecap="round"/>
+    <polygon points="80,-30 100,-50 90,-25" fill="#3b0764"/>
+    <!-- Left Hand with V-Sign -->
+    <circle cx="-50" cy="10" r="14" fill="#fed7aa" stroke="#1e293b" stroke-width="3"/>
+  </g>
+
+  <!-- 2. Q-Version 哪吒 (Nezha - Left 1) -->
+  <g transform="translate(680, 800)">
+    <ellipse cx="0" cy="30" rx="40" ry="50" fill="#ef4444" stroke="#1e293b" stroke-width="4"/>
+    <circle cx="0" cy="-35" r="45" fill="#fed7aa" stroke="#1e293b" stroke-width="4"/>
+    <!-- Double Buns (雙丫髻) -->
+    <circle cx="-38" cy="-70" r="16" fill="#0f172a"/>
+    <circle cx="38" cy="-70" r="16" fill="#0f172a"/>
+    <rect x="-45" y="-60" width="20" height="8" fill="#dc2626" rx="3"/>
+    <rect x="25" y="-60" width="20" height="8" fill="#dc2626" rx="3"/>
+    <!-- Eyes & Smile -->
+    <circle cx="-16" cy="-35" r="6" fill="#0f172a"/><circle cx="16" cy="-35" r="6" fill="#0f172a"/>
+    <path d="M-8,-20 Q0,-10 8,-20" fill="none" stroke="#1e293b" stroke-width="3"/>
+    <!-- Golden Qiankun Hoop (乾坤圈) -->
+    <ellipse cx="45" cy="-20" rx="26" ry="18" fill="none" stroke="#fde047" stroke-width="6" transform="rotate(30 45 -20)"/>
+  </g>
+
+  <!-- 3. Q-Version 楊戩 (Yang Jian - Right 1) -->
+  <g transform="translate(1240, 800)">
+    <ellipse cx="0" cy="30" rx="42" ry="52" fill="#0284c7" stroke="#1e293b" stroke-width="4"/>
+    <circle cx="0" cy="-35" r="45" fill="#fed7aa" stroke="#1e293b" stroke-width="4"/>
+    <!-- Third Eye (天眼) -->
+    <ellipse cx="0" cy="-56" rx="5" ry="8" fill="#fde047" stroke="#ca8a04" stroke-width="2"/>
+    <!-- Silver Hairpiece & Ponytail -->
+    <polygon points="-25,-75 25,-75 0,-100" fill="#94a3b8"/>
+    <!-- Eyes & Smile -->
+    <circle cx="-16" cy="-35" r="6" fill="#0f172a"/><circle cx="16" cy="-35" r="6" fill="#0f172a"/>
+    <path d="M-8,-20 Q0,-10 8,-20" fill="none" stroke="#1e293b" stroke-width="3"/>
+    <!-- Three-Point Double-Blade Lance (三尖兩刃刀) -->
+    <line x1="50" y1="40" x2="80" y2="-70" stroke="#94a3b8" stroke-width="6"/>
+    <polygon points="80,-70 95,-105 105,-80 85,-65" fill="#fde047"/>
+  </g>
+
+  <!-- 4. Q-Version 妲己 (Daji - Left 2) -->
+  <g transform="translate(420, 830)">
+    <ellipse cx="0" cy="25" rx="38" ry="48" fill="#ec4899" stroke="#1e293b" stroke-width="4"/>
+    <circle cx="0" cy="-30" r="42" fill="#fed7aa" stroke="#1e293b" stroke-width="4"/>
+    <!-- Fox Ears (狐耳) -->
+    <polygon points="-30,-60 -45,-95 -10,-75" fill="#f43f5e" stroke="#1e293b" stroke-width="3"/>
+    <polygon points="30,-60 45,-95 10,-75" fill="#f43f5e" stroke="#1e293b" stroke-width="3"/>
+    <!-- Wink Eyes -->
+    <path d="M-22,-30 Q-15,-40 -8,-30" fill="none" stroke="#1e293b" stroke-width="3"/>
+    <circle cx="15" cy="-30" r="5" fill="#0f172a"/>
+    <path d="M-6,-18 Q0,-10 6,-18" fill="none" stroke="#1e293b" stroke-width="3"/>
+    <!-- Fluffy Fox Tail -->
+    <path d="M-35,30 Q-90,10 -70,-30 Q-40,-10 -35,30" fill="#fda4af" stroke="#f43f5e" stroke-width="3"/>
+  </g>
+
+  <!-- 5. Q-Version 申公豹 (Shen Gongbao - Right 2) -->
+  <g transform="translate(1500, 830)">
+    <ellipse cx="0" cy="25" rx="38" ry="48" fill="#1e1b4b" stroke="#1e293b" stroke-width="4"/>
+    <circle cx="0" cy="-30" r="42" fill="#fed7aa" stroke="#1e293b" stroke-width="4"/>
+    <!-- Black Taoist Hat -->
+    <polygon points="-30,-65 30,-65 0,-95" fill="#090d16" stroke="#ca8a04" stroke-width="2"/>
+    <!-- Little Beard -->
+    <polygon points="-8,-12 8,-12 0,-2" fill="#0f172a"/>
+    <circle cx="-15" cy="-30" r="5" fill="#0f172a"/><circle cx="15" cy="-30" r="5" fill="#0f172a"/>
+    <path d="M-6,-20 Q0,-12 6,-20" fill="none" stroke="#1e293b" stroke-width="3"/>
+    <!-- Thumbs Up Hand -->
+    <circle cx="-45" cy="0" r="12" fill="#fed7aa" stroke="#1e293b" stroke-width="3"/>
+    <text x="-58" y="-16" font-size="18">👍</text>
+  </g>
+
+  <!-- Celebration Foreground Banner & Seals -->
+  <g transform="translate(100, 100)">
+    <rect x="0" y="0" width="340" height="90" rx="8" fill="#831843" fill-opacity="0.9" stroke="#fde047" stroke-width="2"/>
+    <text x="25" y="40" fill="#fde047" font-family="'Noto Serif TC', serif" font-size="24" font-weight="900">破陣通關 · 慶祝盛典</text>
+    <text x="25" y="68" fill="#fbcfe8" font-family="'Noto Sans TC', sans-serif" font-size="14">群仙合璧 · 智破重圍 · 故宮金鑾同賀</text>
+  </g>
+</svg>
