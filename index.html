@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>尋章摘句</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="app-header">
+  <h1 class="app-title">尋章摘句</h1>
+  <span id="demo-badge" class="demo-badge hidden">試玩資料</span>
+  <nav class="app-nav">
+    <button type="button" class="nav-btn" data-view="map">地圖</button>
+    <button type="button" class="nav-btn" data-view="collection">圖鑑</button>
+    <button type="button" class="nav-btn" data-view="settings">設定</button>
+  </nav>
+</header>
+
+<main>
+  <!-- 關卡地圖 -->
+  <section id="view-map" class="view">
+    <h2 class="view-title">關卡地圖・第一章</h2>
+    <div id="level-map" class="level-map"></div>
+  </section>
+
+  <!-- 遊戲盤面 -->
+  <section id="view-game" class="view hidden">
+    <div class="game-top">
+      <button type="button" id="btn-back-map" class="ghost-btn">← 地圖</button>
+      <span id="game-level-title" class="game-level-title">第 1 關</span>
+      <span class="ink-display">🖋 <span id="ink-amount">0</span></span>
+    </div>
+    <div id="grid" class="grid" aria-label="字格盤面"></div>
+    <ul id="target-list" class="target-list"></ul>
+    <div class="hint-bar">
+      <button type="button" id="btn-hint-circle" class="hint-btn">圈首字<small>1 墨</small></button>
+      <button type="button" id="btn-hint-flash" class="hint-btn">閃現整句<small>3 墨</small></button>
+      <button type="button" id="btn-hint-reveal" class="hint-btn">直接揭示<small>5 墨</small></button>
+      <button type="button" id="btn-earn-ink" class="hint-btn earn">賺墨水</button>
+    </div>
+    <p id="hint-msg" class="hint-msg" aria-live="polite"></p>
+  </section>
+
+  <!-- 摘句集圖鑑 -->
+  <section id="view-collection" class="view hidden">
+    <h2 class="view-title">摘句集</h2>
+    <p id="collection-empty" class="muted hidden">尚未收藏任何句子，到關卡中尋章摘句吧。</p>
+    <ul id="collection-list" class="collection-list"></ul>
+  </section>
+
+  <!-- 設定 -->
+  <section id="view-settings" class="view hidden">
+    <h2 class="view-title">設定</h2>
+    <div class="settings-block">
+      <h3>匯出進度碼</h3>
+      <textarea id="export-code" class="code-area" readonly placeholder="按下方按鈕產生進度碼"></textarea>
+      <div class="settings-actions">
+        <button type="button" id="btn-export" class="primary-btn">產生進度碼</button>
+        <button type="button" id="btn-copy-export" class="ghost-btn">複製</button>
+      </div>
+    </div>
+    <div class="settings-block">
+      <h3>匯入進度碼</h3>
+      <textarea id="import-code" class="code-area" placeholder="貼上進度碼"></textarea>
+      <div class="settings-actions">
+        <button type="button" id="btn-import" class="primary-btn">匯入</button>
+      </div>
+    </div>
+    <div class="settings-block">
+      <h3>重置進度</h3>
+      <button type="button" id="btn-reset" class="danger-btn">清除全部進度</button>
+    </div>
+    <p id="settings-msg" class="hint-msg" aria-live="polite"></p>
+  </section>
+</main>
+
+<!-- 知識卡 -->
+<div id="modal-card" class="modal-backdrop hidden">
+  <div class="modal knowledge-card">
+    <button type="button" class="modal-close" data-close="modal-card" aria-label="關閉">✕</button>
+    <p class="card-badge">摘句入集</p>
+    <h3 id="card-text" class="card-text"></h3>
+    <p id="card-meaning" class="card-meaning"></p>
+    <p id="card-insight" class="card-insight"></p>
+    <p id="card-source" class="card-source"></p>
+  </div>
+</div>
+
+<!-- 學習題（賺墨水） -->
+<div id="modal-quiz" class="modal-backdrop hidden">
+  <div class="modal quiz-modal">
+    <button type="button" class="modal-close" data-close="modal-quiz" aria-label="關閉">✕</button>
+    <p id="quiz-progress" class="card-badge"></p>
+    <h3 id="quiz-prompt" class="quiz-prompt"></h3>
+    <div id="quiz-options" class="quiz-options"></div>
+    <div id="quiz-fill" class="quiz-fill hidden">
+      <input id="quiz-fill-input" type="text" maxlength="1" autocomplete="off" placeholder="填一字">
+      <button type="button" id="quiz-fill-submit" class="primary-btn">作答</button>
+    </div>
+    <p id="quiz-feedback" class="quiz-feedback" aria-live="polite"></p>
+    <button type="button" id="quiz-next" class="primary-btn hidden">下一題</button>
+  </div>
+</div>
+
+<!-- 通關結算 -->
+<div id="modal-complete" class="modal-backdrop hidden">
+  <div class="modal complete-modal">
+    <p class="card-badge">通關</p>
+    <h3 id="complete-title">尋章功成</h3>
+    <p id="complete-stars" class="complete-stars"></p>
+    <div class="settings-actions">
+      <button type="button" id="btn-next-level" class="primary-btn">下一關</button>
+      <button type="button" id="btn-complete-map" class="ghost-btn">回地圖</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

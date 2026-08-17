@@ -1,0 +1,50 @@
+[
+  {
+    "id": "p0001",
+    "text": "一心一意",
+    "type": "成語",
+    "level": "常用",
+    "source": "教育部成語典",
+    "author": null,
+    "origin_work": null,
+    "meaning": "形容心思專一，毫無雜念。",
+    "insight": "多用於形容做事專注投入，如：他一心一意準備會考。",
+    "textbook": false
+  },
+  {
+    "id": "p0002",
+    "text": "水到渠成",
+    "type": "成語",
+    "level": "常用",
+    "source": "教育部成語典",
+    "author": null,
+    "origin_work": null,
+    "meaning": "水流到之處自然成渠，比喻條件成熟，事情自然成功。",
+    "insight": "強調累積與時機，如：每天練字，進步便水到渠成。",
+    "textbook": false
+  },
+  {
+    "id": "p0003",
+    "text": "百發百中",
+    "type": "成語",
+    "level": "常用",
+    "source": "教育部成語典",
+    "author": null,
+    "origin_work": null,
+    "meaning": "每次射箭都命中目標，比喻料事準確或技藝高超。",
+    "insight": "出自《戰國策》養由基善射的故事。",
+    "textbook": false
+  },
+  {
+    "id": "p0004",
+    "text": "光明磊落",
+    "type": "成語",
+    "level": "常用",
+    "source": "教育部成語典",
+    "author": null,
+    "origin_work": null,
+    "meaning": "形容心地坦蕩，行事正大光明。",
+    "insight": "常用於稱許人品，如：他做事光明磊落，值得信任。",
+    "textbook": false
+  }
+]

@@ -1,0 +1,382 @@
+/* 尋章摘句 — 溫潤紙墨風 */
+:root {
+  --paper: #f7f2e6;
+  --paper-deep: #efe7d3;
+  --ink: #2b2620;
+  --ink-soft: #6b6155;
+  --vermilion: #b3402a;
+  --indigo: #2a4d69;
+  --gold: #b8860b;
+  --cell-bg: #fffdf6;
+  --cell-border: #d8cdb4;
+  --radius: 12px;
+  --found-0: #f3d9c9;
+  --found-1: #cfdde6;
+  --found-2: #dbe6cf;
+  --found-3: #e6d3e0;
+  --found-4: #efe3bd;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  min-height: 100%;
+}
+
+body {
+  background-image: radial-gradient(circle at 20% 10%, rgba(184, 134, 11, .05), transparent 45%),
+                    radial-gradient(circle at 85% 90%, rgba(42, 77, 105, .05), transparent 45%);
+}
+
+.hidden { display: none !important; }
+.muted { color: var(--ink-soft); }
+
+/* ── Header ─────────────────────────── */
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  flex-wrap: wrap;
+  padding: .8rem 1rem;
+  border-bottom: 2px solid var(--paper-deep);
+}
+.app-title {
+  font-size: 1.5rem;
+  letter-spacing: .35em;
+  color: var(--ink);
+  border-left: .35rem solid var(--vermilion);
+  padding-left: .5rem;
+}
+.demo-badge {
+  font-size: .75rem;
+  color: #fff;
+  background: var(--vermilion);
+  border-radius: 999px;
+  padding: .15rem .6rem;
+}
+.app-nav { margin-left: auto; display: flex; gap: .4rem; }
+.nav-btn {
+  font: inherit;
+  font-size: .95rem;
+  background: transparent;
+  color: var(--indigo);
+  border: 1px solid var(--cell-border);
+  border-radius: 999px;
+  padding: .3rem .9rem;
+  cursor: pointer;
+}
+.nav-btn.active {
+  background: var(--indigo);
+  color: #fdf9ee;
+  border-color: var(--indigo);
+}
+
+main { max-width: 640px; margin: 0 auto; padding: 1rem; }
+.view-title {
+  font-size: 1.15rem;
+  letter-spacing: .2em;
+  margin-bottom: .9rem;
+  color: var(--indigo);
+}
+
+/* ── 關卡地圖 ───────────────────────── */
+.level-map {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: .8rem;
+}
+.level-card {
+  font: inherit;
+  text-align: left;
+  background: var(--cell-bg);
+  border: 1px solid var(--cell-border);
+  border-radius: var(--radius);
+  padding: .8rem .9rem;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(43, 38, 32, .08);
+  transition: transform .15s ease;
+}
+.level-card:not(:disabled):hover { transform: translateY(-2px); }
+.level-card:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+  background: var(--paper-deep);
+}
+.level-card .lv-name { font-size: 1.05rem; display: block; }
+.level-card .lv-stars { color: var(--gold); letter-spacing: .15em; display: block; margin-top: .3rem; }
+.level-card .lv-lock { color: var(--ink-soft); font-size: .85rem; display: block; margin-top: .3rem; }
+
+/* ── 遊戲盤面 ───────────────────────── */
+.game-top {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: .8rem;
+}
+.game-level-title { font-size: 1.1rem; letter-spacing: .15em; }
+.ink-display { margin-left: auto; font-size: 1.05rem; color: var(--indigo); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  width: min(92vw, 420px);
+  margin: 0 auto 1rem;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.cell {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.3rem, 6vw, 1.9rem);
+  background: var(--cell-bg);
+  border: 1px solid var(--cell-border);
+  border-radius: var(--radius);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .5), 0 1px 2px rgba(43, 38, 32, .1);
+  position: relative;
+  transition: background .15s ease, transform .15s ease;
+}
+.cell.preview {
+  background: #dce8f0;
+  border-color: var(--indigo);
+  transform: scale(1.04);
+}
+.cell.invalid { animation: shake-red .35s ease; background: #f0c9c0; border-color: var(--vermilion); }
+.cell.flash { background: #f7e3b0; border-color: var(--gold); }
+.cell.hint-circle::after {
+  content: "";
+  position: absolute;
+  inset: 6%;
+  border: 3px solid var(--vermilion);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.cell.found { animation: found-pop .4s ease; }
+.cell.found-0 { background: var(--found-0); }
+.cell.found-1 { background: var(--found-1); }
+.cell.found-2 { background: var(--found-2); }
+.cell.found-3 { background: var(--found-3); }
+.cell.found-4 { background: var(--found-4); }
+
+@keyframes found-pop {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.14); }
+  100% { transform: scale(1); }
+}
+@keyframes shake-red {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* 目標清單 */
+.target-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  justify-content: center;
+  margin-bottom: .9rem;
+}
+.target-list li {
+  font-size: 1rem;
+  letter-spacing: .1em;
+  background: var(--cell-bg);
+  border: 1px solid var(--cell-border);
+  border-radius: 999px;
+  padding: .3rem .8rem;
+  cursor: pointer;
+}
+.target-list li.selected { border-color: var(--indigo); box-shadow: 0 0 0 2px rgba(42, 77, 105, .25); }
+.target-list li.done {
+  text-decoration: line-through;
+  text-decoration-color: var(--vermilion);
+  text-decoration-thickness: 2px;
+  color: var(--ink-soft);
+  cursor: default;
+}
+
+/* 提示列 */
+.hint-bar {
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.hint-btn {
+  font: inherit;
+  font-size: .9rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .1rem;
+  background: var(--cell-bg);
+  color: var(--ink);
+  border: 1px solid var(--cell-border);
+  border-radius: var(--radius);
+  padding: .45rem .8rem;
+  cursor: pointer;
+}
+.hint-btn small { color: var(--ink-soft); font-size: .72rem; }
+.hint-btn:disabled { opacity: .45; cursor: not-allowed; }
+.hint-btn.earn { background: var(--indigo); color: #fdf9ee; }
+.hint-btn.earn small { color: #d6e2ec; }
+.hint-msg { text-align: center; margin-top: .6rem; min-height: 1.3em; color: var(--vermilion); font-size: .92rem; }
+
+/* ── 圖鑑 ───────────────────────────── */
+.collection-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: .7rem;
+}
+.collection-list button {
+  font: inherit;
+  width: 100%;
+  font-size: 1.05rem;
+  letter-spacing: .12em;
+  background: var(--cell-bg);
+  border: 1px solid var(--cell-border);
+  border-left: .3rem solid var(--gold);
+  border-radius: var(--radius);
+  padding: .7rem .8rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* ── 設定 ───────────────────────────── */
+.settings-block {
+  background: var(--cell-bg);
+  border: 1px solid var(--cell-border);
+  border-radius: var(--radius);
+  padding: .9rem;
+  margin-bottom: .9rem;
+}
+.settings-block h3 { font-size: 1rem; margin-bottom: .6rem; color: var(--indigo); }
+.code-area {
+  width: 100%;
+  min-height: 4.5rem;
+  font-family: ui-monospace, monospace;
+  font-size: .8rem;
+  border: 1px solid var(--cell-border);
+  border-radius: 8px;
+  padding: .5rem;
+  background: var(--paper);
+  color: var(--ink);
+  resize: vertical;
+}
+.settings-actions { display: flex; gap: .5rem; margin-top: .6rem; flex-wrap: wrap; }
+
+.primary-btn, .ghost-btn, .danger-btn {
+  font: inherit;
+  font-size: .95rem;
+  border-radius: 999px;
+  padding: .4rem 1.1rem;
+  cursor: pointer;
+}
+.primary-btn { background: var(--indigo); color: #fdf9ee; border: 1px solid var(--indigo); }
+.ghost-btn { background: transparent; color: var(--indigo); border: 1px solid var(--cell-border); }
+.danger-btn { background: var(--vermilion); color: #fdf9ee; border: 1px solid var(--vermilion); }
+
+/* ── Modal ──────────────────────────── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 38, 32, .45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 50;
+}
+.modal {
+  position: relative;
+  width: min(92vw, 420px);
+  background: var(--paper);
+  border: 1px solid var(--cell-border);
+  border-radius: 16px;
+  padding: 1.3rem 1.2rem 1.2rem;
+  box-shadow: 0 12px 40px rgba(43, 38, 32, .35);
+  animation: modal-in .25s ease;
+}
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.modal-close {
+  position: absolute;
+  top: .6rem;
+  right: .7rem;
+  font: inherit;
+  background: transparent;
+  border: none;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.card-badge {
+  display: inline-block;
+  font-size: .75rem;
+  color: #fff;
+  background: var(--vermilion);
+  border-radius: 4px;
+  padding: .12rem .5rem;
+  margin-bottom: .6rem;
+  letter-spacing: .2em;
+}
+.card-text { font-size: 1.6rem; letter-spacing: .25em; margin-bottom: .7rem; }
+.card-meaning { margin-bottom: .55rem; line-height: 1.7; }
+.card-insight { color: var(--indigo); line-height: 1.7; margin-bottom: .55rem; }
+.card-source { color: var(--ink-soft); font-size: .85rem; }
+
+/* Quiz */
+.quiz-prompt { font-size: 1.15rem; line-height: 1.8; margin-bottom: .9rem; letter-spacing: .08em; }
+.quiz-options { display: grid; gap: .5rem; }
+.quiz-options button {
+  font: inherit;
+  font-size: 1rem;
+  letter-spacing: .12em;
+  background: var(--cell-bg);
+  border: 1px solid var(--cell-border);
+  border-radius: var(--radius);
+  padding: .55rem .8rem;
+  cursor: pointer;
+  text-align: left;
+}
+.quiz-options button:disabled { cursor: default; }
+.quiz-options button.correct { background: #dbe6cf; border-color: #6d8f4e; }
+.quiz-options button.wrong { background: #f0c9c0; border-color: var(--vermilion); }
+.quiz-fill { display: flex; gap: .5rem; }
+.quiz-fill input {
+  font: inherit;
+  font-size: 1.3rem;
+  width: 4rem;
+  text-align: center;
+  border: 1px solid var(--cell-border);
+  border-radius: var(--radius);
+  background: var(--cell-bg);
+  padding: .3rem;
+}
+.quiz-feedback { min-height: 1.5em; margin-top: .7rem; color: var(--indigo); }
+#quiz-next { margin-top: .5rem; }
+
+/* 通關 */
+.complete-modal { text-align: center; }
+#complete-title { font-size: 1.4rem; letter-spacing: .25em; margin-bottom: .6rem; }
+.complete-stars { font-size: 2rem; color: var(--gold); letter-spacing: .3em; margin-bottom: .9rem; animation: found-pop .6s ease; }
+.complete-modal .settings-actions { justify-content: center; }
+
+/* ── RWD ────────────────────────────── */
+@media (max-width: 420px) {
+  .app-title { font-size: 1.25rem; }
+  main { padding: .7rem; }
+  .grid { gap: 4px; }
+  .hint-btn { padding: .4rem .55rem; font-size: .84rem; }
+  .level-map { grid-template-columns: repeat(2, 1fr); }
+}

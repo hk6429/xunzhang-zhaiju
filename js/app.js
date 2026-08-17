@@ -1,0 +1,241 @@
+// js/app.js — 入口：資料載入、視圖切換、地圖／圖鑑／設定
+import { createHintEngine } from './hints.js';
+import { createCollection } from './collection.js';
+import { startLevel } from './game.js';
+import {
+  loadSave, persistSave, resetSave, exportCode, importCode, defaultSave,
+} from './progress.js';
+
+const $ = (id) => document.getElementById(id);
+const MVP_LEVEL_COUNT = 10;
+const VIEWS = ['map', 'game', 'collection', 'settings'];
+
+// ── 全域狀態 ─────────────────────────
+let phrases = [];
+let phrasesById = {};
+let levels = [];
+let levelsById = {};
+let save = defaultSave();
+let hintEngine = null;
+let collection = null;
+let currentGame = null; // startLevel 回傳的 handle
+
+function persist() {
+  persistSave(save, hintEngine, collection);
+}
+
+// ── 資料載入（失敗 fallback fixtures） ──
+async function fetchJson(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`${url} → ${res.status}`);
+  return res.json();
+}
+
+async function loadData() {
+  let demo = false;
+  let levelsDoc;
+  try {
+    [levelsDoc, phrases] = await Promise.all([
+      fetchJson('data/levels.json'),
+      fetchJson('data/phrases.json'),
+    ]);
+  } catch {
+    demo = true;
+    [levelsDoc, phrases] = await Promise.all([
+      fetchJson('data/fixtures/level.sample.json'),
+      fetchJson('data/fixtures/phrases.sample.json'),
+    ]);
+  }
+  levels = levelsDoc.levels || [];
+  levelsById = {};
+  for (const lv of levels) levelsById[lv.id] = lv;
+  phrasesById = {};
+  for (const p of phrases) phrasesById[p.id] = p;
+  $('demo-badge').classList.toggle('hidden', !demo);
+}
+
+// ── 視圖切換 ─────────────────────────
+function showView(name) {
+  if (currentGame && name !== 'game') {
+    currentGame.destroy();
+    currentGame = null;
+  }
+  for (const v of VIEWS) $(`view-${v}`).classList.toggle('hidden', v !== name);
+  for (const btn of document.querySelectorAll('.nav-btn')) {
+    btn.classList.toggle('active', btn.dataset.view === name);
+  }
+  if (name === 'map') renderMap();
+  if (name === 'collection') renderCollection();
+}
+
+// ── 關卡地圖 ─────────────────────────
+function isUnlocked(id) {
+  if (id === 1) return true;
+  const prev = save.levels[String(id - 1)];
+  return !!(prev && prev.stars >= 1);
+}
+
+function renderMap() {
+  const box = $('level-map');
+  box.innerHTML = '';
+  for (let id = 1; id <= MVP_LEVEL_COUNT; id++) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'level-card';
+    const exists = !!levelsById[id];
+    const unlocked = exists && isUnlocked(id);
+    const stars = save.levels[String(id)] ? save.levels[String(id)].stars : 0;
+    const name = document.createElement('span');
+    name.className = 'lv-name';
+    name.textContent = `第 ${id} 關`;
+    btn.appendChild(name);
+    const sub = document.createElement('span');
+    if (!exists) {
+      sub.className = 'lv-lock';
+      sub.textContent = '未開放';
+    } else if (!unlocked) {
+      sub.className = 'lv-lock';
+      sub.textContent = '🔒 通過前一關解鎖';
+    } else {
+      sub.className = 'lv-stars';
+      sub.textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars);
+    }
+    btn.appendChild(sub);
+    btn.disabled = !unlocked;
+    if (unlocked) btn.addEventListener('click', () => enterLevel(id));
+    box.appendChild(btn);
+  }
+}
+
+// ── 進入關卡 ─────────────────────────
+function enterLevel(id) {
+  const level = levelsById[id];
+  if (!level) return;
+  if (currentGame) currentGame.destroy();
+  showView('game');
+  currentGame = startLevel({
+    level,
+    phrases,
+    phrasesById,
+    hintEngine,
+    collection,
+    save,
+    persist,
+    hasNext: !!levelsById[id + 1],
+    onExit: () => showView('map'),
+    onComplete: () => persist(),
+    onNext: () => {
+      if (levelsById[id + 1] && isUnlocked(id + 1)) enterLevel(id + 1);
+      else showView('map');
+    },
+  });
+}
+
+// ── 圖鑑 ─────────────────────────────
+function renderCollection() {
+  const ids = collection.list();
+  $('collection-empty').classList.toggle('hidden', ids.length > 0);
+  const ul = $('collection-list');
+  ul.innerHTML = '';
+  for (const pid of ids) {
+    const phrase = phrasesById[pid];
+    if (!phrase) continue;
+    const li = document.createElement('li');
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = phrase.text;
+    btn.addEventListener('click', () => {
+      $('card-text').textContent = phrase.text;
+      $('card-meaning').textContent = phrase.meaning || '';
+      $('card-insight').textContent = phrase.insight || '';
+      $('card-source').textContent = `出處：${phrase.source || ''}`;
+      $('modal-card').classList.remove('hidden');
+    });
+    li.appendChild(btn);
+    ul.appendChild(li);
+  }
+}
+
+// ── 設定 ─────────────────────────────
+function settingsSay(text) {
+  const el = $('settings-msg');
+  el.textContent = text;
+  setTimeout(() => { if (el.textContent === text) el.textContent = ''; }, 3000);
+}
+
+function bindSettings() {
+  $('btn-export').addEventListener('click', () => {
+    persist();
+    $('export-code').value = exportCode(save);
+    settingsSay('進度碼已產生，可複製保存。');
+  });
+  $('btn-copy-export').addEventListener('click', async () => {
+    const code = $('export-code').value;
+    if (!code) { settingsSay('請先產生進度碼。'); return; }
+    try {
+      await navigator.clipboard.writeText(code);
+      settingsSay('已複製到剪貼簿。');
+    } catch {
+      $('export-code').select();
+      settingsSay('請手動複製（已全選）。');
+    }
+  });
+  $('btn-import').addEventListener('click', () => {
+    const imported = importCode($('import-code').value);
+    if (!imported) {
+      settingsSay('進度碼格式錯誤，匯入失敗。');
+      return;
+    }
+    save = imported;
+    hintEngine = createHintEngine(save.ink);
+    collection = createCollection(save.collection);
+    persist();
+    settingsSay('匯入成功！');
+    renderMap();
+  });
+  $('btn-reset').addEventListener('click', () => {
+    if (!window.confirm('確定要清除全部進度嗎？此動作無法復原。')) return;
+    resetSave();
+    save = defaultSave();
+    hintEngine = createHintEngine(save.ink);
+    collection = createCollection(save.collection);
+    $('export-code').value = '';
+    $('import-code').value = '';
+    settingsSay('已重置進度。');
+    renderMap();
+  });
+}
+
+// ── 全域事件 ─────────────────────────
+function bindGlobal() {
+  for (const btn of document.querySelectorAll('.nav-btn')) {
+    btn.addEventListener('click', () => showView(btn.dataset.view));
+  }
+  for (const btn of document.querySelectorAll('.modal-close')) {
+    btn.addEventListener('click', () => $(btn.dataset.close).classList.add('hidden'));
+  }
+  // 點知識卡背景關閉（quiz/complete 不設，避免誤觸）
+  $('modal-card').addEventListener('click', (ev) => {
+    if (ev.target === $('modal-card')) $('modal-card').classList.add('hidden');
+  });
+}
+
+// ── 啟動 ─────────────────────────────
+async function main() {
+  save = loadSave();
+  hintEngine = createHintEngine(save.ink);
+  collection = createCollection(save.collection);
+  bindGlobal();
+  bindSettings();
+  try {
+    await loadData();
+  } catch (err) {
+    document.querySelector('main').innerHTML =
+      '<p class="muted">資料載入失敗，請確認 data/ 檔案存在後重新整理。</p>';
+    console.error(err);
+    return;
+  }
+  showView('map');
+}
+
+main();
