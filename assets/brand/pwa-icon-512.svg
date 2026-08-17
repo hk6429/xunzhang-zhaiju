@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="pwa512-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1c1917" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <linearGradient id="pwa512-gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="25%" stop-color="#eab308" />
+      <stop offset="60%" stop-color="#ca8a04" />
+      <stop offset="100%" stop-color="#78350f" />
+    </linearGradient>
+    <linearGradient id="pwa512-seal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="100%" stop-color="#991b1b" />
+    </linearGradient>
+    <filter id="pwa512-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Base 512x512 Rounded Canvas -->
+  <rect x="8" y="8" width="496" height="496" rx="112" fill="url(#pwa512-bg)" stroke="url(#pwa512-gold)" stroke-width="6" />
+  <rect x="24" y="24" width="464" height="464" rx="98" fill="none" stroke="#ca8a04" stroke-width="1.8" stroke-dasharray="10 8 3 8" opacity="0.6" />
+
+  <!-- Background Halo -->
+  <circle cx="256" cy="240" r="160" fill="#facc15" opacity="0.08" filter="url(#pwa512-glow)" />
+
+  <!-- Mascot Body & Head Center -->
+  <g transform="translate(0, -10)">
+    <!-- Robe Body -->
+    <path d="M 195 285 L 175 415 C 175 435 337 435 337 415 L 317 285 Z" fill="#ffffff" stroke="#1e293b" stroke-width="4.5" />
+    <path d="M 256 285 L 256 425" stroke="#0ea5e9" stroke-width="7" stroke-linecap="round" />
+    <path d="M 190 345 Q 256 365 322 345" fill="none" stroke="#0284c7" stroke-width="10" stroke-linecap="round" />
+    <circle cx="256" cy="355" r="14" fill="url(#pwa512-gold)" stroke="#78350f" stroke-width="1.5" />
+
+    <!-- Left Arm & Whip -->
+    <path d="M 315 295 Q 365 315 375 280" stroke="#1e293b" stroke-width="18" stroke-linecap="round" fill="none" />
+    <path d="M 315 295 Q 365 315 375 280" stroke="#ffffff" stroke-width="10" stroke-linecap="round" fill="none" />
+    <circle cx="378" cy="275" r="12" fill="#fde2d0" stroke="#1e293b" stroke-width="2.5" />
+    <g transform="translate(382, 265) rotate(25)" filter="url(#pwa512-glow)">
+      <line x1="0" y1="30" x2="0" y2="-120" stroke="url(#pwa512-gold)" stroke-width="7" stroke-linecap="round" />
+      <circle cx="0" cy="-20" r="5" fill="#fef08a" />
+      <circle cx="0" cy="-55" r="5" fill="#fef08a" />
+      <circle cx="0" cy="-90" r="4.5" fill="#fef08a" />
+    </g>
+
+    <!-- Right Arm & Brush -->
+    <path d="M 195 295 Q 145 315 135 275" stroke="#1e293b" stroke-width="18" stroke-linecap="round" fill="none" />
+    <path d="M 195 295 Q 145 315 135 275" stroke="#ffffff" stroke-width="10" stroke-linecap="round" fill="none" />
+    <circle cx="132" cy="270" r="12" fill="#fde2d0" stroke="#1e293b" stroke-width="2.5" />
+    <g transform="translate(128, 260) rotate(-35)">
+      <rect x="-6" y="-55" width="12" height="95" rx="4" fill="#451a03" stroke="url(#pwa512-gold)" stroke-width="1.8" />
+      <path d="M -10 -55 C -12 -85 -4 -115 0 -130 C 4 -115 12 -85 10 -55 Z" fill="#0f172a" />
+      <path d="M -3 -80 C -3 -105 0 -125 0 -125 C 0 -125 3 -105 3 -80 Z" fill="#38bdf8" filter="url(#pwa512-glow)" />
+      <path d="M 0 -130 C -25 -155 -60 -150 -80 -120" fill="none" stroke="#38bdf8" stroke-width="8" stroke-linecap="round" filter="url(#pwa512-glow)" />
+      <circle cx="-80" cy="-120" r="4" fill="#fef08a" />
+    </g>
+
+    <!-- Head -->
+    <ellipse cx="256" cy="200" rx="90" ry="78" fill="#0f172a" />
+    <ellipse cx="256" cy="205" rx="78" ry="68" fill="#fff5f5" stroke="#1e293b" stroke-width="4.5" />
+    
+    <!-- Blush -->
+    <ellipse cx="200" cy="220" rx="16" ry="10" fill="#f43f5e" opacity="0.45" />
+    <ellipse cx="312" cy="220" rx="16" ry="10" fill="#f43f5e" opacity="0.45" />
+
+    <!-- Bangs -->
+    <path d="M 185 168 C 205 195 230 182 256 192 C 282 182 307 195 327 168 C 310 148 290 142 256 142 C 222 142 202 148 185 168 Z" fill="#0f172a" stroke="#1e293b" stroke-width="2.5" />
+
+    <!-- Forehead Seal -->
+    <path d="M 256 154 L 260 162 L 256 170 L 252 162 Z" fill="url(#pwa512-seal)" filter="url(#pwa512-glow)" />
+
+    <!-- Eyes -->
+    <ellipse cx="215" cy="204" rx="17" ry="22" fill="#090d16" />
+    <ellipse cx="210" cy="195" rx="7.5" ry="10" fill="#ffffff" />
+    <circle cx="223" cy="210" r="3.5" fill="#38bdf8" />
+    
+    <ellipse cx="297" cy="204" rx="17" ry="22" fill="#090d16" />
+    <ellipse cx="292" cy="195" rx="7.5" ry="10" fill="#ffffff" />
+    <circle cx="305" cy="210" r="3.5" fill="#38bdf8" />
+
+    <!-- Eyebrows & Smile -->
+    <path d="M 200 178 Q 215 170 230 178" fill="none" stroke="#475569" stroke-width="4" stroke-linecap="round" />
+    <path d="M 282 178 Q 297 170 312 178" fill="none" stroke="#475569" stroke-width="4" stroke-linecap="round" />
+    <path d="M 247 232 Q 256 244 265 232" fill="#e11d48" stroke="#881337" stroke-width="2.5" stroke-linecap="round" />
+
+    <!-- Topknot & Taiji Crown -->
+    <circle cx="256" cy="120" r="34" fill="#0f172a" stroke="#1e293b" stroke-width="3.5" />
+    <circle cx="256" cy="120" r="21" fill="url(#pwa512-gold)" stroke="#78350f" stroke-width="2" filter="url(#pwa512-glow)" />
+    <!-- Taiji -->
+    <circle cx="256" cy="120" r="16" fill="#0f172a" />
+    <path d="M 256 104 A 16 16 0 0 1 256 136 A 8 8 0 0 1 256 120 A 8 8 0 0 0 256 104 Z" fill="#ffffff" />
+    <circle cx="256" cy="112" r="2.8" fill="#0f172a" />
+    <circle cx="256" cy="128" r="2.8" fill="#ffffff" />
+    <line x1="210" y1="120" x2="302" y2="120" stroke="url(#pwa512-gold)" stroke-width="5.5" stroke-linecap="round" />
+    <circle cx="302" cy="120" r="5" fill="url(#pwa512-gold)" />
+    <path d="M 302 122 Q 312 145 306 168 Q 302 185 308 200" fill="none" stroke="url(#pwa512-seal)" stroke-width="4" stroke-linecap="round" />
+  </g>
+
+  <!-- Bottom-Right Brand Stamp "尋章" -->
+  <g transform="translate(370, 370)">
+    <rect x="0" y="0" width="90" height="90" rx="18" fill="url(#pwa512-seal)" stroke="url(#pwa512-gold)" stroke-width="3" />
+    <rect x="5" y="5" width="80" height="80" rx="14" fill="none" stroke="#fecaca" stroke-width="1.2" opacity="0.6" />
+    <text x="45" y="38" font-family="'Noto Serif TC', serif" font-weight="900" font-size="28" fill="#ffffff" text-anchor="middle">尋</text>
+    <text x="45" y="74" font-family="'Noto Serif TC', serif" font-weight="900" font-size="28" fill="#ffffff" text-anchor="middle">章</text>
+  </g>
+</svg>

@@ -1,96 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" width="100%" height="100%">
   <defs>
-    <filter id="ink-shadow" x="-10%" y="-10%" width="130%" height="130%">
-      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#1c1917" flood-opacity="0.18" />
+    <pattern id="halftone-nz-th" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.1" fill="#e11d48" opacity="0.18"/>
+    </pattern>
+    <filter id="comic-shadow-nz" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="0" flood-color="#0f172a" flood-opacity="0.8" />
     </filter>
-    <filter id="glow-gold" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur" />
+    <filter id="glow-flame-nz" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3.5" result="blur" />
       <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
-    <filter id="glow-red" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
-    <linearGradient id="gold-grad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#fef08a"/>
-      <stop offset="50%" stop-color="#eab308"/>
-      <stop offset="100%" stop-color="#ca8a04"/>
+    <linearGradient id="fire-grad-nz" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="50%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#dc2626"/>
     </linearGradient>
-    <linearGradient id="flame-grad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#f87171"/>
-      <stop offset="50%" stop-color="#ef4444"/>
-      <stop offset="100%" stop-color="#b91c1c"/>
+    <linearGradient id="ribbon-grad-nz" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fb7185"/>
+      <stop offset="50%" stop-color="#e11d48"/>
+      <stop offset="100%" stop-color="#9f1239"/>
     </linearGradient>
-    <linearGradient id="skin-grad" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="lotus-robe-nz" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ecfdf5"/>
+      <stop offset="100%" stop-color="#a7f3d0"/>
+    </linearGradient>
+    <linearGradient id="skin-nz" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#fff1f2"/>
       <stop offset="100%" stop-color="#fed7aa"/>
     </linearGradient>
-    <radialGradient id="blush-grad" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.45"/>
-      <stop offset="100%" stop-color="#fb7185" stop-opacity="0"/>
-    </radialGradient>
   </defs>
-  <g id="nezha-thinking">
-    <path d="M 45 75 C 20 110 40 180 65 210 C 95 240 145 240 175 210 C 200 180 220 110 195 75 C 175 45 190 10 170 20 C 145 35 95 35 70 20 C 50 10 65 45 45 75 Z" fill="none" stroke="url(#flame-grad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" filter="url(#glow-red)"/>
 
-    <g transform="translate(85, 218)">
-      <circle cx="0" cy="0" r="14" fill="url(#flame-grad)" filter="url(#glow-red)"/>
-      <circle cx="0" cy="0" r="7" fill="#fef08a"/>
-      <path d="M -12 0 L 12 0 M 0 -12 L 0 12" stroke="#ffffff" stroke-width="2"/>
-    </g>
-    <g transform="translate(155, 218)">
-      <circle cx="0" cy="0" r="14" fill="url(#flame-grad)" filter="url(#glow-red)"/>
-      <circle cx="0" cy="0" r="7" fill="#fef08a"/>
-      <path d="M -12 0 L 12 0 M 0 -12 L 0 12" stroke="#ffffff" stroke-width="2"/>
-    </g>
+  <circle cx="140" cy="140" r="125" fill="#fef2f2" opacity="0.6"/>
+  <circle cx="140" cy="140" r="115" fill="url(#halftone-nz-th)"/>
 
-    <path d="M 92 145 L 80 205 C 80 212 160 212 160 205 L 148 145 Z" fill="#10b981" stroke="#1c1917" stroke-width="4.5" stroke-linejoin="round" filter="url(#ink-shadow)"/>
-    <path d="M 96 145 Q 120 168 144 145 Z" fill="#fda4af" stroke="#e11d48" stroke-width="2.5"/>
-    <circle cx="120" cy="170" r="5" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
-
-    <ellipse cx="94" cy="208" rx="8" ry="5" fill="#f8fafc" stroke="#1c1917" stroke-width="2"/>
-    <ellipse cx="146" cy="208" rx="8" ry="5" fill="#f8fafc" stroke="#1c1917" stroke-width="2"/>
-
-    <!-- Hand scratching bun in thought -->
-    <path d="M 88 155 Q 65 120 75 75" stroke="#1c1917" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <circle cx="75" cy="75" r="7" fill="#fed7aa" stroke="#1c1917" stroke-width="2.5"/>
-    <path d="M 152 155 Q 165 170 162 178" stroke="#1c1917" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <circle cx="162" cy="178" r="7" fill="#fed7aa" stroke="#1c1917" stroke-width="2.5"/>
-
-    <!-- Thought Question Mark -->
-    <g transform="translate(170, 30)">
-      <circle cx="15" cy="20" r="4" fill="#fca5a5"/>
-      <circle cx="25" cy="10" r="7" fill="#fee2e2"/>
-      <circle cx="42" cy="-2" r="16" fill="#ffffff" stroke="#ef4444" stroke-width="2.5" filter="url(#ink-shadow)"/>
-      <text x="42" y="3" font-family="'Noto Sans TC', sans-serif" font-weight="900" font-size="18" fill="#ef4444" text-anchor="middle" dominant-baseline="middle">？</text>
-    </g>
-
-    <!-- Huge Chibi Head -->
-    <ellipse cx="120" cy="100" rx="45" ry="42" fill="url(#skin-grad)" stroke="#1c1917" stroke-width="4.5" filter="url(#ink-shadow)"/>
-
-    <ellipse cx="88" cy="108" rx="9" ry="5.5" fill="url(#blush-grad)"/>
-    <ellipse cx="152" cy="108" rx="9" ry="5.5" fill="url(#blush-grad)"/>
-    <circle cx="120" cy="80" r="4" fill="#e11d48"/>
-
-    <!-- Facial Features -->
-    <path d="M 94 85 L 110 90" stroke="#1c1917" stroke-width="4" stroke-linecap="round"/>
-    <path d="M 146 87 L 130 85" stroke="#1c1917" stroke-width="4" stroke-linecap="round"/>
-    <circle cx="104" cy="94" r="6.5" fill="#1c1917" />
-    <circle cx="103" cy="92" r="2" fill="#ffffff" />
-    <circle cx="140" cy="94" r="6.5" fill="#1c1917" />
-    <circle cx="139" cy="92" r="2" fill="#ffffff" />
-    <ellipse cx="120" cy="104" rx="2" ry="1.5" fill="#e11d48"/>
-    <ellipse cx="120" cy="115" rx="4" ry="4.5" fill="#be123c"/>
-
-    <!-- Buns & Ribbons -->
-    <path d="M 76 92 C 75 65 95 56 120 56 C 145 56 165 65 164 92 C 152 75 138 72 120 72 C 102 72 88 75 76 92 Z" fill="#1c1917"/>
-    <circle cx="70" cy="50" r="16" fill="#1c1917" stroke="#1c1917" stroke-width="3"/>
-    <ellipse cx="70" cy="62" rx="10" ry="4" fill="#e11d48"/>
-    <circle cx="70" cy="50" r="6" fill="url(#gold-grad)"/>
-
-    <circle cx="170" cy="50" r="16" fill="#1c1917" stroke="#1c1917" stroke-width="3"/>
-    <ellipse cx="170" cy="62" rx="10" ry="4" fill="#e11d48"/>
-    <circle cx="170" cy="50" r="6" fill="url(#gold-grad)"/>
+  <!-- Comic Thinking Spark / Question Mark -->
+  <g transform="translate(210, 65) rotate(15)" filter="url(#glow-flame-nz)">
+    <text x="0" y="0" font-family="'Noto Serif TC', serif" font-weight="900" font-size="34" fill="#e11d48">？</text>
+    <circle cx="15" cy="-20" r="3" fill="#f97316"/>
+    <circle cx="-10" cy="-25" r="2" fill="#f97316"/>
   </g>
+
+  <!-- Flowing Red Ribbon (混天綾) - Back Layer -->
+  <g filter="url(#comic-shadow-nz)">
+    <path d="M 40 180 C 20 120 60 70 100 80 C 70 100 50 140 75 190 Z" fill="url(#ribbon-grad-nz)" stroke="#0f172a" stroke-width="4"/>
+    <path d="M 230 190 C 265 140 235 90 190 85 C 215 110 230 150 205 190 Z" fill="url(#ribbon-grad-nz)" stroke="#0f172a" stroke-width="4"/>
+  </g>
+
+  <!-- Wind-Fire Wheels under feet -->
+  <g id="wheels" filter="url(#glow-flame-nz)">
+    <g transform="translate(110, 245)">
+      <circle cx="0" cy="0" r="14" fill="url(#fire-grad-nz)" stroke="#0f172a" stroke-width="3"/>
+    </g>
+    <g transform="translate(170, 245)">
+      <circle cx="0" cy="0" r="14" fill="url(#fire-grad-nz)" stroke="#0f172a" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- Body -->
+  <g id="body" filter="url(#comic-shadow-nz)">
+    <path d="M 110 200 L 95 240 L 130 240 L 140 215 L 150 240 L 185 240 L 170 200 Z" fill="#e11d48" stroke="#0f172a" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M 115 165 Q 140 180 165 165 L 175 205 Q 140 215 105 205 Z" fill="url(#lotus-robe-nz)" stroke="#0f172a" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M 108 195 Q 140 202 172 195" stroke="#facc15" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="140" cy="198" r="6" fill="#10b981" stroke="#0f172a" stroke-width="2"/>
+  </g>
+
+  <!-- Arms Folded in Deep Thinking / Pouting -->
+  <g id="arms-crossed" filter="url(#comic-shadow-nz)">
+    <path d="M 105 175 Q 140 195 175 175" stroke="#0f172a" stroke-width="16" stroke-linecap="round" fill="none"/>
+    <path d="M 105 175 Q 140 195 175 175" stroke="#a7f3d0" stroke-width="9" stroke-linecap="round" fill="none"/>
+    <!-- Folded fists -->
+    <circle cx="115" cy="182" r="7" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/>
+    <circle cx="165" cy="182" r="7" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/>
+  </g>
+
+  <!-- Red Ribbon Front Loop -->
+  <path d="M 65 190 Q 95 235 140 228 Q 185 235 215 190" stroke="url(#ribbon-grad-nz)" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M 65 190 Q 95 235 140 228 Q 185 235 215 190" stroke="#0f172a" stroke-width="2" fill="none"/>
+
+  <!-- Head Base -->
+  <g id="hair-back" filter="url(#comic-shadow-nz)">
+    <ellipse cx="140" cy="100" rx="56" ry="52" fill="#0f172a" stroke="#0f172a" stroke-width="4"/>
+    <g transform="translate(80, 55)">
+      <circle cx="0" cy="0" r="22" fill="#0f172a" stroke="#0f172a" stroke-width="4"/>
+      <path d="M -12 12 Q -25 25 -35 20" stroke="#e11d48" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+      <circle cx="0" cy="0" r="10" fill="#e11d48" stroke="#0f172a" stroke-width="2"/>
+    </g>
+    <g transform="translate(200, 55)">
+      <circle cx="0" cy="0" r="22" fill="#0f172a" stroke="#0f172a" stroke-width="4"/>
+      <path d="M 12 12 Q 25 25 35 20" stroke="#e11d48" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+      <circle cx="0" cy="0" r="10" fill="#e11d48" stroke="#0f172a" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- Chibi Face -->
+  <ellipse cx="140" cy="112" rx="48" ry="42" fill="url(#skin-nz)" stroke="#0f172a" stroke-width="4.5" filter="url(#comic-shadow-nz)"/>
+
+  <!-- Giant Comic Sweat Drop on Left Temple -->
+  <g transform="translate(90, 80)" filter="url(#comic-shadow-nz)">
+    <path d="M 0 -12 Q -8 0 0 8 Q 8 0 0 -12 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="2"/>
+  </g>
+
+  <!-- Cinnabar Mark -->
+  <g transform="translate(140, 86)">
+    <path d="M 0 -8 Q 6 0 0 8 Q -6 0 0 -8 Z" fill="#e11d48"/>
+  </g>
+
+  <!-- Bangs -->
+  <path d="M 96 90 Q 115 105 125 92 Q 140 106 155 92 Q 165 105 184 90 Q 140 70 96 90 Z" fill="#0f172a"/>
+
+  <!-- Pouting Cheeks with Red Blush -->
+  <ellipse cx="100" cy="124" rx="10" ry="7" fill="#fb7185" opacity="0.8"/>
+  <ellipse cx="180" cy="124" rx="10" ry="7" fill="#fb7185" opacity="0.8"/>
+
+  <!-- Comic Thinking Eyes (Glancing upward & sideways annoyed) -->
+  <g id="eyes">
+    <ellipse cx="118" cy="108" rx="10" ry="11" fill="#0f172a"/>
+    <circle cx="118" cy="108" r="8" fill="#dc2626"/>
+    <circle cx="122" cy="104" r="4.5" fill="#ffffff"/>
+    <!-- Right Eye -->
+    <ellipse cx="162" cy="108" rx="10" ry="11" fill="#0f172a"/>
+    <circle cx="162" cy="108" r="8" fill="#dc2626"/>
+    <circle cx="166" cy="104" r="4.5" fill="#ffffff"/>
+  </g>
+
+  <!-- Annoyed / Thinking Brows -->
+  <path d="M 102 96 L 126 90" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M 178 90 L 154 96" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round"/>
+
+  <!-- Pouting / Grumpy W-Mouth (嘟嘴表情) -->
+  <path d="M 132 128 Q 136 122 140 128 Q 144 122 148 128" stroke="#0f172a" stroke-width="4" stroke-linecap="round" fill="none"/>
 </svg>

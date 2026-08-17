@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>尋章摘句 - 封神 Q 版角色與法寶視覺資產圖鑑</title>
+  <title>尋章摘句 - 國風潑墨漫畫封神角色視覺資產圖鑑</title>
   <style>
     :root {
       --bg: #f8fafc;
       --card-bg: #ffffff;
-      --text: #1e293b;
+      --text: #0f172a;
       --text-muted: #64748b;
       --primary: #0284c7;
       --border: #e2e8f0;
       --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08);
+      --comic-shadow: 4px 4px 0px #0f172a;
     }
     * {
       box-sizing: border-box;
@@ -27,214 +28,315 @@
       padding: 2rem 1rem;
     }
     .container {
-      max-width: 1200px;
+      max-width: 1280px;
       margin: 0 auto;
     }
     header {
       text-align: center;
-      margin-bottom: 2.5rem;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    .badge-comic {
+      display: inline-block;
+      background: #facc15;
+      color: #0f172a;
+      font-weight: 900;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      border: 2px solid #0f172a;
+      box-shadow: 2px 2px 0px #0f172a;
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
     }
     h1 {
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       color: #0f172a;
       letter-spacing: 2px;
       margin-bottom: 0.5rem;
+      font-weight: 900;
     }
     .subtitle {
       color: var(--text-muted);
-      font-size: 1rem;
+      font-size: 1.05rem;
+      max-width: 720px;
+      margin: 0 auto;
     }
     .section-title {
-      font-size: 1.5rem;
-      margin: 2.5rem 0 1.2rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid #cbd5e1;
+      font-size: 1.6rem;
+      margin: 3rem 0 1.5rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 3px solid #0f172a;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
+      font-weight: 900;
     }
+    
+    /* Character Grid */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.75rem;
     }
     .char-card {
       background: var(--card-bg);
-      border-radius: 1rem;
-      border: 1px solid var(--border);
+      border-radius: 1.2rem;
+      border: 3px solid #0f172a;
       padding: 1.5rem;
-      box-shadow: var(--shadow);
+      box-shadow: var(--comic-shadow);
       display: flex;
       flex-direction: column;
       align-items: center;
       transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
     }
     .char-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12);
+      transform: translate(-3px, -3px);
+      box-shadow: 7px 7px 0px #0f172a;
     }
     .avatar-box {
-      width: 180px;
-      height: 180px;
-      background: #f1f5f9;
-      border-radius: 50%;
+      width: 200px;
+      height: 200px;
+      background: #f8fafc;
+      border-radius: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 1rem;
-      border: 3px solid #e2e8f0;
+      margin-bottom: 1.2rem;
+      border: 2.5px solid #0f172a;
       overflow: hidden;
-      transition: border-color 0.3s;
+      position: relative;
     }
     .avatar-img {
       width: 100%;
       height: 100%;
       object-fit: contain;
+      transition: transform 0.25s ease;
+    }
+    .avatar-box:hover .avatar-img {
+      transform: scale(1.05);
     }
     .char-name {
-      font-size: 1.3rem;
-      font-weight: 700;
+      font-size: 1.4rem;
+      font-weight: 900;
       color: #0f172a;
     }
     .char-title {
-      font-size: 0.85rem;
-      color: var(--primary);
-      font-weight: 600;
-      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #0284c7;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
     }
     .char-desc {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
       text-align: center;
-      margin-bottom: 1rem;
-      min-height: 2.7rem;
+      margin-bottom: 1.2rem;
+      min-height: 48px;
     }
     .mood-tabs {
       display: flex;
-      gap: 0.35rem;
-      background: #f1f5f9;
-      padding: 0.25rem;
-      border-radius: 0.5rem;
-      margin-bottom: 1rem;
+      gap: 0.4rem;
       width: 100%;
+      margin-bottom: 1rem;
     }
     .mood-btn {
       flex: 1;
-      border: none;
-      background: transparent;
       padding: 0.4rem 0.2rem;
       font-size: 0.8rem;
-      border-radius: 0.35rem;
+      font-weight: 700;
+      border-radius: 0.5rem;
+      border: 2px solid #0f172a;
+      background: #f1f5f9;
+      color: #334155;
       cursor: pointer;
-      font-weight: 600;
-      color: #475569;
-      transition: all 0.2s;
+      transition: all 0.15s;
+    }
+    .mood-btn:hover {
+      background: #e2e8f0;
     }
     .mood-btn.active {
-      background: #ffffff;
+      background: #facc15;
       color: #0f172a;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+      box-shadow: 2px 2px 0px #0f172a;
+      transform: translateY(-2px);
     }
     .char-quote {
-      background: #f8fafc;
-      border-left: 3px solid var(--primary);
-      padding: 0.5rem 0.75rem;
       font-size: 0.85rem;
       font-style: italic;
       color: #334155;
+      background: #f8fafc;
+      border-left: 4px solid #facc15;
+      padding: 0.6rem 0.8rem;
+      border-radius: 0 0.5rem 0.5rem 0;
       width: 100%;
-      border-radius: 0 0.4rem 0.4rem 0;
-      min-height: 2.4rem;
+      min-height: 52px;
       display: flex;
       align-items: center;
     }
 
-    /* Items Grid */
+    /* Group Illustrations Gallery */
+    .group-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    .group-card {
+      background: #ffffff;
+      border: 3px solid #0f172a;
+      border-radius: 1.2rem;
+      box-shadow: var(--comic-shadow);
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .group-card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 7px 7px 0px #0f172a;
+    }
+    .group-img-box {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #0f172a;
+      overflow: hidden;
+      border-bottom: 3px solid #0f172a;
+    }
+    .group-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    .group-card:hover .group-img {
+      transform: scale(1.03);
+    }
+    .group-info {
+      padding: 1.2rem 1.5rem;
+    }
+    .group-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #0f172a;
+      margin-bottom: 0.4rem;
+    }
+    .group-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* Items Section */
     .items-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1.25rem;
+      gap: 1.5rem;
     }
     .item-card {
       background: var(--card-bg);
-      border-radius: 0.85rem;
-      border: 1px solid var(--border);
-      padding: 1.25rem;
-      box-shadow: var(--shadow);
+      border-radius: 1rem;
+      border: 2px solid #0f172a;
+      padding: 1.2rem;
+      box-shadow: 3px 3px 0px #0f172a;
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center;
+      transition: transform 0.2s;
+    }
+    .item-card:hover {
+      transform: translateY(-3px);
     }
     .item-icon-box {
-      width: 110px;
-      height: 110px;
-      margin-bottom: 0.75rem;
+      width: 100px;
+      height: 100px;
+      background: #f8fafc;
+      border-radius: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.8rem;
+      border: 2px solid #0f172a;
     }
     .item-icon {
-      width: 100%;
-      height: 100%;
+      width: 85%;
+      height: 85%;
       object-fit: contain;
     }
     .item-name {
       font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 0.25rem;
+      font-weight: 800;
+      color: #0f172a;
     }
     .item-meta {
       display: flex;
+      align-items: center;
       gap: 0.5rem;
-      margin-bottom: 0.5rem;
+      margin: 0.3rem 0 0.6rem;
     }
     .badge {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
+      font-weight: 900;
       padding: 0.15rem 0.5rem;
-      border-radius: 1rem;
-      font-weight: 700;
+      border-radius: 0.3rem;
+      border: 1.5px solid #0f172a;
     }
     .badge-ssr {
       background: #fef08a;
       color: #854d0e;
-      border: 1px solid #ca8a04;
     }
     .badge-sr {
       background: #e0f2fe;
       color: #0369a1;
-      border: 1px solid #0284c7;
     }
     .item-desc {
       font-size: 0.82rem;
       color: var(--text-muted);
       margin-bottom: 0.5rem;
-    }
-    .item-effect {
-      font-size: 0.8rem;
-      color: #047857;
-      background: #ecfdf5;
-      padding: 0.35rem 0.6rem;
-      border-radius: 0.4rem;
-      width: 100%;
-      font-weight: 600;
+      text-align: center;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>尋章摘句・封神視覺資產圖鑑</h1>
-      <p class="subtitle">頭身比 1:1 Q 版封神角色立繪（4 種表情）與水墨秘寶道具</p>
+      <div class="badge-comic">⚡ 國風潑墨漫畫風格升級 ⚡</div>
+      <h1>尋章摘句・封神漫畫角色資產圖鑑</h1>
+      <p class="subtitle">1:1 超萌大頭身、濃黑毛筆動態勾勒 (Comic Inking)、速度線與潑墨暈染漸層、生動 4 態表情切換</p>
     </header>
 
-    <h2 class="section-title">🎎 封神 Q 版角色立繪集 (1:1 大頭萌系)</h2>
+    <!-- Group Illustrations Section -->
+    <h2 class="section-title">🖼️ 群仙同框・大尺寸漫畫插圖特輯</h2>
+    <div class="group-grid" id="group-container"></div>
+
+    <!-- Character Roster Section -->
+    <h2 class="section-title">🎎 封神 Q 版潑墨漫畫角色陣容 (8 位萌仙・4 態表情)</h2>
     <div class="grid" id="characters-container"></div>
 
+    <!-- Items Section -->
     <h2 class="section-title">🔮 封神法寶與密室道具圖鑑</h2>
     <div class="items-grid" id="items-container"></div>
   </div>
 
   <script type="module">
-    import { CHARACTERS } from './characters/character-registry.js';
+    import { CHARACTERS, GROUP_ILLUSTRATIONS } from './characters/character-registry.js';
     import { ITEMS } from './items/items-registry.js';
+
+    // Render Group Illustrations
+    const groupContainer = document.getElementById('group-container');
+    if (GROUP_ILLUSTRATIONS && GROUP_ILLUSTRATIONS.length > 0) {
+      GROUP_ILLUSTRATIONS.forEach(group => {
+        const card = document.createElement('div');
+        card.className = 'group-card';
+        card.innerHTML = `
+          <div class="group-img-box">
+            <img src="${group.svgPath}" alt="${group.title}" class="group-img">
+          </div>
+          <div class="group-info">
+            <div class="group-title">${group.title}</div>
+            <div class="group-desc">${group.desc}</div>
+          </div>
+        `;
+        groupContainer.appendChild(card);
+      });
+    }
 
     // Render Characters
     const charContainer = document.getElementById('characters-container');
@@ -285,24 +387,25 @@
 
     // Render Items
     const itemsContainer = document.getElementById('items-container');
-    ITEMS.forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'item-card';
-      const badgeClass = item.rarity === 'SSR' ? 'badge-ssr' : 'badge-sr';
-      card.innerHTML = `
-        <div class="item-icon-box">
-          <img src="${item.svgPath}" alt="${item.name}" class="item-icon">
-        </div>
-        <div class="item-name">${item.name}</div>
-        <div class="item-meta">
-          <span class="badge ${badgeClass}">${item.rarity}</span>
-          <span style="font-size:0.75rem; color:#64748b;">${item.owner}</span>
-        </div>
-        <div class="item-desc">${item.desc}</div>
-        <div class="item-effect">⚡ ${item.gameEffect}</div>
-      `;
-      itemsContainer.appendChild(card);
-    });
+    if (ITEMS && ITEMS.length > 0) {
+      ITEMS.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        const badgeClass = item.rarity === 'SSR' ? 'badge-ssr' : 'badge-sr';
+        card.innerHTML = `
+          <div class="item-icon-box">
+            <img src="${item.svgPath}" alt="${item.name}" class="item-icon">
+          </div>
+          <div class="item-name">${item.name}</div>
+          <div class="item-meta">
+            <span class="badge ${badgeClass}">${item.rarity}</span>
+            <span style="font-size:0.75rem; color:#64748b;">${item.owner}</span>
+          </div>
+          <div class="item-desc">${item.desc}</div>
+        `;
+        itemsContainer.appendChild(card);
+      });
+    }
   </script>
 </body>
 </html>

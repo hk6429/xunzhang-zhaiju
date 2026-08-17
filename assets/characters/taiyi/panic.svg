@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" width="100%" height="100%">
+  <defs>
+    <filter id="comic-shadow-ty" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="0" flood-color="#0f172a" flood-opacity="0.8" />
+    </filter>
+    <linearGradient id="robe-grad-ty" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fffbeb"/>
+      <stop offset="50%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Comic Panic Lines & Explosion Smoke -->
+  <g stroke="#38bdf8" stroke-width="2" opacity="0.4">
+    <line x1="40" y1="20" x2="40" y2="80"/>
+    <line x1="240" y1="20" x2="240" y2="80"/>
+  </g>
+
+  <!-- Big Explosion Smoke Clouds behind head (丹爐炸膛！) -->
+  <g fill="#475569" stroke="#0f172a" stroke-width="3" opacity="0.85">
+    <circle cx="90" cy="50" r="24"/>
+    <circle cx="140" cy="30" r="28"/>
+    <circle cx="190" cy="50" r="24"/>
+  </g>
+
+  <!-- Flaming/Smoking Wine Gourd -->
+  <g id="wine-gourd" transform="translate(60, 150) rotate(-35)" filter="url(#comic-shadow-ty)">
+    <circle cx="0" cy="-35" r="18" fill="#475569" stroke="#0f172a" stroke-width="3.5"/>
+    <circle cx="0" cy="5" r="28" fill="#475569" stroke="#0f172a" stroke-width="4"/>
+    <!-- Flames spurting from gourd mouth -->
+    <path d="M -8 -55 Q 0 -85 8 -55 Z" fill="#ef4444"/>
+    <path d="M -4 -55 Q 0 -75 4 -55 Z" fill="#facc15"/>
+  </g>
+
+  <!-- Chubby Body with Soot Patches -->
+  <g id="body" filter="url(#comic-shadow-ty)">
+    <ellipse cx="140" cy="205" rx="55" ry="40" fill="url(#robe-grad-ty)" stroke="#0f172a" stroke-width="4.5"/>
+    <!-- Black Soot on Robe -->
+    <ellipse cx="120" cy="195" rx="14" ry="8" fill="#334155" opacity="0.8"/>
+    <path d="M 92 215 Q 140 235 188 215" stroke="#dc2626" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <ellipse cx="115" cy="245" rx="14" ry="7" fill="#0f172a"/>
+    <ellipse cx="165" cy="245" rx="14" ry="7" fill="#0f172a"/>
+  </g>
+
+  <!-- Hands Flailing Trying to Extinguish Fire -->
+  <g id="arms" filter="url(#comic-shadow-ty)">
+    <path d="M 95 180 Q 60 150 70 120" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 95 180 Q 60 150 70 120" stroke="#334155" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <circle cx="70" cy="120" r="7.5" fill="#334155" stroke="#0f172a" stroke-width="2.5"/>
+
+    <path d="M 185 180 Q 220 150 210 120" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 185 180 Q 220 150 210 120" stroke="#334155" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <circle cx="210" cy="120" r="7.5" fill="#334155" stroke="#0f172a" stroke-width="2.5"/>
+  </g>
+
+  <!-- Head Base -->
+  <g id="hair-back" filter="url(#comic-shadow-ty)">
+    <ellipse cx="140" cy="105" rx="60" ry="54" fill="#0f172a" stroke="#0f172a" stroke-width="4"/>
+    <!-- Crooked/Charred Crown -->
+    <path d="M 125 50 L 155 50 L 150 28 L 130 28 Z" fill="#334155" stroke="#0f172a" stroke-width="3"/>
+  </g>
+
+  <!-- Soot-Blackened Face (整張臉被燻黑成黑炭！) -->
+  <ellipse cx="140" cy="115" rx="52" ry="46" fill="#334155" stroke="#0f172a" stroke-width="4.5" filter="url(#comic-shadow-ty)"/>
+
+  <!-- Comic Huge Sweat Drops -->
+  <g filter="url(#comic-shadow-ty)">
+    <path d="M 65 75 Q 55 95 70 100 Q 80 95 72 75 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="2.5"/>
+    <path d="M 215 75 Q 225 95 210 100 Q 200 95 208 75 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="2.5"/>
+  </g>
+
+  <!-- White Shocked Eyes in Black Soot Face (黑炭臉上的大白眼) -->
+  <g id="eyes">
+    <ellipse cx="118" cy="108" rx="11" ry="11" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+    <circle cx="118" cy="108" r="4" fill="#0f172a"/>
+    <ellipse cx="162" cy="108" rx="11" ry="11" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+    <circle cx="162" cy="108" r="4" fill="#0f172a"/>
+  </g>
+
+  <!-- Panic Brows -->
+  <path d="M 102 90 Q 115 100 128 92" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  <path d="M 152 92 Q 165 100 178 90" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Nose -->
+  <circle cx="140" cy="118" r="5" fill="#f97316" stroke="#0f172a" stroke-width="2"/>
+
+  <!-- Screaming/Puffing O-Mouth ("炸啦！徒兒頂住！") -->
+  <ellipse cx="140" cy="136" rx="15" ry="12" fill="#ef4444" stroke="#0f172a" stroke-width="3"/>
+</svg>

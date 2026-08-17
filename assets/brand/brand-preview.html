@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《尋章摘句》品牌 ICON 與吉祥物設計手冊 (Brand Identity & Mascot Manual)</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="apple-touch-icon" href="apple-touch-icon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+TC:wght@400;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f4ebd9;
+      --paper-deep: #e5d7be;
+      --paper-card: #fbf7ee;
+      --ink: #181411;
+      --ink-deep: #0f172a;
+      --ink-soft: #53493e;
+      --vermilion: #dc2626;
+      --gold: #c69224;
+      --gold-bright: #fde047;
+      --cyan: #38bdf8;
+      --font-serif: "Noto Serif TC", serif;
+      --font-calligraphy: "Ma Shan Zheng", "Noto Serif TC", serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--paper);
+      background-image: 
+        radial-gradient(circle at 10% 15%, rgba(198, 146, 36, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 85%, rgba(32, 56, 71, 0.08) 0%, transparent 45%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      color: var(--ink);
+      font-family: var(--font-serif);
+      line-height: 1.6;
+      padding: 2rem 1rem 5rem;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* 頂部品牌 Header */
+    .brand-hero {
+      text-align: center;
+      padding: 3rem 1.5rem 2.5rem;
+      background: linear-gradient(180deg, rgba(253, 251, 247, 0.9) 0%, rgba(244, 235, 217, 0.7) 100%);
+      border: 2px solid rgba(198, 146, 36, 0.4);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(24, 20, 17, 0.08);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 3rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.35rem 1.2rem;
+      background: var(--vermilion);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      border-radius: 20px;
+      border: 1px solid var(--gold-bright);
+      margin-bottom: 1rem;
+    }
+
+    .hero-logo-img {
+      max-width: 540px;
+      width: 100%;
+      height: auto;
+      margin: 1rem auto;
+      filter: drop-shadow(0 4px 12px rgba(24, 20, 17, 0.12));
+    }
+
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--ink-soft);
+      max-width: 680px;
+      margin: 0.5rem auto 1.5rem;
+    }
+
+    .quick-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.5rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: #fde047;
+      border: 1.5px solid #ca8a04;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.4);
+      background: #0f172a;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.85);
+      color: var(--ink-deep);
+      border: 1.5px solid rgba(198, 146, 36, 0.4);
+    }
+    .btn-secondary:hover {
+      background: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* 章節標題 */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-family: var(--font-calligraphy);
+      font-size: 1.85rem;
+      color: var(--ink-deep);
+      margin: 3rem 0 1.5rem;
+      border-bottom: 2px solid rgba(198, 146, 36, 0.3);
+      padding-bottom: 0.6rem;
+    }
+    .section-title span.seal-tag {
+      font-family: var(--font-serif);
+      font-size: 0.75rem;
+      background: var(--vermilion);
+      color: #fff;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    /* 吉祥物聚焦卡片 */
+    .mascot-feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      background: var(--paper-card);
+      border: 1.5px solid rgba(198, 146, 36, 0.3);
+      border-radius: 18px;
+      padding: 2.5rem;
+      box-shadow: 0 8px 24px rgba(24, 20, 17, 0.06);
+    }
+
+    @media (max-width: 768px) {
+      .mascot-feature-grid { grid-template-columns: 1fr; }
+    }
+
+    .mascot-visual {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 50%, rgba(254, 240, 138, 0.15) 0%, rgba(244, 235, 217, 0.5) 100%);
+      border: 1px solid rgba(198, 146, 36, 0.25);
+      border-radius: 14px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .mascot-visual img {
+      max-width: 320px;
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 8px 20px rgba(15, 23, 42, 0.2));
+    }
+
+    .mascot-info h3 {
+      font-family: var(--font-calligraphy);
+      font-size: 2.2rem;
+      color: var(--ink-deep);
+      margin-bottom: 0.3rem;
+    }
+
+    .mascot-title-tag {
+      color: #854d0e;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.2rem;
+    }
+
+    .traits-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .traits-list li {
+      display: flex;
+      gap: 0.6rem;
+      font-size: 0.95rem;
+    }
+
+    .traits-list strong {
+      color: var(--vermilion);
+      min-width: 85px;
+    }
+
+    /* 圖標矩陣 (Icon Matrix) */
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .icon-card {
+      background: var(--paper-card);
+      border: 1.5px solid rgba(198, 146, 36, 0.25);
+      border-radius: 14px;
+      padding: 1.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 12px rgba(24, 20, 17, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .icon-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(24, 20, 17, 0.08);
+      border-color: rgba(198, 146, 36, 0.5);
+    }
+
+    .icon-preview-box {
+      width: 120px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .icon-preview-box img {
+      max-width: 100%;
+      max-height: 100%;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12));
+    }
+
+    .icon-card h4 {
+      font-size: 1.1rem;
+      color: var(--ink-deep);
+      margin-bottom: 0.3rem;
+    }
+
+    .icon-card p {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      margin-bottom: 1rem;
+    }
+
+    .icon-link {
+      font-size: 0.8rem;
+      color: var(--gold-bright);
+      background: var(--ink-deep);
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* 色彩體系 (Color Swatches) */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+    }
+
+    .color-swatch {
+      background: var(--paper-card);
+      border-radius: 12px;
+      border: 1px solid rgba(198, 146, 36, 0.2);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .swatch-fill {
+      height: 70px;
+      width: 100%;
+    }
+
+    .swatch-meta {
+      padding: 0.8rem 0.5rem;
+    }
+
+    .swatch-meta h5 { font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .swatch-meta code { font-size: 0.8rem; color: var(--ink-soft); }
+
+    /* 程式碼範例區 */
+    .code-box {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 1.5rem;
+      border-radius: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.88rem;
+      overflow-x: auto;
+      border: 1px solid #334155;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- 品牌主視覺 Hero Header -->
+  <header class="brand-hero">
+    <span class="hero-badge">品牌識別規範手冊 ・ BRAND SYSTEM</span>
+    <br>
+    <img src="logo.svg" alt="尋章摘句 品牌橫式 Logo" class="hero-logo-img" />
+    <p class="hero-desc">
+      《尋章摘句》專屬品牌 ICON 與水墨神話吉祥物視覺體系，融匯「文道翰墨」與「封神仙術」，打造極致辨識度的東方玄幻遊戲宇宙。
+    </p>
+    <div class="quick-actions">
+      <a href="../../index.html" class="btn btn-secondary">← 返回遊戲大廳</a>
+      <button type="button" id="btn-test-loader" class="btn btn-primary">✨ 實時體驗「墨靈仙童開卷」載入動畫</button>
+    </div>
+  </header>
+
+  <!-- 1. 核心吉祥物角色設定 -->
+  <section>
+    <h2 class="section-title">
+      <span class="seal-tag">Mascot</span>
+      核心品牌吉祥物：墨靈·太公仙童 (Ink-Spirit Taigong)
+    </h2>
+
+    <div class="mascot-feature-grid">
+      <div class="mascot-visual">
+        <img src="mascot-full.svg" alt="墨靈太公仙童 全身立繪" />
+        <small style="margin-top: 1rem; color: #854d0e; font-weight: 600;">【墨靈·太公仙童 / 玄墨小神君】官方全身立繪</small>
+      </div>
+
+      <div class="mascot-info">
+        <h3>墨靈·太公仙童</h3>
+        <p class="mascot-title-tag">文道破陣守護神尊 ✦ 玄墨小神君 ✦ 姜太公座下墨寶得道仙童</p>
+        
+        <ul class="traits-list">
+          <li>
+            <strong>太極混元髻</strong>
+            <span>頭頂烏黑光潤仙童雙髮髻，嵌以道門陰陽太極金簪與赤紅流蘇，代表通曉天地陰陽天機。</span>
+          </li>
+          <li>
+            <strong>水墨星辰眼</strong>
+            <span>圓滾滾水潤大靈眸，內蘊星辰反光與天青靈氣，佐以粉嫩水墨暈染腮紅，萌度滿點。</span>
+          </li>
+          <li>
+            <strong>玄天如意毫筆</strong>
+            <span>右手所執紫毫法杖，筆尖流轉青金道氣，揮毫即可破除萬千文字陣法、點石成金。</span>
+          </li>
+          <li>
+            <strong>打神金鞭</strong>
+            <span>左手所握七節玄黃金鞭，降伏字瘴妖邪，護佑解謎者順利通關。</span>
+          </li>
+          <li>
+            <strong>潑墨飛揚披風</strong>
+            <span>背披墨痕流轉之飛仙披風，飄逸水墨飛白與金色八卦符文相生相伴。</span>
+          </li>
+          <li>
+            <strong>文思祥雲</strong>
+            <span>足踏半透明文道祥雲，寓意步步生墨、文思泉湧。</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 品牌 ICON 體系矩陣 -->
+  <section>
+    <h2 class="section-title">
+      <span class="seal-tag">Iconography</span>
+      品牌 ICON 體系矩陣 (Brand Icons & Badges)
+    </h2>
+
+    <div class="icon-grid">
+      <!-- Favicon -->
+      <div class="icon-card">
+        <div class="icon-preview-box">
+          <img src="../../favicon.svg" alt="Favicon" style="width: 64px; height: 64px;" />
+        </div>
+        <h4>網站 Favicon</h4>
+        <p>根目錄 `favicon.svg`，16~64px 均極清晰之太極仙童徽章。</p>
+        <a href="../../favicon.svg" target="_blank" class="icon-link">檢視 SVG</a>
+      </div>
+
+      <!-- App Icon / PWA -->
+      <div class="icon-card">
+        <div class="icon-preview-box">
+          <img src="app-icon.svg" alt="App Icon" style="width: 88px; height: 88px;" />
+        </div>
+        <h4>Web App / PWA 圖標</h4>
+        <p>`assets/brand/app-icon.svg`，全尺寸 512px 圓角金色八卦規格。</p>
+        <a href="app-icon.svg" target="_blank" class="icon-link">檢視 SVG</a>
+      </div>
+
+      <!-- Apple Touch Icon -->
+      <div class="icon-card">
+        <div class="icon-preview-box">
+          <img src="apple-touch-icon.svg" alt="Apple Touch Icon" style="width: 80px; height: 80px;" />
+        </div>
+        <h4>Apple Touch Icon</h4>
+        <p>`assets/brand/apple-touch-icon.svg`，iOS 主畫面捷徑圖標。</p>
+        <a href="apple-touch-icon.svg" target="_blank" class="icon-link">檢視 SVG</a>
+      </div>
+
+      <!-- Header Badge -->
+      <div class="icon-card">
+        <div class="icon-preview-box" style="width: 140px;">
+          <img src="brand-badge.svg" alt="Brand Badge" style="width: 100%;" />
+        </div>
+        <h4>Header 品牌徽章</h4>
+        <p>`assets/brand/brand-badge.svg`，導航列 Header 專屬橫向徽標。</p>
+        <a href="brand-badge.svg" target="_blank" class="icon-link">檢視 SVG</a>
+      </div>
+
+      <!-- Mascot Head -->
+      <div class="icon-card">
+        <div class="icon-preview-box">
+          <img src="mascot-head.svg" alt="Mascot Head" style="width: 88px; height: 88px;" />
+        </div>
+        <h4>吉祥物特寫頭像</h4>
+        <p>`assets/brand/mascot-head.svg`，適用於對話氣泡、伴隨仙人。</p>
+        <a href="mascot-head.svg" target="_blank" class="icon-link">檢視 SVG</a>
+      </div>
+
+      <!-- Watermark Seal -->
+      <div class="icon-card">
+        <div class="icon-preview-box">
+          <img src="watermark-seal.svg" alt="Watermark Seal" style="width: 88px; height: 88px;" />
+        </div>
+        <h4>品牌金石硃砂浮水印</h4>
+        <p>`assets/brand/watermark-seal.svg`，九疊篆刻鑑賞印章。</p>
+        <a href="watermark-seal.svg" target="_blank" class="icon-link">檢視 SVG</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 品牌色彩體系 -->
+  <section>
+    <h2 class="section-title">
+      <span class="seal-tag">Palette</span>
+      東方水墨神話色系 (Color System)
+    </h2>
+
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch-fill" style="background: #0f172a;"></div>
+        <div class="swatch-meta"><h5>玄墨深沉</h5><code>#0F172A</code></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-fill" style="background: #f4ebd9; border-bottom: 1px solid #ddd;"></div>
+        <div class="swatch-meta"><h5>澄心宣紙</h5><code>#F4EBD9</code></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-fill" style="background: #dc2626;"></div>
+        <div class="swatch-meta"><h5>硃砂赤紅</h5><code>#DC2626</code></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-fill" style="background: #eab308;"></div>
+        <div class="swatch-meta"><h5>太極金光</h5><code>#EAB308</code></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-fill" style="background: #38bdf8;"></div>
+        <div class="swatch-meta"><h5>靈氣天青</h5><code>#38BDF8</code></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 引用與調用指南 -->
+  <section>
+    <h2 class="section-title">
+      <span class="seal-tag">Integration</span>
+      程式碼整合與調用指南 (Integration Guide)
+    </h2>
+
+    <div class="code-box">
+// 引入品牌註冊模組
+import { BRAND_SYSTEM, showBrandLoader, injectBrandFavicons } from './assets/brand/brand-registry.js';
+
+// 1. 自動注入 Favicon 與 PWA Meta
+injectBrandFavicons();
+
+// 2. 呼叫「墨靈仙童開卷」載入動畫
+const hideLoader = showBrandLoader(document.body, "破陣試煉開啟中...");
+setTimeout(() => {
+  hideLoader(); // 載入完成自動關閉
+}, 2000);
+    </div>
+  </section>
+
+</div>
+
+<script type="module">
+  import { showBrandLoader } from './brand-registry.js';
+
+  document.getElementById('btn-test-loader').addEventListener('click', () => {
+    const hide = showBrandLoader(document.body, "文道開卷・太公破陣中...");
+    setTimeout(() => {
+      hide();
+    }, 2800);
+  });
+</script>
+</body>
+</html>

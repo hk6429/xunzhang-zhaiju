@@ -1,67 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" width="100%" height="100%">
   <defs>
-    <filter id="ink-shadow" x="-10%" y="-10%" width="130%" height="130%">
-      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#1c1917" flood-opacity="0.18" />
+    <filter id="comic-shadow-lz" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="0" flood-color="#0f172a" flood-opacity="0.8" />
     </filter>
-    <linearGradient id="cyan-grad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#a5f3fc"/>
-      <stop offset="60%" stop-color="#06b6d4"/>
-      <stop offset="100%" stop-color="#0891b2"/>
+    <linearGradient id="wing-grad-lz" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2dd4bf"/>
+      <stop offset="50%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#0f172a"/>
     </linearGradient>
-    <linearGradient id="gold-grad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#fef08a"/>
-      <stop offset="50%" stop-color="#eab308"/>
-      <stop offset="100%" stop-color="#ca8a04"/>
+    <linearGradient id="skin-lz" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ccfbf1"/>
+      <stop offset="100%" stop-color="#5eead4"/>
     </linearGradient>
-    <radialGradient id="blush-grad" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.45"/>
-      <stop offset="100%" stop-color="#fb7185" stop-opacity="0"/>
-    </radialGradient>
   </defs>
-  <g id="lei-zhenzi-panic">
-    <g id="thunder-wings">
-      <path d="M 80 140 C 20 110 5 60 25 35 C 45 65 60 95 85 120 Z" fill="url(#cyan-grad)" stroke="#0e7490" stroke-width="3" filter="url(#ink-shadow)"/>
-      <path d="M 35 45 C 50 80 65 110 85 135" stroke="#ffffff" stroke-width="2" fill="none"/>
-      <path d="M 160 140 C 220 110 235 60 215 35 C 195 65 180 95 155 120 Z" fill="url(#cyan-grad)" stroke="#0e7490" stroke-width="3" filter="url(#ink-shadow)"/>
-      <path d="M 205 45 C 190 80 175 110 155 135" stroke="#ffffff" stroke-width="2" fill="none"/>
-    </g>
 
-    <path d="M 90 148 L 76 215 C 76 220 164 220 164 215 L 150 148 Z" fill="#0f766e" stroke="#1c1917" stroke-width="4.5" stroke-linejoin="round" filter="url(#ink-shadow)"/>
-    <circle cx="120" cy="180" r="8" fill="url(#gold-grad)" stroke="#ca8a04" stroke-width="2"/>
-    <path d="M 88 185 Q 120 195 152 185" stroke="#facc15" stroke-width="4" fill="none"/>
+  <!-- Gale Wind Lines (狂風逆吹) -->
+  <g stroke="#38bdf8" stroke-width="2.5" opacity="0.5" stroke-linecap="round">
+    <path d="M 20 50 Q 80 40 140 50" fill="none"/>
+    <path d="M 10 90 Q 90 80 170 90" fill="none"/>
+    <path d="M 30 150 Q 110 140 220 150" fill="none"/>
+  </g>
 
-    <ellipse cx="96" cy="216" rx="9" ry="5" fill="#ca8a04" stroke="#1c1917" stroke-width="2"/>
-    <ellipse cx="144" cy="216" rx="9" ry="5" fill="#ca8a04" stroke="#1c1917" stroke-width="2"/>
+  <!-- Flying Feathers (羽毛被吹掉) -->
+  <g fill="#0d9488" stroke="#0f172a" stroke-width="2">
+    <path d="M 50 70 Q 60 60 70 65 Q 65 75 50 70 Z"/>
+    <path d="M 220 70 Q 230 60 240 65 Q 235 75 220 70 Z"/>
+    <path d="M 230 120 Q 240 110 250 115 Q 245 125 230 120 Z"/>
+  </g>
 
-    <!-- Panicked arms -->
-    <path d="M 85 155 Q 60 140 68 120" stroke="#1c1917" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <circle cx="68" cy="120" r="7" fill="#a7f3d0" stroke="#1c1917" stroke-width="2.5"/>
-    <path d="M 155 155 Q 180 140 172 120" stroke="#1c1917" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <circle cx="172" cy="120" r="7" fill="#a7f3d0" stroke="#1c1917" stroke-width="2.5"/>
+  <!-- Wings Blown Forward Wrapping Around Body (雙翼被吹反包住整個人) -->
+  <g id="wings-wrapped" filter="url(#comic-shadow-lz)">
+    <!-- Left wing blown across -->
+    <path d="M 90 140 C 70 170 90 220 140 220 C 120 190 100 170 90 140 Z" fill="url(#wing-grad-lz)" stroke="#0f172a" stroke-width="4"/>
+    <!-- Right wing blown across -->
+    <path d="M 190 140 C 210 170 190 220 140 220 C 160 190 180 170 190 140 Z" fill="url(#wing-grad-lz)" stroke="#0f172a" stroke-width="4"/>
+  </g>
 
-    <!-- Cyan Head -->
-    <ellipse cx="120" cy="100" rx="45" ry="42" fill="#a7f3d0" stroke="#047857" stroke-width="4.5" filter="url(#ink-shadow)"/>
+  <!-- Body -->
+  <g id="body" filter="url(#comic-shadow-lz)">
+    <path d="M 110 200 L 95 240 L 130 240 L 140 215 L 150 240 L 185 240 L 170 200 Z" fill="#f59e0b" stroke="#0f172a" stroke-width="4.5" stroke-linejoin="round"/>
+    <ellipse cx="112" cy="245" rx="14" ry="7" fill="#0f172a"/>
+    <ellipse cx="168" cy="245" rx="14" ry="7" fill="#0f172a"/>
+  </g>
 
-    <ellipse cx="88" cy="108" rx="8" ry="4.5" fill="url(#blush-grad)"/>
-    <ellipse cx="152" cy="108" rx="8" ry="4.5" fill="url(#blush-grad)"/>
+  <!-- Arms Flailing Backward -->
+  <g id="arms" filter="url(#comic-shadow-lz)">
+    <path d="M 105 170 Q 60 150 50 125" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 105 170 Q 60 150 50 125" stroke="url(#skin-lz)" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <circle cx="50" cy="125" r="7.5" fill="#5eead4" stroke="#0f172a" stroke-width="2.5"/>
 
-    <!-- Panic Face & Tears -->
-    <path d="M 94 83 Q 102 90 110 86" stroke="#047857" stroke-width="4" stroke-linecap="round" fill="none"/>
-    <path d="M 130 86 Q 138 90 146 83" stroke="#047857" stroke-width="4" stroke-linecap="round" fill="none"/>
-    <ellipse cx="102" cy="98" rx="8" ry="10" fill="#ffffff" stroke="#ca8a04" stroke-width="3.5"/>
-    <circle cx="102" cy="99" r="4" fill="#047857"/>
-    <ellipse cx="138" cy="98" rx="8" ry="10" fill="#ffffff" stroke="#ca8a04" stroke-width="3.5"/>
-    <circle cx="138" cy="99" r="4" fill="#047857"/>
-    <polygon points="120,112 126,122 114,122" fill="#f59e0b" stroke="#1c1917" stroke-width="2.5"/>
+    <path d="M 175 170 Q 220 150 230 125" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 175 170 Q 220 150 230 125" stroke="url(#skin-lz)" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <circle cx="230" cy="125" r="7.5" fill="#5eead4" stroke="#0f172a" stroke-width="2.5"/>
+  </g>
 
-    <path d="M 75 80 C 75 75 82 70 82 65 C 82 70 89 75 89 80 A 7 7 0 1 1 75 80 Z" fill="#38bdf8" stroke="#0284c7" stroke-width="2" transform="rotate(-20 82 75)"/>
-    <path d="M 160 80 C 160 75 167 70 167 65 C 167 70 174 75 174 80 A 7 7 0 1 1 160 80 Z" fill="#38bdf8" stroke="#0284c7" stroke-width="2" transform="rotate(20 167 75)"/>
+  <!-- Head Base -->
+  <g id="hair-back" filter="url(#comic-shadow-lz)">
+    <ellipse cx="140" cy="100" rx="56" ry="52" fill="#0f172a" stroke="#0f172a" stroke-width="4"/>
+    <!-- Spikes blown completely flat backwards -->
+    <polygon points="120,60 90,40 130,55" fill="#f59e0b" stroke="#0f172a" stroke-width="2.5"/>
+    <polygon points="150,55 180,40 160,60" fill="#f59e0b" stroke="#0f172a" stroke-width="2.5"/>
+  </g>
 
-    <!-- Spiky Hair -->
-    <path d="M 74 95 C 65 60 90 45 120 45 C 150 45 175 60 166 95 C 155 76 138 68 120 68 C 102 68 85 76 74 95 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="2"/>
-    <polygon points="120,25 128,50 112,50" fill="#ef4444" stroke="#1c1917" stroke-width="2.5"/>
-    <polygon points="100,32 112,54 96,54" fill="#f97316" stroke="#1c1917" stroke-width="2"/>
-    <polygon points="140,32 144,54 128,54" fill="#f97316" stroke="#1c1917" stroke-width="2"/>
+  <!-- Cyan Green Cute Chibi Face -->
+  <ellipse cx="140" cy="112" rx="48" ry="42" fill="url(#skin-lz)" stroke="#0f172a" stroke-width="4.5" filter="url(#comic-shadow-lz)"/>
+
+  <!-- Comic Sweat Drops -->
+  <g filter="url(#comic-shadow-lz)">
+    <path d="M 65 75 Q 55 95 70 100 Q 80 95 72 75 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="2.5"/>
+    <path d="M 215 75 Q 225 95 210 100 Q 200 95 208 75 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="2.5"/>
+  </g>
+
+  <!-- Waterfall Tears -->
+  <path d="M 112 118 Q 106 145 102 185" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <path d="M 168 118 Q 174 145 178 185" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" fill="none"/>
+
+  <!-- Bangs -->
+  <path d="M 96 90 Q 115 105 125 92 L 140 100 L 155 92 Q 165 105 184 90 Q 140 70 96 90 Z" fill="#0f172a"/>
+
+  <!-- Panic Eyes (><) -->
+  <g id="eyes">
+    <path d="M 110 102 L 126 114 M 110 114 L 126 102" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
+    <path d="M 154 102 L 170 114 M 154 114 L 170 102" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Screaming Beak (鳥嘴尖叫) -->
+  <g id="bird-beak" filter="url(#comic-shadow-lz)">
+    <path d="M 125 120 Q 140 105 155 120 L 140 135 Z" fill="#facc15" stroke="#0f172a" stroke-width="3"/>
+    <ellipse cx="140" cy="138" rx="14" ry="10" fill="#dc2626" stroke="#0f172a" stroke-width="3"/>
   </g>
 </svg>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 480" width="100%" height="100%">
+  <defs>
+    <radialGradient id="group-sky" cx="50%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#fff8e7"/>
+      <stop offset="40%" stop-color="#fef08a" stop-opacity="0.4"/>
+      <stop offset="80%" stop-color="#e0f2fe" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#dbeafe"/>
+    </radialGradient>
+    <linearGradient id="gold-banner" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="30%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#fef08a"/>
+      <stop offset="70%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <filter id="group-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="880" height="480" fill="url(#group-sky)" rx="16"/>
+
+  <!-- Ink Wash Mountains in Distance -->
+  <path d="M 0 380 Q 120 280 260 350 Q 420 260 580 340 Q 720 270 880 360 L 880 480 L 0 480 Z" fill="#94a3b8" opacity="0.15"/>
+  <path d="M 0 410 Q 180 340 380 390 Q 560 330 760 400 L 880 430 L 880 480 L 0 480 Z" fill="#64748b" opacity="0.2"/>
+
+  <!-- Golden Sun Rays radiating from center -->
+  <g stroke="#facc15" stroke-width="2" opacity="0.45" stroke-dasharray="16 12">
+    <line x1="440" y1="180" x2="0" y2="40"/>
+    <line x1="440" y1="180" x2="120" y2="0"/>
+    <line x1="440" y1="180" x2="300" y2="0"/>
+    <line x1="440" y1="180" x2="580" y2="0"/>
+    <line x1="440" y1="180" x2="760" y2="0"/>
+    <line x1="440" y1="180" x2="880" y2="40"/>
+    <line x1="440" y1="180" x2="880" y2="180"/>
+    <line x1="440" y1="180" x2="0" y2="180"/>
+  </g>
+
+  <!-- Golden Confetti / Sparkles -->
+  <g fill="#f59e0b" opacity="0.85">
+    <polygon points="120,80 126,92 138,94 128,102 130,114 120,106 110,114 112,102 102,94 114,92"/>
+    <polygon points="760,80 766,92 778,94 768,102 770,114 760,106 750,114 752,102 742,94 754,92"/>
+    <circle cx="220" cy="110" r="5" fill="#ef4444"/>
+    <circle cx="660" cy="110" r="5" fill="#0284c7"/>
+    <circle cx="340" cy="90" r="4" fill="#10b981"/>
+    <circle cx="540" cy="90" r="4" fill="#a855f7"/>
+    <rect x="160" y="140" width="8" height="8" rx="2" fill="#eab308" transform="rotate(25 160 140)"/>
+    <rect x="710" y="140" width="8" height="8" rx="2" fill="#ec4899" transform="rotate(-30 710 140)"/>
+    <rect x="280" y="60" width="7" height="7" rx="1.5" fill="#38bdf8" transform="rotate(45 280 60)"/>
+    <rect x="600" y="60" width="7" height="7" rx="1.5" fill="#f97316" transform="rotate(15 600 60)"/>
+  </g>
+
+  <!-- Top Title Plaque -->
+  <g transform="translate(240, 24)" filter="url(#group-shadow)">
+    <rect x="0" y="0" width="400" height="58" rx="29" fill="url(#gold-banner)" stroke="#78350f" stroke-width="3"/>
+    <rect x="6" y="6" width="388" height="46" rx="23" fill="#181411" stroke="#fef08a" stroke-width="1.5"/>
+    <text x="200" y="38" font-family="'Noto Serif TC', serif" font-weight="900" font-size="24" fill="#fffdf6" text-anchor="middle" letter-spacing="4">✨ 尋章封神・群仙破陣大合照 ✨</text>
+  </g>
+
+  <!-- Auspicious Clouds Stage / Platform -->
+  <path d="M 40 440 Q 140 370 280 400 Q 440 360 600 400 Q 740 370 840 440 L 880 480 L 0 480 Z" fill="#ffffff" opacity="0.95" filter="url(#group-shadow)"/>
+  <path d="M 80 450 Q 200 410 440 430 Q 680 410 800 450" stroke="#facc15" stroke-width="3" fill="none" opacity="0.8"/>
+
+  <!-- ================= CHARACTERS LINEUP ================= -->
+  <!-- 1. 太乙真人 (Back Left) -->
+  <g transform="translate(60, 160) scale(0.85)" filter="url(#group-shadow)">
+    <image href="taiyi/victory.svg" width="180" height="180"/>
+    <text x="90" y="195" font-family="sans-serif" font-weight="bold" font-size="14" fill="#b45309" text-anchor="middle">太乙真人</text>
+  </g>
+
+  <!-- 2. 申公豹 (Back Mid-Left) -->
+  <g transform="translate(170, 150) scale(0.85)" filter="url(#group-shadow)">
+    <image href="shen-gongbao/victory.svg" width="180" height="180"/>
+    <text x="90" y="195" font-family="sans-serif" font-weight="bold" font-size="14" fill="#7e22ce" text-anchor="middle">申公豹</text>
+  </g>
+
+  <!-- 3. 蘇妲己 (Back Mid-Right) -->
+  <g transform="translate(560, 150) scale(0.85)" filter="url(#group-shadow)">
+    <image href="su-daji/victory.svg" width="180" height="180"/>
+    <text x="90" y="195" font-family="sans-serif" font-weight="bold" font-size="14" fill="#db2777" text-anchor="middle">蘇妲己</text>
+  </g>
+
+  <!-- 4. 雷震子 (Back Right) -->
+  <g transform="translate(670, 160) scale(0.85)" filter="url(#group-shadow)">
+    <image href="lei-zhenzi/victory.svg" width="180" height="180"/>
+    <text x="90" y="195" font-family="sans-serif" font-weight="bold" font-size="14" fill="#0d9488" text-anchor="middle">雷震子</text>
+  </g>
+
+  <!-- 5. 哪吒 (Front Left) -->
+  <g transform="translate(180, 220) scale(0.95)" filter="url(#group-shadow)">
+    <image href="nezha/victory.svg" width="200" height="200"/>
+    <text x="100" y="210" font-family="sans-serif" font-weight="bold" font-size="15" fill="#e11d48" text-anchor="middle">哪吒</text>
+  </g>
+
+  <!-- 6. 姜太公 (Front Center-Left, Grand Leader) -->
+  <g transform="translate(320, 175) scale(1.05)" filter="url(#group-shadow)">
+    <image href="jiang-taigong/victory.svg" width="210" height="210"/>
+    <text x="105" y="218" font-family="sans-serif" font-weight="bold" font-size="16" fill="#0284c7" text-anchor="middle">姜太公</text>
+  </g>
+
+  <!-- 7. 楊戩 (Front Right) -->
+  <g transform="translate(500, 220) scale(0.95)" filter="url(#group-shadow)">
+    <image href="yang-jian/victory.svg" width="200" height="200"/>
+    <text x="100" y="210" font-family="sans-serif" font-weight="bold" font-size="15" fill="#0284c7" text-anchor="middle">楊戩</text>
+  </g>
+
+  <!-- 8. 墨靈仙童 (Front Center Mascot) -->
+  <g transform="translate(370, 260) scale(0.9)" filter="url(#group-shadow)">
+    <image href="moling/victory.svg" width="160" height="160"/>
+    <text x="80" y="172" font-family="sans-serif" font-weight="bold" font-size="14" fill="#0284c7" text-anchor="middle">墨靈仙童</text>
+  </g>
+
+  <!-- Celebratory Seal Stamp on bottom right -->
+  <g transform="translate(780, 390) rotate(-8)">
+    <rect x="0" y="0" width="70" height="70" rx="14" fill="#b92b27" stroke="#fef08a" stroke-width="2"/>
+    <rect x="4" y="4" width="62" height="62" rx="10" fill="none" stroke="#fef08a" stroke-width="1" opacity="0.7"/>
+    <text x="35" y="28" font-family="'Noto Serif TC', serif" font-weight="900" font-size="16" fill="#ffffff" text-anchor="middle">大圓滿</text>
+    <text x="35" y="52" font-family="'Noto Serif TC', serif" font-weight="900" font-size="16" fill="#fef08a" text-anchor="middle">敕令印</text>
+  </g>
+</svg>

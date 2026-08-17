@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" width="100%" height="100%">
+  <defs>
+    <filter id="comic-shadow-tx" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="0" flood-color="#0f172a" flood-opacity="0.8" />
+    </filter>
+    <linearGradient id="skin-tx" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff5f5"/>
+      <stop offset="100%" stop-color="#fed7aa"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Comic Panic Lines -->
+  <g stroke="#38bdf8" stroke-width="2" opacity="0.4">
+    <line x1="40" y1="20" x2="40" y2="80"/>
+    <line x1="240" y1="20" x2="240" y2="80"/>
+  </g>
+
+  <!-- Hard Granite Rock in the Ground (花崗岩石塊) -->
+  <g id="granite-rock" transform="translate(140, 230)" filter="url(#comic-shadow-tx)">
+    <polygon points="-60,10 -30,-30 40,-25 70,10 50,30 -50,30" fill="#64748b" stroke="#0f172a" stroke-width="4"/>
+    <!-- Rock crack lines -->
+    <path d="M -10 -25 L -5 -5 L 10 -15" stroke="#334155" stroke-width="3" fill="none"/>
+  </g>
+
+  <!-- Swollen Head Bump with Circling Stars (頭頂大腫包與金星) -->
+  <g id="head-bump" transform="translate(160, 45)" filter="url(#comic-shadow-tx)">
+    <ellipse cx="0" cy="0" rx="16" ry="14" fill="#ef4444" stroke="#0f172a" stroke-width="3"/>
+    <ellipse cx="-4" cy="-4" rx="4" ry="3" fill="#fda4af"/>
+    <!-- Circling Yellow Stars -->
+    <polygon points="-25,-10 -22,-4 -16,-3 -20,1 -19,7 -25,4 -31,7 -30,1 -34,-3 -28,-4" fill="#facc15" stroke="#0f172a" stroke-width="1.5"/>
+    <polygon points="25,-15 28,-9 34,-8 30,-4 31,2 25,-1 19,2 20,-4 16,-8 22,-9" fill="#facc15" stroke="#0f172a" stroke-width="1.5"/>
+  </g>
+
+  <!-- Mole Hood -->
+  <g id="mole-hood" filter="url(#comic-shadow-tx)">
+    <ellipse cx="140" cy="115" rx="58" ry="54" fill="#713f12" stroke="#0f172a" stroke-width="4.5"/>
+    <circle cx="85" cy="75" r="14" fill="#854d0e" stroke="#0f172a" stroke-width="3"/>
+    <circle cx="195" cy="75" r="14" fill="#854d0e" stroke="#0f172a" stroke-width="3"/>
+  </g>
+
+  <!-- Cute Chibi Face -->
+  <ellipse cx="140" cy="125" rx="46" ry="40" fill="url(#skin-tx)" stroke="#0f172a" stroke-width="4" filter="url(#comic-shadow-tx)"/>
+
+  <!-- Comic Sweat Drops -->
+  <g filter="url(#comic-shadow-tx)">
+    <path d="M 65 85 Q 55 105 70 110 Q 80 105 72 85 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="2.5"/>
+    <path d="M 215 85 Q 225 105 210 110 Q 200 105 208 85 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="2.5"/>
+  </g>
+
+  <!-- Waterfall Comic Tears -->
+  <path d="M 112 130 Q 106 155 102 195" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <path d="M 168 130 Q 174 155 178 195" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" fill="none"/>
+
+  <!-- Bangs -->
+  <path d="M 98 106 Q 115 120 125 108 Q 140 120 155 108 Q 165 120 182 106 Q 140 90 98 106 Z" fill="#0f172a"/>
+
+  <!-- Roll-White Panic Eyes (翻白眼) -->
+  <g id="eyes">
+    <ellipse cx="118" cy="120" rx="10" ry="10" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+    <circle cx="118" cy="115" r="3" fill="#0f172a"/>
+
+    <ellipse cx="162" cy="120" rx="10" ry="10" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+    <circle cx="162" cy="115" r="3" fill="#0f172a"/>
+  </g>
+
+  <!-- Panic Wavy Brows -->
+  <path d="M 104 104 Q 116 112 128 106" stroke="#0f172a" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M 176 104 Q 164 112 152 106" stroke="#0f172a" stroke-width="4" stroke-linecap="round" fill="none"/>
+
+  <!-- Mole Nose -->
+  <circle cx="140" cy="130" r="4" fill="#854d0e" stroke="#0f172a" stroke-width="1.5"/>
+
+  <!-- Screaming Wavy Mouth (波浪大哭嘴「撞到石頭啦！」) -->
+  <path d="M 126 142 Q 133 134 140 142 Q 147 150 154 142" stroke="#0f172a" stroke-width="4" stroke-linecap="round" fill="none"/>
+</svg>

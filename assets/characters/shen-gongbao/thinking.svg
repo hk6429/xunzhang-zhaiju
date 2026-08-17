@@ -1,68 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" width="100%" height="100%">
   <defs>
-    <filter id="ink-shadow" x="-10%" y="-10%" width="130%" height="130%">
-      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#1c1917" flood-opacity="0.18" />
+    <pattern id="halftone-sg-th" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.1" fill="#7e22ce" opacity="0.18"/>
+    </pattern>
+    <filter id="comic-shadow-sg" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="0" flood-color="#0f172a" flood-opacity="0.8" />
     </filter>
-    <linearGradient id="skin-grad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#fff1f2"/>
+    <filter id="glow-purple-sg" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="purple-robe-sg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f3e8ff"/>
+      <stop offset="50%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#6b21a8"/>
+    </linearGradient>
+    <linearGradient id="skin-sg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff5f5"/>
       <stop offset="100%" stop-color="#fed7aa"/>
     </linearGradient>
-    <radialGradient id="blush-grad" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.45"/>
-      <stop offset="100%" stop-color="#fb7185" stop-opacity="0"/>
-    </radialGradient>
   </defs>
-  <g id="shen-gongbao-thinking">
-    <path d="M 90 148 L 76 215 C 76 220 164 220 164 215 L 150 148 Z" fill="#3b0764" stroke="#1c1917" stroke-width="4.5" stroke-linejoin="round" filter="url(#ink-shadow)"/>
-    <path d="M 120 148 L 120 215" stroke="#9333ea" stroke-width="5" stroke-linecap="round"/>
-    <circle cx="120" cy="180" r="7" fill="#facc15" stroke="#1c1917" stroke-width="2"/>
 
-    <ellipse cx="96" cy="216" rx="9" ry="5" fill="#1c1917"/>
-    <ellipse cx="144" cy="216" rx="9" ry="5" fill="#1c1917"/>
+  <circle cx="140" cy="140" r="125" fill="#faf5ff" opacity="0.6"/>
+  <circle cx="140" cy="140" r="115" fill="url(#halftone-sg-th)"/>
 
-    <!-- Hand on chin & sleeping tiger -->
-    <path d="M 88 155 Q 92 140 108 128" stroke="#1c1917" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <circle cx="108" cy="128" r="7" fill="#fed7aa" stroke="#1c1917" stroke-width="2.5"/>
-    <path d="M 152 155 Q 165 170 162 178" stroke="#1c1917" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <circle cx="162" cy="178" r="7" fill="#fed7aa" stroke="#1c1917" stroke-width="2.5"/>
-
-    <g id="black-tiger" transform="translate(38, 176)">
-      <ellipse cx="20" cy="18" rx="14" ry="9" fill="#334155" stroke="#0f172a" stroke-width="2"/>
-      <circle cx="20" cy="8" r="10" fill="#334155" stroke="#0f172a" stroke-width="2"/>
-      <path d="M 14 8 Q 17 10 20 8 M 20 8 Q 23 10 26 8" stroke="#facc15" stroke-width="2" fill="none"/>
-    </g>
-
-    <!-- Thought Scheme '計' -->
-    <g transform="translate(170, 30)">
-      <circle cx="15" cy="20" r="4" fill="#e9d5ff"/>
-      <circle cx="25" cy="10" r="7" fill="#f3e8ff"/>
-      <circle cx="42" cy="-2" r="16" fill="#ffffff" stroke="#9333ea" stroke-width="2.5" filter="url(#ink-shadow)"/>
-      <text x="42" y="3" font-family="'Noto Serif TC', serif" font-weight="900" font-size="16" fill="#9333ea" text-anchor="middle" dominant-baseline="middle">計</text>
-    </g>
-
-    <!-- Huge Chibi Head -->
-    <ellipse cx="120" cy="100" rx="45" ry="42" fill="url(#skin-grad)" stroke="#1c1917" stroke-width="4.5" filter="url(#ink-shadow)"/>
-
-    <ellipse cx="88" cy="108" rx="8" ry="4.5" fill="url(#blush-grad)"/>
-    <ellipse cx="152" cy="108" rx="8" ry="4.5" fill="url(#blush-grad)"/>
-
-    <!-- Facial Features -->
-    <path d="M 94 86 L 110 90" stroke="#1c1917" stroke-width="4" stroke-linecap="round"/>
-    <path d="M 146 90 L 130 86" stroke="#1c1917" stroke-width="4" stroke-linecap="round"/>
-    <circle cx="104" cy="94" r="6" fill="#7e22ce"/>
-    <circle cx="102" cy="92" r="2" fill="#ffffff"/>
-    <circle cx="138" cy="94" r="6" fill="#7e22ce"/>
-    <circle cx="136" cy="92" r="2" fill="#ffffff"/>
-    <ellipse cx="120" cy="105" rx="2" ry="1.5" fill="#7e22ce"/>
-    <ellipse cx="120" cy="115" rx="3.5" ry="4" fill="#1c1917"/>
-
-    <!-- Cap & Mustache -->
-    <path d="M 74 95 C 72 65 95 56 120 56 C 145 56 168 65 166 95 C 155 76 138 72 120 72 C 102 72 85 76 74 95 Z" fill="#1c1917"/>
-    <path d="M 108 56 L 132 56 L 128 32 L 112 32 Z" fill="#581c87" stroke="#1c1917" stroke-width="3"/>
-    <circle cx="120" cy="32" r="5" fill="#a855f7" stroke="#facc15" stroke-width="2"/>
-
-    <path d="M 112 112 Q 102 116 98 120" stroke="#1c1917" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-    <path d="M 128 112 Q 138 116 142 120" stroke="#1c1917" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Scheming Dark Cloud & Purple Trick Question Mark -->
+  <g transform="translate(210, 60)" filter="url(#glow-purple-sg)">
+    <!-- Little storm cloud -->
+    <path d="M -15 0 Q -25 -10 -15 -20 Q 0 -25 15 -18 Q 25 -8 15 0 Z" fill="#64748b" opacity="0.8"/>
+    <text x="0" y="8" font-family="'Noto Serif TC', serif" font-weight="900" font-size="28" fill="#a855f7" text-anchor="middle">？</text>
   </g>
+
+  <!-- Chubby Tiger resting -->
+  <g id="spotted-tiger" transform="translate(195, 195)" filter="url(#comic-shadow-sg)">
+    <ellipse cx="0" cy="10" rx="28" ry="20" fill="#facc15" stroke="#0f172a" stroke-width="3.5"/>
+    <ellipse cx="-10" cy="5" rx="5" ry="3" fill="#0f172a"/>
+    <circle cx="-15" cy="-2" r="14" fill="#facc15" stroke="#0f172a" stroke-width="3"/>
+    <circle cx="-25" cy="-14" r="5" fill="#facc15" stroke="#0f172a" stroke-width="2"/>
+    <circle cx="-8" cy="-14" r="5" fill="#facc15" stroke="#0f172a" stroke-width="2"/>
+    <text x="-15" y="-5" font-family="sans-serif" font-weight="900" font-size="8" fill="#0f172a" text-anchor="middle">王</text>
+    <path d="M -20 -1 Q -17 3 -14 -1" stroke="#0f172a" stroke-width="2" fill="none"/>
+    <path d="M -12 -1 Q -9 3 -6 -1" stroke="#0f172a" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- Body -->
+  <g id="body" filter="url(#comic-shadow-sg)">
+    <path d="M 105 165 L 80 240 Q 140 255 200 240 L 175 165 Z" fill="url(#purple-robe-sg)" stroke="#0f172a" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M 98 195 Q 140 205 182 195 L 180 210 Q 140 220 100 210 Z" fill="#eab308" stroke="#0f172a" stroke-width="3.5"/>
+    <circle cx="140" cy="204" r="8" fill="#7e22ce" stroke="#0f172a" stroke-width="2.5"/>
+    <ellipse cx="115" cy="245" rx="14" ry="7" fill="#0f172a"/>
+    <ellipse cx="165" cy="245" rx="14" ry="7" fill="#0f172a"/>
+  </g>
+
+  <!-- Arms: Fingers pinched in scheming calculation -->
+  <g id="arms" filter="url(#comic-shadow-sg)">
+    <!-- Right Hand pinching fingers -->
+    <path d="M 175 175 Q 190 155 182 135" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 175 175 Q 190 155 182 135" stroke="#a855f7" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <circle cx="182" cy="135" r="7" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/>
+
+    <!-- Left Hand stroking goatee -->
+    <path d="M 100 175 Q 120 185 135 158" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 100 175 Q 120 185 135 158" stroke="#a855f7" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <circle cx="135" cy="158" r="7" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/>
+  </g>
+
+  <!-- Head Base -->
+  <g id="hair-back" filter="url(#comic-shadow-sg)">
+    <ellipse cx="140" cy="105" rx="58" ry="52" fill="#0f172a" stroke="#0f172a" stroke-width="4"/>
+    <path d="M 125 55 L 120 20 L 160 20 L 155 55 Z" fill="#6b21a8" stroke="#0f172a" stroke-width="3.5"/>
+    <ellipse cx="140" cy="20" rx="20" ry="6" fill="#facc15" stroke="#0f172a" stroke-width="2"/>
+  </g>
+
+  <!-- Chibi Face -->
+  <ellipse cx="140" cy="115" rx="50" ry="44" fill="url(#skin-sg)" stroke="#0f172a" stroke-width="4.5" filter="url(#comic-shadow-sg)"/>
+
+  <!-- Comic Sweat drop -->
+  <path d="M 85 95 Q 80 108 88 110 Q 94 108 90 95 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="2"/>
+
+  <!-- Bangs -->
+  <path d="M 94 92 Q 112 108 125 94 L 140 102 L 155 94 Q 168 108 186 92 Q 140 75 94 92 Z" fill="#0f172a"/>
+
+  <!-- Comic Squinting Scheming Eyes (一條線計算眼) -->
+  <g id="eyes">
+    <line x1="106" y1="108" x2="130" y2="108" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round"/>
+    <line x1="150" y1="108" x2="174" y2="108" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Asymmetric Scheming Brows -->
+  <path d="M 102 96 L 128 90" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M 178 90 L 152 96" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round"/>
+
+  <!-- Handlebar Mustache -->
+  <g id="mustache" filter="url(#comic-shadow-sg)">
+    <path d="M 138 126 Q 110 125 95 138 Q 115 134 136 130 Z" fill="#0f172a" stroke="#0f172a" stroke-width="2.5"/>
+    <path d="M 142 126 Q 170 125 185 138 Q 165 134 144 130 Z" fill="#0f172a" stroke="#0f172a" stroke-width="2.5"/>
+  </g>
+
+  <!-- Grinning Wavy Smirk (奸笑嘴角) -->
+  <path d="M 132 134 Q 140 130 148 136" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <polygon points="137,144 143,144 140,154" fill="#0f172a"/>
 </svg>

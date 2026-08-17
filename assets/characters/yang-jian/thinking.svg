@@ -1,83 +1,134 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" width="100%" height="100%">
   <defs>
-    <filter id="ink-shadow" x="-10%" y="-10%" width="130%" height="130%">
-      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#1c1917" flood-opacity="0.18" />
+    <pattern id="halftone-yj-th" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.1" fill="#0284c7" opacity="0.18"/>
+    </pattern>
+    <filter id="comic-shadow-yj" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="0" flood-color="#0f172a" flood-opacity="0.8" />
     </filter>
-    <linearGradient id="gold-grad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#fef08a"/>
-      <stop offset="50%" stop-color="#eab308"/>
-      <stop offset="100%" stop-color="#ca8a04"/>
+    <filter id="glow-celestial-yj" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="armor-grad-yj" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#bae6fd"/>
+      <stop offset="100%" stop-color="#0284c7"/>
     </linearGradient>
-    <linearGradient id="skin-grad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#fff1f2"/>
+    <linearGradient id="blade-grad-yj" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e0f2fe"/>
+      <stop offset="50%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#7dd3fc"/>
+    </linearGradient>
+    <linearGradient id="skin-yj" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff5f5"/>
       <stop offset="100%" stop-color="#fed7aa"/>
     </linearGradient>
-    <radialGradient id="blush-grad" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.45"/>
-      <stop offset="100%" stop-color="#fb7185" stop-opacity="0"/>
-    </radialGradient>
   </defs>
-  <g id="yang-jian-thinking">
-    <path d="M 80 150 C 50 180 60 225 70 230 C 120 235 170 235 210 215 C 200 170 160 150 160 150 Z" fill="#0284c7" opacity="0.9" filter="url(#ink-shadow)"/>
 
-    <path d="M 90 148 L 78 212 C 78 218 162 218 162 212 L 150 148 Z" fill="#e2e8f0" stroke="#1e293b" stroke-width="4.5" stroke-linejoin="round" filter="url(#ink-shadow)"/>
-    <circle cx="120" cy="175" r="11" fill="url(#gold-grad)" stroke="#ca8a04" stroke-width="2.5"/>
-    <circle cx="120" cy="175" r="5" fill="#f8fafc"/>
-    <path d="M 86 188 Q 120 196 154 188" stroke="#ca8a04" stroke-width="4" fill="none"/>
+  <circle cx="140" cy="140" r="125" fill="#f0f9ff" opacity="0.6"/>
+  <circle cx="140" cy="140" r="115" fill="url(#halftone-yj-th)"/>
 
-    <ellipse cx="96" cy="214" rx="9" ry="5" fill="#334155" stroke="#1e293b" stroke-width="2"/>
-    <ellipse cx="144" cy="214" rx="9" ry="5" fill="#334155" stroke="#1e293b" stroke-width="2"/>
-
-    <!-- Hand on chin & dog tilting head -->
-    <path d="M 88 155 Q 92 140 108 128" stroke="#1e293b" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <circle cx="108" cy="128" r="7" fill="#fed7aa" stroke="#1e293b" stroke-width="2.5"/>
-    <path d="M 152 155 Q 165 170 162 178" stroke="#1e293b" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <circle cx="162" cy="178" r="7" fill="#fed7aa" stroke="#1e293b" stroke-width="2.5"/>
-
-    <g id="xiaotian-dog" transform="translate(42, 175) rotate(-10 15 15)">
-      <ellipse cx="15" cy="20" rx="12" ry="10" fill="#1c1917" stroke="#475569" stroke-width="2"/>
-      <circle cx="15" cy="5" r="10" fill="#1c1917" stroke="#475569" stroke-width="2"/>
-      <circle cx="12" cy="4" r="2.5" fill="#fef08a"/>
-      <circle cx="18" cy="4" r="2.5" fill="#fef08a"/>
-      <circle cx="15" cy="8" r="1.5" fill="#f43f5e"/>
-    </g>
-
-    <!-- Thought Clue Break '破' -->
-    <g transform="translate(170, 30)">
-      <circle cx="15" cy="20" r="4" fill="#93c5fd"/>
-      <circle cx="25" cy="10" r="7" fill="#dbeafe"/>
-      <circle cx="42" cy="-2" r="16" fill="#ffffff" stroke="#0284c7" stroke-width="2.5" filter="url(#ink-shadow)"/>
-      <text x="42" y="3" font-family="'Noto Sans TC', sans-serif" font-weight="900" font-size="18" fill="#0284c7" text-anchor="middle" dominant-baseline="middle">破</text>
-    </g>
-
-    <!-- Huge Chibi Head -->
-    <ellipse cx="120" cy="100" rx="45" ry="42" fill="url(#skin-grad)" stroke="#1e293b" stroke-width="4.5" filter="url(#ink-shadow)"/>
-
-    <ellipse cx="88" cy="108" rx="8" ry="4.5" fill="url(#blush-grad)"/>
-    <ellipse cx="152" cy="108" rx="8" ry="4.5" fill="url(#blush-grad)"/>
-
-    <!-- Third Eye -->
-    <g transform="translate(120, 76)">
-      <path d="M 0 -7 Q 6 0 0 7 Q -6 0 0 -7 Z" fill="#0284c7" stroke="#ca8a04" stroke-width="2"/>
-      <line x1="-3" y1="0" x2="3" y2="0" stroke="#fef08a" stroke-width="2"/>
-    </g>
-
-    <!-- Facial Features -->
-    <path d="M 94 86 L 110 90" stroke="#1e293b" stroke-width="4" stroke-linecap="round"/>
-    <path d="M 146 89 L 130 87" stroke="#1e293b" stroke-width="4" stroke-linecap="round"/>
-    <circle cx="103" cy="94" r="6" fill="#1e293b"/>
-    <circle cx="102" cy="92" r="2" fill="#ffffff"/>
-    <circle cx="137" cy="94" r="6" fill="#1e293b"/>
-    <circle cx="136" cy="92" r="2" fill="#ffffff"/>
-    <ellipse cx="120" cy="105" rx="2" ry="1.5" fill="#ea580c"/>
-    <ellipse cx="120" cy="115" rx="3.5" ry="4" fill="#1e293b"/>
-
-    <!-- Crown & Hair -->
-    <path d="M 74 95 C 72 65 95 56 120 56 C 145 56 168 65 166 95 C 155 76 138 72 120 72 C 102 72 85 76 74 95 Z" fill="#1e293b"/>
-    <polygon points="120,38 126,56 114,56" fill="url(#gold-grad)" stroke="#ca8a04" stroke-width="2"/>
-    <polygon points="105,44 114,58 102,58" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/>
-    <polygon points="135,44 138,58 126,58" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/>
-    <circle cx="120" cy="56" r="5" fill="#0284c7" stroke="#ffffff" stroke-width="1.5"/>
+  <!-- Celestial Scanning Radar Cones from Third Eye -->
+  <g filter="url(#glow-celestial-yj)">
+    <polygon points="140,84 30,10 70,0" fill="#38bdf8" opacity="0.3"/>
+    <polygon points="140,84 250,10 210,0" fill="#38bdf8" opacity="0.3"/>
+    <line x1="140" y1="84" x2="50" y2="5" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 2"/>
+    <line x1="140" y1="84" x2="230" y2="5" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 2"/>
   </g>
+
+  <!-- Three-pointed Blade in Background -->
+  <g id="spear" filter="url(#comic-shadow-yj)">
+    <path d="M 220 30 L 220 240" stroke="#ca8a04" stroke-width="5.5" stroke-linecap="round"/>
+    <g transform="translate(220, 30)" filter="url(#glow-celestial-yj)">
+      <path d="M 0 -22 L 8 0 L -8 0 Z" fill="url(#blade-grad-yj)" stroke="#0f172a" stroke-width="2.5"/>
+      <circle cx="0" cy="5" r="7" fill="#facc15" stroke="#0f172a" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- White Cape Behind -->
+  <g filter="url(#comic-shadow-yj)">
+    <path d="M 90 170 C 60 190 65 240 85 245 C 95 210 110 190 120 180 Z" fill="#f8fafc" stroke="#0f172a" stroke-width="3.5"/>
+    <path d="M 170 170 C 195 190 190 240 175 245 C 165 210 150 190 140 180 Z" fill="#f8fafc" stroke="#0f172a" stroke-width="3.5"/>
+  </g>
+
+  <!-- Body -->
+  <g id="body" filter="url(#comic-shadow-yj)">
+    <path d="M 105 210 L 95 245 L 135 245 L 140 225 L 145 245 L 185 245 L 175 210 Z" fill="#1e293b" stroke="#0f172a" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M 105 165 L 90 215 Q 140 228 190 215 L 175 165 Z" fill="url(#armor-grad-yj)" stroke="#0f172a" stroke-width="4.5" stroke-linejoin="round"/>
+    <circle cx="140" cy="188" r="9" fill="#facc15" stroke="#0f172a" stroke-width="2.5"/>
+    <path d="M 102 210 Q 140 220 178 210" stroke="#facc15" stroke-width="4" fill="none"/>
+    <ellipse cx="112" cy="246" rx="14" ry="6" fill="#0f172a"/>
+    <ellipse cx="168" cy="246" rx="14" ry="6" fill="#0f172a"/>
+  </g>
+
+  <!-- Arms: One hand touching chin in deep thinking -->
+  <g id="arms" filter="url(#comic-shadow-yj)">
+    <!-- Left Hand touching Chin -->
+    <path d="M 100 175 Q 115 155 128 140" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 100 175 Q 115 155 128 140" stroke="#bae6fd" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <circle cx="128" cy="138" r="7.5" fill="#fed7aa" stroke="#0f172a" stroke-width="3"/>
+
+    <!-- Right Hand resting on sword hilt -->
+    <path d="M 180 175 Q 195 190 188 205" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 180 175 Q 195 190 188 205" stroke="#bae6fd" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <circle cx="188" cy="205" r="7.5" fill="#fed7aa" stroke="#0f172a" stroke-width="3"/>
+  </g>
+
+  <!-- Husky Xiaotian Dog Tilting Head with Question Mark -->
+  <g id="xiaotian-dog" transform="translate(62, 210) rotate(-15)" filter="url(#comic-shadow-yj)">
+    <ellipse cx="0" cy="8" rx="16" ry="12" fill="#0f172a"/>
+    <circle cx="6" cy="-4" r="14" fill="#0f172a"/>
+    <ellipse cx="8" cy="-2" rx="10" ry="9" fill="#ffffff"/>
+    <polygon points="-2,-14 2,-24 8,-12" fill="#0f172a"/>
+    <polygon points="6,-12 12,-24 16,-14" fill="#0f172a"/>
+    <!-- Big Derpy Curious Eyes -->
+    <circle cx="4" cy="-4" r="3" fill="#38bdf8"/>
+    <circle cx="10" cy="-4" r="3" fill="#38bdf8"/>
+    <circle cx="4" cy="-5" r="1.2" fill="#ffffff"/>
+    <circle cx="10" cy="-5" r="1.2" fill="#ffffff"/>
+    <!-- Dog Question Mark -->
+    <text x="-8" y="-20" font-family="'Noto Serif TC', serif" font-weight="900" font-size="20" fill="#0284c7">？</text>
+  </g>
+
+  <!-- Head Base -->
+  <g id="hair-back" filter="url(#comic-shadow-yj)">
+    <ellipse cx="140" cy="100" rx="56" ry="52" fill="#0f172a" stroke="#0f172a" stroke-width="4"/>
+    <path d="M 140 50 C 175 25 210 50 205 90 C 190 70 165 60 140 60 Z" fill="#0f172a" stroke="#0f172a" stroke-width="3"/>
+    <path d="M 125 48 L 155 48 L 140 32 Z" fill="#facc15" stroke="#0f172a" stroke-width="2.5"/>
+  </g>
+
+  <!-- Chibi Face -->
+  <ellipse cx="140" cy="112" rx="48" ry="42" fill="url(#skin-yj)" stroke="#0f172a" stroke-width="4.5" filter="url(#comic-shadow-yj)"/>
+
+  <!-- Glowing Wide Open Third Eye (Ray burst) -->
+  <g transform="translate(140, 84)" filter="url(#glow-celestial-yj)">
+    <path d="M -11 0 Q 0 -9 11 0 Q 0 9 -11 0 Z" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+    <ellipse cx="0" cy="0" rx="5" ry="5" fill="#38bdf8"/>
+    <circle cx="0" cy="0" r="2.5" fill="#fef08a"/>
+  </g>
+
+  <!-- Bangs -->
+  <path d="M 94 88 Q 110 106 122 92 L 140 100 L 158 92 Q 170 106 186 88 Q 140 68 94 88 Z" fill="#0f172a"/>
+
+  <!-- Comic Eyes (Analytical & Focused) -->
+  <g id="eyes">
+    <ellipse cx="118" cy="112" rx="9" ry="10" fill="#0f172a"/>
+    <circle cx="118" cy="112" r="7" fill="#0369a1"/>
+    <circle cx="121" cy="108" r="3.5" fill="#ffffff"/>
+    <path d="M 104 102 L 130 102" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
+
+    <ellipse cx="162" cy="112" rx="9" ry="10" fill="#0f172a"/>
+    <circle cx="162" cy="112" r="7" fill="#0369a1"/>
+    <circle cx="165" cy="108" r="3.5" fill="#ffffff"/>
+    <path d="M 150 102 L 176 102" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Eyebrows Tight in Analysis -->
+  <path d="M 102 96 L 126 92" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M 178 96 L 154 92" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round"/>
+
+  <!-- Small Analytical Mouth -->
+  <path d="M 136 128 L 146 128" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round"/>
 </svg>

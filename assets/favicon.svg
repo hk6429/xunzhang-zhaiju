@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <defs>
+    <linearGradient id="fav-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#b92b27"/>
+      <stop offset="100%" stop-color="#8c1d1a"/>
+    </linearGradient>
+    <linearGradient id="fav-gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+  </defs>
+  <!-- Classical Seal Border -->
+  <rect x="3" y="3" width="58" height="58" rx="14" fill="url(#fav-bg)" stroke="url(#fav-gold)" stroke-width="3"/>
+  <rect x="7" y="7" width="50" height="50" rx="10" fill="none" stroke="#fef08a" stroke-width="1" opacity="0.6"/>
+  <!-- Bagua / Seal Motif -->
+  <circle cx="32" cy="32" r="18" fill="none" stroke="url(#fav-gold)" stroke-width="1.5" stroke-dasharray="4 2"/>
+  <!-- Calligraphy '章' or '封' Seal Character Style -->
+  <text x="32" y="42" font-family="'Noto Serif TC', serif" font-weight="900" font-size="28" fill="#fffdf6" text-anchor="middle">章</text>
+  <!-- Small Ink Sparkle -->
+  <circle cx="47" cy="17" r="3" fill="#facc15"/>
+</svg>

@@ -1,74 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" width="100%" height="100%">
   <defs>
-    <filter id="ink-shadow" x="-10%" y="-10%" width="130%" height="130%">
-      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#1c1917" flood-opacity="0.18" />
+    <filter id="comic-shadow-sg" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="0" flood-color="#0f172a" flood-opacity="0.8" />
     </filter>
-    <filter id="glow-red" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur" />
+    <filter id="glow-purple-sg" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
       <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
-    <radialGradient id="halo-gold" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#fef08a" stop-opacity="0.6"/>
-      <stop offset="70%" stop-color="#eab308" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#ca8a04" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="skin-grad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#fff1f2"/>
+    <linearGradient id="purple-robe-sg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f3e8ff"/>
+      <stop offset="50%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#6b21a8"/>
+    </linearGradient>
+    <linearGradient id="skin-sg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff5f5"/>
       <stop offset="100%" stop-color="#fed7aa"/>
     </linearGradient>
-    <radialGradient id="blush-grad" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.45"/>
-      <stop offset="100%" stop-color="#fb7185" stop-opacity="0"/>
-    </radialGradient>
   </defs>
-  <circle cx="120" cy="120" r="105" fill="url(#halo-gold)"/>
-  <g fill="#9333ea" filter="url(#glow-red)">
-    <polygon points="120,15 124,25 135,25 126,32 129,42 120,36 111,42 114,32 105,25 116,25" />
-    <polygon points="45,45 48,52 56,52 50,57 52,64 45,60 38,64 40,57 34,52 42,52" />
-    <polygon points="200,45 203,52 211,52 205,57 207,64 200,60 193,64 195,57 189,52 197,52" />
+
+  <!-- Dark Purple Comic Action Speedlines -->
+  <g stroke="#a855f7" stroke-width="2.5" opacity="0.6" stroke-linecap="round">
+    <line x1="140" y1="140" x2="20" y2="20"/>
+    <line x1="140" y1="140" x2="80" y2="10"/>
+    <line x1="140" y1="140" x2="200" y2="10"/>
+    <line x1="140" y1="140" x2="260" y2="25"/>
+    <line x1="140" y1="140" x2="270" y2="90"/>
+    <line x1="140" y1="140" x2="260" y2="240"/>
+    <line x1="140" y1="140" x2="20" y2="240"/>
   </g>
-  <g id="shen-gongbao-victory">
-    <path d="M 90 148 L 76 215 C 76 220 164 220 164 215 L 150 148 Z" fill="#3b0764" stroke="#1c1917" stroke-width="4.5" stroke-linejoin="round" filter="url(#ink-shadow)"/>
-    <path d="M 120 148 L 120 215" stroke="#9333ea" stroke-width="5" stroke-linecap="round"/>
-    <circle cx="120" cy="180" r="7" fill="#facc15" stroke="#1c1917" stroke-width="2"/>
 
-    <ellipse cx="96" cy="216" rx="9" ry="5" fill="#1c1917"/>
-    <ellipse cx="144" cy="216" rx="9" ry="5" fill="#1c1917"/>
-
-    <!-- Arms raised and roaring tiger -->
-    <path d="M 85 155 Q 55 130 50 100" stroke="#1c1917" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <circle cx="50" cy="100" r="7" fill="#fed7aa" stroke="#1c1917" stroke-width="2.5"/>
-    <path d="M 155 155 Q 185 130 190 100" stroke="#1c1917" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <circle cx="190" cy="100" r="7" fill="#fed7aa" stroke="#1c1917" stroke-width="2.5"/>
-
-    <g id="black-tiger" transform="translate(38, 170)">
-      <ellipse cx="20" cy="20" rx="14" ry="10" fill="#334155" stroke="#0f172a" stroke-width="2"/>
-      <circle cx="20" cy="8" r="11" fill="#334155" stroke="#0f172a" stroke-width="2"/>
-      <path d="M 15 8 Q 20 14 25 8 Z" fill="#ef4444"/>
-    </g>
-
-    <!-- Huge Chibi Head -->
-    <ellipse cx="120" cy="100" rx="45" ry="42" fill="url(#skin-grad)" stroke="#1c1917" stroke-width="4.5" filter="url(#ink-shadow)"/>
-
-    <ellipse cx="88" cy="108" rx="8" ry="4.5" fill="url(#blush-grad)"/>
-    <ellipse cx="152" cy="108" rx="8" ry="4.5" fill="url(#blush-grad)"/>
-
-    <!-- Evil Comedic Victory Face -->
-    <path d="M 92 84 L 110 88" stroke="#1c1917" stroke-width="4" stroke-linecap="round"/>
-    <path d="M 148 84 L 130 88" stroke="#1c1917" stroke-width="4" stroke-linecap="round"/>
-    <path d="M 95 98 Q 102 90 109 98" stroke="#1c1917" stroke-width="4.5" stroke-linecap="round" fill="none"/>
-    <path d="M 131 98 Q 138 90 145 98" stroke="#1c1917" stroke-width="4.5" stroke-linecap="round" fill="none"/>
-    <ellipse cx="120" cy="105" rx="2" ry="1.5" fill="#7e22ce"/>
-    <path d="M 112 110 Q 120 128 132 108 Z" fill="#7e22ce" stroke="#1c1917" stroke-width="3"/>
-    <polygon points="116,110 119,114 122,110" fill="#ffffff"/>
-
-    <!-- Cap & Mustache -->
-    <path d="M 74 95 C 72 65 95 56 120 56 C 145 56 168 65 166 95 C 155 76 138 72 120 72 C 102 72 85 76 74 95 Z" fill="#1c1917"/>
-    <path d="M 108 56 L 132 56 L 128 32 L 112 32 Z" fill="#581c87" stroke="#1c1917" stroke-width="3"/>
-    <circle cx="120" cy="32" r="5" fill="#a855f7" stroke="#facc15" stroke-width="2"/>
-
-    <path d="M 112 112 Q 102 116 98 120" stroke="#1c1917" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-    <path d="M 128 112 Q 138 116 142 120" stroke="#1c1917" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Yin-Yang Mirror Beams Shooting Skyward -->
+  <g transform="translate(225, 80) rotate(-25)" filter="url(#glow-purple-sg)">
+    <line x1="0" y1="0" x2="0" y2="-70" stroke="#facc15" stroke-width="8" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="0" y2="-70" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="20" fill="#facc15" stroke="#0f172a" stroke-width="3"/>
   </g>
+
+  <!-- Chubby Tiger Roaring Proudly (神氣咆哮) -->
+  <g id="spotted-tiger" transform="translate(60, 205)" filter="url(#comic-shadow-sg)">
+    <ellipse cx="0" cy="10" rx="26" ry="18" fill="#facc15" stroke="#0f172a" stroke-width="3.5"/>
+    <ellipse cx="-5" cy="5" rx="5" ry="3" fill="#0f172a"/>
+    <circle cx="15" cy="-2" r="14" fill="#facc15" stroke="#0f172a" stroke-width="3"/>
+    <circle cx="25" cy="-14" r="5" fill="#facc15" stroke="#0f172a" stroke-width="2"/>
+    <circle cx="8" cy="-14" r="5" fill="#facc15" stroke="#0f172a" stroke-width="2"/>
+    <!-- Roaring Open Tiger Mouth -->
+    <ellipse cx="18" cy="4" rx="6" ry="4" fill="#dc2626"/>
+    <!-- Tiny Tiger Fangs -->
+    <polygon points="14,1 16,5 18,1" fill="#ffffff"/>
+    <!-- Joyful Eyes (^^) -->
+    <path d="M 10 -4 Q 14 -8 18 -4" stroke="#0f172a" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- Body -->
+  <g id="body" filter="url(#comic-shadow-sg)">
+    <path d="M 105 165 L 80 235 Q 140 250 200 235 L 175 165 Z" fill="url(#purple-robe-sg)" stroke="#0f172a" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M 98 190 Q 140 200 182 190 L 180 205 Q 140 215 100 205 Z" fill="#eab308" stroke="#0f172a" stroke-width="3.5"/>
+    <circle cx="140" cy="198" r="8" fill="#7e22ce" stroke="#0f172a" stroke-width="2.5"/>
+    <ellipse cx="115" cy="242" rx="14" ry="7" fill="#0f172a"/>
+    <ellipse cx="165" cy="242" rx="14" ry="7" fill="#0f172a"/>
+  </g>
+
+  <!-- Raised Arms Laughing in Triumph -->
+  <g id="arms" filter="url(#comic-shadow-sg)">
+    <!-- Left Hand Hands on hips / raised -->
+    <path d="M 100 170 Q 75 145 90 120" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 100 170 Q 75 145 90 120" stroke="#a855f7" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <circle cx="90" cy="120" r="7.5" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/>
+
+    <!-- Right Hand raising mirror high -->
+    <path d="M 175 170 Q 205 140 215 105" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 175 170 Q 205 140 215 105" stroke="#a855f7" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <circle cx="215" cy="105" r="7.5" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/>
+  </g>
+
+  <!-- Head Base -->
+  <g id="hair-back" filter="url(#comic-shadow-sg)">
+    <ellipse cx="140" cy="105" rx="58" ry="52" fill="#0f172a" stroke="#0f172a" stroke-width="4"/>
+    <path d="M 125 55 L 120 20 L 160 20 L 155 55 Z" fill="#6b21a8" stroke="#0f172a" stroke-width="3.5"/>
+    <ellipse cx="140" cy="20" rx="20" ry="6" fill="#facc15" stroke="#0f172a" stroke-width="2"/>
+  </g>
+
+  <!-- Chibi Face -->
+  <ellipse cx="140" cy="115" rx="50" ry="44" fill="url(#skin-sg)" stroke="#0f172a" stroke-width="4.5" filter="url(#comic-shadow-sg)"/>
+
+  <!-- Bangs -->
+  <path d="M 94 92 Q 112 108 125 94 L 140 102 L 155 94 Q 168 108 186 92 Q 140 75 94 92 Z" fill="#0f172a"/>
+
+  <!-- Maniacal Laughing Eyes (Closed upside-down curves with evil sparkle) -->
+  <g id="eyes">
+    <path d="M 106 106 Q 118 94 130 106" stroke="#0f172a" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M 150 106 Q 162 94 174 106" stroke="#0f172a" stroke-width="5" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- High Raised Villain Brows -->
+  <path d="M 102 86 Q 118 78 130 86" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  <path d="M 178 86 Q 162 78 150 86" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Handlebar Mustache Raised High with Joy -->
+  <g id="mustache" filter="url(#comic-shadow-sg)">
+    <path d="M 138 122 Q 110 115 90 130 Q 115 128 136 126 Z" fill="#0f172a" stroke="#0f172a" stroke-width="2.5"/>
+    <path d="M 142 122 Q 170 115 190 130 Q 165 128 144 126 Z" fill="#0f172a" stroke="#0f172a" stroke-width="2.5"/>
+  </g>
+
+  <!-- Huge Villain Open Laughing Mouth ("桀桀桀！") -->
+  <g id="mouth">
+    <path d="M 124 124 Q 140 112 156 124 Q 140 152 124 124 Z" fill="#7e22ce" stroke="#0f172a" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M 132 138 Q 140 130 148 138" fill="#fda4af"/>
+    <!-- Gold Tooth (大金牙) -->
+    <rect x="136" y="122" width="5" height="5" fill="#facc15"/>
+  </g>
+  <polygon points="137,152 143,152 140,162" fill="#0f172a"/>
 </svg>

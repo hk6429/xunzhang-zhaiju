@@ -135,6 +135,35 @@ body::after {
   backdrop-filter: blur(6px);
 }
 
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.app-brand:hover {
+  transform: translateY(-1px);
+}
+
+.app-brand-mascot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fdfbf7 60%, #f4ebd9 100%);
+  border: 1.5px solid var(--gold);
+  box-shadow: 0 2px 8px rgba(198, 146, 36, 0.35);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  flex-shrink: 0;
+}
+
+.app-brand:hover .app-brand-mascot {
+  transform: scale(1.12) rotate(4deg);
+  box-shadow: 0 4px 12px rgba(198, 146, 36, 0.5);
+}
+
 .app-title {
   font-family: var(--font-calligraphy);
   font-size: 1.85rem;
@@ -2087,6 +2116,922 @@ main {
   font-weight: normal;
 }
 
+/* ==========================================================================
+   封神國風漫畫密室 — 大尺寸角色展演台、漫畫特效、氣泡框、群仙迎賓、Cut-In
+   ========================================================================== */
+
+/* ── 1. 漫畫立繪展演台 (Character Stage & Standee) ── */
+.fengshen-companion.character-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(180deg, rgba(255, 253, 248, 0.98) 0%, rgba(245, 237, 220, 0.95) 100%);
+  border: 2px solid rgba(198, 146, 36, 0.55);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1rem 1.1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 8px 24px rgba(24, 20, 17, 0.12), 0 2px 6px rgba(198, 146, 36, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+/* 展演台背後漫畫速度線與法陣光環 */
+.stage-aura-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.stage-magic-circle {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(198, 146, 36, 0.35);
+  box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.15), 0 0 15px rgba(212, 175, 55, 0.2);
+  animation: magic-circle-spin 24s linear infinite;
+}
+
+@keyframes magic-circle-spin {
+  0% { transform: translateX(-50%) rotate(0deg); }
+  100% { transform: translateX(-50%) rotate(360deg); }
+}
+
+.stage-speedlines {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle at 50% 40%, transparent 40%, rgba(198, 146, 36, 0.08) 80%);
+  opacity: 0.8;
+}
+
+/* 立繪容器 */
+.companion-standee-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 200px;
+  margin-top: 0.25rem;
+}
+
+.character-stage-figure {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.standee-img-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.standee-img-container.stage-large .fengshen-standee-img {
+  max-height: 195px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 14px rgba(24, 20, 17, 0.2));
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: standee-float 4s ease-in-out infinite;
+}
+
+.standee-img-container.stage-normal .fengshen-standee-img {
+  max-height: 145px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(24, 20, 17, 0.16));
+}
+
+.standee-img-container.chamber-standee .fengshen-standee-img {
+  max-height: 130px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(24, 20, 17, 0.15));
+  animation: standee-float 4.5s ease-in-out infinite;
+}
+
+.standee-img-container.cutin-huge .fengshen-standee-img {
+  max-height: 280px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.45));
+}
+
+@keyframes standee-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.02); }
+}
+
+/* 角色互動懸浮與被點擊動作 */
+.character-stage:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold);
+  box-shadow: 0 12px 32px rgba(198, 146, 36, 0.28);
+}
+
+.character-stage:hover .fengshen-standee-img {
+  transform: translateY(-4px) scale(1.05);
+}
+
+.character-stage.acting .fengshen-standee-img {
+  animation: standee-jump 0.55s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes standee-jump {
+  0% { transform: scale(1) translateY(0); }
+  35% { transform: scale(1.12, 0.88) translateY(-14px); }
+  65% { transform: scale(0.95, 1.05) translateY(-4px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+/* 漫畫擬聲音效標籤 (Comic SFX Tag) */
+.comic-sfx-tag {
+  position: absolute;
+  top: 10px;
+  right: 18px;
+  z-index: 5;
+  font-family: var(--font-calligraphy);
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #fff;
+  background: linear-gradient(135deg, var(--vermilion) 0%, #d93829 100%);
+  border: 2px solid #fff;
+  border-radius: 8px;
+  padding: 0.1rem 0.55rem;
+  transform: rotate(12deg) scale(1);
+  box-shadow: 0 4px 12px var(--vermilion-glow), 2px 2px 0 rgba(0,0,0,0.15);
+  pointer-events: none;
+  letter-spacing: 0.1em;
+}
+
+.comic-sfx-tag.pop-in {
+  animation: comic-sfx-burst 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+
+@keyframes comic-sfx-burst {
+  0% { transform: scale(0.2) rotate(-25deg); opacity: 0; }
+  50% { transform: scale(1.3) rotate(15deg); opacity: 1; }
+  75% { transform: scale(0.95) rotate(10deg); opacity: 1; }
+  100% { transform: scale(1) rotate(12deg); opacity: 1; }
+}
+
+/* ── 2. 漫畫風格對話框體系 (3 Comic Bubble Styles) ── */
+.comic-bubble {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 0.75rem 0.95rem;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.companion-name-group {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.companion-mood-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--indigo);
+  border-radius: 4px;
+  padding: 0.08rem 0.35rem;
+  letter-spacing: 0.08em;
+}
+
+/* 樣式 A：毛筆波浪框 / 捲軸墨框 (.bubble-brush) */
+.comic-bubble.bubble-brush {
+  background: #ffffff;
+  border: 2px solid rgba(198, 146, 36, 0.45);
+  box-shadow: 0 4px 14px rgba(24, 20, 17, 0.08), inset 0 0 0 1px rgba(244, 235, 217, 0.7);
+}
+
+.comic-bubble.bubble-brush::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 14px;
+  height: 14px;
+  background: #ffffff;
+  border-left: 2px solid rgba(198, 146, 36, 0.45);
+  border-top: 2px solid rgba(198, 146, 36, 0.45);
+}
+
+/* 樣式 B：刺蝟狀大喊泡泡 (.bubble-shout) */
+.comic-bubble.bubble-shout {
+  background: #fffdf5;
+  border: 2.5px solid var(--vermilion);
+  box-shadow: 0 6px 20px var(--vermilion-glow), inset 0 0 8px rgba(185, 43, 39, 0.08);
+  animation: shout-shake 0.4s ease-out;
+}
+
+.comic-bubble.bubble-shout .companion-name {
+  color: var(--vermilion-dark);
+}
+
+.comic-bubble.bubble-shout .companion-text {
+  font-weight: 700;
+  color: #8a1714;
+}
+
+.comic-bubble.bubble-shout::before {
+  content: "";
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 12px solid var(--vermilion);
+}
+
+.comic-bubble.bubble-shout::after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 9px solid #fffdf5;
+}
+
+@keyframes shout-shake {
+  0% { transform: scale(0.95); }
+  25% { transform: scale(1.04) rotate(-1deg); }
+  50% { transform: scale(0.98) rotate(1deg); }
+  75% { transform: scale(1.02); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+/* 樣式 C：水滴圓形思考泡泡 (.bubble-think) */
+.comic-bubble.bubble-think {
+  background: #f4f8fb;
+  border: 2px dashed #0284c7;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.12);
+  border-radius: 18px;
+}
+
+.comic-bubble.bubble-think .companion-name {
+  color: #0369a1;
+}
+
+.comic-bubble.bubble-think::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  background: #f4f8fb;
+  border: 2px solid #0284c7;
+  border-radius: 50%;
+}
+
+.comic-bubble.bubble-think::after {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: calc(50% + 5px);
+  width: 5px;
+  height: 5px;
+  background: #f4f8fb;
+  border: 1.5px solid #0284c7;
+  border-radius: 50%;
+}
+
+/* ── 3. 破陣漫畫特寫 Cut-In 特效 (.manga-cutin-overlay) ── */
+.manga-cutin-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(18, 14, 11, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.cutin-speedlines-bg {
+  position: absolute;
+  inset: -50%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(212, 175, 55, 0.18) 0deg 3deg,
+    transparent 3deg 8deg,
+    rgba(255, 255, 255, 0.12) 8deg 11deg,
+    transparent 11deg 16deg
+  );
+  animation: cutin-spin 18s linear infinite;
+}
+
+@keyframes cutin-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.cutin-slash-bar {
+  position: absolute;
+  width: 140%;
+  height: 120px;
+  background: linear-gradient(90deg, transparent 0%, rgba(185, 43, 39, 0.95) 20%, rgba(212, 175, 55, 0.95) 80%, transparent 100%);
+  transform: rotate(-12deg);
+  box-shadow: 0 0 35px var(--gold-glow);
+  filter: blur(1px);
+}
+
+.cutin-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  max-width: 920px;
+  width: 90%;
+  padding: 1.5rem;
+}
+
+.cutin-character-stage {
+  flex: 0 0 280px;
+  height: 300px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+}
+
+.cutin-character-stage .standee-img-container {
+  animation: cutin-char-slide 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+
+@keyframes cutin-char-slide {
+  0% { transform: translateX(-180px) scale(0.6); opacity: 0; }
+  60% { transform: translateX(20px) scale(1.15); opacity: 1; }
+  100% { transform: translateX(0) scale(1); opacity: 1; }
+}
+
+.cutin-kanji-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.cutin-kanji-stamp {
+  font-family: var(--font-calligraphy);
+  font-size: clamp(5rem, 15vw, 8.5rem);
+  font-weight: 900;
+  line-height: 1;
+  color: #fff6d6;
+  text-shadow: 
+    0 0 20px #f59e0b,
+    0 0 40px #b45309,
+    4px 4px 0 #78350f,
+    8px 8px 18px rgba(0,0,0,0.6);
+  animation: kanji-slam 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+
+@keyframes kanji-slam {
+  0% { transform: scale(3.5) rotate(-20deg); opacity: 0; }
+  50% { transform: scale(0.88) rotate(4deg); opacity: 1; }
+  75% { transform: scale(1.1) rotate(-2deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.cutin-kanji-sub {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: #fef08a;
+  background: rgba(18, 14, 11, 0.85);
+  border: 1px solid #eab308;
+  border-radius: 999px;
+  padding: 0.25rem 1rem;
+  margin-top: -0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.cutin-bubble-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.cutin-comic-bubble {
+  background: linear-gradient(135deg, #ffffff 0%, #fffbf0 100%);
+  border: 3px solid var(--gold-bright);
+  border-radius: 16px;
+  padding: 1.2rem 1.4rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  animation: bubble-slide 0.55s ease-out forwards;
+}
+
+@keyframes bubble-slide {
+  0% { transform: translateX(80px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+.cutin-comic-bubble strong {
+  display: block;
+  font-family: var(--font-calligraphy);
+  font-size: 1.4rem;
+  color: var(--vermilion);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.15em;
+}
+
+.cutin-comic-bubble p {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--ink-deep);
+  font-weight: 600;
+}
+
+.manga-cutin-overlay.fade-out {
+  animation: cutin-fade-out 0.28s ease-in forwards;
+}
+
+@keyframes cutin-fade-out {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.08); }
+}
+
+/* ── 4. 封神仙人迎賓看板 (.immortals-welcome-board) ── */
+.immortals-welcome-board {
+  background: linear-gradient(180deg, rgba(255, 253, 248, 0.95) 0%, rgba(246, 238, 222, 0.9) 100%);
+  border: 2px solid rgba(198, 146, 36, 0.4);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.2rem 1.3rem;
+  margin-bottom: 1.4rem;
+  box-shadow: var(--shadow-ink);
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-board-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px dashed rgba(198, 146, 36, 0.3);
+  padding-bottom: 0.6rem;
+}
+
+.welcome-board-seal {
+  font-family: var(--font-calligraphy);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--vermilion);
+  border: 1px solid #fff;
+  border-radius: 4px;
+  padding: 0.15rem 0.45rem;
+  box-shadow: 0 2px 5px var(--vermilion-glow);
+}
+
+.welcome-board-title {
+  font-family: var(--font-calligraphy);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ink-deep);
+  letter-spacing: 0.2em;
+}
+
+.welcome-board-tip {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--gold-dark);
+  background: #fef9c3;
+  border: 1px solid rgba(234, 179, 8, 0.4);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+}
+
+.welcome-immortals-list {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 0.5rem 0.25rem 0.8rem;
+  scrollbar-width: thin;
+}
+
+.welcome-immortals-list::-webkit-scrollbar {
+  height: 6px;
+}
+.welcome-immortals-list::-webkit-scrollbar-thumb {
+  background: rgba(198, 146, 36, 0.3);
+  border-radius: 999px;
+}
+
+.welcome-immortal-item {
+  flex: 0 0 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: immortal-peek 3.8s ease-in-out infinite alternate;
+}
+
+@keyframes immortal-peek {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+
+.welcome-immortal-item:hover {
+  transform: translateY(-8px) scale(1.08);
+}
+
+.welcome-immortal-item.peek-bounce {
+  animation: peek-bounce-act 0.5s ease-out;
+}
+
+@keyframes peek-bounce-act {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.2) translateY(-10px); }
+  70% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+.welcome-peek-bubble {
+  position: absolute;
+  top: -8px;
+  right: -4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--vermilion);
+  border: 1px solid #fff;
+  border-radius: 999px;
+  padding: 0.05rem 0.35rem;
+  box-shadow: 0 2px 4px rgba(185, 43, 39, 0.3);
+  transform: rotate(8deg);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.welcome-immortal-avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fffdf8 0%, #f1e4c8 100%);
+  border: 2.5px solid var(--gold);
+  box-shadow: 0 4px 10px rgba(198, 146, 36, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 0.35rem;
+}
+
+.welcome-immortal-name {
+  font-family: var(--font-calligraphy);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink-deep);
+}
+
+.welcome-immortal-tag {
+  font-size: 0.65rem;
+  color: var(--gold-dark);
+}
+
+.welcome-speech-popup {
+  margin-top: 0.8rem;
+  background: #ffffff;
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  padding: 0.65rem 1rem;
+  box-shadow: 0 4px 15px rgba(198, 146, 36, 0.2);
+  position: relative;
+}
+
+.welcome-speech-popup.pop-in {
+  animation: welcome-pop 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes welcome-pop {
+  0% { transform: scale(0.92) translateY(5px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.welcome-speech-name {
+  font-family: var(--font-calligraphy);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--vermilion);
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+.welcome-speech-text {
+  font-size: 0.9rem;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+/* ── 5. 地圖小仙人頭像與氣泡 (.map-guardian-badge) ── */
+.chapter-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.4rem;
+}
+
+.map-guardian-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.3rem;
+  margin-bottom: 0.4rem;
+}
+
+.map-guardian-avatar {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--gold);
+  box-shadow: 0 2px 6px rgba(198, 146, 36, 0.2);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-guardian-speech {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--ink);
+  background: #ffffff;
+  border: 1px solid rgba(198, 146, 36, 0.35);
+  border-radius: 8px;
+  padding: 0.3rem 0.65rem;
+  box-shadow: 0 2px 6px rgba(24, 20, 17, 0.05);
+}
+
+.map-guardian-speech strong {
+  color: var(--indigo);
+}
+
+/* ── 6. 大廳陣法卡片立繪容器 (.chamber-guardian-standee-box) ── */
+.chamber-guardian-section {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(198, 146, 36, 0.25);
+  border-radius: var(--radius);
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.chamber-guardian-standee-box {
+  flex: 0 0 110px;
+  height: 125px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.chamber-speedlines-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(198, 146, 36, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.chamber-comic-quote {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--ink);
+  background: #ffffff;
+  border: 1px solid rgba(198, 146, 36, 0.3);
+  border-radius: 8px;
+  padding: 0.4rem 0.7rem;
+  margin-top: 0.35rem;
+}
+
+/* ── 7. 底部角落趣味互動彩蛋 (.easter-egg-mascot) ── */
+.easter-egg-mascot {
+  position: fixed;
+  bottom: 1.4rem;
+  right: 1.4rem;
+  z-index: 999;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  user-select: none;
+}
+
+.mascot-avatar-box {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fffdf8 0%, #fef3c7 100%);
+  border: 2.5px solid var(--gold);
+  box-shadow: 0 6px 18px rgba(198, 146, 36, 0.35), inset 0 2px 4px #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: mascot-idle 4s ease-in-out infinite alternate;
+}
+
+@keyframes mascot-idle {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-5px) rotate(4deg); }
+  100% { transform: translateY(0) rotate(-2deg); }
+}
+
+.easter-egg-mascot:hover .mascot-avatar-box {
+  transform: scale(1.12) translateY(-6px);
+  box-shadow: 0 10px 24px rgba(198, 146, 36, 0.45);
+}
+
+.easter-egg-mascot.mascot-wobble .mascot-avatar-box {
+  animation: mascot-wobble-act 0.6s ease-out;
+}
+
+@keyframes mascot-wobble-act {
+  0% { transform: scale(1) rotate(0); }
+  25% { transform: scale(1.25) rotate(-15deg); }
+  50% { transform: scale(0.9) rotate(15deg); }
+  75% { transform: scale(1.1) rotate(-5deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+.mascot-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.mascot-tooltip {
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink-deep);
+  background: #ffffff;
+  border: 1px solid rgba(198, 146, 36, 0.4);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.mascot-tooltip.active {
+  background: #fef08a;
+  border-color: #ca8a04;
+  color: #854d0e;
+  transform: scale(1.05);
+}
+
+.mascot-sfx-popup {
+  position: absolute;
+  top: -12px;
+  right: -6px;
+  font-family: var(--font-calligraphy);
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #fff;
+  background: var(--vermilion);
+  border: 1.5px solid #fff;
+  border-radius: 6px;
+  padding: 0.05rem 0.4rem;
+  box-shadow: 0 2px 6px var(--vermilion-glow);
+  pointer-events: none;
+}
+
+.ink-burst-particle {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #facc15 0%, #b45309 80%);
+  box-shadow: 0 0 8px #fde047;
+  pointer-events: none;
+  z-index: 10001;
+  animation: ink-particle-fly 0.85s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+
+@keyframes ink-particle-fly {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--tx, 20px), var(--ty, -40px)) scale(0.2); opacity: 0; }
+}
+
+/* ── 8. 響應式優化 (RWD) ── */
+@media (max-width: 959px) {
+  .fengshen-companion.character-stage {
+    flex-direction: row;
+    align-items: center;
+    padding: 0.65rem 0.85rem;
+    gap: 0.85rem;
+  }
+
+  .companion-standee-container {
+    flex: 0 0 100px;
+    height: 110px;
+    margin-top: 0;
+  }
+
+  .standee-img-container.stage-large .fengshen-standee-img {
+    max-height: 105px;
+  }
+
+  .stage-magic-circle {
+    width: 120px;
+    height: 120px;
+    top: 5%;
+  }
+
+  .comic-bubble {
+    flex: 1;
+    min-width: 0;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .comic-bubble.bubble-brush::before {
+    left: -7px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    border-left: 2px solid rgba(198, 146, 36, 0.45);
+    border-bottom: 2px solid rgba(198, 146, 36, 0.45);
+    border-top: none;
+  }
+
+  .comic-bubble.bubble-shout::before {
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+  }
+
+  .comic-bubble.bubble-shout::after {
+    left: -7px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+  }
+
+  .comic-bubble.bubble-think::before {
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .comic-bubble.bubble-think::after {
+    left: -18px;
+    top: calc(50% - 4px);
+  }
+
+  .cutin-content {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .cutin-character-stage {
+    flex: 0 0 180px;
+    height: 190px;
+  }
+
+  .cutin-character-stage .standee-img-container.cutin-huge .fengshen-standee-img {
+    max-height: 180px;
+  }
+}
+
 /* ── 響應式優化 (Mobile RWD) ───────────────── */
 @media (max-width: 480px) {
   .app-title { font-size: 1.4rem; letter-spacing: 0.18em; }
@@ -2100,5 +3045,8 @@ main {
   .chamber-hero-title { font-size: 1.5rem; }
   .seal-runes { gap: 0.3rem; }
   .seal-rune-node { min-width: 36px; height: 30px; font-size: 0.75rem; }
+  .easter-egg-mascot { bottom: 0.8rem; right: 0.8rem; }
+  .mascot-avatar-box { width: 52px; height: 52px; }
 }
+
 

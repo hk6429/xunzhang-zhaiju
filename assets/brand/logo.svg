@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" width="100%" height="100%">
+  <defs>
+    <!-- Logo Gradients & Filters -->
+    <filter id="logo-drop" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.18" />
+    </filter>
+    <filter id="logo-gold-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <linearGradient id="logo-gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fde047" />
+      <stop offset="30%" stop-color="#eab308" />
+      <stop offset="70%" stop-color="#ca8a04" />
+      <stop offset="100%" stop-color="#854d0e" />
+    </linearGradient>
+
+    <linearGradient id="logo-ink-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#262626" />
+      <stop offset="50%" stop-color="#171717" />
+      <stop offset="100%" stop-color="#0a0a0a" />
+    </linearGradient>
+
+    <linearGradient id="logo-cinnabar" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="60%" stop-color="#dc2626" />
+      <stop offset="100%" stop-color="#991b1b" />
+    </linearGradient>
+
+    <radialGradient id="badge-bg-radial" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fdfbf7" />
+      <stop offset="60%" stop-color="#f4ebd9" />
+      <stop offset="100%" stop-color="#e2d4b9" />
+    </radialGradient>
+  </defs>
+
+  <!-- 1. 左側品牌吉祥物徽章 (Mascot Medallion) -->
+  <g id="mascot-medallion" transform="translate(10, 10)" filter="url(#logo-drop)">
+    <!-- 雙重金邊外環 -->
+    <circle cx="80" cy="80" r="74" fill="url(#badge-bg-radial)" stroke="url(#logo-gold)" stroke-width="4.5" />
+    <circle cx="80" cy="80" r="67" fill="none" stroke="#b45309" stroke-width="1.2" stroke-dasharray="5 3" opacity="0.6" />
+
+    <!-- 柔和太極底光 -->
+    <g transform="translate(80, 80) scale(0.7) rotate(15)" opacity="0.12">
+      <path d="M 0 -70 A 70 70 0 0 1 0 70 A 35 35 0 0 1 0 0 A 35 35 0 0 0 0 -70 Z" fill="#0f172a" />
+      <circle cx="0" cy="-35" r="12" fill="#0f172a" />
+      <circle cx="0" cy="35" r="12" fill="#ffffff" />
+    </g>
+
+    <!-- 墨靈仙童頭像與筆尖 (Mascot Head & Brush) -->
+    <g transform="translate(80, 85) scale(0.68) translate(-128, -128)">
+      <!-- 後髮 -->
+      <ellipse cx="128" cy="138" rx="74" ry="64" fill="#0f172a" />
+      
+      <!-- 仙童軟萌大臉 -->
+      <ellipse cx="128" cy="142" rx="66" ry="58" fill="#fff5f5" stroke="#1e293b" stroke-width="4" />
+      
+      <!-- 腮紅 -->
+      <ellipse cx="80" cy="154" rx="14" ry="8" fill="#fb7185" opacity="0.5" />
+      <ellipse cx="176" cy="154" rx="14" ry="8" fill="#fb7185" opacity="0.5" />
+
+      <!-- 瀏海 -->
+      <path d="M 70 110 C 85 132 108 120 128 130 C 148 120 171 132 186 110 C 174 95 152 92 128 92 C 104 92 82 95 70 110 Z" fill="#0f172a" stroke="#1e293b" stroke-width="2.5" />
+
+      <!-- 額頭硃砂印 -->
+      <path d="M 128 112 L 131 118 L 128 124 L 125 118 Z" fill="url(#logo-cinnabar)" />
+
+      <!-- 大眼睛 -->
+      <ellipse cx="94" cy="143" rx="14" ry="18" fill="#090d16" />
+      <ellipse cx="90" cy="135" rx="6" ry="8" fill="#ffffff" />
+      <circle cx="101" cy="148" r="2.8" fill="#38bdf8" />
+
+      <ellipse cx="162" cy="143" rx="14" ry="18" fill="#090d16" />
+      <ellipse cx="158" cy="135" rx="6" ry="8" fill="#ffffff" />
+      <circle cx="169" cy="148" r="2.8" fill="#38bdf8" />
+
+      <!-- 眉毛與笑嘴 -->
+      <path d="M 82 122 Q 95 116 108 122" fill="none" stroke="#475569" stroke-width="3.2" stroke-linecap="round" />
+      <path d="M 148 122 Q 161 116 174 122" fill="none" stroke="#475569" stroke-width="3.2" stroke-linecap="round" />
+      <path d="M 120 163 Q 128 173 136 163" fill="#e11d48" stroke="#881337" stroke-width="2" stroke-linecap="round" />
+
+      <!-- 太極髮髻 -->
+      <circle cx="128" cy="72" r="28" fill="#0f172a" stroke="#1e293b" stroke-width="3" />
+      <circle cx="128" cy="72" r="17" fill="url(#logo-gold)" stroke="#78350f" stroke-width="1.8" />
+      <circle cx="128" cy="72" r="13" fill="#0f172a" />
+      <path d="M 128 59 A 13 13 0 0 1 128 85 A 6.5 6.5 0 0 1 128 72 A 6.5 6.5 0 0 0 128 59 Z" fill="#ffffff" />
+      <circle cx="128" cy="65.5" r="2" fill="#0f172a" />
+      <circle cx="128" cy="78.5" r="2" fill="#ffffff" />
+
+      <!-- 金簪與赤纓 -->
+      <line x1="92" y1="72" x2="164" y2="72" stroke="url(#logo-gold)" stroke-width="4.5" stroke-linecap="round" />
+      <path d="M 164 74 Q 174 94 168 116 Q 164 128 170 142" fill="none" stroke="url(#logo-cinnabar)" stroke-width="3.8" stroke-linecap="round" />
+    </g>
+
+    <!-- 右前側小毛筆金光揮毫 -->
+    <g transform="translate(132, 120) rotate(-40)" filter="url(#logo-gold-glow)">
+      <rect x="-3" y="-22" width="6" height="36" rx="2" fill="#451a03" stroke="url(#logo-gold)" stroke-width="1" />
+      <path d="M -4 -22 C -6 -36 0 -48 0 -48 C 0 -48 6 -36 4 -22 Z" fill="#0f172a" />
+      <path d="M -1.5 -32 C -2 -42 0 -46 0 -46 C 0 -46 2 -42 1.5 -32 Z" fill="#38bdf8" />
+      <circle cx="0" cy="-48" r="3.5" fill="#fde047" />
+    </g>
+  </g>
+
+  <!-- 2. 中間品牌文字「尋章摘句」(Calligraphic Brand Typography) -->
+  <g id="brand-typography" transform="translate(180, 25)" filter="url(#logo-drop)">
+    <!-- 主標題文字：尋章摘句 (高雅國風書法字型，字距與高光強化) -->
+    <g font-family="'Ma Shan Zheng', 'Noto Serif TC', 'Songti TC', serif" font-weight="900" font-size="64" fill="url(#logo-ink-grad)" letter-spacing="12">
+      <!-- 尋 -->
+      <text x="0" y="78" stroke="#ffffff" stroke-width="1.5">尋</text>
+      <!-- 章 -->
+      <text x="76" y="78" stroke="#ffffff" stroke-width="1.5">章</text>
+      <!-- 摘 -->
+      <text x="152" y="78" stroke="#ffffff" stroke-width="1.5">摘</text>
+      <!-- 句 -->
+      <text x="228" y="78" stroke="#ffffff" stroke-width="1.5">句</text>
+    </g>
+
+    <!-- 文字燙金微芒下劃裝飾線 -->
+    <g transform="translate(0, 95)">
+      <line x1="0" y1="0" x2="305" y2="0" stroke="url(#logo-gold)" stroke-width="2" stroke-linecap="round" />
+      <circle cx="0" cy="0" r="2.5" fill="url(#logo-gold)" />
+      <circle cx="305" cy="0" r="2.5" fill="url(#logo-gold)" />
+      <!-- 中央太極小金紋 -->
+      <circle cx="152" cy="0" r="5" fill="#f4ebd9" stroke="url(#logo-gold)" stroke-width="1.5" />
+      <circle cx="152" cy="0" r="2" fill="#ca8a04" />
+    </g>
+
+    <!-- 副標題文字：封神密室逃脫 ・ FENGSHEN ESCAPE ROOM -->
+    <g transform="translate(0, 120)">
+      <text x="2" y="0" font-family="'Noto Serif TC', 'Songti TC', serif" font-weight="700" font-size="16.5" fill="#854d0e" letter-spacing="4">
+        封神密室逃脫
+      </text>
+      <text x="145" y="-1" font-size="12" fill="#ca8a04">✦</text>
+      <text x="165" y="-1" font-family="'Noto Serif TC', serif" font-weight="600" font-size="12.5" fill="#52525b" letter-spacing="2.5">
+        FENGSHEN ESCAPE
+      </text>
+    </g>
+  </g>
+
+  <!-- 3. 右側典雅硃砂印章「封神密室」(Cinnabar Seal Badge) -->
+  <g id="brand-seal" transform="translate(520, 32)" filter="url(#logo-drop)">
+    <!-- 圓角外印框 -->
+    <rect x="0" y="0" width="94" height="94" rx="14" fill="url(#logo-cinnabar)" stroke="url(#logo-gold)" stroke-width="2.5" />
+    <!-- 內部金石斑駁刻線 -->
+    <rect x="4" y="4" width="86" height="86" rx="10" fill="none" stroke="#fecaca" stroke-width="1.2" opacity="0.65" stroke-dasharray="20 4 15 3" />
+
+    <!-- 九疊篆／宋體二行四字：封神 密室 -->
+    <g font-family="'Noto Serif TC', 'Songti TC', serif" font-weight="900" font-size="28" fill="#ffffff" text-anchor="middle" letter-spacing="2">
+      <text x="28" y="38">封</text>
+      <text x="68" y="38">神</text>
+      <text x="28" y="76">密</text>
+      <text x="68" y="76">室</text>
+    </g>
+
+    <!-- 印章微光金星 -->
+    <circle cx="86" cy="8" r="2" fill="#fef08a" />
+  </g>
+</svg>

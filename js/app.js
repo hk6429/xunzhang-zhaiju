@@ -9,6 +9,9 @@ import {
   FENGSHEN_ARRAYS,
   getArrayByChapter,
   renderGuardianSvg,
+  CHARACTERS,
+  getCharacterById,
+  getRandomQuote,
 } from './fengshen.js';
 
 const $ = (id) => document.getElementById(id);
@@ -30,6 +33,7 @@ let save = defaultSave();
 let hintEngine = null;
 let collection = null;
 let currentGame = null; // startLevel 回傳的 handle
+let activeColTab = 'phrases'; // 'phrases' | 'characters'
 
 function persist() {
   persistSave(save, hintEngine, collection);
@@ -127,7 +131,7 @@ function frontierLevelId() {
   return levels.length ? levels[levels.length - 1].id : 1;
 }
 
-// ── 封神密室大廳／陣法選擇視圖 ───────
+// ── 封神密室大廳／陣法選擇視圖（多角色互動機制） ───────
 function renderChambers() {
   const box = $('chamber-list');
   if (!box) return;
@@ -160,6 +164,21 @@ function renderChambers() {
       ? '<span class="chamber-status-badge open">🔓 破陣試煉中</span>'
       : '<span class="chamber-status-badge lock">🔒 封印未啟</span>';
 
+    // 守護者清單（支援雙人駐守如萬仙陣：蘇妲己＋申公豹、誅仙陣：雷震子＋太乙真人）
+    const guardiansList = arr.guardians || [arr.guardian];
+    let selectedGuardianIdx = 0;
+
+    const guardiansHtml = guardiansList.map((g, idx) => `
+      <div class="guardian-avatar-item ${idx === 0 ? 'active' : ''}" data-idx="${idx}" title="點擊切換 ${g.name} 互動">
+        <div class="avatar-img-box" id="ch-avatar-${arr.chapter}-${idx}">
+          ${renderGuardianSvg(g.characterId || g.id, isAllDone ? 'win' : 'idle')}
+        </div>
+        <span class="guardian-subname">${g.name}</span>
+      </div>
+    `).join('');
+
+    const initialG = guardiansList[0];
+
     card.innerHTML = `
       <div class="chamber-card-header">
         <div class="chamber-badge-group">
@@ -170,14 +189,16 @@ function renderChambers() {
         <p class="chamber-alias">${arr.alias}</p>
       </div>
 
-      <div class="chamber-guardian-section">
-        <div class="chamber-guardian-avatar">
-          ${renderGuardianSvg(arr.guardian.id, isAllDone ? 'win' : 'idle')}
+      <div class="chamber-guardians-container">
+        <div class="guardians-avatar-row">
+          ${guardiansHtml}
         </div>
-        <div class="chamber-guardian-info">
-          <strong class="chamber-guardian-name">${arr.guardian.name}</strong>
-          <span class="chamber-guardian-title">${arr.guardian.title}</span>
-          <p class="chamber-guardian-quote">「${arr.guardian.clickQuotes[0]}」</p>
+        <div class="chamber-guardian-bubble" id="ch-bubble-${arr.chapter}">
+          <div class="bubble-speaker-header">
+            <strong class="chamber-guardian-name" id="ch-name-${arr.chapter}">${initialG.name}</strong>
+            <span class="chamber-guardian-title" id="ch-title-${arr.chapter}">${initialG.title}</span>
+          </div>
+          <p class="chamber-guardian-quote" id="ch-quote-${arr.chapter}">${initialG.taunt || initialG.greeting}</p>
         </div>
       </div>
 
@@ -210,6 +231,61 @@ function renderChambers() {
         </button>
       </div>
     `;
+
+    // 守陣角色切換與漫畫表情切換事件
+    const avatarItems = card.querySelectorAll('.guardian-avatar-item');
+    const nameEl = card.querySelector(`#ch-name-${arr.chapter}`);
+    const titleEl = card.querySelector(`#ch-title-${arr.chapter}`);
+    const quoteEl = card.querySelector(`#ch-quote-${arr.chapter}`);
+    const bubbleEl = card.querySelector(`#ch-bubble-${arr.chapter}`);
+
+    function updateGuardianSpeech(gIdx, mood = 'idle', quoteType = 'taunt') {
+      const g = guardiansList[gIdx];
+      if (!g) return;
+      avatarItems.forEach((it, i) => it.classList.toggle('active', i === gIdx));
+      
+      const avatarBox = card.querySelector(`#ch-avatar-${arr.chapter}-${gIdx}`);
+      if (avatarBox) {
+        avatarBox.innerHTML = renderGuardianSvg(g.characterId || g.id, mood);
+      }
+      if (nameEl) nameEl.textContent = g.name;
+      if (titleEl) titleEl.textContent = g.title;
+      if (quoteEl) {
+        if (quoteType === 'taunt') quoteEl.textContent = g.taunt || getRandomQuote(g.clickQuotes);
+        else if (quoteType === 'cheer') quoteEl.textContent = g.cheer || getRandomQuote(g.findQuotes);
+        else quoteEl.textContent = getRandomQuote(g.clickQuotes);
+      }
+      if (bubbleEl) {
+        bubbleEl.classList.remove('pop-anim');
+        void bubbleEl.offsetWidth;
+        bubbleEl.classList.add('pop-anim');
+      }
+    }
+
+    avatarItems.forEach((it) => {
+      const idx = Number(it.dataset.idx) || 0;
+      it.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectedGuardianIdx = idx;
+        const moods = ['thinking', 'victory', 'panic'];
+        const m = moods[Math.floor(Math.random() * moods.length)];
+        updateGuardianSpeech(idx, m, 'cheer');
+      });
+      it.addEventListener('mouseenter', () => {
+        updateGuardianSpeech(idx, 'thinking', 'taunt');
+      });
+    });
+
+    // 卡片懸停事件：主動切換守陣角色表情
+    card.addEventListener('mouseenter', () => {
+      if (isChapterUnlocked) {
+        updateGuardianSpeech(selectedGuardianIdx, 'thinking', 'taunt');
+      }
+    });
+
+    card.addEventListener('mouseleave', () => {
+      updateGuardianSpeech(selectedGuardianIdx, isAllDone ? 'win' : 'idle', 'taunt');
+    });
 
     // 進入按鈕
     const enterBtn = card.querySelector('.chamber-enter-btn');
@@ -352,11 +428,12 @@ function renderMap() {
     const h = document.createElement('h3');
     h.className = 'chapter-title';
     const cn = CN_NUM[ch] || String(ch);
+    const guardianNames = (arrInfo.guardians || [arrInfo.guardian]).map((g) => g.name).join('・');
     h.innerHTML = `
       <span class="chapter-num">第${cn}章</span>
       <span class="chapter-name">${entry.title ? entry.title : ''}</span>
       <span class="chapter-array-tag" style="background:${arrInfo.color}">${arrInfo.name}</span>
-      <span class="chapter-guardian-tag">${arrInfo.guardian.name}護陣</span>
+      <span class="chapter-guardian-tag">${guardianNames}護陣</span>
     `;
     section.appendChild(h);
     section.appendChild(makePathStrip(entry.list.sort((a, b) => a.id - b.id), frontier));
@@ -394,8 +471,23 @@ function enterLevel(id) {
   });
 }
 
-// ── 圖鑑 ─────────────────────────────
+// ── 圖鑑介面（摘句典藏 ＋ 封神群仙錄） ───────────────
 function renderCollection() {
+  // 渲染分頁按鈕狀態
+  for (const btn of document.querySelectorAll('.col-tab-btn')) {
+    btn.classList.toggle('active', btn.dataset.coltab === activeColTab);
+  }
+  $('coltab-pane-phrases').classList.toggle('hidden', activeColTab !== 'phrases');
+  $('coltab-pane-characters').classList.toggle('hidden', activeColTab !== 'characters');
+
+  if (activeColTab === 'phrases') {
+    renderPhrasesTab();
+  } else {
+    renderCharactersTab();
+  }
+}
+
+function renderPhrasesTab() {
   const ids = collection.list();
   $('collection-empty').classList.toggle('hidden', ids.length > 0);
   const ul = $('collection-list');
@@ -417,6 +509,120 @@ function renderCollection() {
     li.appendChild(btn);
     ul.appendChild(li);
   }
+}
+
+function renderCharactersTab() {
+  const gallery = $('characters-gallery');
+  if (!gallery) return;
+  gallery.innerHTML = '';
+
+  for (const char of CHARACTERS) {
+    const card = document.createElement('div');
+    card.className = 'character-gallery-card';
+    card.style.setProperty('--char-theme', char.themeColor || '#0284c7');
+    card.style.setProperty('--char-accent', char.accentColor || '#facc15');
+
+    card.innerHTML = `
+      <div class="char-gallery-avatar-box" id="gallery-avatar-${char.id}">
+        <img src="${char.expressions.idle}" alt="${char.name}" class="char-gallery-img" id="gallery-img-${char.id}" />
+        <span class="char-ratio-tag">${char.ratio} Q版</span>
+      </div>
+
+      <div class="char-gallery-info">
+        <h3 class="char-gallery-name">${char.name}</h3>
+        <span class="char-gallery-title">${char.title}</span>
+        <p class="char-gallery-desc">${char.desc}</p>
+      </div>
+
+      <div class="char-mood-controls">
+        <button type="button" class="mood-tab-btn active" data-char="${char.id}" data-mood="idle">待機</button>
+        <button type="button" class="mood-tab-btn" data-char="${char.id}" data-mood="thinking">沉思</button>
+        <button type="button" class="mood-tab-btn" data-char="${char.id}" data-mood="victory">破陣</button>
+        <button type="button" class="mood-tab-btn" data-char="${char.id}" data-mood="panic">驚慌</button>
+      </div>
+
+      <div class="char-gallery-bubble" id="gallery-bubble-${char.id}">
+        <p class="char-gallery-quote" id="gallery-quote-${char.id}">「${char.quotes.idle}」</p>
+      </div>
+    `;
+
+    // 綁定表情切換
+    const moodBtns = card.querySelectorAll('.mood-tab-btn');
+    moodBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const mood = btn.dataset.mood;
+        moodBtns.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const imgEl = card.querySelector(`#gallery-img-${char.id}`);
+        const quoteEl = card.querySelector(`#gallery-quote-${char.id}`);
+        const bubbleBox = card.querySelector(`#gallery-bubble-${char.id}`);
+
+        if (imgEl && char.expressions[mood]) {
+          imgEl.src = char.expressions[mood];
+        }
+        if (quoteEl && char.quotes[mood]) {
+          quoteEl.textContent = `「${char.quotes[mood]}」`;
+        }
+        if (bubbleBox) {
+          bubbleBox.classList.remove('pop-anim');
+          void bubbleBox.offsetWidth;
+          bubbleBox.classList.add('pop-anim');
+        }
+      });
+    });
+
+    gallery.appendChild(card);
+  }
+}
+
+// ── 導覽列吉祥物（墨靈仙童）互動 ───────
+function bindMascotInteraction() {
+  const mascotEl = $('brand-interactive');
+  const bubbleEl = $('mascot-speech-bubble');
+  const textEl = $('mascot-speech-text');
+  const imgEl = $('header-mascot-img');
+  if (!mascotEl || !bubbleEl || !textEl) return;
+
+  const moling = getCharacterById('moling');
+  const mascotQuotes = [
+    '道友！今日文運亨通，破陣指日可待！🖋️',
+    '墨靈在此！隨時為道友研墨提筆！✨',
+    '遇到難題別慌，研墨答題可得滿滿靈氣！💡',
+    '筆落驚風雨，詩成泣鬼神！加油！🔥',
+    '太極生兩儀，字字藏玄機，細細尋覓吧！📜',
+    '道友功力深厚，封神榜上必有大名！👑'
+  ];
+  let quoteIdx = 0;
+  let bubbleTimer = null;
+
+  function triggerMascot() {
+    quoteIdx = (quoteIdx + 1) % mascotQuotes.length;
+    textEl.textContent = mascotQuotes[quoteIdx];
+    bubbleEl.classList.remove('hidden');
+    bubbleEl.classList.remove('pop-in');
+    void bubbleEl.offsetWidth;
+    bubbleEl.classList.add('pop-in');
+
+    if (imgEl) {
+      imgEl.classList.remove('bounce-wobble');
+      void imgEl.offsetWidth;
+      imgEl.classList.add('bounce-wobble');
+    }
+
+    clearTimeout(bubbleTimer);
+    bubbleTimer = setTimeout(() => {
+      bubbleEl.classList.add('hidden');
+    }, 4500);
+  }
+
+  mascotEl.addEventListener('click', triggerMascot);
+  mascotEl.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Enter' || ev.key === ' ') {
+      ev.preventDefault();
+      triggerMascot();
+    }
+  });
 }
 
 // ── 設定 ─────────────────────────────
@@ -480,6 +686,14 @@ function bindGlobal() {
   $('modal-card').addEventListener('click', (ev) => {
     if (ev.target === $('modal-card')) $('modal-card').classList.add('hidden');
   });
+
+  // 圖鑑分頁切換
+  for (const btn of document.querySelectorAll('.col-tab-btn')) {
+    btn.addEventListener('click', () => {
+      activeColTab = btn.dataset.coltab;
+      renderCollection();
+    });
+  }
 }
 
 // ── 啟動 ─────────────────────────────
@@ -488,6 +702,7 @@ async function main() {
   hintEngine = createHintEngine(save.ink);
   collection = createCollection(save.collection);
   bindGlobal();
+  bindMascotInteraction();
   bindSettings();
   try {
     await loadData();

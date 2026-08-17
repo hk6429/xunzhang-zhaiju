@@ -1,6 +1,6 @@
 /**
- * 尋章摘句 - 封神 Q 版角色立繪註冊表 (Character Registry)
- * 頭身比：1:1 大頭萌系 Q 版、水墨國風
+ * 尋章摘句 - 封神國風 Q 版潑墨漫畫角色立繪註冊表 (Character Registry)
+ * 頭身比：1:1 超萌大頭身、濃黑毛筆動態勾勒 (Comic Inking)、漫畫表情與水墨暈染
  */
 
 export const CHARACTERS = [
@@ -9,8 +9,8 @@ export const CHARACTERS = [
     name: "姜太公",
     title: "封神統帥・太公望",
     ratio: "1:1",
-    style: "水墨國風 Q版",
-    desc: "白髮長鬚、手持打神鞭與杏黃旗的呆萌智者。",
+    style: "國風Q版潑墨漫畫",
+    desc: "仙氣飄飄長鬚老頑童，手持打神鞭與杏黃旗，太極乾坤妙算無雙。",
     themeColor: "#0284c7",
     accentColor: "#facc15",
     exclusiveItem: "dashen-bian",
@@ -32,8 +32,8 @@ export const CHARACTERS = [
     name: "哪吒",
     title: "三壇海會・蓮花童子",
     ratio: "1:1",
-    style: "水墨國風 Q版",
-    desc: "雙抓髻、乾坤圈、混天綾、風火輪，傲嬌熱血的護道小將。",
+    style: "國風Q版潑墨漫畫",
+    desc: "雙抓髻包包頭、混天紅綢殘影、乾坤金圈、腳踏風火輪，傲嬌熱血的護道小將。",
     themeColor: "#e11d48",
     accentColor: "#10b981",
     exclusiveItem: "qiankun-quan",
@@ -55,8 +55,8 @@ export const CHARACTERS = [
     name: "楊戩",
     title: "清源妙道・二郎真君",
     ratio: "1:1",
-    style: "水墨國風 Q版",
-    desc: "三眼天目洞察、手持三尖兩刃刀，身伴超萌哮天犬的冷酷小將。",
+    style: "國風Q版潑墨漫畫",
+    desc: "額間天眼雷光洞察、手持三尖兩刃刀，身伴超萌二哈版哮天犬的高冷小將。",
     themeColor: "#0284c7",
     accentColor: "#ca8a04",
     exclusiveItem: "sanjian-liangren-dao",
@@ -78,8 +78,8 @@ export const CHARACTERS = [
     name: "蘇妲己",
     title: "傾國九尾・天狐妖后",
     ratio: "1:1",
-    style: "水墨國風 Q版",
-    desc: "九尾粉墨狐耳、手提幽幽引魂燈，調皮狡黠的反派萌主。",
+    style: "國風Q版潑墨漫畫",
+    desc: "粉墨九尾狐耳妖仙、幽冥粉紫狐火、手提引魂宮燈，心心眼與調皮狡黠的反派萌主。",
     themeColor: "#db2777",
     accentColor: "#fda4af",
     exclusiveItem: "yinhun-deng",
@@ -101,8 +101,8 @@ export const CHARACTERS = [
     name: "申公豹",
     title: "分水將軍・邪笑國師",
     ratio: "1:1",
-    style: "水墨國風 Q版",
-    desc: "騎黑點虎、歪嘴邪笑「道友請留步」的滑稽魔頭。",
+    style: "國風Q版潑墨漫畫",
+    desc: "八字鬍歪嘴喜劇魔頭，騎著圓滾滾胖黑點虎，口喊「道友請留步」的搞笑反派。",
     themeColor: "#7e22ce",
     accentColor: "#eab308",
     exclusiveItem: "yin-yang-jing",
@@ -124,8 +124,8 @@ export const CHARACTERS = [
     name: "雷震子",
     title: "九天應元・風雷神將",
     ratio: "1:1",
-    style: "水墨國風 Q版",
-    desc: "風雷雙翼、青面金睛、金錐落雷的元氣呆萌少年。",
+    style: "國風Q版潑墨漫畫",
+    desc: "風雷雙翼、青面金睛、金錐落雷，呆萌鳥嘴小金剛元氣少年。",
     themeColor: "#0d9488",
     accentColor: "#f59e0b",
     exclusiveItem: "fenglei-chui",
@@ -141,16 +141,112 @@ export const CHARACTERS = [
       victory: "雷神金錐！轟隆一聲，滿星通關啦！",
       panic: "哇啊啊！羽毛被狂風吹亂了！快剎車！"
     }
+  },
+  {
+    id: "taiyi-zhenren",
+    name: "太乙真人",
+    title: "乾元洞府・金光大仙",
+    ratio: "1:1",
+    style: "國風Q版潑墨漫畫",
+    desc: "圓滾滾酒葫蘆、大肚腩笑瞇瞇，太極拂塵與九龍神火罩護體的搞笑煉丹仙師。",
+    themeColor: "#d97706",
+    accentColor: "#ef4444",
+    exclusiveItem: "jiulong-shenhuozhao",
+    expressions: {
+      idle: "assets/characters/taiyi-zhenren/idle.svg",
+      thinking: "assets/characters/taiyi-zhenren/thinking.svg",
+      victory: "assets/characters/taiyi-zhenren/victory.svg",
+      panic: "assets/characters/taiyi-zhenren/panic.svg"
+    },
+    quotes: {
+      idle: "貧道乾元山太乙是也！徒兒莫慌，飲一杯仙酒再破陣！",
+      thinking: "待貧道算算……這字句煉進九龍神火罩裡能出幾轉仙丹？",
+      victory: "哈哈！神火罩落，妖氛散盡！不愧是貧道親傳妙法！",
+      panic: "哎呀呀！丹爐要炸啦！徒兒快替為師頂住！"
+    }
+  },
+  {
+    id: "tuxing-sun",
+    name: "土行孫",
+    title: "地行千載・穿山萌俠",
+    ratio: "1:1",
+    style: "國風Q版潑墨漫畫",
+    desc: "地底鑽出、頭戴可愛小鼴鼠兜帽，手握鑌鐵短棍與捆仙金繩的神出鬼沒萌俠。",
+    themeColor: "#854d0e",
+    accentColor: "#eab308",
+    exclusiveItem: "kunxian-sheng",
+    expressions: {
+      idle: "assets/characters/tuxing-sun/idle.svg",
+      thinking: "assets/characters/tuxing-sun/thinking.svg",
+      victory: "assets/characters/tuxing-sun/victory.svg",
+      panic: "assets/characters/tuxing-sun/panic.svg"
+    },
+    quotes: {
+      idle: "嘿咻！地上風光好，且看俺老土如何神出鬼沒！",
+      thinking: "字格在地底下也有連線嗎？等俺鑽下去瞧瞧……",
+      victory: "地行術破陣！連捆仙繩都沒用上，俺就搞定啦！",
+      panic: "哎喲喂！撞到地脈花崗岩了！腦袋卡住拔不出來啦！"
+    }
+  },
+  {
+    id: "moling",
+    name: "墨靈仙童",
+    title: "玄墨小神君・品牌吉祥物",
+    ratio: "1:1",
+    style: "國風Q版潑墨漫畫",
+    desc: "太極混元簪、靈動大眼、手握玄天如意毫筆與打神金鞭，文墨神仙雙修的品牌吉祥物。",
+    themeColor: "#0284c7",
+    accentColor: "#facc15",
+    exclusiveItem: "dashen-bian",
+    expressions: {
+      idle: "assets/characters/moling/idle.svg",
+      thinking: "assets/characters/moling/thinking.svg",
+      victory: "assets/characters/moling/victory.svg",
+      panic: "assets/characters/moling/panic.svg"
+    },
+    quotes: {
+      idle: "歡迎來到尋章摘句！文道大千，墨靈伴你破萬陣！",
+      thinking: "墨聚成字，字化乾坤……且看小仙童推演一番！",
+      victory: "破陣成功！墨靈為你點贊，文思通神！",
+      panic: "哎呀呀！靈墨告急，快隨小仙童前去研墨！"
+    }
+  }
+];
+
+export const GROUP_ILLUSTRATIONS = [
+  {
+    id: "trio-welcome",
+    title: "封神三仙・共破文陣",
+    desc: "姜太公、哪吒、楊戩與哮天犬三仙齊聚，迎賓破陣！",
+    svgPath: "assets/characters/trio-welcome.svg"
+  },
+  {
+    id: "escape-party",
+    title: "密室狂歡・群仙大逃脫",
+    desc: "太乙真人、蘇妲己、雷震子、土行孫與申公豹全員狂歡逃脫盛典！",
+    svgPath: "assets/characters/escape-party.svg"
+  },
+  {
+    id: "battle-clash",
+    title: "仙魔字謎・宿命決戰",
+    desc: "少年熱血漫畫分鏡：哪吒與楊戩聯手 VS 申公豹與蘇妲己！",
+    svgPath: "assets/characters/battle-clash.svg"
   }
 ];
 
 export function getCharacterById(id) {
+  if (id === 'taiyi' || id === 'taiyi-zhenren') {
+    return CHARACTERS.find(c => c.id === 'taiyi-zhenren' || c.id === 'taiyi') || CHARACTERS[0];
+  }
   return CHARACTERS.find(c => c.id === id) || CHARACTERS[0];
 }
 
 export function getCharacterAvatar(id, mood = 'idle') {
   const char = getCharacterById(id);
-  return char.expressions[mood] || char.expressions.idle;
+  if (char && char.expressions) {
+    return char.expressions[mood] || char.expressions.idle;
+  }
+  return `assets/characters/${id}/${mood}.svg`;
 }
 
 export default CHARACTERS;

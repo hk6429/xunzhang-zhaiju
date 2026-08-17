@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%">
+  <defs>
+    <filter id="ink-shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#1c1917" flood-opacity="0.18" />
+    </filter>
+    <linearGradient id="skin-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff5f5"/>
+      <stop offset="100%" stop-color="#fed7aa"/>
+    </linearGradient>
+    <radialGradient id="blush-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#fb7185" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="robe-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="gold-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#facc15"/>
+      <stop offset="100%" stop-color="#eab308"/>
+    </linearGradient>
+  </defs>
+  <g id="moling-victory">
+    <!-- Golden Aura Stars & Sparkles -->
+    <path d="M 40 45 L 45 54 L 54 56 L 45 58 L 40 67 L 35 58 L 26 56 L 35 54 Z" fill="url(#gold-grad)"/>
+    <path d="M 200 45 L 205 54 L 214 56 L 205 58 L 200 67 L 195 58 L 186 56 L 195 54 Z" fill="url(#gold-grad)"/>
+    <circle cx="50" cy="90" r="3" fill="#facc15"/>
+    <circle cx="190" cy="90" r="3" fill="#facc15"/>
+    <circle cx="35" cy="140" r="4" fill="#38bdf8"/>
+    <circle cx="205" cy="140" r="4" fill="#38bdf8"/>
+
+    <!-- Floating Jump Cloud -->
+    <ellipse cx="120" cy="225" rx="42" ry="8" fill="#0f172a" opacity="0.12"/>
+    <path d="M 75 220 Q 95 205 120 216 Q 145 205 165 220 Q 145 230 120 225 Q 95 230 75 220 Z" fill="#e0f2fe" opacity="0.9"/>
+
+    <!-- Robe Body (jumping dynamic pose) -->
+    <path d="M 88 142 L 68 206 C 68 210 172 210 172 206 L 152 142 Z" fill="url(#robe-grad)" stroke="#0f172a" stroke-width="4.5" stroke-linejoin="round" filter="url(#ink-shadow)"/>
+    <path d="M 96 142 L 120 174 L 144 142" fill="#f8fafc" stroke="#0f172a" stroke-width="3.5"/>
+    <path d="M 74 178 Q 120 186 166 178" stroke="#facc15" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+    <circle cx="120" cy="180" r="6" fill="#ef4444" stroke="#0f172a" stroke-width="2"/>
+
+    <!-- Small Joyful Kicking Feet -->
+    <ellipse cx="94" cy="208" rx="8" ry="5" fill="#0f172a" transform="rotate(-15 94 208)"/>
+    <ellipse cx="146" cy="208" rx="8" ry="5" fill="#0f172a" transform="rotate(15 146 208)"/>
+
+    <!-- Both Arms Raised in V-Victory / Cheering! -->
+    <!-- Left Hand V -->
+    <path d="M 90 148 Q 60 130 52 108" stroke="#0f172a" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="52" cy="108" r="7" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/>
+    <path d="M 48 102 L 44 92" stroke="#fed7aa" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M 54 102 L 56 90" stroke="#fed7aa" stroke-width="3.5" stroke-linecap="round"/>
+
+    <!-- Right Hand raising magic brush aloft with gold ink trails -->
+    <path d="M 150 148 Q 180 130 188 108" stroke="#0f172a" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="188" cy="108" r="7" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/>
+    <g transform="rotate(35 188 108)">
+      <rect x="184" y="28" width="7" height="90" rx="3.5" fill="#b45309" stroke="#0f172a" stroke-width="2.5"/>
+      <rect x="182" y="24" width="11" height="8" rx="2" fill="#facc15" stroke="#0f172a" stroke-width="1.5"/>
+      <path d="M 182 24 Q 187 -4 187.5 -7 Q 188 -4 193 24 Z" fill="url(#gold-grad)" stroke="#0f172a" stroke-width="2"/>
+    </g>
+
+    <!-- Chibi Head -->
+    <ellipse cx="120" cy="94" rx="46" ry="42" fill="url(#skin-grad)" stroke="#0f172a" stroke-width="4.5" filter="url(#ink-shadow)"/>
+
+    <!-- Cheeks (Blushing brightly) -->
+    <ellipse cx="84" cy="102" rx="10" ry="6" fill="url(#blush-grad)"/>
+    <ellipse cx="156" cy="102" rx="10" ry="6" fill="url(#blush-grad)"/>
+
+    <!-- Forehead Inkdrop Mark -->
+    <path d="M 120 70 C 117 74 115 78 115 80 C 115 83 117.2 85 120 85 C 122.8 85 125 83 125 80 C 125 78 123 74 120 70 Z" fill="#0284c7"/>
+
+    <!-- Joyful Closed Happy Eyes (^_^) -->
+    <path d="M 94 92 Q 102 82 110 92" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+    <path d="M 130 92 Q 138 82 146 92" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+
+    <!-- Wide Happy Open Mouth with Tongue -->
+    <path d="M 110 106 Q 120 126 130 106 Z" fill="#ef4444" stroke="#0f172a" stroke-width="3"/>
+    <path d="M 115 116 Q 120 110 125 116" fill="#fca5a5"/>
+
+    <!-- Hair & Buns with dancing ribbons -->
+    <path d="M 74 92 C 68 61 96 42 120 42 C 144 42 172 61 166 92 C 158 72 142 54 120 54 C 98 54 82 72 74 92 Z" fill="#0f172a"/>
+    <path d="M 94 58 Q 106 74 120 58 Q 134 74 146 58" fill="#0f172a"/>
+    <circle cx="92" cy="38" r="14" fill="#0f172a" stroke="#0f172a" stroke-width="2"/>
+    <circle cx="148" cy="38" r="14" fill="#0f172a" stroke="#0f172a" stroke-width="2"/>
+    <path d="M 80 40 Q 64 36 68 20" stroke="#ef4444" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M 160 40 Q 176 36 172 20" stroke="#ef4444" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <circle cx="92" cy="44" r="4" fill="#facc15"/>
+    <circle cx="148" cy="44" r="4" fill="#facc15"/>
+  </g>
+</svg>

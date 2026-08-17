@@ -1,0 +1,417 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- 濾鏡效果 Filters -->
+    <filter id="mascot-drop-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.25" />
+    </filter>
+    <filter id="gold-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="magic-spark" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3" result="blur1" />
+      <feGaussianBlur stdDeviation="8" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur2" />
+        <feMergeNode in="blur1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- 漸層色彩 Gradients -->
+    <!-- 背景光輪漸層 -->
+    <radialGradient id="halo-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fef08a" stop-opacity="0.3" />
+      <stop offset="55%" stop-color="#eab308" stop-opacity="0.12" />
+      <stop offset="85%" stop-color="#b45309" stop-opacity="0.04" />
+      <stop offset="100%" stop-color="#ca8a04" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="taiji-halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="40%" stop-color="#f8fafc" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#cbd5e1" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- 金光漸層 -->
+    <linearGradient id="gold-metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fef9c3" />
+      <stop offset="30%" stop-color="#facc15" />
+      <stop offset="70%" stop-color="#ca8a04" />
+      <stop offset="100%" stop-color="#854d0e" />
+    </linearGradient>
+    <linearGradient id="gold-bright" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="40%" stop-color="#fde047" />
+      <stop offset="100%" stop-color="#eab308" />
+    </linearGradient>
+
+    <!-- 硃砂赤紅漸層 -->
+    <linearGradient id="cinnabar-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f87171" />
+      <stop offset="45%" stop-color="#dc2626" />
+      <stop offset="100%" stop-color="#991b1b" />
+    </linearGradient>
+
+    <!-- 膚色漸層 -->
+    <linearGradient id="skin-main" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="50%" stop-color="#fff1f2" />
+      <stop offset="100%" stop-color="#fed7aa" />
+    </linearGradient>
+    <radialGradient id="blush-soft" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.55" />
+      <stop offset="70%" stop-color="#f43f5e" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#fb7185" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- 潑墨斗篷與濃墨漸層 -->
+    <linearGradient id="ink-cloak-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2d3748" />
+      <stop offset="40%" stop-color="#1a202c" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="robe-white-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="75%" stop-color="#f1f5f9" />
+      <stop offset="100%" stop-color="#e2e8f0" />
+    </linearGradient>
+    <linearGradient id="cyan-trim" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="50%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+
+    <!-- 墨彩軌跡漸層 -->
+    <linearGradient id="ink-trail" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9" />
+      <stop offset="40%" stop-color="#818cf8" stop-opacity="0.75" />
+      <stop offset="80%" stop-color="#c084fc" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#facc15" stop-opacity="0.85" />
+    </linearGradient>
+  </defs>
+
+  <!-- 1. 背景太極八卦與文墨光輪 Background Aura -->
+  <g id="bg-aura">
+    <!-- 金色靈光光環 -->
+    <circle cx="256" cy="256" r="210" fill="url(#halo-grad)" />
+    
+    <!-- 國風外環金紋 -->
+    <circle cx="256" cy="256" r="198" fill="none" stroke="url(#gold-metal)" stroke-width="2.5" stroke-dasharray="8 6 2 6" opacity="0.65" />
+    <circle cx="256" cy="256" r="186" fill="none" stroke="#ca8a04" stroke-width="1" opacity="0.4" />
+    
+    <!-- 太極底印 (巨大淡雅浮雕) -->
+    <g transform="translate(256, 256) scale(1.4) rotate(-20)" opacity="0.08">
+      <path d="M 0 -70 A 70 70 0 0 1 0 70 A 35 35 0 0 1 0 0 A 35 35 0 0 0 0 -70 Z" fill="#0f172a" />
+      <circle cx="0" cy="-35" r="11" fill="#0f172a" />
+      <circle cx="0" cy="35" r="11" fill="#ffffff" />
+    </g>
+
+    <!-- 飄浮的八卦金符文 & 金墨微粒 (Floating Golden Runes) -->
+    <g id="floating-particles" fill="url(#gold-bright)" opacity="0.7" filter="url(#magic-spark)">
+      <!-- 乾 ☰ -->
+      <g transform="translate(100, 110) scale(0.6)">
+        <line x1="0" y1="0" x2="30" y2="0" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+        <line x1="0" y1="7" x2="30" y2="7" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+        <line x1="0" y1="14" x2="30" y2="14" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+      </g>
+      <!-- 坤 ☷ -->
+      <g transform="translate(380, 110) scale(0.6)">
+        <line x1="0" y1="0" x2="12" y2="0" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+        <line x1="18" y1="0" x2="30" y2="0" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+        <line x1="0" y1="7" x2="12" y2="7" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+        <line x1="18" y1="7" x2="30" y2="7" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+        <line x1="0" y1="14" x2="12" y2="14" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+        <line x1="18" y1="14" x2="30" y2="14" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+      </g>
+      <!-- 坎 ☵ -->
+      <g transform="translate(75, 290) scale(0.6)">
+        <line x1="0" y1="0" x2="12" y2="0" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+        <line x1="18" y1="0" x2="30" y2="0" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+        <line x1="0" y1="7" x2="30" y2="7" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+        <line x1="0" y1="14" x2="12" y2="14" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+        <line x1="18" y1="14" x2="30" y2="14" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+      </g>
+      <!-- 離 ☲ -->
+      <g transform="translate(405, 280) scale(0.6)">
+        <line x1="0" y1="0" x2="30" y2="0" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+        <line x1="0" y1="7" x2="12" y2="7" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+        <line x1="18" y1="7" x2="30" y2="7" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+        <line x1="0" y1="14" x2="30" y2="14" stroke="url(#gold-metal)" stroke-width="4" stroke-linecap="round" />
+      </g>
+
+      <!-- 閃爍金星 -->
+      <circle cx="120" cy="190" r="3" fill="#fef08a" />
+      <circle cx="395" cy="195" r="2.5" fill="#fef08a" />
+      <circle cx="150" cy="385" r="3.5" fill="#fef08a" />
+      <circle cx="360" cy="390" r="3" fill="#fef08a" />
+    </g>
+  </g>
+
+  <!-- 2. 文思祥雲底座 (Auspicious Ink Cloud Base) -->
+  <g id="cloud-base" filter="url(#mascot-drop-shadow)">
+    <!-- 潑墨濃淡雲團 -->
+    <path d="M 160 440 C 120 440 100 410 130 390 C 110 365 150 340 190 360 C 220 330 290 330 320 360 C 360 340 400 365 385 390 C 410 410 390 440 350 440 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="3" />
+    <!-- 祥雲水墨捲紋 -->
+    <path d="M 170 415 Q 195 400 220 415 Q 240 425 260 410" fill="none" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+    <path d="M 270 415 Q 295 398 325 410 Q 345 418 360 405" fill="none" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+    <!-- 雲朵金邊裝飾 -->
+    <path d="M 140 405 Q 170 380 210 395" fill="none" stroke="url(#gold-metal)" stroke-width="2" stroke-linecap="round" />
+    <path d="M 300 395 Q 340 380 370 405" fill="none" stroke="url(#gold-metal)" stroke-width="2" stroke-linecap="round" />
+  </g>
+
+  <!-- 3. 後方潑墨披風 (Ink-Splashed Flying Cloak) -->
+  <g id="ink-cloak" filter="url(#mascot-drop-shadow)">
+    <!-- 左翼潑墨飄帶 -->
+    <path d="M 190 280 C 130 290 80 330 65 390 C 55 430 90 445 125 415 C 145 395 170 360 195 330 Z" fill="url(#ink-cloak-grad)" stroke="#1e293b" stroke-width="3" stroke-linejoin="round" />
+    <!-- 潑墨筆觸飛白墨滴 -->
+    <ellipse cx="60" cy="425" rx="6" ry="10" fill="#0f172a" transform="rotate(-25 60 425)" />
+    <ellipse cx="78" cy="450" rx="4" ry="7" fill="#0f172a" transform="rotate(15 78 450)" />
+    <circle cx="48" cy="385" r="3.5" fill="#0f172a" />
+
+    <!-- 右翼潑墨飄帶 -->
+    <path d="M 320 280 C 380 290 430 330 445 390 C 455 430 420 445 385 415 C 365 395 340 360 315 330 Z" fill="url(#ink-cloak-grad)" stroke="#1e293b" stroke-width="3" stroke-linejoin="round" />
+    <!-- 右側墨滴飛濺 -->
+    <ellipse cx="452" cy="425" rx="6" ry="10" fill="#0f172a" transform="rotate(25 452 425)" />
+    <ellipse cx="434" cy="450" rx="4" ry="7" fill="#0f172a" transform="rotate(-15 434 450)" />
+    <circle cx="464" cy="385" r="3.5" fill="#0f172a" />
+    
+    <!-- 斗篷內襯金絲雲紋 -->
+    <path d="M 120 405 C 105 380 125 340 170 310" fill="none" stroke="url(#gold-metal)" stroke-width="2" stroke-linecap="round" opacity="0.8" />
+    <path d="M 390 405 C 405 380 385 340 340 310" fill="none" stroke="url(#gold-metal)" stroke-width="2" stroke-linecap="round" opacity="0.8" />
+  </g>
+
+  <!-- 4. 仙童軀體與道袍 (Chibi Taoist Robe) -->
+  <g id="body-robe" filter="url(#mascot-drop-shadow)">
+    <!-- 仙履小短腿 (Tiny Taoist Boots) -->
+    <ellipse cx="225" cy="405" rx="18" ry="10" fill="#1e293b" stroke="#0f172a" stroke-width="2" />
+    <ellipse cx="287" cy="405" rx="18" ry="10" fill="#1e293b" stroke="#0f172a" stroke-width="2" />
+    <ellipse cx="225" cy="403" rx="14" ry="6" fill="#334155" />
+    <ellipse cx="287" cy="403" rx="14" ry="6" fill="#334155" />
+
+    <!-- 主袍身 (Main White Robe) -->
+    <path d="M 185 270 L 165 390 C 165 405 345 405 345 390 L 325 270 Z" fill="url(#robe-white-grad)" stroke="#1e293b" stroke-width="4.5" stroke-linejoin="round" />
+
+    <!-- 中軸天青道門紋飾與滾邊 (Cyan Trim & Central Ribbon) -->
+    <path d="M 256 270 L 256 395" stroke="url(#cyan-trim)" stroke-width="8" stroke-linecap="round" />
+    <path d="M 256 270 L 256 395" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.6" />
+
+    <!-- 兩襟交領 (Cross Collar) -->
+    <path d="M 205 260 L 256 315 L 305 260" fill="none" stroke="#1e293b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 213 260 L 256 308 L 297 260" fill="none" stroke="url(#cyan-trim)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- 乾坤腰帶與太極八卦金佩 (Waistband & Golden Taiji Pendant) -->
+    <path d="M 178 325 Q 256 345 334 325" fill="none" stroke="#0284c7" stroke-width="12" stroke-linecap="round" />
+    <path d="M 180 325 Q 256 345 332 325" fill="none" stroke="url(#gold-metal)" stroke-width="3" stroke-linecap="round" />
+    
+    <!-- 腰間太極八卦懸玉 (Taiji Jade Talisman) -->
+    <g transform="translate(256, 335)" filter="url(#gold-glow)">
+      <!-- 金色底托 -->
+      <circle cx="0" cy="0" r="16" fill="url(#gold-metal)" stroke="#78350f" stroke-width="1.5" />
+      <!-- 陰陽太極 -->
+      <circle cx="0" cy="0" r="12" fill="#0f172a" />
+      <path d="M 0 -12 A 12 12 0 0 1 0 12 A 6 6 0 0 1 0 0 A 6 6 0 0 0 0 -12 Z" fill="#ffffff" />
+      <circle cx="0" cy="-6" r="2.2" fill="#0f172a" />
+      <circle cx="0" cy="6" r="2.2" fill="#ffffff" />
+      <!-- 硃砂流蘇 (Red Tassel) -->
+      <path d="M 0 16 L 0 34" stroke="url(#cinnabar-grad)" stroke-width="4" stroke-linecap="round" />
+      <circle cx="0" cy="18" r="3" fill="#ca8a04" />
+      <circle cx="-3" cy="34" r="1.5" fill="#dc2626" />
+      <circle cx="3" cy="34" r="1.5" fill="#dc2626" />
+    </g>
+  </g>
+
+  <!-- 5. 雙手與專屬神兵器 (Hands & Legendary Artifacts) -->
+  
+  <!-- 【左手 · 打神金鞭】(Left Hand · God-Beating Golden Whip) -->
+  <g id="hand-left-whip">
+    <!-- 左手臂袖袍 -->
+    <path d="M 315 275 Q 365 295 375 260" stroke="#1e293b" stroke-width="20" stroke-linecap="round" fill="none" />
+    <path d="M 315 275 Q 365 295 375 260" stroke="url(#robe-white-grad)" stroke-width="12" stroke-linecap="round" fill="none" />
+    <!-- 天青袖口滾邊 -->
+    <ellipse cx="370" cy="265" rx="8" ry="12" fill="url(#cyan-trim)" transform="rotate(-20 370 265)" />
+    <!-- 圓滾滾肉感小手 -->
+    <circle cx="380" cy="255" r="13" fill="url(#skin-main)" stroke="#1e293b" stroke-width="3" />
+
+    <!-- 打神金鞭本體 (7-Section Divine Whip) -->
+    <g transform="translate(385, 245) rotate(25)" filter="url(#gold-glow)">
+      <!-- 鞭柄 -->
+      <rect x="-5" y="10" width="10" height="35" rx="4" fill="#78350f" stroke="url(#gold-metal)" stroke-width="2" />
+      <circle cx="0" cy="48" r="6" fill="url(#gold-metal)" stroke="#78350f" stroke-width="1" />
+      <!-- 鞭身節段 (7 節金黃稜節) -->
+      <path d="M -6 10 L 6 10 L 5 -15 L -5 -15 Z" fill="url(#gold-metal)" stroke="#854d0e" stroke-width="1.5" />
+      <path d="M -5 -15 L 5 -15 L 4.5 -40 L -4.5 -40 Z" fill="url(#gold-metal)" stroke="#854d0e" stroke-width="1.5" />
+      <path d="M -4.5 -40 L 4.5 -40 L 4 -65 L -4 -65 Z" fill="url(#gold-metal)" stroke="#854d0e" stroke-width="1.5" />
+      <path d="M -4 -65 L 4 -65 L 3.5 -90 L -3.5 -90 Z" fill="url(#gold-metal)" stroke="#854d0e" stroke-width="1.5" />
+      <path d="M -3.5 -90 L 3.5 -90 L 3 -115 L -3 -115 Z" fill="url(#gold-metal)" stroke="#854d0e" stroke-width="1.5" />
+      <path d="M -3 -115 L 3 -115 L 2 -140 L -2 -140 Z" fill="url(#gold-metal)" stroke="#854d0e" stroke-width="1.5" />
+      <polygon points="0,-155 3,-140 -3,-140" fill="url(#gold-bright)" stroke="#ca8a04" stroke-width="1.5" />
+      
+      <!-- 節間寶珠與符文環 -->
+      <circle cx="0" cy="-15" r="4" fill="#fde047" />
+      <circle cx="0" cy="-40" r="3.5" fill="#fde047" />
+      <circle cx="0" cy="-65" r="3.5" fill="#fde047" />
+      <circle cx="0" cy="-90" r="3" fill="#fde047" />
+      <circle cx="0" cy="-115" r="2.5" fill="#fde047" />
+      
+      <!-- 金鞭雷電霹靂光芒 (Golden Lightning Sparks) -->
+      <path d="M -8 -50 L -18 -60 L -6 -65 L -14 -85" stroke="#fef08a" stroke-width="2.5" fill="none" stroke-linecap="round" filter="url(#magic-spark)" />
+      <path d="M 8 -95 L 18 -105 L 6 -110 L 16 -130" stroke="#fef08a" stroke-width="2.5" fill="none" stroke-linecap="round" filter="url(#magic-spark)" />
+    </g>
+  </g>
+
+  <!-- 【右手 · 玄天如意毫筆】(Right Hand · Supreme Ink Brush) -->
+  <g id="hand-right-brush">
+    <!-- 右手臂袖袍 -->
+    <path d="M 195 275 Q 145 295 135 255" stroke="#1e293b" stroke-width="20" stroke-linecap="round" fill="none" />
+    <path d="M 195 275 Q 145 295 135 255" stroke="url(#robe-white-grad)" stroke-width="12" stroke-linecap="round" fill="none" />
+    <!-- 天青袖口滾邊 -->
+    <ellipse cx="140" cy="260" rx="8" ry="12" fill="url(#cyan-trim)" transform="rotate(20 140 260)" />
+    <!-- 圓滾滾肉感小手 -->
+    <circle cx="130" cy="250" r="13" fill="url(#skin-main)" stroke="#1e293b" stroke-width="3" />
+
+    <!-- 巨大如意毛筆 (Giant Magic Brush) -->
+    <g transform="translate(125, 240) rotate(-35)">
+      <!-- 筆桿尾端玉墜 (Brush Pommel & Jade) -->
+      <circle cx="0" cy="55" r="9" fill="url(#gold-metal)" stroke="#78350f" stroke-width="1.5" />
+      <path d="M 0 64 Q 5 80 0 95" stroke="url(#cinnabar-grad)" stroke-width="3" fill="none" stroke-linecap="round" />
+      <circle cx="0" cy="95" r="3" fill="url(#gold-metal)" />
+
+      <!-- 斑竹筆身 (Bamboo/Wood Body with Gold Rings) -->
+      <rect x="-7" y="-70" width="14" height="125" rx="5" fill="#451a03" stroke="#1c1917" stroke-width="2" />
+      <!-- 金箍環 (Gold Bands) -->
+      <rect x="-8" y="-55" width="16" height="6" rx="2" fill="url(#gold-metal)" />
+      <rect x="-8" y="-20" width="16" height="6" rx="2" fill="url(#gold-metal)" />
+      <rect x="-8" y="15" width="16" height="6" rx="2" fill="url(#gold-metal)" />
+
+      <!-- 筆頭金套 (Brush Ferrule) -->
+      <path d="M -9 -70 L 9 -70 L 13 -90 L -13 -90 Z" fill="url(#gold-metal)" stroke="#78350f" stroke-width="2" />
+
+      <!-- 紫毫大筆尖 (Ink Brush Bristles) -->
+      <path d="M -13 -90 C -15 -125 -5 -160 0 -175 C 5 -160 15 -125 13 -90 Z" fill="#0f172a" stroke="#020617" stroke-width="2" />
+      <!-- 筆尖靈墨光澤 (Ink Gloss & Cyan Energy Core) -->
+      <path d="M -7 -100 C -8 -125 -2 -150 0 -165 C 2 -150 8 -125 7 -100 Z" fill="#1e293b" />
+      <path d="M -3 -115 C -4 -135 -1 -155 0 -165 C 1 -155 4 -135 3 -115 Z" fill="#38bdf8" opacity="0.85" filter="url(#magic-spark)" />
+
+      <!-- 筆尖劃出的凌空太極金光墨浪 (Flowing Calligraphy Ink Arc) -->
+      <path d="M 0 -175 C -30 -210 -80 -210 -110 -170 C -135 -135 -120 -80 -70 -60" fill="none" stroke="url(#ink-trail)" stroke-width="12" stroke-linecap="round" filter="url(#gold-glow)" />
+      <path d="M 0 -175 C -30 -210 -80 -210 -110 -170 C -135 -135 -120 -80 -70 -60" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.8" />
+      
+      <!-- 凌空墨星微粒 -->
+      <circle cx="-110" cy="-170" r="5" fill="#fde047" filter="url(#magic-spark)" />
+      <circle cx="-60" cy="-210" r="3.5" fill="#38bdf8" />
+      <circle cx="-135" cy="-120" r="4" fill="#f43f5e" />
+    </g>
+  </g>
+
+  <!-- 6. 仙童大頭部與超萌五官 (Chibi Head & Facial Charisma) -->
+  <g id="chibi-head" filter="url(#mascot-drop-shadow)">
+    <!-- 後髮與鬢髮 (Back Hair & Side Bobs) -->
+    <ellipse cx="256" cy="180" rx="98" ry="85" fill="#0f172a" />
+    
+    <!-- 左側與右側垂肩小包包髮束 -->
+    <path d="M 170 190 Q 140 230 160 260 Q 180 270 195 240 Z" fill="#0f172a" stroke="#1e293b" stroke-width="2" />
+    <path d="M 342 190 Q 372 230 352 260 Q 332 270 317 240 Z" fill="#0f172a" stroke="#1e293b" stroke-width="2" />
+
+    <!-- 軟萌大臉龐 (Soft Chubby Face) -->
+    <ellipse cx="256" cy="185" rx="84" ry="74" fill="url(#skin-main)" stroke="#1e293b" stroke-width="5" />
+
+    <!-- 兩側粉嫩水墨暈染腮紅 (Blushing Cheeks) -->
+    <ellipse cx="196" cy="202" rx="18" ry="11" fill="url(#blush-soft)" />
+    <ellipse cx="316" cy="202" rx="18" ry="11" fill="url(#blush-soft)" />
+    <!-- 腮紅上的靈動高光小愛心/小光斑 -->
+    <circle cx="192" cy="199" r="3" fill="#ffffff" opacity="0.75" />
+    <circle cx="320" cy="199" r="3" fill="#ffffff" opacity="0.75" />
+
+    <!-- 額頭瀏海 (Cute Bangs) -->
+    <path d="M 180 145 C 200 175 230 160 256 172 C 282 160 312 175 332 145 C 315 125 290 120 256 120 C 222 120 197 125 180 145 Z" fill="#0f172a" stroke="#1e293b" stroke-width="3" />
+    <!-- 瀏海層次細節 -->
+    <path d="M 220 155 Q 235 170 250 156" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" />
+    <path d="M 262 156 Q 277 170 292 155" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" />
+
+    <!-- 額心硃砂破妄神印 (Vermilion Forehead Talisman Mark) -->
+    <g transform="translate(256, 142)">
+      <path d="M 0 -10 C 6 -4 6 4 0 10 C -6 4 -6 -4 0 -10 Z" fill="url(#cinnabar-grad)" stroke="#991b1b" stroke-width="1" filter="url(#gold-glow)" />
+      <circle cx="0" cy="0" r="2" fill="#fef08a" />
+      <circle cx="0" cy="-14" r="1.8" fill="url(#cinnabar-grad)" />
+    </g>
+
+    <!-- 【水汪汪墨玉靈眸】(Big Sparkling Ink Gem Eyes) -->
+    <!-- 左眼 (Left Eye) -->
+    <g id="eye-left">
+      <ellipse cx="212" cy="184" rx="19" ry="24" fill="#090d16" stroke="#1e293b" stroke-width="2.5" />
+      <!-- 瞳孔星空底色 -->
+      <ellipse cx="212" cy="190" rx="16" ry="16" fill="#1e1b4b" />
+      <!-- 仙氣青藍反光弧 -->
+      <path d="M 198 194 Q 212 205 226 194" stroke="#38bdf8" stroke-width="3.5" fill="none" stroke-linecap="round" />
+      <path d="M 202 198 Q 212 206 222 198" stroke="#a7f3d0" stroke-width="2" fill="none" stroke-linecap="round" />
+      <!-- 主要超大高光 (Main Sparkle) -->
+      <ellipse cx="206" cy="174" rx="8" ry="11" fill="#ffffff" />
+      <!-- 次要微光星芒 (Secondary Sparkle) -->
+      <circle cx="221" cy="191" r="4" fill="#ffffff" />
+      <circle cx="216" cy="170" r="2" fill="#ffffff" />
+    </g>
+
+    <!-- 右眼 (Right Eye) -->
+    <g id="eye-right">
+      <ellipse cx="300" cy="184" rx="19" ry="24" fill="#090d16" stroke="#1e293b" stroke-width="2.5" />
+      <!-- 瞳孔星空底色 -->
+      <ellipse cx="300" cy="190" rx="16" ry="16" fill="#1e1b4b" />
+      <!-- 仙氣青藍反光弧 -->
+      <path d="M 286 194 Q 300 205 314 194" stroke="#38bdf8" stroke-width="3.5" fill="none" stroke-linecap="round" />
+      <path d="M 290 198 Q 300 206 310 198" stroke="#a7f3d0" stroke-width="2" fill="none" stroke-linecap="round" />
+      <!-- 主要超大高光 (Main Sparkle) -->
+      <ellipse cx="294" cy="174" rx="8" ry="11" fill="#ffffff" />
+      <!-- 次要微光星芒 (Secondary Sparkle) -->
+      <circle cx="309" cy="191" r="4" fill="#ffffff" />
+      <circle cx="304" cy="170" r="2" fill="#ffffff" />
+    </g>
+
+    <!-- 仙童眉毛 (Delicate Eyebrows) -->
+    <path d="M 195 156 Q 212 148 230 156" fill="none" stroke="#334155" stroke-width="4.5" stroke-linecap="round" />
+    <path d="M 282 156 Q 300 148 317 156" fill="none" stroke="#334155" stroke-width="4.5" stroke-linecap="round" />
+
+    <!-- 軟萌小鼻子 (Cute Tiny Nose) -->
+    <ellipse cx="256" cy="196" rx="2" ry="1.5" fill="#f43f5e" />
+
+    <!-- 歡喜小嘴巴 (Cheery Smile) -->
+    <path d="M 246 212 Q 256 226 266 212" fill="#e11d48" stroke="#881337" stroke-width="2.5" stroke-linecap="round" />
+    <!-- 露出的潔白小虎牙 (Tiny Cute Tooth) -->
+    <polygon points="253,213 259,213 256,217" fill="#ffffff" />
+
+    <!-- 雙耳與耳墜 (Ears) -->
+    <ellipse cx="174" cy="188" rx="8" ry="12" fill="url(#skin-main)" stroke="#1e293b" stroke-width="3" />
+    <ellipse cx="338" cy="188" rx="8" ry="12" fill="url(#skin-main)" stroke="#1e293b" stroke-width="3" />
+  </g>
+
+  <!-- 7. 頭頂道門太極髮髻與金簪赤纓 (Taiji Topknot Bun & Jade Hairpin) -->
+  <g id="taiji-topknot" filter="url(#mascot-drop-shadow)">
+    <!-- 圓形大髮髻基底 (Topknot Bun) -->
+    <circle cx="256" cy="95" r="38" fill="#0f172a" stroke="#1e293b" stroke-width="4" />
+    <circle cx="256" cy="95" r="32" fill="#1e293b" />
+
+    <!-- 髮髻上的立體太極八卦金冠 (Golden Taiji Crown) -->
+    <circle cx="256" cy="95" r="24" fill="url(#gold-metal)" stroke="#78350f" stroke-width="2.5" filter="url(#gold-glow)" />
+    
+    <!-- 陰陽太極核心 (Yin-Yang Core) -->
+    <circle cx="256" cy="95" r="18" fill="#0f172a" />
+    <path d="M 256 77 A 18 18 0 0 1 256 113 A 9 9 0 0 1 256 95 A 9 9 0 0 0 256 77 Z" fill="#ffffff" />
+    <circle cx="256" cy="86" r="3" fill="#0f172a" />
+    <circle cx="256" cy="104" r="3" fill="#ffffff" />
+
+    <!-- 橫貫金簪 (Golden Hairpin) -->
+    <line x1="205" y1="95" x2="307" y2="95" stroke="url(#gold-metal)" stroke-width="6" stroke-linecap="round" />
+    <circle cx="307" cy="95" r="6" fill="url(#gold-bright)" stroke="#78350f" stroke-width="1.5" />
+    <circle cx="205" cy="95" r="4.5" fill="url(#gold-bright)" stroke="#78350f" stroke-width="1.5" />
+
+    <!-- 飄逸的赤紅流蘇 (Crimson Silk Tassels) -->
+    <g transform="translate(307, 95)">
+      <!-- 繫繩與珠玉 -->
+      <circle cx="0" cy="5" r="3" fill="#0284c7" />
+      <!-- 長流蘇 -->
+      <path d="M 0 8 Q 12 30 5 55 Q 1 70 8 90" fill="none" stroke="url(#cinnabar-grad)" stroke-width="5" stroke-linecap="round" />
+      <path d="M 2 8 Q 18 35 12 60 Q 9 75 16 95" fill="none" stroke="#dc2626" stroke-width="3" stroke-linecap="round" />
+      <circle cx="8" cy="92" r="3.5" fill="url(#gold-metal)" />
+      <circle cx="16" cy="97" r="2.5" fill="url(#gold-metal)" />
+    </g>
+  </g>
+</svg>

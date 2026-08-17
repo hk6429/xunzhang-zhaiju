@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>尋章摘句 — 封神密室逃脫</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+TC:wght@400;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
@@ -12,9 +14,20 @@
 </head>
 <body>
 <header class="app-header">
-  <div class="app-brand">
-    <span class="app-seal" aria-hidden="true">封神</span>
-    <h1 class="app-title">尋章摘句</h1>
+  <div class="app-brand" id="brand-interactive" role="button" tabindex="0" title="點擊與墨靈仙童對話">
+    <div class="brand-mascot-wrap">
+      <img src="assets/mascot.svg" alt="墨靈仙童" class="brand-mascot-icon" id="header-mascot-img">
+      <span class="mascot-sparkle-dot"></span>
+    </div>
+    <div class="brand-title-group">
+      <span class="app-seal" aria-hidden="true">封神</span>
+      <h1 class="app-title">尋章摘句</h1>
+    </div>
+    <!-- 墨靈仙童即時對話氣泡 -->
+    <div id="mascot-speech-bubble" class="mascot-speech-bubble hidden" aria-live="polite">
+      <div class="mascot-speech-triangle"></div>
+      <p id="mascot-speech-text">道友！今日文運亨通，破陣指日可待！🖋️</p>
+    </div>
   </div>
   <span id="demo-badge" class="demo-badge hidden">試玩資料</span>
   <nav class="app-nav">
@@ -96,12 +109,15 @@
       </div>
 
       <aside class="game-panel">
-        <!-- 角色伴隨互動視窗：Q 版守護仙人 / 破陣夥伴 -->
+        <!-- 角色伴隨互動視窗：Q 版守護仙人 / 破陣夥伴立繪展演台 -->
         <div id="fengshen-companion" class="fengshen-companion clickable" title="點擊向守護仙人請教破陣玄機">
-          <div id="companion-avatar-wrap" class="companion-avatar-wrap"></div>
-          <div class="companion-bubble">
+          <div class="companion-standee-container">
+            <div id="companion-avatar-wrap" class="companion-avatar-wrap"></div>
+            <div id="comic-sfx-tag" class="comic-sfx-tag hidden">妙！</div>
+          </div>
+          <div class="companion-bubble comic-bubble">
             <div class="companion-bubble-header">
-              <span id="companion-name" class="companion-name">姜子牙・太公引路</span>
+              <span id="companion-name" class="companion-name">姜太公・太公引路</span>
               <span class="companion-hint-badge">💡 點擊請教</span>
             </div>
             <p id="companion-text" class="companion-text">太極生兩儀，字句藏玄機。道友請凝神破陣！</p>
@@ -122,11 +138,27 @@
     </div>
   </section>
 
-  <!-- 摘句集圖鑑 -->
+  <!-- 摘句集／封神群仙錄圖鑑 -->
   <section id="view-collection" class="view hidden">
-    <h2 class="view-title">摘句集</h2>
-    <p id="collection-empty" class="muted hidden">尚未收藏任何句子，到關卡中尋章摘句吧。</p>
-    <ul id="collection-list" class="collection-list"></ul>
+    <div class="collection-header-row">
+      <h2 class="view-title">封神寶典</h2>
+      <div class="collection-tabs">
+        <button type="button" class="col-tab-btn active" data-coltab="phrases">📖 摘句典藏</button>
+        <button type="button" class="col-tab-btn" data-coltab="characters">🎎 封神群仙錄</button>
+      </div>
+    </div>
+
+    <!-- 摘句典藏分頁 -->
+    <div id="coltab-pane-phrases" class="coltab-pane">
+      <p id="collection-empty" class="muted hidden">尚未收藏任何句子，到關卡中尋章摘句吧。</p>
+      <ul id="collection-list" class="collection-list"></ul>
+    </div>
+
+    <!-- 封神群仙錄分頁 -->
+    <div id="coltab-pane-characters" class="coltab-pane hidden">
+      <p class="characters-tab-desc">太極玄門，八大仙人各顯神通。點擊下方表情按鈕，隨時切換漫畫表情並聆聽真傳台詞！</p>
+      <div id="characters-gallery" class="characters-gallery-grid"></div>
+    </div>
   </section>
 
   <!-- 設定 -->
@@ -167,10 +199,20 @@
   </div>
 </div>
 
-<!-- 學習題（賺墨水） -->
+<!-- 學習題（研墨答題） -->
 <div id="modal-quiz" class="modal-backdrop hidden">
   <div class="modal quiz-modal">
     <button type="button" class="modal-close" data-close="modal-quiz" aria-label="關閉">✕</button>
+    
+    <!-- 考官生動出題區 -->
+    <div class="quiz-examiner-wrap">
+      <div id="quiz-examiner-avatar" class="quiz-examiner-avatar"></div>
+      <div class="quiz-examiner-bubble">
+        <strong id="quiz-examiner-name" class="examiner-name">太乙真人・文道考官</strong>
+        <p id="quiz-examiner-quote" class="examiner-quote">道友請聽題！若能研透此中深意，墨池靈氣自會湧現！</p>
+      </div>
+    </div>
+
     <p id="quiz-progress" class="card-badge"></p>
     <h3 id="quiz-prompt" class="quiz-prompt"></h3>
     <div id="quiz-options" class="quiz-options"></div>
@@ -213,6 +255,11 @@
     <p id="complete-array-name" class="complete-array-name">乾坤太極陣・第 1 關 陣眼破解</p>
     <p id="complete-stars" class="complete-stars"></p>
 
+    <!-- 大尺寸群仙破陣大合照 -->
+    <div class="complete-group-photo-wrap">
+      <img src="assets/characters/group-victory.svg" alt="群仙破陣大合照" class="complete-group-photo-img" loading="eager" />
+    </div>
+
     <!-- 仙人祝賀語 -->
     <div class="complete-guardian-feedback">
       <div id="complete-guardian-avatar" class="settle-avatar"></div>
@@ -234,6 +281,25 @@
     <div class="settings-actions">
       <button type="button" id="btn-next-level" class="primary-btn">破下一陣</button>
       <button type="button" id="btn-complete-map" class="ghost-btn">回大廳</button>
+    </div>
+  </div>
+</div>
+
+<!-- 破陣漫畫特寫 Cut-In 特效彈窗 -->
+<div id="manga-cutin-overlay" class="manga-cutin-overlay hidden" aria-hidden="true">
+  <div class="cutin-speedlines-bg"></div>
+  <div class="cutin-slash-bar"></div>
+  <div class="cutin-content">
+    <div id="cutin-character-stage" class="cutin-character-stage"></div>
+    <div class="cutin-kanji-wrap">
+      <span class="cutin-kanji-stamp" id="cutin-kanji-stamp">破！</span>
+      <span class="cutin-kanji-sub" id="cutin-kanji-sub">陣眼勘破</span>
+    </div>
+    <div class="cutin-bubble-wrap">
+      <div class="cutin-comic-bubble" id="cutin-comic-bubble">
+        <strong id="cutin-guardian-title">姜太公</strong>
+        <p id="cutin-guardian-speech">妙哉！天地乾坤，盡在破陣一瞬！</p>
+      </div>
     </div>
   </div>
 </div>

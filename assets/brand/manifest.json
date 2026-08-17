@@ -1,0 +1,37 @@
+{
+  "name": "尋章摘句 — 封神密室逃脫",
+  "short_name": "尋章摘句",
+  "description": "潑墨國風 × 封神密室逃脫成語破陣解謎遊戲。攜手墨靈仙童，摘句尋章，破陣封神！",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4ebd9",
+  "theme_color": "#181411",
+  "lang": "zh-Hant-TW",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "assets/brand/pwa-icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/brand/pwa-icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/brand/app-icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["education", "games", "puzzle"]
+}

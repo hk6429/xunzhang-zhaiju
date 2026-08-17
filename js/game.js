@@ -1,11 +1,12 @@
 // js/game.js — 單關遊戲流程：比對、提示、學習題、星等結算
-// 整合：封神密室逃脫機制、Q 版守護仙人伴隨互動、燃香/硯台 HUD、破陣封印條
+// 整合：封神密室逃脫機制、Q 版守護仙人伴隨互動、破陣 Cut-in 特寫、研墨考官、燃香/硯台 HUD、破陣封印條
 import { createGrid, targetPath, pathKey } from './grid.js';
 import { buildQuestions } from './learnquiz.js';
 import {
   getArrayByLevelId,
   renderGuardianSvg,
   getRandomQuote,
+  getExaminer,
 } from './fengshen.js';
 
 const FLASH_MS = 2000;
@@ -31,7 +32,7 @@ export function startLevel(ctx) {
 
   // ── 封神密室陣法與守護仙人 ──────────────
   const arrayInfo = getArrayByLevelId(level.id);
-  const guardian = arrayInfo.guardian;
+  const guardian = arrayInfo.guardian || (arrayInfo.guardians && arrayInfo.guardians[0]);
 
   // ── 目標資料 ──────────────────────────
   const targets = level.targets.map((t, i) => {
@@ -79,17 +80,29 @@ export function startLevel(ctx) {
   const companionName = $('companion-name');
   const companionText = $('companion-text');
   const companionWidget = $('fengshen-companion');
+  const comicSfxTag = $('comic-sfx-tag');
   let speechTimer = null;
 
-  function setCompanion(mood = 'idle', customText = null, isTalking = true) {
+  function setCompanion(mood = 'idle', customText = null, isTalking = true, sfx = null) {
     if (avatarWrap) {
-      avatarWrap.innerHTML = renderGuardianSvg(guardian.id, mood);
+      avatarWrap.innerHTML = renderGuardianSvg(guardian.characterId || guardian.id, mood);
     }
     if (companionName) {
       companionName.textContent = `${guardian.name}・${guardian.shortTitle}`;
     }
     if (companionText && customText) {
       companionText.textContent = customText;
+    }
+    if (comicSfxTag) {
+      if (sfx) {
+        comicSfxTag.textContent = sfx;
+        comicSfxTag.classList.remove('hidden');
+        comicSfxTag.classList.remove('pop-sfx');
+        void comicSfxTag.offsetWidth;
+        comicSfxTag.classList.add('pop-sfx');
+      } else {
+        comicSfxTag.classList.add('hidden');
+      }
     }
     if (companionWidget && isTalking) {
       companionWidget.classList.remove('speaking');
@@ -98,24 +111,68 @@ export function startLevel(ctx) {
       clearTimeout(speechTimer);
       speechTimer = setTimeout(() => {
         if (companionWidget) companionWidget.classList.remove('speaking');
+        if (comicSfxTag) comicSfxTag.classList.add('hidden');
       }, 3500);
     }
   }
 
   // 開場仙人問候
-  setCompanion('idle', guardian.greeting, true);
+  setCompanion('idle', guardian.greeting, true, '陣開！');
 
   // 點擊仙人獲取隨機密室提示對白
   function handleCompanionClick() {
     const quote = getRandomQuote(guardian.clickQuotes);
-    setCompanion('thinking', quote, true);
+    const moods = ['thinking', 'victory'];
+    const mood = moods[Math.floor(Math.random() * moods.length)];
+    setCompanion(mood, quote, true, '悟！');
   }
   if (companionWidget) {
     companionWidget.addEventListener('click', handleCompanionClick);
   }
 
+  // ── 破陣 Cut-in 漫畫特寫動畫 ───────────
+  let cutinTimer = null;
+  function triggerCutIn(foundPhrase) {
+    const overlay = $('manga-cutin-overlay');
+    if (!overlay) return;
+
+    const charStage = $('cutin-character-stage');
+    const stamp = $('cutin-kanji-stamp');
+    const sub = $('cutin-kanji-sub');
+    const title = $('cutin-guardian-title');
+    const speech = $('cutin-guardian-speech');
+
+    if (charStage) {
+      charStage.innerHTML = renderGuardianSvg(guardian.characterId || guardian.id, 'victory');
+    }
+    if (stamp) stamp.textContent = foundPhrase.text;
+    if (sub) sub.textContent = '⚡ 陣眼勘破・真傳現世 ⚡';
+    if (title) title.textContent = `${guardian.name} 讚賞`;
+    if (speech) speech.textContent = getRandomQuote(guardian.findQuotes);
+
+    overlay.classList.remove('hidden');
+    overlay.classList.remove('active');
+    void overlay.offsetWidth;
+    overlay.classList.add('active');
+
+    clearTimeout(cutinTimer);
+    cutinTimer = setTimeout(() => {
+      overlay.classList.remove('active');
+      setTimeout(() => overlay.classList.add('hidden'), 250);
+    }, 1350);
+  }
+
+  // 點擊 Cut-in 可快速跳過
+  const cutinOverlay = $('manga-cutin-overlay');
+  if (cutinOverlay) {
+    cutinOverlay.addEventListener('click', () => {
+      clearTimeout(cutinTimer);
+      cutinOverlay.classList.remove('active');
+      setTimeout(() => cutinOverlay.classList.add('hidden'), 150);
+    });
+  }
+
   // ── 密室破陣封印條 ────────────────────
-  const sealBar = $('seal-progress-bar');
   const sealCountEl = $('seal-count');
   const sealRunesEl = $('seal-runes');
 
@@ -198,7 +255,8 @@ export function startLevel(ctx) {
 
     if (isWarn && !warnedLowTime && !finished) {
       warnedLowTime = true;
-      setCompanion('shock', '燃香將盡，陰陽逆轉！道友凝神，速破此陣！', true);
+      // 角色即時變身漫畫驚慌臉（蚊香眼/冒汗）並喊出催促台詞
+      setCompanion('panic', '哎呀呀！時辰將至，燃香將盡！道友速速凝神破陣！', true, '急！');
     }
   }
 
@@ -239,7 +297,7 @@ export function startLevel(ctx) {
     // 渲染超時救援視窗
     const rescueAvatar = $('timeout-guardian-avatar');
     if (rescueAvatar) {
-      rescueAvatar.innerHTML = renderGuardianSvg(guardian.id, 'timeout');
+      rescueAvatar.innerHTML = renderGuardianSvg(guardian.characterId || guardian.id, 'panic');
     }
     const rescueName = $('timeout-guardian-name');
     if (rescueName) {
@@ -347,26 +405,28 @@ export function startLevel(ctx) {
       row.classList.remove('invalid');
       void row.offsetWidth;
       row.classList.add('invalid');
-      setCompanion('shock', '字句稍有出入，道友再細細思量！', true);
+      setCompanion('panic', '字句稍有出入，道友再細細思量！', true, '誤！');
     }
   }
 
-  // ── 找到／比對 ────────────────────────
+  // ── 找到／比對（觸發 Cut-in 特寫與仙人讚賞） ───
   function markFound(t, { real }) {
     t.found = true;
     grid.markFound(t.path, t.colorIdx);
     if (!levelSave.found.includes(t.phraseId)) levelSave.found.push(t.phraseId);
     if (real) {
       collection.add(t.phraseId);
+      // 觸發破陣 Cut-in 特寫動畫
+      triggerCutIn(t.phrase);
       showKnowledgeCard(t.phrase);
-      setCompanion('happy', getRandomQuote(guardian.findQuotes), true);
+      setCompanion('victory', getRandomQuote(guardian.findQuotes), true, '破！');
     }
     if (selectedTargetId === t.phraseId) selectedTargetId = null;
     renderTargets();
     renderSealProgress();
     if (isCross) updateCrossSelection();
     ctx.persist();
-    if (targets.every((x) => x.found)) setTimeout(finishLevel, real ? 400 : 250);
+    if (targets.every((x) => x.found)) setTimeout(finishLevel, real ? 500 : 250);
   }
 
   function handleSelect(path) {
@@ -397,12 +457,14 @@ export function startLevel(ctx) {
     if (!t) return;
     if (!hintEngine.canSpend(tier)) {
       say('墨水不足，按「賺墨水」答題補充。');
+      // 墨水告急：仙人切換驚慌催促
+      setCompanion('panic', '哎呀！墨水不足了，道友快按「賺墨水」研墨補充靈氣！', true, '乾！');
       return;
     }
     if (!hintEngine.spend(tier)) { refreshInk(); return; }
     usedHint = true;
     if (hintCap != null) hintsUsed += 1;
-    setCompanion('thinking', getRandomQuote(guardian.hintQuotes), true);
+    setCompanion('thinking', getRandomQuote(guardian.hintQuotes), true, '啟！');
 
     if (tier === 'circle') {
       if (isCross) {
@@ -432,7 +494,7 @@ export function startLevel(ctx) {
     ctx.persist();
   }
 
-  // ── 星等與通關（破陣結算） ────────────
+  // ── 星等與通關（破陣結算・大尺寸群仙大合照） ────
   function computeStars() {
     if (usedReveal) return 1;
     if (usedHint) return 2;
@@ -462,7 +524,7 @@ export function startLevel(ctx) {
     
     const completeAvatar = $('complete-guardian-avatar');
     if (completeAvatar) {
-      completeAvatar.innerHTML = renderGuardianSvg(guardian.id, 'win');
+      completeAvatar.innerHTML = renderGuardianSvg(guardian.characterId || guardian.id, 'victory');
     }
     const completeSpeech = $('complete-guardian-speech');
     if (completeSpeech) {
@@ -485,8 +547,9 @@ export function startLevel(ctx) {
     if (typeof ctx.onComplete === 'function') ctx.onComplete(level.id, stars);
   }
 
-  // ── 學習題（賺墨水） ──────────────────
+  // ── 學習題（研墨答題・太乙真人/姜太公擔任考官） ────
   let quiz = null;
+  let currentExaminer = null;
 
   function openQuiz() {
     const targetIds = level.targets.map((t) => t.phraseId);
@@ -500,7 +563,20 @@ export function startLevel(ctx) {
       say('目前沒有可用的學習題。');
       return;
     }
+    currentExaminer = getExaminer(level.id);
     quiz = { questions, idx: 0, earned: 0 };
+
+    // 渲染考官資訊
+    const examAvatar = $('quiz-examiner-avatar');
+    const examName = $('quiz-examiner-name');
+    const examQuote = $('quiz-examiner-quote');
+
+    if (examAvatar) {
+      examAvatar.innerHTML = `<img src="${currentExaminer.avatar}" alt="${currentExaminer.name}" class="examiner-img" />`;
+    }
+    if (examName) examName.textContent = `${currentExaminer.name}・${currentExaminer.title}`;
+    if (examQuote) examQuote.textContent = currentExaminer.speech;
+
     $('modal-quiz').classList.remove('hidden');
     renderQuestion();
   }
@@ -534,6 +610,9 @@ export function startLevel(ctx) {
   function answer(q, given, btnEl) {
     const correct = given === q.answer;
     save.quizStats.answered += 1;
+    const examAvatar = $('quiz-examiner-avatar');
+    const examQuote = $('quiz-examiner-quote');
+
     if (correct) {
       save.quizStats.correct += 1;
       const kind = q.type === 'choice' ? 'choice' : 'fill';
@@ -541,10 +620,22 @@ export function startLevel(ctx) {
       const gained = q.type === 'choice' ? 1 : 2;
       quiz.earned += gained;
       $('quiz-feedback').textContent = `答對了！＋${gained} 墨 🖋`;
-      setCompanion('happy', getRandomQuote(guardian.quizQuotes), false);
+      if (examAvatar && currentExaminer) {
+        examAvatar.innerHTML = `<img src="${currentExaminer.happyAvatar}" alt="${currentExaminer.name}" class="examiner-img" />`;
+      }
+      if (examQuote && currentExaminer) {
+        examQuote.textContent = currentExaminer.correctQuote;
+      }
+      setCompanion('victory', getRandomQuote(guardian.quizQuotes), false, '墨＋！');
     } else {
       $('quiz-feedback').textContent = `可惜，正解是「${q.answer}」。`;
-      setCompanion('thinking', '此題甚深，道友記住此典，下回必能答對！', false);
+      if (examAvatar && currentExaminer) {
+        examAvatar.innerHTML = `<img src="${currentExaminer.panicAvatar}" alt="${currentExaminer.name}" class="examiner-img" />`;
+      }
+      if (examQuote && currentExaminer) {
+        examQuote.textContent = currentExaminer.wrongQuote;
+      }
+      setCompanion('thinking', '此題甚深，道友記住此典，下回必能答對！', false, '思！');
     }
     if (q.type === 'choice') {
       for (const b of $('quiz-options').querySelectorAll('button')) {
@@ -572,6 +663,15 @@ export function startLevel(ctx) {
     if (quiz.idx + 1 < quiz.questions.length) {
       quiz.idx += 1;
       $('quiz-next').textContent = '下一題';
+      // 還原考官立繪為沉思出題
+      const examAvatar = $('quiz-examiner-avatar');
+      const examQuote = $('quiz-examiner-quote');
+      if (examAvatar && currentExaminer) {
+        examAvatar.innerHTML = `<img src="${currentExaminer.avatar}" alt="${currentExaminer.name}" class="examiner-img" />`;
+      }
+      if (examQuote && currentExaminer) {
+        examQuote.textContent = currentExaminer.speech;
+      }
       renderQuestion();
     } else {
       closeQuiz();
@@ -585,6 +685,7 @@ export function startLevel(ctx) {
     $('quiz-fill-submit').disabled = false;
     if (quiz && quiz.earned > 0) say(`本輪共賺得 ${quiz.earned} 墨！`);
     quiz = null;
+    currentExaminer = null;
     refreshInk();
   }
 
@@ -669,6 +770,7 @@ export function startLevel(ctx) {
       stopTimer();
       clearTimeout(msgTimer);
       clearTimeout(speechTimer);
+      clearTimeout(cutinTimer);
       if (companionWidget) companionWidget.removeEventListener('click', handleCompanionClick);
       for (const [el, ev, fn] of listeners) el.removeEventListener(ev, fn);
       grid.destroy();
@@ -680,6 +782,11 @@ export function startLevel(ctx) {
       $('modal-complete').classList.add('hidden');
       $('modal-card').classList.add('hidden');
       $('modal-timeout').classList.add('hidden');
+      const cutin = $('manga-cutin-overlay');
+      if (cutin) {
+        cutin.classList.remove('active');
+        cutin.classList.add('hidden');
+      }
     },
   };
 }

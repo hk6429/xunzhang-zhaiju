@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%">
+  <defs>
+    <style>
+      @keyframes mascot-float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-10px) rotate(1.5deg); }
+      }
+      @keyframes taiji-rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes taiji-counter-rotate {
+        0% { transform: rotate(360deg); }
+        100% { transform: rotate(0deg); }
+      }
+      @keyframes brush-swing {
+        0%, 100% { transform: rotate(-30deg); }
+        50% { transform: rotate(-48deg); }
+      }
+      @keyframes spark-pulse {
+        0%, 100% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.4); opacity: 1; }
+      }
+      @keyframes text-breathe {
+        0%, 100% { opacity: 0.65; transform: scale(0.98); }
+        50% { opacity: 1; transform: scale(1.02); }
+      }
+      @keyframes ripple-expand {
+        0% { r: 60px; opacity: 0.8; }
+        100% { r: 130px; opacity: 0; }
+      }
+      @keyframes eye-blink {
+        0%, 90%, 100% { transform: scaleY(1); }
+        95% { transform: scaleY(0.1); }
+      }
+
+      .floating-mascot { animation: mascot-float 3.5s ease-in-out infinite; transform-origin: 160px 150px; }
+      .rotating-ring { animation: taiji-rotate 12s linear infinite; transform-origin: 160px 150px; }
+      .rotating-ring-rev { animation: taiji-counter-rotate 18s linear infinite; transform-origin: 160px 150px; }
+      .animated-brush { animation: brush-swing 2.4s ease-in-out infinite; transform-origin: 90px 145px; }
+      .sparkle-fx { animation: spark-pulse 1.8s ease-in-out infinite; }
+      .text-loading { animation: text-breathe 2.8s ease-in-out infinite; transform-origin: 160px 290px; }
+      .ripple-1 { animation: ripple-expand 2.8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite; }
+      .ripple-2 { animation: ripple-expand 2.8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite 1.4s; }
+      .mascot-blink { animation: eye-blink 4.2s infinite; transform-origin: 160px 125px; }
+    </style>
+
+    <!-- Gradients & Filters -->
+    <filter id="ldr-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="ldr-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.2" />
+    </filter>
+
+    <linearGradient id="ldr-gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="50%" stop-color="#eab308" />
+      <stop offset="100%" stop-color="#ca8a04" />
+    </linearGradient>
+
+    <radialGradient id="ldr-bg-pulse" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fef08a" stop-opacity="0.2" />
+      <stop offset="70%" stop-color="#eab308" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#ca8a04" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- 1. 水墨與太極動態波紋 (Dynamic Ripples & Rings) -->
+  <g id="loading-rings">
+    <!-- 背景脈衝光暈 -->
+    <circle cx="160" cy="150" r="140" fill="url(#ldr-bg-pulse)" />
+
+    <!-- 擴散太極靈光波紋 -->
+    <circle cx="160" cy="150" r="60" fill="none" stroke="#eab308" stroke-width="2" class="ripple-1" />
+    <circle cx="160" cy="150" r="60" fill="none" stroke="#0ea5e9" stroke-width="1.8" class="ripple-2" />
+
+    <!-- 順時針轉動外環金紋 (八卦刻印) -->
+    <g class="rotating-ring" opacity="0.6">
+      <circle cx="160" cy="150" r="118" fill="none" stroke="url(#ldr-gold)" stroke-width="2" stroke-dasharray="14 10 4 10" />
+      <circle cx="160" cy="32" r="4" fill="#facc15" filter="url(#ldr-glow)" />
+      <circle cx="160" cy="268" r="4" fill="#facc15" filter="url(#ldr-glow)" />
+      <circle cx="42" cy="150" r="4" fill="#facc15" filter="url(#ldr-glow)" />
+      <circle cx="278" cy="150" r="4" fill="#facc15" filter="url(#ldr-glow)" />
+    </g>
+
+    <!-- 逆時針水墨光環 -->
+    <g class="rotating-ring-rev" opacity="0.45">
+      <circle cx="160" cy="150" r="98" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="25 15 8 15" />
+      <circle cx="160" cy="52" r="3" fill="#38bdf8" />
+      <circle cx="258" cy="150" r="3" fill="#38bdf8" />
+    </g>
+  </g>
+
+  <!-- 2. 懸浮墨靈仙童主體 (Floating Chibi Mascot with Bobbing Motion) -->
+  <g class="floating-mascot" filter="url(#ldr-shadow)">
+    <!-- 雲朵坐墊 (Cloud base) -->
+    <path d="M 120 220 C 95 220 85 200 105 185 C 90 170 120 150 145 165 C 165 145 205 145 225 165 C 250 150 275 170 260 185 C 280 200 270 220 245 220 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" opacity="0.9" />
+    <path d="M 130 205 Q 160 190 190 205" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+
+    <!-- 道袍身軀 -->
+    <path d="M 125 145 L 115 205 C 115 215 205 215 205 205 L 195 145 Z" fill="#f8fafc" stroke="#1e293b" stroke-width="3" />
+    <path d="M 160 145 L 160 210" stroke="#0ea5e9" stroke-width="4.5" />
+    <path d="M 120 180 Q 160 195 200 180" fill="none" stroke="#0284c7" stroke-width="6" stroke-linecap="round" />
+    <circle cx="160" cy="186" r="7" fill="url(#ldr-gold)" stroke="#78350f" stroke-width="1.2" />
+
+    <!-- 仙童大頭 (Chibi Head) -->
+    <ellipse cx="160" cy="120" rx="46" ry="40" fill="#fff5f5" stroke="#1e293b" stroke-width="3.5" />
+
+    <!-- 腮紅 -->
+    <ellipse cx="128" cy="130" rx="9" ry="5.5" fill="#f43f5e" opacity="0.45" />
+    <ellipse cx="192" cy="130" rx="9" ry="5.5" fill="#f43f5e" opacity="0.45" />
+
+    <!-- 瀏海與額頭硃砂 -->
+    <path d="M 120 100 C 130 115 145 108 160 114 C 175 108 190 115 200 100 C 190 88 175 85 160 85 C 145 85 130 88 120 100 Z" fill="#0f172a" />
+    <path d="M 160 92 L 162 96 L 160 100 L 158 96 Z" fill="#dc2626" />
+
+    <!-- 眨眼水墨大眼 (Blinking Eyes) -->
+    <g class="mascot-blink">
+      <!-- 左眼 -->
+      <ellipse cx="137" cy="121" rx="9" ry="12" fill="#090d16" />
+      <ellipse cx="135" cy="116" rx="4" ry="5" fill="#ffffff" />
+      <circle cx="141" cy="124" r="1.8" fill="#38bdf8" />
+      <!-- 右眼 -->
+      <ellipse cx="183" cy="121" rx="9" ry="12" fill="#090d16" />
+      <ellipse cx="181" cy="116" rx="4" ry="5" fill="#ffffff" />
+      <circle cx="187" cy="124" r="1.8" fill="#38bdf8" />
+    </g>
+
+    <!-- 甜甜微笑 -->
+    <path d="M 154 135 Q 160 142 166 135" fill="#e11d48" stroke="#881337" stroke-width="1.8" stroke-linecap="round" />
+
+    <!-- 太極髮髻 -->
+    <circle cx="160" cy="74" r="20" fill="#0f172a" stroke="#1e293b" stroke-width="2.5" />
+    <circle cx="160" cy="74" r="12" fill="url(#ldr-gold)" stroke="#78350f" stroke-width="1.5" />
+    <!-- 太極雙魚 -->
+    <circle cx="160" cy="74" r="9" fill="#0f172a" />
+    <path d="M 160 65 A 9 9 0 0 1 160 83 A 4.5 4.5 0 0 1 160 74 A 4.5 4.5 0 0 0 160 65 Z" fill="#ffffff" />
+    <!-- 髮簪與赤纓 -->
+    <line x1="135" y1="74" x2="185" y2="74" stroke="url(#ldr-gold)" stroke-width="3" stroke-linecap="round" />
+    <path d="M 185 75 Q 192 88 188 104" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" />
+
+    <!-- 左手握金鞭 (Left hand whip) -->
+    <g transform="translate(202, 145) rotate(15)">
+      <line x1="0" y1="15" x2="0" y2="-45" stroke="url(#ldr-gold)" stroke-width="4" stroke-linecap="round" filter="url(#ldr-glow)" />
+      <circle cx="0" cy="-15" r="2.5" fill="#fef08a" />
+      <circle cx="0" cy="-35" r="2" fill="#fef08a" />
+    </g>
+
+    <!-- 右手揮毫大毛筆 (Animated Magic Brush) -->
+    <g class="animated-brush">
+      <!-- 筆桿 -->
+      <rect x="-3" y="-35" width="6" height="55" rx="2" fill="#451a03" stroke="url(#ldr-gold)" stroke-width="1" />
+      <!-- 筆頭與毫毛 -->
+      <path d="M -4 -35 C -6 -50 0 -65 0 -65 C 0 -65 6 -50 4 -35 Z" fill="#0f172a" />
+      <path d="M -1.5 -45 C -2 -55 0 -62 0 -62 C 0 -62 2 -55 1.5 -45 Z" fill="#38bdf8" />
+      <!-- 筆尖金光流星 -->
+      <g transform="translate(0, -65)" class="sparkle-fx" filter="url(#ldr-glow)">
+        <circle cx="0" cy="0" r="4.5" fill="#fde047" />
+        <polygon points="0,-8 2,-2 8,0 2,2 0,8 -2,2 -8,0 -2,-2" fill="#ffffff" transform="scale(0.8)" />
+      </g>
+    </g>
+  </g>
+
+  <!-- 3. 底部優雅載入中文字 (Calligraphic Loading Prompt) -->
+  <g class="text-loading">
+    <text x="160" y="278" font-family="'Noto Serif TC', 'Songti TC', serif" font-weight="700" font-size="15" fill="#78350f" text-anchor="middle" letter-spacing="3">
+      文道開卷・破陣載入中
+    </text>
+    <text x="160" y="298" font-family="'Noto Serif TC', serif" font-weight="600" font-size="10.5" fill="#a1a1aa" text-anchor="middle" letter-spacing="2">
+      FENGSHEN ESCAPE LOADING
+    </text>
+    <!-- 三顆跳動小墨點 -->
+    <circle cx="258" cy="274" r="2" fill="#ca8a04" class="sparkle-fx" />
+    <circle cx="264" cy="274" r="2" fill="#ca8a04" class="sparkle-fx" style="animation-delay: 0.3s;" />
+    <circle cx="270" cy="274" r="2" fill="#ca8a04" class="sparkle-fx" style="animation-delay: 0.6s;" />
+  </g>
+</svg>
