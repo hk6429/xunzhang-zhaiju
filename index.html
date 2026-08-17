@@ -32,20 +32,26 @@
       <span id="timer-display" class="timer-display hidden" aria-live="off">⏳ <span id="timer-time">--:--</span></span>
       <span class="ink-display">🖋 <span id="ink-amount">0</span></span>
     </div>
-    <div id="grid" class="grid" aria-label="字格盤面"></div>
-    <div id="cross-input-row" class="cross-input-row hidden">
-      <input id="cross-input" type="text" maxlength="12" autocomplete="off" placeholder="輸入答案">
-      <button type="button" id="cross-submit" class="primary-btn">確認</button>
+    <div class="game-layout">
+      <div class="game-board">
+        <div id="grid" class="grid" aria-label="字格盤面"></div>
+        <div id="cross-input-row" class="cross-input-row hidden">
+          <input id="cross-input" type="text" maxlength="12" autocomplete="off" placeholder="輸入答案">
+          <button type="button" id="cross-submit" class="primary-btn">確認</button>
+        </div>
+      </div>
+      <aside class="game-panel">
+        <ul id="target-list" class="target-list"></ul>
+        <div class="hint-bar">
+          <span id="hint-quota" class="hint-quota hidden" aria-live="polite"></span>
+          <button type="button" id="btn-hint-circle" class="hint-btn">圈首字<small>1 墨</small></button>
+          <button type="button" id="btn-hint-flash" class="hint-btn">閃現整句<small>3 墨</small></button>
+          <button type="button" id="btn-hint-reveal" class="hint-btn">直接揭示<small>5 墨</small></button>
+          <button type="button" id="btn-earn-ink" class="hint-btn earn">賺墨水</button>
+        </div>
+        <p id="hint-msg" class="hint-msg" aria-live="polite"></p>
+      </aside>
     </div>
-    <ul id="target-list" class="target-list"></ul>
-    <div class="hint-bar">
-      <span id="hint-quota" class="hint-quota hidden" aria-live="polite"></span>
-      <button type="button" id="btn-hint-circle" class="hint-btn">圈首字<small>1 墨</small></button>
-      <button type="button" id="btn-hint-flash" class="hint-btn">閃現整句<small>3 墨</small></button>
-      <button type="button" id="btn-hint-reveal" class="hint-btn">直接揭示<small>5 墨</small></button>
-      <button type="button" id="btn-earn-ink" class="hint-btn earn">賺墨水</button>
-    </div>
-    <p id="hint-msg" class="hint-msg" aria-live="polite"></p>
   </section>
 
   <!-- 摘句集圖鑑 -->
