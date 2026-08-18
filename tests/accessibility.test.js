@@ -7,6 +7,7 @@ const css = readFileSync(new URL('../css/fengshen-ink.css', import.meta.url), 'u
 const layoutCss = readFileSync(new URL('../css/style.css', import.meta.url), 'utf8');
 const js = readFileSync(new URL('../js/accessibility.js', import.meta.url), 'utf8');
 const gridJs = readFileSync(new URL('../js/grid.js', import.meta.url), 'utf8');
+const gameJs = readFileSync(new URL('../js/game.js', import.meta.url), 'utf8');
 
 test('all interface hooks required by app logic exist exactly once', () => {
   const ids = [
@@ -88,6 +89,15 @@ test('行動版先顯示玩法且浮動在線人數不遮住對話框或遊戲',
   assert.match(js, /details\.open = false/);
   assert.match(css, /body:has\(\.modal-backdrop:not\(\.hidden\)\) \.online-presence/);
   assert.match(css, /body:has\(#view-game:not\(\.hidden\)\) \.online-presence\s*\{\s*display:\s*none/);
+});
+
+test('答對特寫完整收在安全範圍內並保留五秒或點擊關閉', () => {
+  assert.match(css, /\.cutin-content\s*\{[\s\S]*grid-template-columns:[\s\S]*max-width:\s*1120px/);
+  assert.match(css, /\.cutin-character-stage \.fengshen-avatar-img\s*\{[\s\S]*max-width:\s*100%[\s\S]*object-fit:\s*cover/);
+  assert.match(css, /\.cutin-kanji-stamp[\s\S]*white-space:\s*nowrap/);
+  assert.match(gameJs, /CUTIN_DISPLAY_MS\s*=\s*5000/);
+  assert.match(gameJs, /addEventListener\('click', handleCutinDismiss\)/);
+  assert.match(html, /5 秒後自動返回・點一下可略過/);
 });
 
 test('accessibility controller includes focus trap, escape handling and focus restoration', () => {

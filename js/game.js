@@ -171,7 +171,22 @@ export function startLevel(ctx) {
   }
 
   // ── 破陣 Cut-in 漫畫特寫動畫 ───────────
+  const CUTIN_DISPLAY_MS = 5000;
   let cutinTimer = null;
+  let cutinHideTimer = null;
+
+  function dismissCutIn(fadeMs = 250) {
+    const overlay = $('manga-cutin-overlay');
+    if (!overlay) return;
+    clearTimeout(cutinTimer);
+    clearTimeout(cutinHideTimer);
+    overlay.classList.remove('active');
+    cutinHideTimer = setTimeout(() => {
+      overlay.classList.add('hidden');
+      overlay.setAttribute('aria-hidden', 'true');
+    }, fadeMs);
+  }
+
   function triggerCutIn(foundPhrase) {
     const overlay = $('manga-cutin-overlay');
     if (!overlay) return;
@@ -185,32 +200,30 @@ export function startLevel(ctx) {
     if (charStage) {
       charStage.innerHTML = guardianSvg('victory');
     }
-    if (stamp) stamp.textContent = foundPhrase.text;
+    if (stamp) {
+      stamp.textContent = foundPhrase.text;
+      const phraseLength = Array.from(foundPhrase.text).length;
+      stamp.dataset.lengthTier = phraseLength >= 9 ? 'extra-long' : (phraseLength >= 6 ? 'long' : 'short');
+    }
     if (sub) sub.textContent = '⚡ 陣眼勘破・真傳現世 ⚡';
     if (title) title.textContent = `${guardian.name} 讚賞`;
     if (speech) speech.textContent = getRandomQuote(guardian.findQuotes);
 
     overlay.classList.remove('hidden');
+    overlay.setAttribute('aria-hidden', 'false');
     overlay.classList.remove('active');
     void overlay.offsetWidth;
     overlay.classList.add('active');
 
     clearTimeout(cutinTimer);
-    cutinTimer = setTimeout(() => {
-      overlay.classList.remove('active');
-      setTimeout(() => overlay.classList.add('hidden'), 250);
-    }, 1350);
+    clearTimeout(cutinHideTimer);
+    cutinTimer = setTimeout(() => dismissCutIn(250), CUTIN_DISPLAY_MS);
   }
 
-  // 點擊 Cut-in 可快速跳過
+  // 點擊 Cut-in 可提早關閉；未點擊時保留五秒，讓玩家看清楚賀詞。
   const cutinOverlay = $('manga-cutin-overlay');
-  if (cutinOverlay) {
-    cutinOverlay.addEventListener('click', () => {
-      clearTimeout(cutinTimer);
-      cutinOverlay.classList.remove('active');
-      setTimeout(() => cutinOverlay.classList.add('hidden'), 150);
-    });
-  }
+  const handleCutinDismiss = () => dismissCutIn(150);
+  if (cutinOverlay) cutinOverlay.addEventListener('click', handleCutinDismiss);
 
   // ── 密室破陣封印條 ────────────────────
   const sealCountEl = $('seal-count');
@@ -933,7 +946,9 @@ export function startLevel(ctx) {
       clearTimeout(msgTimer);
       clearTimeout(speechTimer);
       clearTimeout(cutinTimer);
+      clearTimeout(cutinHideTimer);
       if (companionWidget) companionWidget.removeEventListener('click', handleCompanionClick);
+      if (cutinOverlay) cutinOverlay.removeEventListener('click', handleCutinDismiss);
       for (const [el, ev, fn] of listeners) el.removeEventListener(ev, fn);
       grid.destroy();
       $('cross-input-row').classList.add('hidden');
@@ -948,6 +963,7 @@ export function startLevel(ctx) {
       if (cutin) {
         cutin.classList.remove('active');
         cutin.classList.add('hidden');
+        cutin.setAttribute('aria-hidden', 'true');
       }
     },
   };

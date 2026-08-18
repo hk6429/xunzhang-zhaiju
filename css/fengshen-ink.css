@@ -1618,8 +1618,13 @@ main {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
   cursor: pointer;
+  opacity: 0;
+  transition: opacity 220ms ease;
 }
+
+.manga-cutin-overlay.active { opacity: 1; }
 
 .cutin-speedlines-bg {
   position: absolute;
@@ -1652,19 +1657,60 @@ main {
 .cutin-content {
   position: relative;
   z-index: 2;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(250px, 0.75fr);
+  grid-template-areas:
+    "character kanji"
+    "character bubble";
   align-items: center;
-  gap: 2.2rem;
-  max-width: 940px;
-  width: 90%;
-  padding: 1.5rem;
+  gap: 1rem clamp(1rem, 2.5vw, 2rem);
+  max-width: 1120px;
+  width: 100%;
+  max-height: 100%;
+  min-width: 0;
+}
+
+.cutin-character-stage {
+  grid-area: character;
+  min-width: 0;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 2px solid rgba(239, 205, 126, 0.9);
+  border-radius: 6px 20px 8px 17px;
+  background: #efe1c1;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.46), 0 0 0 5px rgba(114, 34, 24, 0.42);
+}
+
+.cutin-character-stage .fengshen-avatar-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: cover;
+}
+
+.cutin-kanji-wrap {
+  grid-area: kanji;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .cutin-kanji-stamp {
+  display: block;
+  max-width: 100%;
   font-family: var(--font-calligraphy);
-  font-size: clamp(5.5rem, 16vw, 9rem);
+  font-size: clamp(2.5rem, 4.5vw, 4.5rem);
   font-weight: 900;
-  line-height: 1;
+  line-height: 1.12;
+  white-space: nowrap;
   color: #fff6d6;
   text-shadow: 
     0 0 20px #f59e0b,
@@ -1673,17 +1719,95 @@ main {
     8px 8px 20px rgba(0,0,0,0.6);
 }
 
+.cutin-kanji-stamp[data-length-tier="long"] { font-size: clamp(1.65rem, 3vw, 3rem); }
+.cutin-kanji-stamp[data-length-tier="extra-long"] { font-size: clamp(1.2rem, 2.1vw, 2.15rem); }
+
 .cutin-kanji-sub {
+  display: block;
+  max-width: 100%;
   font-family: var(--font-serif);
-  font-size: 1.15rem;
+  font-size: clamp(0.78rem, 1.3vw, 1rem);
   font-weight: 700;
-  letter-spacing: 0.35em;
+  line-height: 1.5;
+  letter-spacing: 0.16em;
   color: #fef08a;
   background: rgba(18, 14, 11, 0.88);
   border: 1.5px solid #eab308;
   border-radius: 999px;
   padding: 0.25rem 1.1rem;
-  margin-top: -0.5rem;
+  margin-top: 0.75rem;
+  white-space: normal;
+}
+
+.cutin-bubble-wrap {
+  grid-area: bubble;
+  min-width: 0;
+  align-self: start;
+}
+
+.cutin-comic-bubble {
+  position: relative;
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: 2px solid #d9b365;
+  border-radius: 5px 18px 6px 15px;
+  background: rgba(255, 250, 232, 0.96);
+  color: #173a38;
+  box-shadow: 7px 8px 0 rgba(95, 31, 23, 0.72), 0 14px 26px rgba(0, 0, 0, 0.32);
+}
+
+.cutin-comic-bubble strong {
+  display: block;
+  font-size: 1.05rem;
+  color: #842a20;
+}
+
+.cutin-comic-bubble p {
+  margin: 0.35rem 0 0;
+  line-height: 1.55;
+}
+
+.cutin-dismiss-hint {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: max(14px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  padding: 0.42rem 0.9rem;
+  border: 1px solid rgba(245, 214, 142, 0.72);
+  border-radius: 999px;
+  background: rgba(13, 19, 18, 0.78);
+  color: #fff6d6;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .manga-cutin-overlay {
+    padding: max(14px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(44px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+  }
+
+  .cutin-content {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "character"
+      "kanji"
+      "bubble";
+    gap: 0.65rem;
+    width: min(100%, 620px);
+  }
+
+  .cutin-character-stage {
+    width: min(100%, 560px);
+    max-height: 42dvh;
+    justify-self: center;
+  }
+
+  .cutin-kanji-stamp { font-size: clamp(2rem, 10vw, 3.5rem); }
+  .cutin-kanji-stamp[data-length-tier="long"] { font-size: clamp(1.4rem, 6.5vw, 2.4rem); }
+  .cutin-kanji-stamp[data-length-tier="extra-long"] { font-size: clamp(1rem, 4.6vw, 1.65rem); }
+  .cutin-comic-bubble { padding: 0.65rem 0.8rem; }
+  .cutin-comic-bubble p { font-size: 0.88rem; }
 }
 
 /* ── 結算視窗增強：故宮題名榜與法寶 ── */
@@ -2240,16 +2364,6 @@ main {
     padding: 0.55rem 0.8rem;
   }
 
-  .cutin-content {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-  }
-
-  .cutin-character-stage {
-    flex: 0 0 180px;
-    height: 190px;
-  }
 }
 
 @media (max-width: 480px) {
