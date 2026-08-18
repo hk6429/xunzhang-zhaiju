@@ -50,7 +50,7 @@ test('mobile layout has safe-area, touch targets and reduced motion support', ()
   assert.match(css, /@media \(max-width: 760px\)/);
   assert.match(css, /env\(safe-area-inset-bottom\)/);
   assert.match(css, /min-height:\s*44px/);
-  assert.match(css, /overflow-x:\s*hidden/);
+  assert.match(css, /overflow-x:\s*clip/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 });
 
@@ -72,6 +72,22 @@ test('所有尺寸字陣與交叉輸入列皆受遊戲左欄寬度限制', () =>
   assert.match(layoutCss, /\.grid\s*\{[\s\S]*?max-width:\s*100%/);
   assert.match(layoutCss, /\.cross-input-row\s*\{[\s\S]*?max-width:\s*100%/);
   assert.match(gridJs, /gridTemplateColumns\s*=\s*`repeat\(\$\{size\}, minmax\(0, 1fr\)\)`/);
+});
+
+test('字陣提供鍵盤選字與螢幕閱讀器所需語意', () => {
+  assert.match(gridJs, /setAttribute\('role', 'grid'\)/);
+  assert.match(gridJs, /setAttribute\('role', 'gridcell'\)/);
+  assert.match(gridJs, /onGridKeyDown/);
+  assert.match(gridJs, /ArrowRight/);
+  assert.match(gridJs, /ArrowDown/);
+  assert.match(gridJs, /aria-selected/);
+  assert.match(gridJs, /onInvalidSelection/);
+});
+
+test('行動版先顯示玩法且浮動在線人數不遮住對話框或遊戲', () => {
+  assert.match(js, /details\.open = false/);
+  assert.match(css, /body:has\(\.modal-backdrop:not\(\.hidden\)\) \.online-presence/);
+  assert.match(css, /body:has\(#view-game:not\(\.hidden\)\) \.online-presence\s*\{\s*display:\s*none/);
 });
 
 test('accessibility controller includes focus trap, escape handling and focus restoration', () => {

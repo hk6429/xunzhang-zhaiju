@@ -37,6 +37,13 @@ export function createGrid(container, gridData, handlers = {}, opts = {}) {
   container.style.setProperty('--grid-n', String(size)); // 供 CSS 依尺寸縮放字級
   container.style.gap = size >= 10 ? '3px' : (size >= 8 ? '4px' : '');
   container.classList.toggle('grid-cross', mode === 'cross');
+  container.setAttribute('role', 'grid');
+  container.setAttribute('aria-rowcount', String(size));
+  container.setAttribute('aria-colcount', String(size));
+  const defaultGridLabel = mode === 'full'
+    ? '字陣盤面。按 Enter 選起點，再用向右或向下鍵延伸，按 Enter 送出。'
+    : '填字盤面。用方向鍵移動，按 Enter 選擇詞條後輸入答案。';
+  container.setAttribute('aria-label', defaultGridLabel);
 
   const cells = []; // cells[r][c] → element
   for (let r = 0; r < size; r++) {
@@ -46,6 +53,10 @@ export function createGrid(container, gridData, handlers = {}, opts = {}) {
       el.className = 'cell';
       el.dataset.r = String(r);
       el.dataset.c = String(c);
+      el.setAttribute('role', 'gridcell');
+      el.setAttribute('aria-rowindex', String(r + 1));
+      el.setAttribute('aria-colindex', String(c + 1));
+      el.tabIndex = -1;
       if (mode === 'cross') {
         const ch = gridData[r][c];
         if (ch == null) {
@@ -59,6 +70,8 @@ export function createGrid(container, gridData, handlers = {}, opts = {}) {
       } else {
         el.textContent = gridData[r][c];
       }
+      const spoken = mode === 'cross' && gridData[r][c] == null ? '空白占位' : (el.textContent || '待填字格');
+      el.setAttribute('aria-label', `第 ${r + 1} 列，第 ${c + 1} 欄，${spoken}`);
       container.appendChild(el);
       cells[r].push(el);
     }
@@ -66,6 +79,9 @@ export function createGrid(container, gridData, handlers = {}, opts = {}) {
 
   const cellAt = (r, c) => cells[r][c];
   const eachInPath = (path, fn) => path.forEach(([r, c]) => fn(cellAt(r, c)));
+  const canFocus = (el) => mode === 'full' || !el.classList.contains('empty');
+  const firstFocusable = cells.flat().find(canFocus);
+  if (firstFocusable) firstFocusable.tabIndex = 0;
 
   function cellFromPoint(x, y) {
     const rect = container.getBoundingClientRect();
@@ -81,6 +97,8 @@ export function createGrid(container, gridData, handlers = {}, opts = {}) {
   let anchor = null;       // [r, c]
   let previewPath = [];
   let activePointer = null;
+  let pointerMoved = false;
+  let keyboardAnchor = null;
 
   function computePath(from, to) {
     const [r0, c0] = from;
@@ -107,9 +125,21 @@ export function createGrid(container, gridData, handlers = {}, opts = {}) {
   }
 
   function setPreview(path) {
-    eachInPath(previewPath, (el) => el.classList.remove('preview'));
+    eachInPath(previewPath, (el) => {
+      el.classList.remove('preview');
+      el.setAttribute('aria-selected', 'false');
+    });
     previewPath = path;
-    eachInPath(previewPath, (el) => el.classList.add('preview'));
+    eachInPath(previewPath, (el) => {
+      el.classList.add('preview');
+      el.setAttribute('aria-selected', 'true');
+    });
+  }
+
+  function resetKeyboardSelection() {
+    keyboardAnchor = null;
+    setPreview([]);
+    container.setAttribute('aria-label', defaultGridLabel);
   }
 
   function onPointerDown(ev) {
@@ -118,6 +148,7 @@ export function createGrid(container, gridData, handlers = {}, opts = {}) {
     if (!hit) return;
     activePointer = ev.pointerId;
     anchor = hit;
+    pointerMoved = false;
     setPreview([hit]);
     try { container.setPointerCapture(ev.pointerId); } catch { /* 舊瀏覽器忽略 */ }
     ev.preventDefault();
@@ -127,6 +158,7 @@ export function createGrid(container, gridData, handlers = {}, opts = {}) {
     if (ev.pointerId !== activePointer || !anchor) return;
     const hit = cellFromPoint(ev.clientX, ev.clientY);
     if (!hit) return;
+    if (hit[0] !== anchor[0] || hit[1] !== anchor[1]) pointerMoved = true;
     setPreview(computePath(anchor, hit));
   }
 
@@ -138,7 +170,17 @@ export function createGrid(container, gridData, handlers = {}, opts = {}) {
     activePointer = null;
     if (path.length >= 2 && typeof handlers.onSelect === 'function') {
       handlers.onSelect(path);
+    } else if (pointerMoved && typeof handlers.onInvalidSelection === 'function') {
+      handlers.onInvalidSelection('direction');
     }
+    pointerMoved = false;
+  }
+
+  function onPointerCancel() {
+    setPreview([]);
+    anchor = null;
+    activePointer = null;
+    pointerMoved = false;
   }
 
   // ── cross：點格選詞 ───────────────────
@@ -150,14 +192,70 @@ export function createGrid(container, gridData, handlers = {}, opts = {}) {
     if (typeof handlers.onCellTap === 'function') handlers.onCellTap(hit);
   }
 
+  function focusCell(r, c) {
+    const next = cellAt(r, c);
+    if (!next || !canFocus(next)) return null;
+    const current = container.querySelector('.cell[tabindex="0"]');
+    if (current) current.tabIndex = -1;
+    next.tabIndex = 0;
+    next.focus();
+    return [r, c];
+  }
+
+  function onGridKeyDown(ev) {
+    const el = ev.target.closest?.('.cell');
+    if (!el || !container.contains(el)) return;
+    const here = [Number(el.dataset.r), Number(el.dataset.c)];
+    const moves = {
+      ArrowRight: [0, 1], ArrowLeft: [0, -1], ArrowDown: [1, 0], ArrowUp: [-1, 0],
+    };
+    if (moves[ev.key]) {
+      ev.preventDefault();
+      if (mode === 'full' && keyboardAnchor && (ev.key === 'ArrowLeft' || ev.key === 'ArrowUp')) {
+        resetKeyboardSelection();
+        handlers.onInvalidSelection?.('direction');
+        return;
+      }
+      const [dr, dc] = moves[ev.key];
+      const moved = focusCell(
+        Math.max(0, Math.min(size - 1, here[0] + dr)),
+        Math.max(0, Math.min(size - 1, here[1] + dc)),
+      );
+      if (mode === 'full' && keyboardAnchor && moved) setPreview(computePath(keyboardAnchor, moved));
+      return;
+    }
+    if (ev.key === 'Escape' && keyboardAnchor) {
+      ev.preventDefault();
+      resetKeyboardSelection();
+      return;
+    }
+    if (ev.key !== 'Enter' && ev.key !== ' ') return;
+    ev.preventDefault();
+    if (mode === 'cross') {
+      handlers.onCellTap?.(here);
+      return;
+    }
+    if (!keyboardAnchor) {
+      keyboardAnchor = here;
+      setPreview([here]);
+      container.setAttribute('aria-label', `已選第 ${here[0] + 1} 列、第 ${here[1] + 1} 欄為起點。請按向右或向下鍵延伸，再按 Enter 送出。`);
+      return;
+    }
+    const path = previewPath.slice();
+    resetKeyboardSelection();
+    if (path.length >= 2) handlers.onSelect?.(path);
+    else handlers.onInvalidSelection?.('direction');
+  }
+
   if (mode === 'full') {
     container.addEventListener('pointerdown', onPointerDown);
     container.addEventListener('pointermove', onPointerMove);
     container.addEventListener('pointerup', onPointerUp);
-    container.addEventListener('pointercancel', onPointerUp);
+    container.addEventListener('pointercancel', onPointerCancel);
   } else {
     container.addEventListener('click', onCrossClick);
   }
+  container.addEventListener('keydown', onGridKeyDown);
 
   let activePath = []; // cross 選中詞的路徑高亮
 
@@ -168,6 +266,7 @@ export function createGrid(container, gridData, handlers = {}, opts = {}) {
       eachInPath(path, (el) => {
         el.classList.remove('hint-circle', 'active');
         el.classList.add('found', `found-${((colorIdx % 5) + 5) % 5}`);
+        el.setAttribute('aria-label', `${el.getAttribute('aria-label')}，已找到`);
       });
     },
     /** 整句路徑閃爍 ms 毫秒（提示：flash，full 用） */
@@ -220,10 +319,11 @@ export function createGrid(container, gridData, handlers = {}, opts = {}) {
         container.removeEventListener('pointerdown', onPointerDown);
         container.removeEventListener('pointermove', onPointerMove);
         container.removeEventListener('pointerup', onPointerUp);
-        container.removeEventListener('pointercancel', onPointerUp);
+        container.removeEventListener('pointercancel', onPointerCancel);
       } else {
         container.removeEventListener('click', onCrossClick);
       }
+      container.removeEventListener('keydown', onGridKeyDown);
       container.classList.remove('grid-cross');
       container.innerHTML = '';
     },

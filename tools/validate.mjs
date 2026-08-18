@@ -100,6 +100,12 @@ function main() {
       }
       if (!p.author) V(`${tag}：文學類型缺必填欄位 author`);
       if (!p.dynasty) V(`${tag}：文學類型缺必填欄位 dynasty`);
+      for (const field of ['author', 'dynasty']) {
+        if (typeof p[field] === 'string') {
+          const m = p[field].match(SIMPLIFIED_RE);
+          if (m) V(`${tag}：${field} 含簡體字「${m[0]}」`);
+        }
+      }
     }
 
     if (typeof p.text === 'string') {

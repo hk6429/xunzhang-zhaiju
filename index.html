@@ -87,7 +87,7 @@
     <details id="class-coop-panel" class="class-coop-panel hidden">
       <summary>班級協力破陣</summary>
       <div class="class-coop-body">
-        <p>以匿名代號加入班級共同目標，只顯示全班進度，不顯示個人成績排行榜。</p>
+        <p>以匿名代號加入班級協力活動，只顯示隊內最高進度，不顯示個人成績排行榜。</p>
         <div class="class-coop-fields">
           <label for="class-room-code">班級代碼</label>
           <input id="class-room-code" type="text" inputmode="text" autocomplete="off" maxlength="12" placeholder="輸入教師提供的代碼">
@@ -157,6 +157,8 @@
       </div>
     </div>
 
+    <p id="level-learning-goal" class="level-learning-goal" aria-live="polite">本關學習目標載入中。</p>
+
     <!-- 密室破陣封印進度條 -->
     <div id="seal-progress-bar" class="seal-progress-bar">
       <div class="seal-header">
@@ -221,6 +223,7 @@
           <button type="button" id="btn-hint-reveal" class="hint-btn">直接揭示<small>5 墨</small></button>
           <button type="button" id="btn-earn-ink" class="hint-btn earn">賺墨水</button>
         </div>
+        <p class="ink-earning-note">墨水不足時，按「賺墨水」完成學習題；每題可得 1–2 墨。</p>
         <p id="hint-msg" class="hint-msg" aria-live="polite"></p>
       </aside>
     </div>
@@ -329,7 +332,7 @@
     <ol class="onboarding-steps">
       <li><span>一</span><div><strong>進入第一陣</strong><small>先從解鎖的太極陣開始。</small></div></li>
       <li><span>二</span><div><strong>沿字找出句子</strong><small>按住首字，順著字句滑動。</small></div></li>
-      <li><span>三</span><div><strong>收下知識卡</strong><small>讀懂解釋，句子就會收入寶典。</small></div></li>
+      <li><span>三</span><div><strong>收入封神寶典</strong><small>找到後會收入寶典，完整解釋可在結算研讀。</small></div></li>
     </ol>
     <button type="button" id="btn-start-onboarding" class="primary-btn">開始第一關</button>
   </div>

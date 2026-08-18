@@ -35,6 +35,17 @@ test('合併只接受同隊且不倒退成果', () => {
 
 test('里程碑與公開成果卡不含完整存檔或個人資料', () => {
   assert.deepEqual(teamMilestone(51), { count: 51, next: 100, remaining: 49, completed: false });
+  assert.deepEqual(teamMilestone(409), { count: 409, next: 409, remaining: 0, completed: true });
   const card = makePublicAchievement({ title: '典故偵探', totalStars: 21, masteredCount: 44, chapter: 2 });
   assert.deepEqual(Object.keys(card).sort(), ['chapter', 'masteredCount', 'title', 'totalStars', 'v']);
+});
+
+test('班級成果上限與 100 關、409 筆語料一致', () => {
+  const capped = makeContribution({ teamCode: 'ABCD-2345', masteredCount: 999, chapter: 99 });
+  assert.equal(capped.masteredCount, 409);
+  assert.equal(capped.chapter, 10);
+  const card = makePublicAchievement({ title: '文道旅人', totalStars: 999, masteredCount: 999, chapter: 99 });
+  assert.equal(card.totalStars, 300);
+  assert.equal(card.masteredCount, 409);
+  assert.equal(card.chapter, 10);
 });

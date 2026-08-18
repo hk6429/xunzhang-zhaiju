@@ -24,8 +24,8 @@ export function createTeamCode(rng = Math.random) {
 export function makeContribution({ teamCode, masteredCount, chapter, updatedAt = Date.now() }) {
   const code = validateTeamCode(teamCode);
   if (!code) return null;
-  const mastered = Math.max(0, Math.min(200, Math.floor(Number(masteredCount) || 0)));
-  const safeChapter = Math.max(0, Math.min(5, Math.floor(Number(chapter) || 0)));
+  const mastered = Math.max(0, Math.min(409, Math.floor(Number(masteredCount) || 0)));
+  const safeChapter = Math.max(0, Math.min(10, Math.floor(Number(chapter) || 0)));
   return {
     v: 1,
     teamCode: code,
@@ -73,13 +73,13 @@ export function mergeContributions(current, incoming) {
 
 export function teamMilestone(masteredCount) {
   const count = Math.max(0, Math.floor(Number(masteredCount) || 0));
-  const milestones = [25, 50, 100, 150, 200];
-  const next = milestones.find((value) => value > count) || 200;
+  const milestones = [50, 100, 200, 300, 409];
+  const next = milestones.find((value) => value > count) || 409;
   return {
     count,
     next,
     remaining: Math.max(0, next - count),
-    completed: count >= 200,
+    completed: count >= 409,
   };
 }
 
@@ -87,8 +87,8 @@ export function makePublicAchievement({ title, totalStars, masteredCount, chapte
   return {
     v: 1,
     title: String(title || '文道旅人').slice(0, 12),
-    totalStars: Math.max(0, Math.min(153, Math.floor(Number(totalStars) || 0))),
-    masteredCount: Math.max(0, Math.min(200, Math.floor(Number(masteredCount) || 0))),
-    chapter: Math.max(0, Math.min(5, Math.floor(Number(chapter) || 0))),
+    totalStars: Math.max(0, Math.min(300, Math.floor(Number(totalStars) || 0))),
+    masteredCount: Math.max(0, Math.min(409, Math.floor(Number(masteredCount) || 0))),
+    chapter: Math.max(0, Math.min(10, Math.floor(Number(chapter) || 0))),
   };
 }

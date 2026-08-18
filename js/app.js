@@ -441,13 +441,30 @@ function renderEngagementHub() {
   ensureEngagementState();
   const frontier = frontierLevelId();
   const level = levelsById[frontier];
+  const activeRun = getUnfinishedRun(save);
+  const hasProgress = Object.values(save.levels || {}).some((item) =>
+    (Number(item?.stars) || 0) > 0 || (Array.isArray(item?.found) && item.found.length > 0));
   const resume = $('resume-quest-card');
   if (resume && level) {
-    resume.classList.remove('hidden');
-    $('resume-quest-summary').textContent = `前線在第 ${frontier} 關「${level.chapterTitle || '封神試煉'}」，約 5–10 分鐘可完成。`;
+    resume.classList.toggle('hidden', !!activeRun);
+    if (!activeRun) {
+      const kicker = resume.querySelector('.resume-kicker');
+      const title = $('resume-quest-title');
+      const button = $('btn-resume-quest');
+      if (hasProgress) {
+        if (kicker) kicker.textContent = '上回破陣進度';
+        if (title) title.textContent = '繼續未完的封神試煉';
+        if (button) button.textContent = '繼續闖關';
+        $('resume-quest-summary').textContent = `前線在第 ${frontier} 關「${level.chapterTitle || '封神試煉'}」，約 5–10 分鐘可完成。`;
+      } else {
+        if (kicker) kicker.textContent = '初次破陣';
+        if (title) title.textContent = '開始封神試煉';
+        if (button) button.textContent = '開始第一關';
+        $('resume-quest-summary').textContent = '從第一關認識操作，約 5–10 分鐘完成第一次尋章摘句。';
+      }
+    }
   }
 
-  const activeRun = getUnfinishedRun(save);
   const unfinished = $('unfinished-quest-prompt');
   if (unfinished) {
     const canContinue = activeRun && levelsById[Number(activeRun.levelId)];
@@ -492,7 +509,7 @@ function renderClassroomProgress(message = '') {
     return;
   }
   const milestone = teamMilestone(save.classroom.masteredCount || 0);
-  output.textContent = message || `${save.classroom.teamCode} 已共同掌握 ${milestone.count} 句，距下一座班級封印還差 ${milestone.remaining} 句。`;
+  output.textContent = message || `${save.classroom.teamCode} 隊內最高進度為 ${milestone.count} 句，距下一座協力封印還差 ${milestone.remaining} 句。`;
 }
 
 function chapterReached() {
@@ -833,6 +850,11 @@ function enterLevel(id) {
     persist,
     boss: getBossForLevel(worldStory, id),
     hasNext: !level.boss && (level.nextIds || []).length > 0,
+    getNextActionLabel: () => {
+      if (level.chapter > 5) return (level.nextIds || []).length ? '進入下一關' : '返回密室大廳';
+      const next = nextReachableLevels(levels, id, save);
+      return next.length === 1 ? '進入下一關' : '回地圖選關';
+    },
     onExit: () => showView(homeView),
     onRetry: () => enterLevel(id),
     onProgress: (found, total) => renderBossHud(getBossForLevel(worldStory, id), found, total),

@@ -96,6 +96,11 @@ export function startLevel(ctx) {
 
   // ── DOM 頂部標題與陣法徽章 ───────────
   $('game-level-title').textContent = `第 ${level.id} 關・${modeConfig.label}`;
+  const learningGoal = $('level-learning-goal');
+  if (learningGoal) {
+    const types = [...new Set(targets.map((target) => target.phrase.type))].join('、');
+    learningGoal.textContent = `本關學習目標：能依線索辨認 ${targets.length} 句${types || '語文素材'}，並透過研墨題理解與運用句義。`;
+  }
   const arrayBadgeEl = $('game-array-badge');
   if (arrayBadgeEl) {
     arrayBadgeEl.textContent = arrayInfo.name;
@@ -234,6 +239,7 @@ export function startLevel(ctx) {
   const grid = createGrid($('grid'), level.grid, {
     onSelect: handleSelect,
     onCellTap: handleCellTap,
+    onInvalidSelection: () => handleInvalidSelection('direction'),
   }, {
     mode: isCross ? 'cross' : 'full',
     revealed: level.revealed || [],
@@ -505,7 +511,22 @@ export function startLevel(ctx) {
       persistActiveRun();
       ctx.persist();
       grid.flashInvalid(path);
+      handleInvalidSelection('content', false);
     }
+  }
+
+  function handleInvalidSelection(reason = 'content', countMistake = true) {
+    if (finished) return;
+    if (countMistake) {
+      mistakes += 1;
+      persistActiveRun();
+      ctx.persist();
+    }
+    const text = reason === 'direction'
+      ? '請從句子的第一字開始，往右或往下滑動。'
+      : '這段字句尚未命中目標，請對照線索再試一次。';
+    say(text);
+    setCompanion('thinking', text, true, '再試！');
   }
 
   // ── 提示 ─────────────────────────────
@@ -640,6 +661,7 @@ export function startLevel(ctx) {
     }
 
     $('btn-next-level').classList.toggle('hidden', !ctx.hasNext);
+    if (ctx.hasNext) $('btn-next-level').textContent = ctx.getNextActionLabel?.() || '進入下一關';
     const summaryText = $('session-summary-text');
     const summaryList = $('session-summary-list');
     if (summaryText) summaryText.textContent = `本關尋得 ${knowledgeQueue.length} 句，獲得 ${stars} 星，正式納入封神寶典。`;
@@ -732,9 +754,11 @@ export function startLevel(ctx) {
       if (gained === 2) hintEngine.earn('fill');
       else if (gained === 1) hintEngine.earn('choice');
       quiz.earned += gained;
+      const phrase = phrasesById[q.phraseId];
+      const reinforcement = phrase?.meaning ? ` 關鍵理解：${phrase.meaning}` : '';
       $('quiz-feedback').textContent = gained > 0
-        ? `答對了！＋${gained} 墨 🖋`
-        : '答對了！此題今日已領過墨水，已累積熟練度。';
+        ? `答對了！＋${gained} 墨。${reinforcement}`
+        : `答對了！此題今日已領過墨水，已累積熟練度。${reinforcement}`;
       if (examAvatar && currentExaminer) {
         examAvatar.innerHTML = `<img src="${currentExaminer.happyAvatar}" alt="${currentExaminer.name}" class="examiner-img" />`;
       }
@@ -743,7 +767,9 @@ export function startLevel(ctx) {
       }
       setCompanion('victory', getRandomQuote(guardian.quizQuotes), false, '墨＋！');
     } else {
-      $('quiz-feedback').textContent = `可惜，正解是「${q.answer}」。`;
+      const phrase = phrasesById[q.phraseId];
+      const explanation = phrase?.meaning ? ` 判斷關鍵：${phrase.meaning}` : '';
+      $('quiz-feedback').textContent = `你選的「${given}」與題意不合；正解是「${q.answer}」。${explanation}`;
       if (examAvatar && currentExaminer) {
         examAvatar.innerHTML = `<img src="${currentExaminer.panicAvatar}" alt="${currentExaminer.name}" class="examiner-img" />`;
       }

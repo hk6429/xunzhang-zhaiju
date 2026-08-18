@@ -138,7 +138,8 @@ function bindSceneDisclosure() {
 
   const observer = new MutationObserver(() => {
     if (gameView.classList.contains('hidden')) return;
-    details.open = !sceneSeen;
+    // 主要玩法要先進入視線；故事場景仍可由玩家自行展開閱讀。
+    details.open = false;
     if (!sceneSeen) {
       sceneSeen = true;
       try { localStorage.setItem(SCENE_KEY, '1'); } catch { /* noop */ }

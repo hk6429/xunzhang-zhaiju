@@ -108,7 +108,7 @@ html, body {
   font-family: var(--font-serif);
   min-height: 100%;
   position: relative;
-  overflow-x: hidden;
+  overflow-x: clip;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
@@ -3548,6 +3548,19 @@ main:has(#view-collection:not(.hidden)) {
 .game-scene-details > summary small { color: var(--palace-ink-soft); font-weight: 500; }
 .game-scene-details .game-story-figure { margin: 0; border-width: 1px 0 0; border-radius: 0; }
 
+.level-learning-goal,
+.ink-earning-note {
+  margin: 0 0 0.8rem;
+  padding: 0.65rem 0.8rem;
+  border-left: 4px solid var(--palace-jade);
+  background: rgba(46, 93, 75, 0.08);
+  color: var(--palace-ink-soft);
+  line-height: 1.55;
+  font-size: 0.88rem;
+}
+
+.ink-earning-note { margin-top: 0.55rem; font-size: 0.8rem; }
+
 .play-instruction-tip {
   display: flex;
   align-items: center;
@@ -3677,10 +3690,28 @@ main:has(#view-collection:not(.hidden)) {
   box-shadow: none;
 }
 
+body:has(.modal-backdrop:not(.hidden)) .online-presence {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .map-immersive-active #view-map .daily-encounter-card { bottom: 4.5rem; }
 
 @media (max-width: 760px) {
-  body { padding-bottom: calc(74px + env(safe-area-inset-bottom)); overflow-x: hidden; }
+  body { padding-bottom: calc(74px + env(safe-area-inset-bottom)); overflow-x: clip; }
+  #view-game:not(.hidden) {
+    display: flex;
+    flex-direction: column;
+  }
+  #view-game:not(.hidden) .mobile-game-controls { order: 0; }
+  #view-game:not(.hidden) .game-top { order: 1; }
+  #view-game:not(.hidden) .play-instruction-tip { order: 2; }
+  #view-game:not(.hidden) .game-layout { display: contents; }
+  #view-game:not(.hidden) .game-board { order: 3; margin-bottom: 0.8rem; }
+  #view-game:not(.hidden) .level-learning-goal { order: 4; }
+  #view-game:not(.hidden) .seal-progress-bar { order: 5; }
+  #view-game:not(.hidden) .game-panel { order: 6; }
+  #view-game:not(.hidden) .game-scene-details { order: 7; }
   main,
   .view,
   .chamber-card,
@@ -3767,6 +3798,7 @@ main:has(#view-collection:not(.hidden)) {
   .map-immersive-active .online-presence {
     bottom: max(0.65rem, env(safe-area-inset-bottom));
   }
+  body:has(#view-game:not(.hidden)) .online-presence { display: none; }
   .map-immersive-active #view-map .daily-encounter-card { bottom: 3.85rem; }
 }
 
