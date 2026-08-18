@@ -100,6 +100,18 @@ test('答對特寫完整收在安全範圍內並保留五秒或點擊關閉', ()
   assert.match(html, /5 秒後自動返回・點一下可略過/);
 });
 
+test('破關結算仙人圖限制在頭像框且學習摘要使用實色底', () => {
+  assert.match(css, /\.settle-avatar\s*\{[\s\S]*overflow:\s*hidden/);
+  assert.match(css, /\.settle-avatar \.fengshen-avatar-img\s*\{[\s\S]*width:\s*100%[\s\S]*height:\s*100%[\s\S]*max-width:\s*100%[\s\S]*object-fit:\s*cover/);
+  assert.match(css, /\.session-summary-card\s*\{[\s\S]*background:\s*#fffdf6/);
+  assert.match(css, /#modal-complete \.complete-guardian-feedback\s*\{\s*background:\s*#fffdf6/);
+  assert.match(css, /\.treasure-desc\s*\{[\s\S]*font-size:\s*0\.94rem[\s\S]*line-height:\s*1\.55/);
+  assert.match(html, /id="complete-title"[^>]*data-initial-focus/);
+  assert.match(js, /function focusDialogStart/);
+  assert.match(js, /focus\(\{ preventScroll: true \}\)/);
+  assert.match(js, /panel\.scrollTop = 0/);
+});
+
 test('accessibility controller includes focus trap, escape handling and focus restoration', () => {
   assert.match(js, /event\.key !== 'Tab'/);
   assert.match(js, /event\.key === 'Escape'/);

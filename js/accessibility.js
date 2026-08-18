@@ -13,15 +13,21 @@ function focusableElements(root) {
   )].filter((el) => !el.hidden && el.getAttribute('aria-hidden') !== 'true');
 }
 
+function focusDialogStart(dialog) {
+  const panel = dialog?.querySelector('.modal');
+  if (!panel) return;
+  panel.scrollTop = 0;
+  const target = dialog.querySelector('[data-initial-focus]') || focusableElements(dialog)[0] || panel;
+  target.focus({ preventScroll: true });
+  panel.scrollTop = 0;
+}
+
 function openDialog(dialog) {
   if (!dialog || !dialog.classList.contains('hidden')) return;
   lastDialogOpener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
   dialog.classList.remove('hidden');
   dialog.setAttribute('aria-hidden', 'false');
-  requestAnimationFrame(() => {
-    const target = focusableElements(dialog)[0] || dialog.querySelector('.modal');
-    target?.focus();
-  });
+  requestAnimationFrame(() => focusDialogStart(dialog));
 }
 
 function closeDialog(dialog, rememberOnboarding = false) {
@@ -49,7 +55,7 @@ function bindDialogs() {
       dialog.setAttribute('aria-hidden', String(isHidden));
       if (!isHidden) {
         lastDialogOpener = document.activeElement instanceof HTMLElement ? document.activeElement : lastDialogOpener;
-        requestAnimationFrame(() => (focusableElements(dialog)[0] || dialog.querySelector('.modal'))?.focus());
+        requestAnimationFrame(() => focusDialogStart(dialog));
       } else if (lastDialogOpener?.isConnected) {
         lastDialogOpener.focus();
         lastDialogOpener = null;
