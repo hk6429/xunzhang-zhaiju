@@ -81,8 +81,8 @@ function uniqueReferences(references) {
   return [...result].map(([assetPath, sources]) => ({ path: assetPath, sources: [...sources] }));
 }
 
-function isOneToOne(value) {
-  return typeof value === 'string' && /^1\s*:\s*1(?:\b|\s|$)/.test(value);
+function isSixteenToTen(value) {
+  return typeof value === 'string' && /^16\s*:\s*10(?:\b|\s|$)/.test(value);
 }
 
 async function importProjectModule(rootDir, relativePath) {
@@ -113,7 +113,7 @@ export async function validateVisualAssets(rootDir = DEFAULT_ROOT) {
   }
 
   const characterErrors = [];
-  if (!isOneToOne(artDoc?.styleSpec?.ratio)) characterErrors.push('characters-art.json styleSpec.ratio 必須宣告 1:1');
+  if (!isSixteenToTen(artDoc?.styleSpec?.ratio)) characterErrors.push('characters-art.json styleSpec.ratio 必須宣告 16:10');
   const artStyle = artDoc?.styleSpec?.artStyle ?? '';
   if (!artStyle.includes('國風') || !/(?:潑墨|水墨)/.test(artStyle)) {
     characterErrors.push('characters-art.json styleSpec.artStyle 必須宣告國風潑墨／水墨風格');
@@ -125,8 +125,8 @@ export async function validateVisualAssets(rootDir = DEFAULT_ROOT) {
     const registryCharacter = registryCharacters.get(id);
     if (!artCharacter) characterErrors.push(`characters-art.json 缺少角色：${id}`);
     if (!registryCharacter) characterErrors.push(`CHARACTERS registry 缺少角色：${id}`);
-    if (artCharacter && !isOneToOne(artCharacter.ratio)) characterErrors.push(`${id} 的 art metadata ratio 必須為 1:1`);
-    if (registryCharacter && !isOneToOne(registryCharacter.ratio)) characterErrors.push(`${id} 的 registry ratio 必須為 1:1`);
+    if (artCharacter && !isSixteenToTen(artCharacter.ratio)) characterErrors.push(`${id} 的 art metadata ratio 必須為 16:10`);
+    if (registryCharacter && !isSixteenToTen(registryCharacter.ratio)) characterErrors.push(`${id} 的 registry ratio 必須為 16:10`);
     if (registryCharacter && (!registryCharacter.style?.includes('國風') || !/(?:潑墨|水墨)/.test(registryCharacter.style))) {
       characterErrors.push(`${id} 的 registry style 必須為國風潑墨／水墨風格`);
     }
@@ -167,7 +167,7 @@ async function main() {
     process.exitCode = 1;
     return;
   }
-  console.log(`美術資產驗證通過：${result.checks.references.count} 個圖片參照、${result.checks.characters.count} 位 1:1 Q 版角色、${result.checks.scenes.count} 個封神主要場景。`);
+  console.log(`美術資產驗證通過：${result.checks.references.count} 個圖片參照、${result.checks.characters.count} 位 16:10 滿版 Q 版角色、${result.checks.scenes.count} 個封神主要場景。`);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await main();

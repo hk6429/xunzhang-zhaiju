@@ -31,6 +31,6 @@ node --test                                                               # 模�
 npx wrangler deploy --config presence-worker/wrangler.jsonc              # 部署匿名在線 Presence API
 ```
 
-美術資產驗證會檢查 `index.html` 與各 registry 的 SVG／PNG／JPG 圖片參照是否存在、九位 Q 版角色是否具備 1:1 國風潑墨 metadata，以及首頁、五章密室與通關慶典等七個主要場景是否齊全。
+美術資產驗證會檢查 `index.html` 與各 registry 的 SVG／PNG／JPG 圖片參照是否存在、九位 Q 版角色是否具備 16:10 滿版國風水墨 metadata，以及首頁、五章密室與通關慶典等七個主要場景是否齊全。
 
 介面契約凍結於 `docs/SCHEMA.md`。

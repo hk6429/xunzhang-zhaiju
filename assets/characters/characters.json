@@ -3,19 +3,25 @@
     "id": "jiang-taigong",
     "name": "姜太公",
     "title": "封神統帥・太公望",
-    "ratio": "1:1",
-    "style": "國風Q版潑墨漫畫",
+    "ratio": "16:10",
+    "style": "國風故宮礦物設色水墨 Q版橫幅",
     "desc": "仙氣飄飄長鬚老頑童，手持打神鞭與杏黃旗，太極乾坤妙算無雙。",
     "themeColor": "#0284c7",
     "accentColor": "#facc15",
     "exclusiveItem": "dashen-bian",
-    "artImage": "assets/art/characters/jiang-taigong.jpg",
-    "artPalette": ["#0284c7", "#facc15", "#dc2626", "#1e293b", "#f8fafc"],
+    "artImage": "assets/art/companions-v4/jiang-taigong.png",
+    "artPalette": [
+      "#0284c7",
+      "#facc15",
+      "#dc2626",
+      "#1e293b",
+      "#f8fafc"
+    ],
     "expressions": {
-      "idle": "assets/characters/jiang-taigong/idle.png",
-      "thinking": "assets/characters/jiang-taigong/thinking.png",
-      "victory": "assets/characters/jiang-taigong/victory.png",
-      "panic": "assets/characters/jiang-taigong/panic.png"
+      "idle": "assets/art/companions-v4/jiang-taigong.png",
+      "thinking": "assets/art/companions-v4/jiang-taigong.png",
+      "victory": "assets/art/companions-v4/jiang-taigong.png",
+      "panic": "assets/art/companions-v4/jiang-taigong.png"
     },
     "quotes": {
       "idle": "老夫在此垂釣，願者上鉤～",
@@ -28,19 +34,25 @@
     "id": "nezha",
     "name": "哪吒",
     "title": "三壇海會・蓮花童子",
-    "ratio": "1:1",
-    "style": "國風Q版潑墨漫畫",
+    "ratio": "16:10",
+    "style": "國風故宮礦物設色水墨 Q版橫幅",
     "desc": "雙抓髻包包頭、混天紅綢殘影、乾坤金圈、腳踏風火輪，傲嬌熱血的護道小將。",
     "themeColor": "#e11d48",
     "accentColor": "#10b981",
     "exclusiveItem": "qiankun-quan",
-    "artImage": "assets/art/characters/nezha.jpg",
-    "artPalette": ["#e11d48", "#10b981", "#f59e0b", "#1e293b", "#fff1f2"],
+    "artImage": "assets/art/companions-v4/nezha.png",
+    "artPalette": [
+      "#e11d48",
+      "#10b981",
+      "#f59e0b",
+      "#1e293b",
+      "#fff1f2"
+    ],
     "expressions": {
-      "idle": "assets/characters/nezha/idle.png",
-      "thinking": "assets/characters/nezha/thinking.png",
-      "victory": "assets/characters/nezha/victory.png",
-      "panic": "assets/characters/nezha/panic.png"
+      "idle": "assets/art/companions-v4/nezha.png",
+      "thinking": "assets/art/companions-v4/nezha.png",
+      "victory": "assets/art/companions-v4/nezha.png",
+      "panic": "assets/art/companions-v4/nezha.png"
     },
     "quotes": {
       "idle": "這點字謎小陣，小爺我閉著眼睛也能破！",
@@ -53,19 +65,25 @@
     "id": "yang-jian",
     "name": "楊戩",
     "title": "清源妙道・二郎真君",
-    "ratio": "1:1",
-    "style": "國風Q版潑墨漫畫",
+    "ratio": "16:10",
+    "style": "國風故宮礦物設色水墨 Q版橫幅",
     "desc": "額間天眼雷光洞察、手持三尖兩刃刀，身伴超萌二哈版哮天犬的高冷小將。",
     "themeColor": "#0284c7",
     "accentColor": "#ca8a04",
     "exclusiveItem": "sanjian-liangren-dao",
-    "artImage": "assets/art/characters/yang-jian.jpg",
-    "artPalette": ["#0284c7", "#ca8a04", "#dc2626", "#334155", "#eff6ff"],
+    "artImage": "assets/art/companions-v4/yang-jian.png",
+    "artPalette": [
+      "#0284c7",
+      "#ca8a04",
+      "#dc2626",
+      "#334155",
+      "#eff6ff"
+    ],
     "expressions": {
-      "idle": "assets/characters/yang-jian/idle.png",
-      "thinking": "assets/characters/yang-jian/thinking.png",
-      "victory": "assets/characters/yang-jian/victory.png",
-      "panic": "assets/characters/yang-jian/panic.png"
+      "idle": "assets/art/companions-v4/yang-jian.png",
+      "thinking": "assets/art/companions-v4/yang-jian.png",
+      "victory": "assets/art/companions-v4/yang-jian.png",
+      "panic": "assets/art/companions-v4/yang-jian.png"
     },
     "quotes": {
       "idle": "哮天，守住陣眼，且看本君破陣。",
@@ -78,19 +96,25 @@
     "id": "su-daji",
     "name": "蘇妲己",
     "title": "傾國九尾・天狐妖后",
-    "ratio": "1:1",
-    "style": "國風Q版潑墨漫畫",
+    "ratio": "16:10",
+    "style": "國風故宮礦物設色水墨 Q版橫幅",
     "desc": "粉墨九尾狐耳妖仙、幽冥粉紫狐火、手提引魂宮燈，心心眼與調皮狡黠的反派萌主。",
     "themeColor": "#db2777",
     "accentColor": "#fda4af",
     "exclusiveItem": "yinhun-deng",
-    "artImage": "assets/art/characters/su-daji.jpg",
-    "artPalette": ["#db2777", "#fda4af", "#9333ea", "#be185d", "#fdf2f8"],
+    "artImage": "assets/art/companions-v4/su-daji.png",
+    "artPalette": [
+      "#db2777",
+      "#fda4af",
+      "#9333ea",
+      "#be185d",
+      "#fdf2f8"
+    ],
     "expressions": {
-      "idle": "assets/characters/su-daji/idle.png",
-      "thinking": "assets/characters/su-daji/thinking.png",
-      "victory": "assets/characters/su-daji/victory.png",
-      "panic": "assets/characters/su-daji/panic.png"
+      "idle": "assets/art/companions-v4/su-daji.png",
+      "thinking": "assets/art/companions-v4/su-daji.png",
+      "victory": "assets/art/companions-v4/su-daji.png",
+      "panic": "assets/art/companions-v4/su-daji.png"
     },
     "quotes": {
       "idle": "呵呵～道友，這字謎可比你想像中更有趣呢～",
@@ -103,19 +127,25 @@
     "id": "shen-gongbao",
     "name": "申公豹",
     "title": "分水將軍・邪笑國師",
-    "ratio": "1:1",
-    "style": "國風Q版潑墨漫畫",
+    "ratio": "16:10",
+    "style": "國風故宮礦物設色水墨 Q版橫幅",
     "desc": "八字鬍歪嘴喜劇魔頭，騎著圓滾滾胖黑點虎，口喊「道友請留步」的搞笑反派。",
     "themeColor": "#7e22ce",
     "accentColor": "#eab308",
     "exclusiveItem": "yin-yang-jing",
-    "artImage": "assets/art/characters/shen-gongbao.jpg",
-    "artPalette": ["#7e22ce", "#eab308", "#18181b", "#a855f7", "#faf5ff"],
+    "artImage": "assets/art/companions-v4/shen-gongbao.png",
+    "artPalette": [
+      "#7e22ce",
+      "#eab308",
+      "#18181b",
+      "#a855f7",
+      "#faf5ff"
+    ],
     "expressions": {
-      "idle": "assets/characters/shen-gongbao/idle.png",
-      "thinking": "assets/characters/shen-gongbao/thinking.png",
-      "victory": "assets/characters/shen-gongbao/victory.png",
-      "panic": "assets/characters/shen-gongbao/panic.png"
+      "idle": "assets/art/companions-v4/shen-gongbao.png",
+      "thinking": "assets/art/companions-v4/shen-gongbao.png",
+      "victory": "assets/art/companions-v4/shen-gongbao.png",
+      "panic": "assets/art/companions-v4/shen-gongbao.png"
     },
     "quotes": {
       "idle": "道友請留步！老夫看你骨骼驚奇，不如來解一題？",
@@ -128,19 +158,25 @@
     "id": "lei-zhenzi",
     "name": "雷震子",
     "title": "九天應元・風雷神將",
-    "ratio": "1:1",
-    "style": "國風Q版潑墨漫畫",
+    "ratio": "16:10",
+    "style": "國風故宮礦物設色水墨 Q版橫幅",
     "desc": "風雷雙翼、青面金睛、金錐落雷，呆萌鳥嘴小金剛元氣少年。",
     "themeColor": "#0d9488",
     "accentColor": "#f59e0b",
     "exclusiveItem": "fenglei-chui",
-    "artImage": "assets/art/characters/lei-zhenzi.jpg",
-    "artPalette": ["#0d9488", "#f59e0b", "#06b6d4", "#134e4a", "#f0fdfa"],
+    "artImage": "assets/art/companions-v4/lei-zhenzi.png",
+    "artPalette": [
+      "#0d9488",
+      "#f59e0b",
+      "#06b6d4",
+      "#134e4a",
+      "#f0fdfa"
+    ],
     "expressions": {
-      "idle": "assets/characters/lei-zhenzi/idle.png",
-      "thinking": "assets/characters/lei-zhenzi/thinking.png",
-      "victory": "assets/characters/lei-zhenzi/victory.png",
-      "panic": "assets/characters/lei-zhenzi/panic.png"
+      "idle": "assets/art/companions-v4/lei-zhenzi.png",
+      "thinking": "assets/art/companions-v4/lei-zhenzi.png",
+      "victory": "assets/art/companions-v4/lei-zhenzi.png",
+      "panic": "assets/art/companions-v4/lei-zhenzi.png"
     },
     "quotes": {
       "idle": "雙翼展風雷！今天也要全力以赴破陣！",
@@ -153,19 +189,25 @@
     "id": "taiyi-zhenren",
     "name": "太乙真人",
     "title": "乾元洞府・金光大仙",
-    "ratio": "1:1",
-    "style": "國風Q版潑墨漫畫",
+    "ratio": "16:10",
+    "style": "國風故宮礦物設色水墨 Q版橫幅",
     "desc": "圓滾滾酒葫蘆、大肚腩笑瞇瞇，太極拂塵與九龍神火罩護體的搞笑煉丹仙師。",
     "themeColor": "#d97706",
     "accentColor": "#ef4444",
     "exclusiveItem": "jiulong-shenhuozhao",
-    "artImage": "assets/art/characters/taiyi-zhenren.jpg",
-    "artPalette": ["#d97706", "#ef4444", "#fbbf24", "#78350f", "#fffbeb"],
+    "artImage": "assets/art/companions-v4/taiyi-zhenren.png",
+    "artPalette": [
+      "#d97706",
+      "#ef4444",
+      "#fbbf24",
+      "#78350f",
+      "#fffbeb"
+    ],
     "expressions": {
-      "idle": "assets/characters/taiyi-zhenren/idle.png",
-      "thinking": "assets/characters/taiyi-zhenren/thinking.png",
-      "victory": "assets/characters/taiyi-zhenren/victory.png",
-      "panic": "assets/characters/taiyi-zhenren/panic.png"
+      "idle": "assets/art/companions-v4/taiyi-zhenren.png",
+      "thinking": "assets/art/companions-v4/taiyi-zhenren.png",
+      "victory": "assets/art/companions-v4/taiyi-zhenren.png",
+      "panic": "assets/art/companions-v4/taiyi-zhenren.png"
     },
     "quotes": {
       "idle": "貧道乾元山太乙是也！徒兒莫慌，飲一杯仙酒再破陣！",
@@ -178,19 +220,25 @@
     "id": "tuxing-sun",
     "name": "土行孫",
     "title": "地行千載・穿山萌俠",
-    "ratio": "1:1",
-    "style": "國風Q版潑墨漫畫",
+    "ratio": "16:10",
+    "style": "國風故宮礦物設色水墨 Q版橫幅",
     "desc": "地底鑽出、頭戴可愛小鼴鼠兜帽，手握鑌鐵短棍與捆仙金繩的神出鬼沒萌俠。",
     "themeColor": "#854d0e",
     "accentColor": "#eab308",
     "exclusiveItem": "kunxian-sheng",
-    "artImage": "assets/art/characters/tuxing-sun.jpg",
-    "artPalette": ["#854d0e", "#eab308", "#78350f", "#451a03", "#fefce8"],
+    "artImage": "assets/art/companions-v4/tuxing-sun.png",
+    "artPalette": [
+      "#854d0e",
+      "#eab308",
+      "#78350f",
+      "#451a03",
+      "#fefce8"
+    ],
     "expressions": {
-      "idle": "assets/characters/tuxing-sun/idle.png",
-      "thinking": "assets/characters/tuxing-sun/thinking.png",
-      "victory": "assets/characters/tuxing-sun/victory.png",
-      "panic": "assets/characters/tuxing-sun/panic.png"
+      "idle": "assets/art/companions-v4/tuxing-sun.png",
+      "thinking": "assets/art/companions-v4/tuxing-sun.png",
+      "victory": "assets/art/companions-v4/tuxing-sun.png",
+      "panic": "assets/art/companions-v4/tuxing-sun.png"
     },
     "quotes": {
       "idle": "嘿咻！地上風光好，且看俺老土如何神出鬼沒！",
@@ -203,19 +251,25 @@
     "id": "moling",
     "name": "墨靈仙童",
     "title": "玄墨小神君・品牌吉祥物",
-    "ratio": "1:1",
-    "style": "國風Q版潑墨漫畫",
+    "ratio": "16:10",
+    "style": "國風故宮礦物設色水墨 Q版橫幅",
     "desc": "太極混元簪、靈動大眼、手握玄天如意毫筆與打神金鞭，文墨神仙雙修的品牌吉祥物。",
     "themeColor": "#0284c7",
     "accentColor": "#facc15",
     "exclusiveItem": "dashen-bian",
-    "artImage": "assets/art/characters/moling.jpg",
-    "artPalette": ["#0284c7", "#facc15", "#0ea5e9", "#0f172a", "#f0f9ff"],
+    "artImage": "assets/art/companions-v4/moling.png",
+    "artPalette": [
+      "#0284c7",
+      "#facc15",
+      "#0ea5e9",
+      "#0f172a",
+      "#f0f9ff"
+    ],
     "expressions": {
-      "idle": "assets/characters/moling/idle.png",
-      "thinking": "assets/characters/moling/thinking.png",
-      "victory": "assets/characters/moling/victory.png",
-      "panic": "assets/characters/moling/panic.png"
+      "idle": "assets/art/companions-v4/moling.png",
+      "thinking": "assets/art/companions-v4/moling.png",
+      "victory": "assets/art/companions-v4/moling.png",
+      "panic": "assets/art/companions-v4/moling.png"
     },
     "quotes": {
       "idle": "歡迎來到尋章摘句！文道大千，墨靈伴你破萬陣！",

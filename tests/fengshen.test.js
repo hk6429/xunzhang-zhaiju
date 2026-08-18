@@ -44,7 +44,7 @@ test('每位角色皆具備 4 種漫畫表情路徑與專屬台詞', () => {
   }
 });
 
-test('七位關卡守護角色的四種狀態共用 companions-v3 PNG 立繪', () => {
+test('九位角色的四種狀態共用 companions-v4 滿版 PNG 橫幅', () => {
   const moods = ['idle', 'thinking', 'victory', 'panic'];
   const ids = [
     'jiang-taigong',
@@ -54,11 +54,13 @@ test('七位關卡守護角色的四種狀態共用 companions-v3 PNG 立繪', (
     'shen-gongbao',
     'lei-zhenzi',
     'taiyi-zhenren',
+    'tuxing-sun',
+    'moling',
   ];
 
   for (const id of ids) {
     const char = getCharacterById(id);
-    const expectedPath = `assets/art/companions-v3/${id}.png`;
+    const expectedPath = `assets/art/companions-v4/${id}.png`;
     for (const mood of moods) {
       assert.equal(char.expressions[mood], expectedPath, `${id} 的 ${mood} 應共用新版 PNG`);
     }
@@ -107,37 +109,37 @@ test('getArrayByLevelId 能正確對應 50 關之章節陣法', () => {
 test('getExaminer 能取得太乙真人與姜太公輪流出題考官', () => {
   const ex1 = getExaminer(1);
   assert.equal(ex1.id, 'taiyi');
-  assert.equal(ex1.avatar, 'assets/art/companions-v3/taiyi-zhenren.png');
-  assert.equal(ex1.happyAvatar, 'assets/art/companions-v3/taiyi-zhenren.png');
-  assert.equal(ex1.panicAvatar, 'assets/art/companions-v3/taiyi-zhenren.png');
+  assert.equal(ex1.avatar, 'assets/art/companions-v4/taiyi-zhenren.png');
+  assert.equal(ex1.happyAvatar, 'assets/art/companions-v4/taiyi-zhenren.png');
+  assert.equal(ex1.panicAvatar, 'assets/art/companions-v4/taiyi-zhenren.png');
   assert.ok(ex1.speech);
   assert.ok(ex1.correctQuote);
 
   const ex2 = getExaminer(2);
   assert.equal(ex2.id, 'jiang-taigong');
-  assert.equal(ex2.avatar, 'assets/art/companions-v3/jiang-taigong.png');
-  assert.equal(ex2.happyAvatar, 'assets/art/companions-v3/jiang-taigong.png');
-  assert.equal(ex2.panicAvatar, 'assets/art/companions-v3/jiang-taigong.png');
+  assert.equal(ex2.avatar, 'assets/art/companions-v4/jiang-taigong.png');
+  assert.equal(ex2.happyAvatar, 'assets/art/companions-v4/jiang-taigong.png');
+  assert.equal(ex2.panicAvatar, 'assets/art/companions-v4/jiang-taigong.png');
   assert.ok(ex2.speech);
   assert.ok(ex2.correctQuote);
 });
 
 test('renderGuardianSvg 產生包含正確 class、data 屬性與路徑之立繪標籤', () => {
   const htmlIdle = renderGuardianSvg('nezha', 'idle');
-  assert.ok(htmlIdle.includes('assets/art/companions-v3/nezha.png'));
+  assert.ok(htmlIdle.includes('assets/art/companions-v4/nezha.png'));
   assert.ok(htmlIdle.includes('fengshen-avatar-img'));
   assert.ok(htmlIdle.includes('data-mood="idle"'));
 
   const htmlPanic = renderGuardianSvg('taiyi', 'panic');
-  assert.ok(htmlPanic.includes('assets/art/companions-v3/taiyi-zhenren.png'));
+  assert.ok(htmlPanic.includes('assets/art/companions-v4/taiyi-zhenren.png'));
   assert.ok(htmlPanic.includes('data-mood="panic"'));
 
   const htmlMoling = renderGuardianSvg('moling', 'victory');
-  assert.ok(htmlMoling.includes('assets/characters/moling/victory.svg'));
+  assert.ok(htmlMoling.includes('assets/art/companions-v4/moling.png'));
   assert.ok(htmlMoling.includes('data-mood="victory"'));
 });
 
 test('getCharacterAvatar 能取得對應表情之資產路徑', () => {
-  assert.equal(getCharacterAvatar('jiang-taigong', 'idle'), 'assets/art/companions-v3/jiang-taigong.png');
-  assert.equal(getCharacterAvatar('moling', 'panic'), 'assets/characters/moling/panic.svg');
+  assert.equal(getCharacterAvatar('jiang-taigong', 'idle'), 'assets/art/companions-v4/jiang-taigong.png');
+  assert.equal(getCharacterAvatar('moling', 'panic'), 'assets/art/companions-v4/moling.png');
 });

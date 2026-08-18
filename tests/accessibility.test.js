@@ -60,6 +60,12 @@ test('單張守護立繪依 data-mood 區分動態並支援減少動畫', () => 
   assert.match(css, /prefers-reduced-motion:[\s\S]*fengshen-avatar-img\[data-mood\][\s\S]*animation:\s*none\s*!important/);
 });
 
+test('關卡守護角色圖片在桌機與手機皆填滿展示框', () => {
+  assert.match(css, /companion-avatar-wrap[\s\S]*width:\s*100%[\s\S]*height:\s*100%/);
+  assert.match(css, /companion-avatar-wrap \.fengshen-avatar-img[\s\S]*width:\s*100%[\s\S]*height:\s*100%[\s\S]*object-fit:\s*cover/);
+  assert.match(css, /mask-image:\s*none/);
+});
+
 test('accessibility controller includes focus trap, escape handling and focus restoration', () => {
   assert.match(js, /event\.key !== 'Tab'/);
   assert.match(js, /event\.key === 'Escape'/);

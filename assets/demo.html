@@ -95,8 +95,8 @@
       box-shadow: 7px 7px 0px #0f172a;
     }
     .avatar-box {
-      width: 200px;
-      height: 200px;
+      width: 100%;
+      aspect-ratio: 16 / 10;
       background: #f8fafc;
       border-radius: 1rem;
       display: flex;
@@ -110,7 +110,7 @@
     .avatar-img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
       transition: transform 0.25s ease;
     }
     .avatar-box:hover .avatar-img {
@@ -299,7 +299,7 @@
     <header>
       <div class="badge-comic">⚡ 國風潑墨漫畫風格升級 ⚡</div>
       <h1>尋章摘句・封神漫畫角色資產圖鑑</h1>
-      <p class="subtitle">1:1 超萌大頭身、濃黑毛筆動態勾勒 (Comic Inking)、速度線與潑墨暈染漸層、生動 4 態表情切換</p>
+      <p class="subtitle">16:10 滿版角色橫幅、故宮礦物設色、宣紙水墨暈染、生動 4 態動態切換</p>
     </header>
 
     <!-- Group Illustrations Section -->
@@ -307,7 +307,7 @@
     <div class="group-grid" id="group-container"></div>
 
     <!-- Character Roster Section -->
-    <h2 class="section-title">🎎 封神 Q 版潑墨漫畫角色陣容 (8 位萌仙・4 態表情)</h2>
+    <h2 class="section-title">🎎 封神 Q 版水墨角色陣容（9 位萌仙・4 態動態）</h2>
     <div class="grid" id="characters-container"></div>
 
     <!-- Items Section -->

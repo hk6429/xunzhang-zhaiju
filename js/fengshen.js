@@ -451,7 +451,7 @@ export function getExaminer(levelId = 1) {
 
 /**
  * 產生高品質 Q 版角色立繪標籤
- * 統一對接 assets/characters/ 的 1:1 點陣/立繪
+ * 統一對接 companions-v4 的 16:10 滿版角色橫幅
  */
 export function renderGuardianSvg(guardianId, mood = 'idle') {
   // 將舊 id 規範化為 characterId
@@ -469,7 +469,7 @@ export function renderGuardianSvg(guardianId, mood = 'idle') {
   else if (mood === 'panic' || mood === 'shock' || mood === 'timeout') exprKey = 'panic';
 
   const char = getCharacterById(charId);
-  const src = (char && char.expressions && char.expressions[exprKey]) || `assets/characters/${charId}/${exprKey}.svg`;
+  const src = (char && char.expressions && char.expressions[exprKey]) || `assets/art/companions-v4/${charId || 'jiang-taigong'}.png`;
   const name = (char && char.name) || guardianId;
 
   return `<img src="${src}" alt="${name}" class="fengshen-avatar-img ${charId}" data-char="${charId}" data-mood="${exprKey}" loading="lazy" />`;

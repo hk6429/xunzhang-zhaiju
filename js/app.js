@@ -51,19 +51,19 @@ const $ = (id) => document.getElementById(id);
 const VIEWS = ['chamber', 'map', 'game', 'collection', 'settings'];
 const CN_NUM = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
 const GUARDIAN_PORTRAITS = {
-  'jiang-taigong': 'assets/art/portraits-v2/jiang-taigong.png',
-  nezha: 'assets/art/portraits-v2/nezha.png',
-  'yang-jian': 'assets/art/portraits-v2/yang-jian.png',
-  'su-daji': 'assets/art/portraits-v2/su-daji.png',
-  'shen-gongbao': 'assets/art/portraits-v2/shen-gongbao.png',
-  'lei-zhenzi': 'assets/art/portraits-v2/lei-zhenzi.png',
-  taiyi: 'assets/art/portraits-v2/taiyi-zhenren.png',
-  'taiyi-zhenren': 'assets/art/portraits-v2/taiyi-zhenren.png',
+  'jiang-taigong': 'assets/art/companions-v4/jiang-taigong.png',
+  nezha: 'assets/art/companions-v4/nezha.png',
+  'yang-jian': 'assets/art/companions-v4/yang-jian.png',
+  'su-daji': 'assets/art/companions-v4/su-daji.png',
+  'shen-gongbao': 'assets/art/companions-v4/shen-gongbao.png',
+  'lei-zhenzi': 'assets/art/companions-v4/lei-zhenzi.png',
+  taiyi: 'assets/art/companions-v4/taiyi-zhenren.png',
+  'taiyi-zhenren': 'assets/art/companions-v4/taiyi-zhenren.png',
 };
 
 function guardianPortrait(g) {
   const id = g.characterId || g.id;
-  return GUARDIAN_PORTRAITS[id] || 'assets/art/portraits-v2/jiang-taigong.png';
+  return GUARDIAN_PORTRAITS[id] || 'assets/art/companions-v4/jiang-taigong.png';
 }
 
 function fmtTime(sec) {

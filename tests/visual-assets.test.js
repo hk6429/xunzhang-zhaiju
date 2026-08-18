@@ -16,7 +16,7 @@ test('index.html 與美術 registry 的 SVG／PNG／JPG 圖片參照皆存在', 
   assertSectionPasses(result.checks.references, '圖片參照契約失敗');
 });
 
-test('九位 Q 版封神角色皆有 1:1 國風潑墨 metadata', () => {
+test('九位 Q 版封神角色皆有 16:10 滿版國風水墨 metadata', () => {
   assert.equal(result.checks.characters.count, 9);
   assertSectionPasses(result.checks.characters, '角色 metadata 契約失敗');
 });

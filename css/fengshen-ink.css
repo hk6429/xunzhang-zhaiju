@@ -1837,7 +1837,7 @@ main {
 }
 
 /* ==========================================================================
-   故宮博物院宮廷古風 UI 與 1:1 Q版生圖深度整合樣式
+   故宮博物院宮廷古風 UI 與 16:10 滿版 Q 版角色圖整合樣式
    ========================================================================== */
 
 /* ── 1. 密室大廳 (Chamber View) 故宮宮廷 Hero 大圖與名陣水印 ── */
@@ -2070,23 +2070,29 @@ main {
 .companion-avatar-wrap {
   position: relative;
   z-index: 2;
-  height: 68px;
+  width: 100%;
+  height: 100%;
   display: flex;
-  align-items: flex-end;
+  align-items: stretch;
   justify-content: center;
+  overflow: hidden;
+  border-radius: inherit;
 }
 
 .companion-avatar-wrap .fengshen-avatar-img {
-  max-height: 60px;
-  width: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 3px 6px rgba(24, 20, 17, 0.2));
-  animation: standee-float 4s ease-in-out infinite;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.88) contrast(1.03);
+  animation: companion-idle 4s ease-in-out infinite;
   transition: transform 0.25s ease;
 }
 
 .fengshen-companion:hover .companion-avatar-wrap .fengshen-avatar-img {
-  transform: scale(1.06) translateY(-4px);
+  transform: scale(1.04);
 }
 
 /* ── 3. 破陣結算彈窗 (宮廷聖旨 / 金榜題名) ── */
@@ -2606,21 +2612,26 @@ main:has(#view-collection:not(.hidden)) {
 }
 
 .companion-avatar-wrap {
-  height: 222px;
-  align-items: flex-end;
+  height: 100%;
+  align-items: stretch;
 }
 
 .companion-avatar-wrap .fengshen-avatar-img {
-  width: min(88%, 220px);
-  height: min(214px, 100%);
-  max-height: 214px;
-  object-fit: contain;
-  filter: drop-shadow(0 9px 10px rgba(16, 27, 26, 0.24));
-  -webkit-mask-image: radial-gradient(ellipse 72% 76% at 50% 49%, #000 68%, rgba(0, 0, 0, 0.94) 78%, transparent 100%);
-  mask-image: radial-gradient(ellipse 72% 76% at 50% 49%, #000 68%, rgba(0, 0, 0, 0.94) 78%, transparent 100%);
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: cover;
+  object-position: center;
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 
 /* 新版單張立繪以克制動態區分角色狀態 */
+@keyframes companion-idle {
+  0%, 100% { transform: scale(1.025); }
+  50% { transform: scale(1.04); }
+}
+
 .companion-avatar-wrap .fengshen-avatar-img[data-mood="thinking"] {
   animation: companion-thinking 2.8s ease-in-out infinite;
   transform-origin: 50% 82%;
@@ -2637,20 +2648,20 @@ main:has(#view-collection:not(.hidden)) {
 }
 
 @keyframes companion-thinking {
-  0%, 100% { transform: translateY(0) rotate(-0.6deg); }
-  50% { transform: translateY(-4px) rotate(0.6deg); }
+  0%, 100% { transform: scale(1.025) rotate(-0.25deg); }
+  50% { transform: scale(1.04) rotate(0.25deg); }
 }
 
 @keyframes companion-victory {
-  0% { transform: translateY(3px) scale(0.96); }
-  55% { transform: translateY(-8px) scale(1.035); }
-  100% { transform: translateY(0) scale(1); }
+  0% { transform: scale(1.025); }
+  55% { transform: scale(1.06); }
+  100% { transform: scale(1.025); }
 }
 
 @keyframes companion-panic {
-  0%, 100% { transform: translateX(0) rotate(0); }
-  35% { transform: translateX(-3px) rotate(-0.8deg); }
-  70% { transform: translateX(3px) rotate(0.8deg); }
+  0%, 100% { transform: scale(1.035) translateX(0); }
+  35% { transform: scale(1.035) translateX(-3px); }
+  70% { transform: scale(1.035) translateX(3px); }
 }
 
 .comic-bubble {
@@ -2871,11 +2882,11 @@ main:has(#view-collection:not(.hidden)) {
   }
 
   .companion-avatar-wrap {
-    height: 205px;
+    height: 100%;
   }
 
   .companion-avatar-wrap .fengshen-avatar-img {
-    max-height: 198px;
+    max-height: none;
   }
 
   .modal-backdrop {
