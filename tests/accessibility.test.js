@@ -52,6 +52,14 @@ test('mobile layout has safe-area, touch targets and reduced motion support', ()
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 });
 
+test('單張守護立繪依 data-mood 區分動態並支援減少動畫', () => {
+  for (const mood of ['thinking', 'victory', 'panic']) {
+    assert.match(css, new RegExp(`fengshen-avatar-img\\[data-mood=["']${mood}["']\\]`));
+    assert.match(css, new RegExp(`@keyframes\\s+companion-${mood}`));
+  }
+  assert.match(css, /prefers-reduced-motion:[\s\S]*fengshen-avatar-img\[data-mood\][\s\S]*animation:\s*none\s*!important/);
+});
+
 test('accessibility controller includes focus trap, escape handling and focus restoration', () => {
   assert.match(js, /event\.key !== 'Tab'/);
   assert.match(js, /event\.key === 'Escape'/);

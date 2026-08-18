@@ -2616,6 +2616,41 @@ main:has(#view-collection:not(.hidden)) {
   max-height: 214px;
   object-fit: contain;
   filter: drop-shadow(0 9px 10px rgba(16, 27, 26, 0.24));
+  -webkit-mask-image: radial-gradient(ellipse 72% 76% at 50% 49%, #000 68%, rgba(0, 0, 0, 0.94) 78%, transparent 100%);
+  mask-image: radial-gradient(ellipse 72% 76% at 50% 49%, #000 68%, rgba(0, 0, 0, 0.94) 78%, transparent 100%);
+}
+
+/* 新版單張立繪以克制動態區分角色狀態 */
+.companion-avatar-wrap .fengshen-avatar-img[data-mood="thinking"] {
+  animation: companion-thinking 2.8s ease-in-out infinite;
+  transform-origin: 50% 82%;
+}
+
+.companion-avatar-wrap .fengshen-avatar-img[data-mood="victory"] {
+  animation: companion-victory 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: 50% 90%;
+}
+
+.companion-avatar-wrap .fengshen-avatar-img[data-mood="panic"] {
+  animation: companion-panic 460ms ease-in-out infinite;
+  transform-origin: 50% 86%;
+}
+
+@keyframes companion-thinking {
+  0%, 100% { transform: translateY(0) rotate(-0.6deg); }
+  50% { transform: translateY(-4px) rotate(0.6deg); }
+}
+
+@keyframes companion-victory {
+  0% { transform: translateY(3px) scale(0.96); }
+  55% { transform: translateY(-8px) scale(1.035); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes companion-panic {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  35% { transform: translateX(-3px) rotate(-0.8deg); }
+  70% { transform: translateX(3px) rotate(0.8deg); }
 }
 
 .comic-bubble {
@@ -3239,6 +3274,11 @@ main:has(#view-collection:not(.hidden)) {
   .bogu-cloud-halo,
   .cutin-speedlines-bg {
     animation: none !important;
+  }
+
+  .companion-avatar-wrap .fengshen-avatar-img[data-mood] {
+    animation: none !important;
+    transform: none !important;
   }
 }
 
