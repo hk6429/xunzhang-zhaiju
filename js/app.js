@@ -604,8 +604,8 @@ function openDailyQuickChallenge() {
 }
 
 // ── 山河圖式關卡節點 ─────────────────
-const WORLD_MAP_W = 1180;
-const WORLD_MAP_H = 664;
+const WORLD_MAP_W = 2600;
+const WORLD_MAP_H = 900;
 
 function worldNodePos(i, level = null) {
   if (level?.mapPosition) {
@@ -750,7 +750,7 @@ function renderMap() {
   if (encounter) {
     const daily = document.createElement('aside');
     daily.className = 'daily-encounter-card';
-    daily.innerHTML = `<span class="resume-kicker">今日奇遇・第 ${encounter.chapter} 章</span><strong>${encounter.title}</strong><p>${encounter.text}</p><button type="button" class="ghost-btn">前往查看</button>`;
+    daily.innerHTML = `<span class="resume-kicker">今日奇遇・第 ${encounter.chapter} 章</span><strong>${encounter.title}</strong><p>${encounter.text}</p><button type="button" class="ghost-btn">查看今日奇遇</button>`;
     daily.querySelector('button').addEventListener('click', () => showDailyEncounter(encounter));
     box.appendChild(daily);
   }
@@ -766,7 +766,7 @@ function renderMap() {
 
   requestAnimationFrame(() => {
     const curNode = box.querySelector('.path-node.current');
-    if (curNode) curNode.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'auto' });
+    if (curNode) curNode.scrollIntoView({ block: 'center', inline: 'center', behavior: 'auto' });
   });
 }
 

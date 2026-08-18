@@ -53,6 +53,18 @@ test('所有路線參照與前置關卡都存在，下一節點不會倒退', ()
   }
 });
 
+test('50 關在 2600x900 山河圖上保留足夠間距，不會疊在一起', () => {
+  let closest = Number.POSITIVE_INFINITY;
+  for (let i = 0; i < levels.length; i += 1) {
+    for (let j = i + 1; j < levels.length; j += 1) {
+      const a = levels[i].mapPosition;
+      const b = levels[j].mapPosition;
+      closest = Math.min(closest, Math.hypot((a.x - b.x) * 26, (a.y - b.y) * 9));
+    }
+  }
+  assert.ok(closest >= 60, `最近節點只相距 ${closest.toFixed(1)}px`);
+});
+
 test('五個 Boss 均有三階段資料且能由關卡查回', () => {
   assert.equal(story.bosses.length, 5);
   for (const boss of story.bosses) {

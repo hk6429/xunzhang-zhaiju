@@ -2872,6 +2872,12 @@ main:has(#view-collection:not(.hidden)) {
   overflow: hidden;
 }
 
+.map-immersive-active > .app-header,
+.map-immersive-active > #mobile-tabbar {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 #view-map:not(.hidden) {
   position: fixed;
   inset: 0;
@@ -2933,8 +2939,9 @@ main:has(#view-collection:not(.hidden)) {
 }
 
 #view-map .level-map {
+  position: relative;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  grid-template-rows: auto minmax(0, 1fr);
   min-width: 0;
   min-height: 0;
   overflow: hidden;
@@ -2948,6 +2955,10 @@ main:has(#view-collection:not(.hidden)) {
 
 #view-map .map-progress .muted {
   color: rgba(255, 247, 220, 0.74);
+}
+
+#view-map .map-progress .rank-stats {
+  color: #f4dfaa;
 }
 
 .map-instruction {
@@ -2978,11 +2989,11 @@ main:has(#view-collection:not(.hidden)) {
 
 .world-map-canvas {
   position: relative;
-  min-width: 1180px;
+  min-width: 2600px;
   isolation: isolate;
   background:
-    linear-gradient(180deg, rgba(9, 30, 28, 0.06), rgba(9, 30, 28, 0.28)),
-    url('../assets/art/generated/chamber-map.png') center / cover no-repeat;
+    linear-gradient(180deg, rgba(9, 30, 28, 0.02), rgba(9, 30, 28, 0.13)),
+    url('../assets/art/generated/chamber-map-v2.png') center / 100% 100% no-repeat;
 }
 
 .world-map-canvas::after {
@@ -3003,8 +3014,23 @@ main:has(#view-collection:not(.hidden)) {
 
 .world-map-canvas .path-line {
   stroke: #f3d275;
-  stroke-width: 7;
-  filter: drop-shadow(0 2px 2px rgba(25, 32, 27, 0.8));
+  stroke-width: 2;
+  opacity: 0.16;
+  filter: drop-shadow(0 1px 1px rgba(25, 32, 27, 0.38));
+}
+
+.world-map-canvas .path-badges {
+  display: none;
+}
+
+.world-map-canvas .path-node.locked {
+  width: 44px;
+  height: 44px;
+  opacity: 0.82;
+}
+
+.world-map-canvas .path-node.locked.event::after {
+  display: none;
 }
 
 .world-map-canvas .route-line-lore { stroke: #9fe0d0; stroke-dasharray: 10 7; }
@@ -3013,10 +3039,10 @@ main:has(#view-collection:not(.hidden)) {
 .world-map-canvas .path-node.route-treasure { border-color: #c4851c; }
 .world-map-canvas .path-node.boss { width: 62px; height: 62px; border-color: #9f241d; box-shadow: 0 0 0 5px rgba(159, 36, 29, 0.22), 0 6px 18px rgba(8, 24, 23, 0.7); }
 .world-map-canvas .path-node.event::after { content: "!"; position: absolute; translate: 18px -20px; color: #fff7dd; background: #a9362d; border-radius: 50%; width: 20px; height: 20px; line-height: 20px; }
-.world-map-canvas.world-repaired-0 { filter: saturate(0.5) brightness(0.72); }
-.world-map-canvas.world-repaired-1 { filter: saturate(0.65) brightness(0.8); }
-.world-map-canvas.world-repaired-2 { filter: saturate(0.78) brightness(0.88); }
-.world-map-canvas.world-repaired-3 { filter: saturate(0.9) brightness(0.94); }
+.world-map-canvas.world-repaired-0 { filter: saturate(0.76) brightness(0.88); }
+.world-map-canvas.world-repaired-1 { filter: saturate(0.82) brightness(0.91); }
+.world-map-canvas.world-repaired-2 { filter: saturate(0.88) brightness(0.94); }
+.world-map-canvas.world-repaired-3 { filter: saturate(0.94) brightness(0.97); }
 .world-map-canvas.world-repaired-4,
 .world-map-canvas.world-repaired-5 { filter: saturate(1) brightness(1); }
 
@@ -3031,6 +3057,23 @@ main:has(#view-collection:not(.hidden)) {
   box-shadow: 0 8px 22px rgba(30, 42, 36, 0.12);
 }
 .daily-encounter-card { display: grid; gap: 0.4rem; }
+#view-map .daily-encounter-card {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 6;
+  width: min(340px, calc(100% - 2rem));
+  margin: 0;
+  padding: 0.7rem 0.8rem;
+  background: rgba(255, 250, 232, 0.94);
+  backdrop-filter: blur(8px);
+}
+#view-map .daily-encounter-card p {
+  display: none;
+}
+#view-map .daily-encounter-card button {
+  min-height: 38px;
+}
 .hidden-level-node { width: 100%; color: #fff8df; background: linear-gradient(110deg, #1a3735, #622621); font-weight: 800; }
 .boss-phase-hud { margin: 0.5rem 0 0.9rem; border-color: rgba(159, 36, 29, 0.65); }
 .boss-phase-hud span,
@@ -3041,11 +3084,12 @@ main:has(#view-collection:not(.hidden)) {
 .world-event-modal { max-width: 560px; }
 
 .world-map-canvas .path-node {
-  width: 48px;
-  height: 48px;
-  border-width: 3px;
-  background: radial-gradient(circle, #fffdf4 35%, #e8d5a1 100%);
-  box-shadow: 0 4px 12px rgba(8, 24, 23, 0.58), inset 0 0 0 2px rgba(255, 255, 255, 0.78);
+  width: 52px;
+  height: 52px;
+  border-width: 2px;
+  background: radial-gradient(circle, rgba(255, 253, 244, 0.96) 34%, rgba(226, 204, 147, 0.9) 100%);
+  box-shadow: 0 3px 9px rgba(8, 24, 23, 0.42), inset 0 0 0 2px rgba(255, 255, 255, 0.66);
+  backdrop-filter: blur(2px);
 }
 
 .world-map-canvas .path-stars,
@@ -3117,12 +3161,45 @@ main:has(#view-collection:not(.hidden)) {
     font-size: 0.78rem;
   }
 
+  #view-map .map-progress {
+    gap: 0.4rem 0.65rem;
+    margin-bottom: 0.45rem;
+    padding: 0.55rem 0.65rem;
+  }
+
+  #view-map .map-progress .rank-badge {
+    padding: 0.2rem 0.55rem;
+    font-size: 0.82rem;
+  }
+
+  #view-map .map-progress .rank-next {
+    flex-basis: 100%;
+    font-size: 0.74rem;
+  }
+
   .world-map-shell {
     margin-inline: -0.55rem;
   }
 
   #view-map .world-map-shell {
     margin-inline: 0;
+  }
+
+  #view-map .daily-encounter-card {
+    right: 0.55rem;
+    bottom: 0.55rem;
+    width: auto;
+    padding: 0.4rem;
+  }
+
+  #view-map .daily-encounter-card > span,
+  #view-map .daily-encounter-card > strong {
+    display: none;
+  }
+
+  #view-map .daily-encounter-card button {
+    min-height: 44px;
+    padding-inline: 0.7rem;
   }
 }
 
