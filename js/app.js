@@ -8,7 +8,6 @@ import {
 import {
   FENGSHEN_ARRAYS,
   getArrayByChapter,
-  renderGuardianSvg,
   CHARACTERS,
   getCharacterById,
   getRandomQuote,
@@ -18,6 +17,21 @@ import { SCENE_SYSTEM } from '../assets/art/scenes/scenes-registry.js';
 const $ = (id) => document.getElementById(id);
 const VIEWS = ['chamber', 'map', 'game', 'collection', 'settings'];
 const CN_NUM = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+const GUARDIAN_PORTRAITS = {
+  'jiang-taigong': 'assets/art/portraits-v2/jiang-taigong.png',
+  nezha: 'assets/art/portraits-v2/nezha.png',
+  'yang-jian': 'assets/art/portraits-v2/yang-jian.png',
+  'su-daji': 'assets/art/portraits-v2/su-daji.png',
+  'shen-gongbao': 'assets/art/portraits-v2/shen-gongbao.png',
+  'lei-zhenzi': 'assets/art/portraits-v2/lei-zhenzi.png',
+  taiyi: 'assets/art/portraits-v2/taiyi-zhenren.png',
+  'taiyi-zhenren': 'assets/art/portraits-v2/taiyi-zhenren.png',
+};
+
+function guardianPortrait(g) {
+  const id = g.characterId || g.id;
+  return GUARDIAN_PORTRAITS[id] || 'assets/art/portraits-v2/jiang-taigong.png';
+}
 
 function fmtTime(sec) {
   const m = Math.floor(sec / 60);
@@ -172,7 +186,7 @@ function renderChambers() {
     const guardiansHtml = guardiansList.map((g, idx) => `
       <div class="guardian-avatar-item ${idx === 0 ? 'active' : ''}" data-idx="${idx}" title="點擊切換 ${g.name} 互動">
         <div class="avatar-img-box" id="ch-avatar-${arr.chapter}-${idx}">
-          ${renderGuardianSvg(g.characterId || g.id, isAllDone ? 'win' : 'idle')}
+          <img src="${guardianPortrait(g)}" alt="${g.name}的國風潑墨 Q 版生圖肖像" class="fengshen-avatar-img generated-portrait" loading="lazy" decoding="async">
         </div>
         <span class="guardian-subname">${g.name}</span>
       </div>
@@ -256,7 +270,8 @@ function renderChambers() {
       
       const avatarBox = card.querySelector(`#ch-avatar-${arr.chapter}-${gIdx}`);
       if (avatarBox) {
-        avatarBox.innerHTML = renderGuardianSvg(g.characterId || g.id, mood);
+        const avatar = avatarBox.querySelector('img');
+        if (avatar) avatar.src = guardianPortrait(g);
       }
       if (nameEl) nameEl.textContent = g.name;
       if (titleEl) titleEl.textContent = g.title;
@@ -309,8 +324,8 @@ function renderChambers() {
       mapBtn.addEventListener('click', () => {
         showView('map');
         setTimeout(() => {
-          const sec = document.querySelector(`.chapter-section[data-chapter="${arr.chapter}"]`);
-          if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+          const landmark = document.querySelector(`.chapter-landmark[data-chapter="${arr.chapter}"]`);
+          if (landmark) landmark.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         }, 100);
       });
     }
@@ -319,19 +334,27 @@ function renderChambers() {
   }
 }
 
-// ── 路徑式關卡節點 ───────────────────
-const NODE_GAP = 92;
-const NODE_AMP = 30;
-const STRIP_H = 168;
-function nodePos(i) {
-  return { x: 52 + i * NODE_GAP, y: STRIP_H / 2 - 8 + Math.round(NODE_AMP * Math.sin(i * 1.15)) };
+// ── 山河圖式關卡節點 ─────────────────
+const WORLD_MAP_W = 1180;
+const WORLD_MAP_H = 664;
+
+function worldNodePos(i) {
+  const chapter = Math.floor(i / 10);
+  const local = i % 10;
+  const rowBase = Math.floor(local / 2);
+  const row = chapter % 2 === 0 ? rowBase : 4 - rowBase;
+  const column = local % 2;
+  return {
+    x: 62 + chapter * 222 + column * 86,
+    y: 188 + row * 78 + (column ? 20 : -12),
+  };
 }
 
 function makePathNode(level, i, frontier) {
   const id = level.id;
   const unlocked = isUnlocked(id);
   const stars = save.levels[String(id)] ? save.levels[String(id)].stars : 0;
-  const { x, y } = nodePos(i);
+  const { x, y } = worldNodePos(i);
   const wrap = document.createElement('div');
   wrap.className = 'path-node-wrap';
   wrap.style.left = `${x}px`;
@@ -351,6 +374,7 @@ function makePathNode(level, i, frontier) {
   if (hasCap) tips.push(`💡 提示上限 ×${level.hintCap}`);
   if (!unlocked) tips.push('通過前一關解鎖');
   btn.title = tips.join('　');
+  btn.setAttribute('aria-label', `${tips.join('，')}，${stars ? `${stars} 星` : '尚未通關'}`);
   btn.disabled = !unlocked;
   if (unlocked) btn.addEventListener('click', () => enterLevel(id));
   wrap.appendChild(btn);
@@ -374,16 +398,16 @@ function makePathNode(level, i, frontier) {
   return wrap;
 }
 
-function makePathStrip(list, frontier) {
-  const strip = document.createElement('div');
-  strip.className = 'path-strip';
+function makeWorldMap(list, frontier) {
+  const shell = document.createElement('div');
+  shell.className = 'world-map-shell';
+  shell.setAttribute('aria-label', '封神山河闖關圖，可左右捲動探索五大陣法');
   const canvas = document.createElement('div');
-  canvas.className = 'path-canvas';
-  const width = 52 + (list.length - 1) * NODE_GAP + 60;
-  canvas.style.width = `${width}px`;
-  canvas.style.height = `${STRIP_H}px`;
-  
-  const pts = list.map((_, i) => nodePos(i));
+  canvas.className = 'world-map-canvas';
+  canvas.style.width = `${WORLD_MAP_W}px`;
+  canvas.style.height = `${WORLD_MAP_H}px`;
+
+  const pts = list.map((_, i) => worldNodePos(i));
   let d = `M ${pts[0].x} ${pts[0].y}`;
   for (let i = 1; i < pts.length; i++) {
     const mx = (pts[i - 1].x + pts[i].x) / 2;
@@ -392,16 +416,27 @@ function makePathStrip(list, frontier) {
   }
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('class', 'path-svg');
-  svg.setAttribute('width', String(width));
-  svg.setAttribute('height', String(STRIP_H));
+  svg.setAttribute('width', String(WORLD_MAP_W));
+  svg.setAttribute('height', String(WORLD_MAP_H));
   const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
   path.setAttribute('d', d);
   path.setAttribute('class', 'path-line');
   svg.appendChild(path);
   canvas.appendChild(svg);
   list.forEach((lv, i) => canvas.appendChild(makePathNode(lv, i, frontier)));
-  strip.appendChild(canvas);
-  return strip;
+
+  for (let chapter = 1; chapter <= 5; chapter += 1) {
+    const arrInfo = getArrayByChapter(chapter);
+    const landmark = document.createElement('div');
+    landmark.className = 'chapter-landmark';
+    landmark.dataset.chapter = String(chapter);
+    landmark.style.left = `${worldNodePos((chapter - 1) * 10 + 4).x}px`;
+    landmark.innerHTML = `<span>第${CN_NUM[chapter]}章</span><strong>${arrInfo.name}</strong>`;
+    canvas.appendChild(landmark);
+  }
+
+  shell.appendChild(canvas);
+  return shell;
 }
 
 function renderMap() {
@@ -420,35 +455,8 @@ function renderMap() {
   box.appendChild(bar);
 
   const frontier = frontierLevelId();
-  const chapters = new Map();
-  for (const lv of levels) {
-    const ch = typeof lv.chapter === 'number' ? lv.chapter : 1;
-    if (!chapters.has(ch)) chapters.set(ch, { title: null, list: [] });
-    const entry = chapters.get(ch);
-    if (!entry.title && lv.chapterTitle) entry.title = lv.chapterTitle;
-    entry.list.push(lv);
-  }
-  const ordered = [...chapters.entries()].sort((a, b) => a[0] - b[0]);
-  for (const [ch, entry] of ordered) {
-    const arrInfo = getArrayByChapter(ch);
-    const section = document.createElement('section');
-    section.className = 'chapter-section';
-    section.dataset.chapter = String(ch);
-
-    const h = document.createElement('h3');
-    h.className = 'chapter-title';
-    const cn = CN_NUM[ch] || String(ch);
-    const guardianNames = (arrInfo.guardians || [arrInfo.guardian]).map((g) => g.name).join('・');
-    h.innerHTML = `
-      <span class="chapter-num">第${cn}章</span>
-      <span class="chapter-name">${entry.title ? entry.title : ''}</span>
-      <span class="chapter-array-tag" style="background:${arrInfo.color}">${arrInfo.name}</span>
-      <span class="chapter-guardian-tag">${guardianNames}護陣</span>
-    `;
-    section.appendChild(h);
-    section.appendChild(makePathStrip(entry.list.sort((a, b) => a.id - b.id), frontier));
-    box.appendChild(section);
-  }
+  const orderedLevels = [...levels].sort((a, b) => a.id - b.id);
+  box.appendChild(makeWorldMap(orderedLevels, frontier));
 
   requestAnimationFrame(() => {
     const curNode = box.querySelector('.path-node.current');
@@ -513,7 +521,6 @@ function renderPhrasesTab() {
       $('card-text').textContent = phrase.text;
       $('card-meaning').textContent = phrase.meaning || '';
       $('card-insight').textContent = phrase.insight || '';
-      $('card-source').textContent = `出處：${phrase.source || ''}`;
       $('modal-card').classList.remove('hidden');
     });
     li.appendChild(btn);
@@ -534,7 +541,7 @@ function renderCharactersTab() {
 
     card.innerHTML = `
       <div class="char-gallery-avatar-box" id="gallery-avatar-${char.id}">
-        <img src="${char.expressions.idle}" alt="${char.name}" class="char-gallery-img" id="gallery-img-${char.id}" />
+        <img src="${char.artImage || char.expressions.idle}" alt="${char.name}" class="char-gallery-img" id="gallery-img-${char.id}" />
         <span class="char-ratio-tag">${char.ratio} Q版</span>
       </div>
 

@@ -2867,6 +2867,110 @@ main:has(#view-collection:not(.hidden)) {
   }
 }
 
+/* ── 封神山河闖關圖：關卡直接疊在同一張大地圖上 ── */
+.map-instruction {
+  margin: 0 0 0.75rem;
+  color: var(--palace-ink-soft);
+  text-align: center;
+}
+
+.world-map-shell {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  border: 2px solid rgba(116, 83, 29, 0.72);
+  border-radius: 7px 22px 8px 18px;
+  background: #173a38;
+  box-shadow: 0 18px 42px rgba(16, 27, 26, 0.2), inset 0 0 0 5px rgba(244, 237, 221, 0.15);
+  scrollbar-color: var(--palace-gold) rgba(244, 237, 221, 0.72);
+  scrollbar-width: thin;
+}
+
+.world-map-canvas {
+  position: relative;
+  min-width: 1180px;
+  isolation: isolate;
+  background:
+    linear-gradient(180deg, rgba(9, 30, 28, 0.06), rgba(9, 30, 28, 0.28)),
+    url('../assets/art/generated/chamber-map.png') center / cover no-repeat;
+}
+
+.world-map-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border: 8px solid rgba(244, 237, 221, 0.18);
+  background: linear-gradient(90deg, rgba(12, 31, 29, 0.16), transparent 12% 88%, rgba(12, 31, 29, 0.16));
+  pointer-events: none;
+}
+
+.world-map-canvas .path-svg,
+.world-map-canvas .path-node-wrap,
+.world-map-canvas .chapter-landmark {
+  z-index: 2;
+}
+
+.world-map-canvas .path-line {
+  stroke: #f3d275;
+  stroke-width: 7;
+  filter: drop-shadow(0 2px 2px rgba(25, 32, 27, 0.8));
+}
+
+.world-map-canvas .path-node {
+  width: 48px;
+  height: 48px;
+  border-width: 3px;
+  background: radial-gradient(circle, #fffdf4 35%, #e8d5a1 100%);
+  box-shadow: 0 4px 12px rgba(8, 24, 23, 0.58), inset 0 0 0 2px rgba(255, 255, 255, 0.78);
+}
+
+.world-map-canvas .path-stars,
+.world-map-canvas .path-badges {
+  color: #fff8dc;
+  font-weight: 800;
+  text-shadow: 0 1px 3px #102421, 0 0 6px #102421;
+}
+
+.chapter-landmark {
+  position: absolute;
+  top: 42px;
+  display: grid;
+  min-width: 146px;
+  transform: translateX(-50%);
+  padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(238, 199, 105, 0.78);
+  border-radius: 4px 14px 4px 12px;
+  background: rgba(17, 50, 46, 0.86);
+  color: #fff7dd;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(7, 24, 22, 0.32);
+  backdrop-filter: blur(4px);
+}
+
+.chapter-landmark span {
+  color: #e8c36a;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+}
+
+.chapter-landmark strong {
+  margin-top: 0.12rem;
+  font-family: var(--font-serif);
+  letter-spacing: 0.08em;
+}
+
+.generated-portrait {
+  filter: saturate(0.88) contrast(1.03);
+}
+
+@media (max-width: 760px) {
+  .world-map-shell {
+    margin-inline: -0.55rem;
+  }
+}
+
 @media (prefers-contrast: more) {
   :root {
     --palace-ink-soft: #27332f;

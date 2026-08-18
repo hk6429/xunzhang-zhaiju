@@ -14,7 +14,7 @@ export const CHARACTERS = [
     themeColor: "#0284c7",
     accentColor: "#facc15",
     exclusiveItem: "dashen-bian",
-    artImage: "assets/art/characters/jiang-taigong.jpg",
+    artImage: "assets/art/portraits-v2/jiang-taigong.png",
     artPalette: ["#0284c7", "#facc15", "#dc2626", "#1e293b", "#f8fafc"],
     artHighlights: ["蓬鬆雪白仙髯與劍眉", "故宮明黃與孔雀藍道袍", "泥金流光勾勒法寶打神鞭", "周身靈動水墨筆觸飛濺"],
     expressions: {
@@ -40,7 +40,7 @@ export const CHARACTERS = [
     themeColor: "#e11d48",
     accentColor: "#10b981",
     exclusiveItem: "qiankun-quan",
-    artImage: "assets/art/characters/nezha.jpg",
+    artImage: "assets/art/portraits-v2/nezha.png",
     artPalette: ["#e11d48", "#10b981", "#f59e0b", "#1e293b", "#fff1f2"],
     artHighlights: ["雙抓髻包包頭繫紅絲帶", "青碧蓮花護心甲", "環繞周身的飛舞赤紅混天綾", "腳底烈焰風火雙輪"],
     expressions: {
@@ -66,7 +66,7 @@ export const CHARACTERS = [
     themeColor: "#0284c7",
     accentColor: "#ca8a04",
     exclusiveItem: "sanjian-liangren-dao",
-    artImage: "assets/characters/yang-jian/idle.svg",
+    artImage: "assets/art/portraits-v2/yang-jian.png",
     artPalette: ["#0284c7", "#ca8a04", "#dc2626", "#334155", "#eff6ff"],
     artHighlights: ["鳳翅紫金頭盔", "額間湛藍金芒天眼神光", "神威三尖兩刃神鋒", "身旁元氣可愛哮天犬"],
     expressions: {
@@ -92,7 +92,7 @@ export const CHARACTERS = [
     themeColor: "#db2777",
     accentColor: "#fda4af",
     exclusiveItem: "yinhun-deng",
-    artImage: "assets/characters/su-daji/idle.svg",
+    artImage: "assets/art/portraits-v2/su-daji.png",
     artPalette: ["#db2777", "#fda4af", "#9333ea", "#be185d", "#fdf2f8"],
     artHighlights: ["毛茸茸粉白狐耳與金步搖", "背後如花綻放的九條天狐尾", "手提精緻復古宮燈", "周圍幽藍粉紫靈動狐火"],
     expressions: {
@@ -118,7 +118,7 @@ export const CHARACTERS = [
     themeColor: "#7e22ce",
     accentColor: "#eab308",
     exclusiveItem: "yin-yang-jing",
-    artImage: "assets/characters/shen-gongbao/idle.svg",
+    artImage: "assets/art/portraits-v2/shen-gongbao.png",
     artPalette: ["#7e22ce", "#eab308", "#18181b", "#a855f7", "#faf5ff"],
     artHighlights: ["滑稽俏皮的八字鬍與歪嘴笑", "紫金玄色宮廷道袍", "懸浮發光的陰陽八卦鏡", "趴著眨大眼的胖萌黑點虎"],
     expressions: {
@@ -144,7 +144,7 @@ export const CHARACTERS = [
     themeColor: "#0d9488",
     accentColor: "#f59e0b",
     exclusiveItem: "fenglei-chui",
-    artImage: "assets/characters/lei-zhenzi/idle.svg",
+    artImage: "assets/art/portraits-v2/lei-zhenzi.png",
     artPalette: ["#0d9488", "#f59e0b", "#06b6d4", "#134e4a", "#f0fdfa"],
     artHighlights: ["華麗青金羽冠", "大張的風雷流光雙羽翼", "雙持雷霆金錐與重錘", "金光璀璨的呆萌大圓眼"],
     expressions: {
@@ -170,7 +170,7 @@ export const CHARACTERS = [
     themeColor: "#d97706",
     accentColor: "#ef4444",
     exclusiveItem: "jiulong-shenhuozhao",
-    artImage: "assets/characters/taiyi-zhenren/idle.svg",
+    artImage: "assets/art/portraits-v2/taiyi-zhenren.png",
     artPalette: ["#d97706", "#ef4444", "#fbbf24", "#78350f", "#fffbeb"],
     artHighlights: ["富態討喜的大圓臉與開懷笑顏", "威嚴華貴的純金五嶽冠", "烈焰繚繞的金光神火仙葫蘆", "銀絲太極拂塵"],
     expressions: {

@@ -7,7 +7,7 @@
  * v3 增驗：
  * - phrases：type 枚舉擴充（成語/諺語/俗語）、level 枚舉（常用/進階）、
  *   text 長度依 type（成語＝4 字；諺語/俗語＝4–9 字）、
- *   source 枚舉（成語→教育部成語典；諺語/俗語→傳統諺語/民間俗語）；
+ *   meaning／insight 必須為站內原創白話內容，不保留 source／author／origin_work；
  *   clues 規則不變（≥3、必含釋義、style 枚舉、不含完整條目/相鄰兩字連用、無簡體）。
  * - levels：關數＝50、逐關對照課程表六欄（章/版型/尺寸/目標數/timeLimit/hintCap，
  *   另驗 chapterTitle）；目標數含語料不足退化（與產生器同一套 expectedTargetCounts）；
@@ -25,11 +25,6 @@ import { CURRICULUM, LEVEL_COUNT, inPool, isChengyu, charLen, expectedTargetCoun
 const CLUE_STYLES = new Set(['釋義', '急轉彎', '典故', '諧音', '情境']);
 const TYPE_SET = new Set(['成語', '諺語', '俗語']);
 const LEVEL_SET = new Set(['常用', '進階']);
-const SOURCE_BY_TYPE = {
-  '成語': new Set(['教育部成語典']),
-  '諺語': new Set(['傳統諺語', '民間俗語']),
-  '俗語': new Set(['傳統諺語', '民間俗語']),
-};
 
 // 常見簡體字元黑名單（僅收與繁體字形不同的簡化字）
 const SIMPLIFIED_RE = /[万与专业丛东丝两严个临为丽举义乐书买乱亏亚产亲亿仅从仑仓们价众优会伞伟传伤体余佣侠侣侧侨俭债倾偿儿兰关兴养兽内冈写军农冲决况净凑凤凭刘则刚创删别剧劝办务动励劳势医华协单卖卫厂厅历厉压厌县发变叙后吓吗听启员响哑唤啸国图圆圣场坏块坚坛垒垫壶处备复够头夸夺奋奖妆妇妈娄娱婶学宁宝实审宪宫对导寻将尔尘尝尽层岁岛币师带帮开异张弹归当录彻径徽忆忧怀态总恋恳恶悬惊惧惨惩愿慑懒戏战户扑执扩扫扬扰抚抛拟拢拣拥挂挚挥损换据捣掷摄摆摊敌数斋断无旧时显晓暂书术机杀杂权条来杨极构枢标栏树样桥检楼欢欧歼归残杀毁气汇汉污汤沟没泞泪泼泽洁浊测济浏涂涛润涨渐渔湾溃满滚滞潜灭灯灵灾炀点炼烁烂烦烧热爱爷牍牵犊状犹独狈狮狱猎猫献玛环现琼疗疟疡疯痒盖盘卢眍着睁瞒矫矶础矿码砖硕确离种积称笔笋筑筛简箩类粜粪紧絷纠红纤约级纪纫纬纯纱纲纳纵纷纸纹纺线练组绅细织终绍经绑绒结绕绘给络绝绞统绣继绩绪续绳维绵综缄缅缆缉缎缓缔缕编缘缚缝缠缩缴缸罚罢罗羁翘耻聂聋职联聪肃肠肤肿胀胁胆脉脏脑脱脸腊舆舰舱艰节芜苏苹范茎荐荡荣药莲获莹营萧蒙蓝蔷蕴薮虏虑虚虫蚀蚁蚂蜗蝇蝉衅补装裆裤见观规视览觉誉计订认讥讨让训议讯记讲许论讼讽设访诀证评识诉词译试诗诚话诞询该详语误说诵请诸读课谁调谈谊谋谐谓谜谢谣谦谨谬谭谱谴贝贞负贡财责贤败货质贩贪贫购贮贯贱贴贵贷贸费贺贼贾资赋赌赏赐赔赖赚赛赞赠赢赵趋践跃踊车轧轨转轮软轻载较辅辆辈辉辞辩辫边辽达迁过迈运还这进远违连迟适选逊递逻遗邓邮邻郑鉴钉针钓钟钢钥钦钱钻铁铃铅铜铝银铸铺链销锁锄锅锋错锦锻镇镜长门闪闭问闯闲间闷闸闹闻阀阁阅队阳阴阵阶际陆陈险随隐隶难雏雾韩页顶顷项顺须顽顾顿颁颂预颅领颇频颖颗题颜额风飘飞饥饭饮饰饱饲饶馆马驰驱驳驶驹驻驾骂骄骆验骏骑骗骚骤髅魇鱼鲁鲜鸟鸡鸣鸦鸿鹃鹅鹊鹰麦黄龄齐龙龟]/;
@@ -78,7 +73,7 @@ function main() {
     console.error('違規：phrases.json 根節點必須是陣列');
     process.exit(1);
   }
-  const REQUIRED = ['id', 'text', 'type', 'level', 'source', 'meaning', 'insight'];
+  const REQUIRED = ['id', 'text', 'type', 'level', 'meaning', 'insight'];
   const seenIds = new Set();
   const seenTexts = new Set();
   for (const [i, p] of phrases.entries()) {
@@ -90,11 +85,11 @@ function main() {
     if (seenIds.has(p.id)) V(`${tag}：id 重複`);
     seenIds.add(p.id);
 
-    // v3：type / level / source 枚舉
+    // v4：type / level 枚舉，並禁止帶入外部來源欄位
     if (!TYPE_SET.has(p.type)) V(`${tag}：type「${p.type}」不在枚舉 成語/諺語/俗語`);
     if (!LEVEL_SET.has(p.level)) V(`${tag}：level「${p.level}」不在枚舉 常用/進階`);
-    if (TYPE_SET.has(p.type) && typeof p.source === 'string' && !SOURCE_BY_TYPE[p.type].has(p.source)) {
-      V(`${tag}：type=${p.type} 的 source「${p.source}」不合法（${[...SOURCE_BY_TYPE[p.type]].join('/')}）`);
+    for (const field of ['source', 'author', 'origin_work']) {
+      if (field in p) V(`${tag}：不得保留 ${field} 欄位，釋義須為站內原創白話內容`);
     }
 
     if (typeof p.text === 'string') {
@@ -109,7 +104,7 @@ function main() {
       const m = p.text.match(SIMPLIFIED_RE);
       if (m) V(`${tag}：text「${p.text}」含簡體字「${m[0]}」`);
     }
-    for (const field of ['meaning', 'insight', 'source']) {
+    for (const field of ['meaning', 'insight']) {
       if (typeof p[field] === 'string') {
         const m = p[field].match(SIMPLIFIED_RE);
         if (m) V(`${tag}：${field} 含簡體字「${m[0]}」`);

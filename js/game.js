@@ -708,7 +708,6 @@ export function startLevel(ctx) {
     $('card-text').textContent = phrase.text;
     $('card-meaning').textContent = phrase.meaning || '';
     $('card-insight').textContent = phrase.insight || '';
-    $('card-source').textContent = `出處：${phrase.source || ''}`;
     $('modal-card').classList.remove('hidden');
   }
 
