@@ -2868,6 +2868,88 @@ main:has(#view-collection:not(.hidden)) {
 }
 
 /* ── 封神山河闖關圖：關卡直接疊在同一張大地圖上 ── */
+.map-immersive-active {
+  overflow: hidden;
+}
+
+#view-map:not(.hidden) {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  width: 100%;
+  height: 100dvh;
+  padding: max(0.8rem, env(safe-area-inset-top)) max(0.85rem, env(safe-area-inset-right)) max(0.8rem, env(safe-area-inset-bottom)) max(0.85rem, env(safe-area-inset-left));
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(231, 196, 111, 0.2), transparent 27%),
+    linear-gradient(145deg, #102d2b 0%, #173c38 45%, #0c2423 100%);
+}
+
+#view-map:fullscreen {
+  width: 100vw;
+  height: 100vh;
+}
+
+.map-immersive-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.1rem 0.2rem 0.65rem;
+  color: #fff7dc;
+}
+
+.map-immersive-toolbar .view-title {
+  margin: 0;
+  color: #fff7dc;
+}
+
+.map-immersive-kicker {
+  display: block;
+  margin-bottom: 0.12rem;
+  color: #e8c36a;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+}
+
+.map-immersive-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.55rem;
+}
+
+.map-immersive-actions .ghost-btn {
+  border-color: rgba(255, 247, 220, 0.58);
+  color: #fff7dc;
+  background: rgba(7, 27, 25, 0.62);
+}
+
+#view-map .map-instruction {
+  color: rgba(255, 247, 220, 0.86);
+}
+
+#view-map .level-map {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#view-map .map-progress {
+  color: #fff7dc;
+  background: rgba(7, 27, 25, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+#view-map .map-progress .muted {
+  color: rgba(255, 247, 220, 0.74);
+}
+
 .map-instruction {
   margin: 0 0 0.75rem;
   color: var(--palace-ink-soft);
@@ -2885,6 +2967,13 @@ main:has(#view-collection:not(.hidden)) {
   box-shadow: 0 18px 42px rgba(16, 27, 26, 0.2), inset 0 0 0 5px rgba(244, 237, 221, 0.15);
   scrollbar-color: var(--palace-gold) rgba(244, 237, 221, 0.72);
   scrollbar-width: thin;
+}
+
+#view-map .world-map-shell {
+  height: 100%;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
 }
 
 .world-map-canvas {
@@ -2999,8 +3088,41 @@ main:has(#view-collection:not(.hidden)) {
 }
 
 @media (max-width: 760px) {
+  #view-map:not(.hidden) {
+    padding: max(0.55rem, env(safe-area-inset-top)) max(0.55rem, env(safe-area-inset-right)) max(0.55rem, env(safe-area-inset-bottom)) max(0.55rem, env(safe-area-inset-left));
+  }
+
+  .map-immersive-toolbar {
+    align-items: flex-start;
+  }
+
+  .map-immersive-toolbar .view-title::before,
+  .map-immersive-toolbar .view-title::after,
+  #btn-map-fullscreen {
+    display: none;
+  }
+
+  .map-immersive-actions {
+    flex: 0 0 auto;
+  }
+
+  #btn-close-map {
+    min-height: 44px;
+    padding-inline: 0.72rem;
+    font-size: 0.82rem;
+  }
+
+  #view-map .map-instruction {
+    margin-bottom: 0.45rem;
+    font-size: 0.78rem;
+  }
+
   .world-map-shell {
     margin-inline: -0.55rem;
+  }
+
+  #view-map .world-map-shell {
+    margin-inline: 0;
   }
 }
 

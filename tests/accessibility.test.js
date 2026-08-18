@@ -14,12 +14,23 @@ test('all interface hooks required by app logic exist exactly once', () => {
     'mobile-tabbar', 'mobile-game-controls', 'game-scene-details',
     'play-instruction-tip', 'btn-dismiss-play-tip', 'play-mode-selector',
     'class-coop-panel', 'btn-join-class-coop', 'rest-reminder',
-    'session-summary-card', 'btn-end-session',
+    'session-summary-card', 'btn-end-session', 'btn-map-fullscreen', 'btn-close-map',
   ];
   for (const id of ids) {
     const matches = html.match(new RegExp(`id=["']${id}["']`, 'g')) || [];
     assert.equal(matches.length, 1, `${id} should exist exactly once`);
   }
+});
+
+test('關卡地圖提供全螢幕沉浸層、離開控制與手機安全區', () => {
+  const app = readFileSync(new URL('../js/app.js', import.meta.url), 'utf8');
+  assert.match(css, /#view-map:not\(\.hidden\)[\s\S]*position:\s*fixed/);
+  assert.match(css, /height:\s*100dvh/);
+  assert.match(css, /env\(safe-area-inset-top\)/);
+  assert.match(css, /#view-map \.world-map-shell[\s\S]*overflow:\s*auto/);
+  assert.match(app, /requestMapFullscreen/);
+  assert.match(app, /btn-close-map/);
+  assert.match(app, /document\.fullscreenElement/);
 });
 
 test('modal surfaces expose dialog semantics and labelled titles', () => {

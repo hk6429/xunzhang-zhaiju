@@ -167,8 +167,15 @@ function showView(name) {
   for (const btn of document.querySelectorAll('.nav-btn')) {
     btn.classList.toggle('active', btn.dataset.view === name);
   }
+  document.body.classList.toggle('map-immersive-active', name === 'map');
+  if (name !== 'map' && document.fullscreenElement === $('view-map')) {
+    document.exitFullscreen?.().catch(() => {});
+  }
   if (name === 'chamber') renderChambers();
-  if (name === 'map') renderMap();
+  if (name === 'map') {
+    renderMap();
+    requestAnimationFrame(() => $('btn-close-map')?.focus({ preventScroll: true }));
+  }
   if (name === 'collection') renderCollection();
 }
 
@@ -1128,8 +1135,21 @@ function bindEngagement() {
 // ── 全域事件 ─────────────────────────
 function bindGlobal() {
   for (const btn of document.querySelectorAll('.nav-btn')) {
-    btn.addEventListener('click', () => showView(btn.dataset.view));
+    btn.addEventListener('click', () => {
+      showView(btn.dataset.view);
+      if (btn.dataset.view === 'map') requestMapFullscreen();
+    });
   }
+  $('btn-close-map')?.addEventListener('click', closeMapView);
+  $('btn-map-fullscreen')?.addEventListener('click', () => {
+    if (document.fullscreenElement === $('view-map')) document.exitFullscreen?.().catch(() => {});
+    else requestMapFullscreen();
+  });
+  document.addEventListener('fullscreenchange', syncMapFullscreenControl);
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || document.querySelector('.modal-backdrop:not(.hidden)')) return;
+    if (!$('view-map')?.classList.contains('hidden') && !document.fullscreenElement) closeMapView();
+  });
   for (const btn of document.querySelectorAll('.modal-close')) {
     btn.addEventListener('click', () => $(btn.dataset.close).classList.add('hidden'));
   }
@@ -1144,6 +1164,30 @@ function bindGlobal() {
       renderCollection();
     });
   }
+}
+
+function closeMapView() {
+  showView('chamber');
+  requestAnimationFrame(() => {
+    const buttons = [...document.querySelectorAll('.nav-btn[data-view="chamber"]')];
+    buttons.find((button) => button.offsetWidth && button.offsetHeight)?.focus({ preventScroll: true });
+  });
+}
+
+function syncMapFullscreenControl() {
+  const active = document.fullscreenElement === $('view-map');
+  const button = $('btn-map-fullscreen');
+  if (!button) return;
+  button.setAttribute('aria-pressed', String(active));
+  button.textContent = active ? '離開全螢幕' : '進入全螢幕';
+}
+
+function requestMapFullscreen() {
+  const mapView = $('view-map');
+  if (!mapView || typeof mapView.requestFullscreen !== 'function' || document.fullscreenElement) return;
+  mapView.requestFullscreen({ navigationUI: 'hide' }).catch(() => {
+    // iOS 或瀏覽器拒絕原生全螢幕時，仍保留 CSS 沉浸式視窗。
+  });
 }
 
 // ── 啟動 ─────────────────────────────
