@@ -17,9 +17,6 @@
   "text": "一心一意",
   "type": "成語",
   "level": "常用",
-  "source": "教育部成語典",
-  "author": null,
-  "origin_work": null,
   "meaning": "形容心思專一，毫無雜念。",
   "insight": "多用於形容做事專注投入，如：他一心一意準備會考。",
   "textbook": false
@@ -30,8 +27,7 @@
 - `text`：MVP 一律四字成語，繁體，無標點。
 - `type`：MVP 只有 `"成語"`（枚舉保留：名句/唐詩/宋詞/元曲）。
 - `level`：MVP 只有 `"常用"`（枚舉保留：進階/挑戰）。
-- `source`：必填，MVP 一律 `"教育部成語典"`，且必須是該典真實收錄的成語，禁止捏造。
-- `meaning`：白話釋義（知識卡用）。`insight`：一句用法或賞析（知識卡用）。
+- `meaning`：本站自行撰寫的白話釋義（知識卡用），不夾帶外部辭典出處。`insight`：一句自撰用法或賞析（知識卡用）。
 - `textbook`：是否為國中課本常見（布林，選填標記用）。
 
 ## data/levels.json（關卡，由 tools/generate-levels.mjs 預生成）
@@ -127,7 +123,7 @@ export function createCollection(savedIds = []) {
 ### 前端整合點（js/game.js 持有）
 
 - 玩家答對學習題 → `hintEngine.earn(q.type === 'choice' ? 'choice' : 'fill')`
-- 玩家在格中找到目標 → `collection.add(phraseId)` + 彈知識卡（meaning/insight/source）
+- 玩家在格中找到目標 → `collection.add(phraseId)` + 彈知識卡（meaning/insight）
 - 提示三層：circle=圈出該句首字位置；flash=整句路徑高亮 2 秒；reveal=直接標記為已找到（該關星等封頂 1★）。
 
 ## 檔案所有權（不得越界寫檔）
@@ -205,8 +201,7 @@ v2 兩大變更：**目標一律以創意線索呈現（不直接顯示成語）
 
 - `type` 枚舉擴充：`成語`｜`諺語`｜`俗語`（保留：名句/唐詩/宋詞/元曲）。
 - `level` 枚舉擴充：`常用`｜`進階`。
-- 諺語/俗語：`text` 4–9 字、無標點；`source` 用誠實標記 `"傳統諺語"` 或 `"民間俗語"`
-  （無單一權威典源就不硬編）；必須是廣為流傳的真實諺語/俗語，禁自創；台語俗諺一律
+- 諺語/俗語：`text` 4–9 字、無標點；必須是廣為流傳的真實諺語/俗語，禁自創；白話釋義一律由本站重新撰寫；台語俗諺一律
   改用華語通行寫法或不收。clues 規則與 v2 相同（≥3、必含釋義、硬規則同）。
 
 ## levels.json v3 新欄位

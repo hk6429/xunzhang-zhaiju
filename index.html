@@ -42,6 +42,26 @@
 <main>
   <!-- 封神密室大廳／陣法選擇視圖 -->
   <section id="view-chamber" class="view">
+    <aside id="resume-quest-card" class="resume-quest-card hidden" aria-labelledby="resume-quest-title">
+      <div class="resume-quest-copy">
+        <span class="resume-kicker">上回破陣進度</span>
+        <h2 id="resume-quest-title">繼續未完的封神試煉</h2>
+        <p id="resume-quest-summary">前線關卡與上次成果載入中。</p>
+      </div>
+      <button type="button" id="btn-resume-quest" class="primary-btn">繼續闖關</button>
+    </aside>
+
+    <aside id="unfinished-quest-prompt" class="unfinished-quest-prompt hidden" aria-labelledby="unfinished-quest-title">
+      <div>
+        <strong id="unfinished-quest-title">有一場尚未完成的破陣</strong>
+        <p id="unfinished-quest-summary">可以從離開的位置接續，也可以重新開始。</p>
+      </div>
+      <div class="unfinished-quest-actions">
+        <button type="button" id="btn-continue-unfinished" class="primary-btn">接續破陣</button>
+        <button type="button" id="btn-restart-unfinished" class="ghost-btn">重新開始</button>
+      </div>
+    </aside>
+
     <div class="chamber-hero palace-hero-card">
       <div class="palace-hero-banner-wrap">
         <img src="assets/art/generated/hero-home.png" alt="姜太公、哪吒與楊戩化身一比一頭身的 Q 版封神人物，在國風潑墨仙境中迎接玩家破陣" class="palace-hero-banner-img" width="1672" height="941" loading="eager" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='assets/art/scenes/palace-hero-banner.svg'">
@@ -54,6 +74,22 @@
       </div>
     </div>
     <div id="chamber-list" class="chamber-grid"></div>
+
+    <details id="class-coop-panel" class="class-coop-panel hidden">
+      <summary>班級協力破陣</summary>
+      <div class="class-coop-body">
+        <p>以匿名代號加入班級共同目標，只顯示全班進度，不顯示個人成績排行榜。</p>
+        <div class="class-coop-fields">
+          <label for="class-room-code">班級代碼</label>
+          <input id="class-room-code" type="text" inputmode="text" autocomplete="off" maxlength="12" placeholder="輸入教師提供的代碼">
+          <label for="class-player-alias">匿名代號</label>
+          <input id="class-player-alias" type="text" autocomplete="nickname" maxlength="12" placeholder="例如：青竹七號">
+          <button type="button" id="btn-join-class-coop" class="primary-btn">匿名加入</button>
+        </div>
+        <p id="class-coop-progress" class="class-coop-progress" aria-live="polite"></p>
+        <p class="privacy-note"><strong>隱私提醒：</strong>不需輸入姓名、學號、電話或電子郵件；班級代碼與匿名代號只用於本次協力活動。</p>
+      </div>
+    </details>
   </section>
 
   <!-- 關卡地圖 -->
@@ -65,6 +101,11 @@
 
   <!-- 遊戲盤面（密室破陣介面） -->
   <section id="view-game" class="view hidden">
+    <nav id="mobile-game-controls" class="mobile-game-controls" aria-label="闖關快速操作">
+      <button type="button" id="btn-mobile-game-exit">離開</button>
+      <button type="button" id="btn-mobile-game-targets" data-scroll-target="target-list">目標</button>
+      <button type="button" id="btn-mobile-game-hints" data-scroll-target="btn-hint-circle">提示</button>
+    </nav>
     <div class="game-top">
       <button type="button" id="btn-back-map" class="ghost-btn">← 大廳</button>
       
@@ -107,10 +148,19 @@
       <div id="seal-runes" class="seal-runes"></div>
     </div>
 
-    <figure class="section-story-figure game-story-figure">
-      <img src="assets/art/generated/game-board.png" alt="Q 版封神人物在潑墨文字符陣前施法破關" class="section-story-img" width="1672" height="941" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/art/scenes/chamber-taiji.svg'">
-      <figcaption hidden>尋章摘句，以文墨之力破解封神字陣。</figcaption>
-    </figure>
+    <details id="game-scene-details" class="game-scene-details" open>
+      <summary><span>陣法故事場景</span><small>點擊收合，立即開始破陣</small></summary>
+      <figure class="section-story-figure game-story-figure">
+        <img src="assets/art/generated/game-board.png" alt="Q 版封神人物在潑墨文字符陣前施法破關" class="section-story-img" width="1672" height="941" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/art/scenes/chamber-taiji.svg'">
+        <figcaption hidden>尋章摘句，以文墨之力破解封神字陣。</figcaption>
+      </figure>
+    </details>
+
+    <aside id="play-instruction-tip" class="play-instruction-tip hidden" role="status" aria-live="polite">
+      <span id="play-instruction-icon" aria-hidden="true">☝</span>
+      <p><strong id="play-instruction-title">沿著字句滑動</strong><span id="play-instruction-text">從第一個字按住，沿著句子方向滑到最後一字。</span></p>
+      <button type="button" id="btn-dismiss-play-tip" aria-label="知道了，關閉玩法提示">知道了</button>
+    </aside>
 
     <div class="game-layout">
       <div class="game-board palace-jade-board">
@@ -191,6 +241,7 @@
     <h2 class="view-title">設定</h2>
     <div class="settings-block">
       <h3>匯出進度碼</h3>
+      <p class="privacy-note"><strong>隱私提醒：</strong>進度碼不是加密檔，請勿填入姓名、學號或公開分享。</p>
       <textarea id="export-code" class="code-area" readonly placeholder="按下方按鈕產生進度碼"></textarea>
       <div class="settings-actions">
         <button type="button" id="btn-export" class="primary-btn">產生進度碼</button>
@@ -205,6 +256,16 @@
       </div>
     </div>
     <div class="settings-block">
+      <h3>闖關模式</h3>
+      <fieldset id="play-mode-selector" class="play-mode-selector">
+        <legend>選擇適合自己的節奏</legend>
+        <label><input type="radio" name="play-mode" value="explore"><span><strong>探索</strong><small>無倒數壓力，適合初次熟悉玩法</small></span></label>
+        <label><input type="radio" name="play-mode" value="standard" checked><span><strong>標準</strong><small>保留原本時間與提示規則</small></span></label>
+        <label><input type="radio" name="play-mode" value="challenge"><span><strong>挑戰</strong><small>適合已熟悉玩法、想專注破陣者</small></span></label>
+      </fieldset>
+      <p id="play-mode-status" class="muted" aria-live="polite">目前使用標準模式。</p>
+    </div>
+    <div class="settings-block">
       <h3>重置進度</h3>
       <button type="button" id="btn-reset" class="danger-btn">清除全部進度</button>
     </div>
@@ -212,9 +273,48 @@
   </section>
 </main>
 
+<nav id="mobile-tabbar" class="mobile-tabbar" aria-label="主要功能">
+  <button type="button" class="nav-btn active" data-view="chamber"><span aria-hidden="true">🏯</span><span>大廳</span></button>
+  <button type="button" class="nav-btn" data-view="map"><span aria-hidden="true">🗺</span><span>地圖</span></button>
+  <button type="button" class="nav-btn" data-view="collection"><span aria-hidden="true">📖</span><span>寶典</span></button>
+  <button type="button" class="nav-btn" data-view="settings"><span aria-hidden="true">⚙</span><span>設定</span></button>
+</nav>
+
+<template id="chamber-details-template">
+  <details class="chamber-details">
+    <summary>查看陣法詳情</summary>
+    <div class="chamber-details-body">
+      <p data-chamber-detail="lore"></p>
+      <p><strong>守陣仙人：</strong><span data-chamber-detail="guardian"></span></p>
+      <p><strong>破陣法寶：</strong><span data-chamber-detail="treasure"></span></p>
+    </div>
+  </details>
+</template>
+
+<aside id="rest-reminder" class="rest-reminder hidden" role="status" aria-live="polite">
+  <div><strong>墨香稍歇</strong><p>已專注一段時間，看看遠方、伸展肩頸再繼續。</p></div>
+  <button type="button" id="btn-rest-dismiss">稍後提醒</button>
+</aside>
+
+<!-- 首次進站引導 -->
+<div id="modal-onboarding" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="onboarding-title" aria-describedby="onboarding-desc">
+  <div class="modal onboarding-modal" tabindex="-1">
+    <button type="button" id="btn-skip-onboarding" class="modal-close" data-close="modal-onboarding" aria-label="跳過新手引導">✕</button>
+    <p class="card-badge">初入封神陣</p>
+    <h2 id="onboarding-title">三步完成第一次破陣</h2>
+    <p id="onboarding-desc">不用先讀完整規則，跟著墨靈仙童試一次就會了。</p>
+    <ol class="onboarding-steps">
+      <li><span>一</span><div><strong>進入第一陣</strong><small>先從解鎖的太極陣開始。</small></div></li>
+      <li><span>二</span><div><strong>沿字找出句子</strong><small>按住首字，順著字句滑動。</small></div></li>
+      <li><span>三</span><div><strong>收下知識卡</strong><small>讀懂解釋，句子就會收入寶典。</small></div></li>
+    </ol>
+    <button type="button" id="btn-start-onboarding" class="primary-btn">開始第一關</button>
+  </div>
+</div>
+
 <!-- 知識卡 -->
-<div id="modal-card" class="modal-backdrop hidden">
-  <div class="modal knowledge-card">
+<div id="modal-card" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="card-text">
+  <div class="modal knowledge-card" tabindex="-1">
     <button type="button" class="modal-close" data-close="modal-card" aria-label="關閉">✕</button>
     <p class="card-badge">摘句入集</p>
     <h3 id="card-text" class="card-text"></h3>
@@ -224,8 +324,8 @@
 </div>
 
 <!-- 學習題（研墨答題） -->
-<div id="modal-quiz" class="modal-backdrop hidden">
-  <div class="modal quiz-modal">
+<div id="modal-quiz" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="quiz-prompt">
+  <div class="modal quiz-modal" tabindex="-1">
     <button type="button" class="modal-close" data-close="modal-quiz" aria-label="關閉">✕</button>
     
     <!-- 考官生動出題區 -->
@@ -250,10 +350,10 @@
 </div>
 
 <!-- 超時（被困陣中・仙人救駕）：無 ×、點背景不關 -->
-<div id="modal-timeout" class="modal-backdrop hidden">
-  <div class="modal timeout-modal fengshen-settle-timeout">
+<div id="modal-timeout" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="timeout-title" data-static-dialog="true">
+  <div class="modal timeout-modal fengshen-settle-timeout" tabindex="-1">
     <p class="card-badge timeout-badge">困於陣中</p>
-    <h3 class="timeout-title">時辰已到・陣法閉合</h3>
+    <h3 id="timeout-title" class="timeout-title">時辰已到・陣法閉合</h3>
     
     <div class="timeout-rescue-wrap">
       <div id="timeout-guardian-avatar" class="settle-avatar"></div>
@@ -272,8 +372,8 @@
 </div>
 
 <!-- 通關結算（破陣成功・宮廷聖旨金榜題名） -->
-<div id="modal-complete" class="modal-backdrop hidden">
-  <div class="modal complete-modal fengshen-settle-win palace-edict-modal">
+<div id="modal-complete" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="complete-title">
+  <div class="modal complete-modal fengshen-settle-win palace-edict-modal" tabindex="-1">
     <!-- 聖旨金榜飾件 -->
     <div class="edict-finial edict-finial-top"></div>
     <div class="edict-header-banner">
@@ -319,8 +419,16 @@
         </div>
       </div>
 
+      <section id="session-summary-card" class="session-summary-card" aria-labelledby="session-summary-title">
+        <p class="resume-kicker">本次收筆</p>
+        <h4 id="session-summary-title">今天的破陣成果</h4>
+        <p id="session-summary-text">已完成本關，下一次會從最新解鎖的關卡開始。</p>
+        <ul id="session-summary-list"></ul>
+      </section>
+
       <div class="settings-actions">
         <button type="button" id="btn-next-level" class="primary-btn">破下一陣</button>
+        <button type="button" id="btn-end-session" class="ghost-btn">今日收筆</button>
         <button type="button" id="btn-complete-map" class="ghost-btn">回大廳</button>
       </div>
     </div>
@@ -347,5 +455,6 @@
 </div>
 
 <script type="module" src="js/app.js"></script>
+<script type="module" src="js/accessibility.js"></script>
 </body>
 </html>

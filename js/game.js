@@ -1,7 +1,21 @@
 // js/game.js — 單關遊戲流程：比對、提示、學習題、星等結算
 // 整合：封神密室逃脫機制、Q 版守護仙人伴隨互動、破陣 Cut-in 特寫、研墨考官、燃香/硯台 HUD、破陣封印條
 import { createGrid, targetPath, pathKey } from './grid.js';
-import { buildQuestions } from './learnquiz.js';
+import { buildAdaptiveQuestions } from './learnquiz.js';
+import {
+  applyModeToLevel,
+  calculateQuizInkReward,
+  clearUnfinishedRun,
+  ensureDailyPlan,
+  ensureRetention,
+  getUnfinishedRun,
+  recordDailyProgress,
+  recordLevelAttempt,
+  recordLevelCompletion,
+  recordQuizAnswer,
+  saveUnfinishedRun,
+  startPlaySession,
+} from './retention.js';
 import {
   getArrayByLevelId,
   renderGuardianSvg,
@@ -48,19 +62,37 @@ export function startLevel(ctx) {
   const levelKey = String(level.id);
   if (!save.levels[levelKey]) save.levels[levelKey] = { stars: 0, found: [] };
   const levelSave = save.levels[levelKey];
+  const completedBefore = levelSave.stars > 0;
+  const resumedRun = getUnfinishedRun(save, level.id);
+  const modeConfig = applyModeToLevel(
+    level,
+    ctx.mode || resumedRun?.mode || save.preferences?.playMode || 'standard',
+  );
+  const mode = modeConfig.mode;
+  const initialFound = resumedRun
+    ? resumedRun.found
+    : (completedBefore ? [] : levelSave.found.slice());
+  if (!resumedRun) recordLevelAttempt(save, level.id);
+  ensureDailyPlan(save, { phrases });
+  if (!ensureRetention(save).activity.sessionStartedAt) startPlaySession(save);
 
-  let usedHint = false;
-  let usedReveal = false;
+  let usedHint = (resumedRun?.hintsUsed || 0) > 0;
+  let usedReveal = !!resumedRun?.usedReveal;
   let selectedTargetId = null;
   let finished = false;
+  let mistakes = resumedRun?.mistakes || 0;
+  let quizAnsweredThisRun = 0;
+  let quizCorrectThisRun = 0;
+  const knowledgeQueue = [];
+  const runStartedAt = resumedRun?.startedAt || new Date().toISOString();
 
   // ── 計時與提示限次 ────────────────────
-  const timeLimit = (typeof level.timeLimit === 'number' && level.timeLimit > 0) ? level.timeLimit : null;
-  const hintCap = (typeof level.hintCap === 'number' && level.hintCap >= 0) ? level.hintCap : null;
-  let hintsUsed = 0;
+  const timeLimit = modeConfig.timeLimit;
+  const hintCap = modeConfig.hintCap;
+  let hintsUsed = resumedRun?.hintsUsed || 0;
 
   // ── DOM 頂部標題與陣法徽章 ───────────
-  $('game-level-title').textContent = `第 ${level.id} 關`;
+  $('game-level-title').textContent = `第 ${level.id} 關・${modeConfig.label}`;
   const arrayBadgeEl = $('game-array-badge');
   if (arrayBadgeEl) {
     arrayBadgeEl.textContent = arrayInfo.name;
@@ -231,10 +263,27 @@ export function startLevel(ctx) {
   const timerEl = $('timer-display');
   const timerTimeEl = $('timer-time');
   const stickBarEl = $('incense-stick-bar');
-  let remainingMs = timeLimit != null ? timeLimit * 1000 : 0;
+  let remainingMs = resumedRun?.remainingMs != null
+    ? resumedRun.remainingMs
+    : (timeLimit != null ? timeLimit * 1000 : 0);
   let timerId = null;
   let lastTick = 0;
   let warnedLowTime = false;
+
+  function persistActiveRun() {
+    if (finished) return;
+    saveUnfinishedRun(save, {
+      levelId: level.id,
+      mode,
+      found: targets.filter((target) => target.found).map((target) => target.phraseId),
+      mistakes,
+      hintsUsed,
+      usedReveal,
+      remainingMs: timeLimit == null ? null : remainingMs,
+      startedAt: runStartedAt,
+      replay: completedBefore,
+    });
+  }
 
   function isAnyModalOpen() {
     return !!document.querySelector('.modal-backdrop:not(.hidden)');
@@ -262,7 +311,7 @@ export function startLevel(ctx) {
 
   function timerTick() {
     const now = performance.now();
-    if (!finished && !isAnyModalOpen()) remainingMs -= (now - lastTick);
+    if (!finished && !document.hidden && !isAnyModalOpen()) remainingMs -= (now - lastTick);
     lastTick = now;
     renderTimer();
     if (remainingMs <= 0 && !finished) handleTimeout();
@@ -288,6 +337,9 @@ export function startLevel(ctx) {
     finished = true;
     stopTimer();
     remainingMs = 0;
+    clearUnfinishedRun(save, level.id);
+    if (!completedBefore) levelSave.found = [];
+    ctx.persist();
     renderTimer();
     refreshInk();
     setSelected(null);
@@ -312,7 +364,8 @@ export function startLevel(ctx) {
   }
 
   function clearFoundForRetry() {
-    levelSave.found = [];
+    if (!completedBefore) levelSave.found = [];
+    clearUnfinishedRun(save, level.id);
     ctx.persist();
   }
 
@@ -401,6 +454,8 @@ export function startLevel(ctx) {
       fillTargetChars(t);
       markFound(t, { real: true });
     } else {
+      mistakes += 1;
+      persistActiveRun();
       const row = $('cross-input-row');
       row.classList.remove('invalid');
       void row.offsetWidth;
@@ -413,18 +468,25 @@ export function startLevel(ctx) {
   function markFound(t, { real }) {
     t.found = true;
     grid.markFound(t.path, t.colorIdx);
-    if (!levelSave.found.includes(t.phraseId)) levelSave.found.push(t.phraseId);
+    if (!completedBefore && !levelSave.found.includes(t.phraseId)) levelSave.found.push(t.phraseId);
     if (real) {
       collection.add(t.phraseId);
-      // 觸發破陣 Cut-in 特寫動畫
-      triggerCutIn(t.phrase);
-      showKnowledgeCard(t.phrase);
-      setCompanion('victory', getRandomQuote(guardian.findQuotes), true, '破！');
+      recordDailyProgress(save, 'phrase-found');
+      knowledgeQueue.push(t.phrase);
+      if (knowledgeQueue.length === 1) {
+        triggerCutIn(t.phrase);
+        showKnowledgeCard(t.phrase);
+        setCompanion('victory', getRandomQuote(guardian.findQuotes), true, '破！');
+      } else {
+        setCompanion('victory', `「${t.phrase.text}」已收入待研讀卷軸！`, true, '收！');
+      }
     }
     if (selectedTargetId === t.phraseId) selectedTargetId = null;
     renderTargets();
     renderSealProgress();
+    if (typeof ctx.onProgress === 'function') ctx.onProgress(targets.filter((item) => item.found).length, targets.length);
     if (isCross) updateCrossSelection();
+    persistActiveRun();
     ctx.persist();
     if (targets.every((x) => x.found)) setTimeout(finishLevel, real ? 500 : 250);
   }
@@ -436,6 +498,9 @@ export function startLevel(ctx) {
     if (hit) {
       markFound(hit, { real: true });
     } else {
+      mistakes += 1;
+      persistActiveRun();
+      ctx.persist();
       grid.flashInvalid(path);
     }
   }
@@ -490,15 +555,15 @@ export function startLevel(ctx) {
       if (isCross) fillTargetChars(t);
       markFound(t, { real: false });
     }
+    persistActiveRun();
     refreshInk();
     ctx.persist();
   }
 
   // ── 星等與通關（破陣結算・大尺寸群仙大合照） ────
   function computeStars() {
-    if (usedReveal) return 1;
-    if (usedHint) return 2;
-    return 3;
+    const raw = usedReveal ? 1 : (usedHint ? 2 : 3);
+    return Math.min(raw, modeConfig.maxStars);
   }
 
   function finishLevel() {
@@ -506,7 +571,27 @@ export function startLevel(ctx) {
     finished = true;
     stopTimer();
     const stars = computeStars();
-    levelSave.stars = Math.max(levelSave.stars, stars);
+    const now = new Date();
+    const startedMs = new Date(runStartedAt).getTime();
+    const durationMs = Number.isFinite(startedMs) ? Math.max(0, now.getTime() - startedMs) : null;
+    const shard = arrayInfo.treasureShard;
+    const completion = recordLevelCompletion(save, {
+      levelId: level.id,
+      stars,
+      mode,
+      mistakes,
+      durationMs,
+      remainingMs,
+      timeLimitMs: timeLimit == null ? 0 : timeLimit * 1000,
+      quizCorrect: quizCorrectThisRun,
+      quizAnswered: quizAnsweredThisRun,
+      treasure: shard ? {
+        treasureId: shard.id,
+        name: shard.name,
+        maxFragments: 10,
+      } : null,
+      now,
+    });
     ctx.persist();
     refreshInk();
     $('modal-card').classList.add('hidden');
@@ -531,8 +616,7 @@ export function startLevel(ctx) {
       completeSpeech.textContent = getRandomQuote(guardian.winQuotes);
     }
 
-    // 封神法寶碎片掉落展示
-    const shard = arrayInfo.treasureShard;
+    // 封神法寶碎片掉落展示（同關重玩不重複發放）
     if (shard) {
       const iconEl = $('treasure-icon');
       const imgEl = $('treasure-img');
@@ -544,10 +628,19 @@ export function startLevel(ctx) {
         imgEl.alt = shard.name;
       }
       if (nameEl) nameEl.textContent = shard.name;
-      if (descEl) descEl.textContent = shard.desc;
+      if (descEl) {
+        const fragmentStatus = completion.treasure
+          ? `（${completion.treasure.total}/${10}）`
+          : '';
+        descEl.textContent = `${shard.desc}${fragmentStatus}`;
+      }
     }
 
     $('btn-next-level').classList.toggle('hidden', !ctx.hasNext);
+    const summaryText = $('session-summary-text');
+    const summaryList = $('session-summary-list');
+    if (summaryText) summaryText.textContent = `本關尋得 ${knowledgeQueue.length} 句，獲得 ${stars} 星，正式納入封神寶典。`;
+    if (summaryList) summaryList.innerHTML = knowledgeQueue.map((phrase) => `<li><strong>${phrase.text}</strong>：${phrase.meaning || ''}</li>`).join('');
     $('modal-complete').classList.remove('hidden');
     if (typeof ctx.onComplete === 'function') ctx.onComplete(level.id, stars);
   }
@@ -560,7 +653,11 @@ export function startLevel(ctx) {
     const targetIds = level.targets.map((t) => t.phraseId);
     let questions = [];
     try {
-      questions = buildQuestions(phrases, targetIds, 5);
+      const retention = ensureRetention(save);
+      questions = buildAdaptiveQuestions(phrases, targetIds, 5, {
+        mastery: retention.mastery,
+        wrongBook: retention.wrongBook,
+      });
     } catch {
       questions = [];
     }
@@ -615,16 +712,26 @@ export function startLevel(ctx) {
   function answer(q, given, btnEl) {
     const correct = given === q.answer;
     save.quizStats.answered += 1;
+    quizAnsweredThisRun += 1;
+    if (correct) quizCorrectThisRun += 1;
+    const masteryResult = recordQuizAnswer(save, q.phraseId, { correct });
     const examAvatar = $('quiz-examiner-avatar');
     const examQuote = $('quiz-examiner-quote');
 
     if (correct) {
       save.quizStats.correct += 1;
       const kind = q.type === 'choice' ? 'choice' : 'fill';
-      hintEngine.earn(kind);
-      const gained = q.type === 'choice' ? 1 : 2;
+      const gained = calculateQuizInkReward({
+        currentInk: hintEngine.getInk(),
+        kind,
+        rewardEligible: masteryResult.rewardEligible,
+      });
+      if (gained === 2) hintEngine.earn('fill');
+      else if (gained === 1) hintEngine.earn('choice');
       quiz.earned += gained;
-      $('quiz-feedback').textContent = `答對了！＋${gained} 墨 🖋`;
+      $('quiz-feedback').textContent = gained > 0
+        ? `答對了！＋${gained} 墨 🖋`
+        : '答對了！此題今日已領過墨水，已累積熟練度。';
       if (examAvatar && currentExaminer) {
         examAvatar.innerHTML = `<img src="${currentExaminer.happyAvatar}" alt="${currentExaminer.name}" class="examiner-img" />`;
       }
@@ -753,7 +860,7 @@ export function startLevel(ctx) {
   // ── 初始化：還原本關已找到 ───────────
   $('cross-input-row').classList.add('hidden');
   for (const t of targets) {
-    if (levelSave.found.includes(t.phraseId)) {
+    if (initialFound.includes(t.phraseId)) {
       t.found = true;
       if (isCross) fillTargetChars(t);
       grid.markFound(t.path, t.colorIdx);
@@ -761,16 +868,38 @@ export function startLevel(ctx) {
   }
   renderTargets();
   renderSealProgress();
+  if (typeof ctx.onProgress === 'function') ctx.onProgress(targets.filter((item) => item.found).length, targets.length);
   refreshInk();
   msgEl.textContent = '';
+  try {
+    const instructionKey = `xzzj_instruction_${isCross ? 'cross' : 'full'}_v1`;
+    if (!localStorage.getItem(instructionKey)) {
+      const tip = $('play-instruction-tip');
+      if (tip) {
+        $('play-instruction-title').textContent = isCross ? '先選線索，再輸入完整句子' : '從第一字沿句子方向滑動';
+        $('play-instruction-text').textContent = isCross ? '點選右側線索，來到交叉字格後輸入答案。' : '電腦可拖曳，手機可以按住滑過連續字格。';
+        tip.classList.remove('hidden');
+        const dismiss = () => {
+          tip.classList.add('hidden');
+          localStorage.setItem(instructionKey, '1');
+        };
+        $('btn-dismiss-play-tip')?.addEventListener('click', dismiss, { once: true });
+      }
+    }
+  } catch { /* localStorage 不可用時，不影響遊戲 */ }
+  persistActiveRun();
+  ctx.persist();
   if (targets.every((t) => t.found) && targets.length) {
-    finished = true;
-    refreshInk();
+    setTimeout(finishLevel, 0);
   }
   startTimer();
 
   return {
     destroy() {
+      if (!finished) {
+        persistActiveRun();
+        ctx.persist();
+      }
       stopTimer();
       clearTimeout(msgTimer);
       clearTimeout(speechTimer);

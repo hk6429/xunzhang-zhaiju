@@ -1,0 +1,157 @@
+{
+  "meta": {
+    "version": 2,
+    "title": "尋章摘句・封神山河卷",
+    "playerRole": "尋章使",
+    "premise": "封神榜上的真言散落為五座文字大陣。尋章使須循山河卷尋回真言、修復地脈，讓群仙與人間的文字記憶重新歸位。"
+  },
+  "chapters": [
+    {
+      "id": 1,
+      "mapRegion": "崑崙玉虛境",
+      "position": { "x": 13, "y": 23 },
+      "title": "太極初開・玉虛問道",
+      "intro": ["封神榜忽然失去第一行真言，崑崙山門也隨之化為無字石壁。", "姜太公交給你一管靈墨：字不是被抹去，而是藏進乾坤太極陣中。"],
+      "outro": ["陰陽魚重新轉動，玉虛宮的簷角逐一亮起。", "黃河方向卻傳來倒流巨響；下一頁真言已被捲入九曲河心。"],
+      "guardianIds": ["jiang-taigong"],
+      "bossId": "boss-taiji-spirit",
+      "treasureId": "dashen-bian"
+    },
+    {
+      "id": 2,
+      "mapRegion": "九曲黃河渡",
+      "position": { "x": 31, "y": 54 },
+      "title": "九曲翻浪・金斗迷津",
+      "intro": ["黃河九曲同時改道，村落的俗語與歌謠被沖成零碎字片。", "哪吒踩著風火輪掠過河面，邀你在沙漏漏盡前找回百姓的話。"],
+      "outro": ["九曲回到河床，失落的童謠又從渡口響起。", "遠方十座黑色陣門同時落下，聞太師已在雷火中等候。"],
+      "guardianIds": ["nezha"],
+      "bossId": "boss-sanxiao",
+      "treasureId": "qiankun-quan"
+    },
+    {
+      "id": 3,
+      "mapRegion": "西岐十絕原",
+      "position": { "x": 51, "y": 33 },
+      "title": "十絕雷火・神目辨真",
+      "intro": ["十座陣門輪流噴出雷、火、風與寒霜，進階成語被煉成真假難分的影子。", "楊戩開啟天眼，請你別追逐幻字，只看每道線索真正指向的意思。"],
+      "outro": ["十根煞柱崩落，焦土上長出第一株青苗。", "青苗的倒影卻映出朝歌摘星樓；那裡每面鏡子都在說謊。"],
+      "guardianIds": ["yang-jian"],
+      "bossId": "boss-wen-taishi",
+      "treasureId": "sanjian-liangren-dao"
+    },
+    {
+      "id": 4,
+      "mapRegion": "朝歌摘星樓",
+      "position": { "x": 70, "y": 62 },
+      "title": "九尾幻鏡・真假魅語",
+      "intro": ["摘星樓的銅鏡把成語、諺語與俚語互相倒映，連真話也長出假的影子。", "妲己邀你猜鏡中話，申公豹則在每條岔路喊著：道友請留步。"],
+      "outro": ["最後一面幻鏡碎成桃花，朝歌百姓重新想起彼此熟悉的話語。", "界牌關上四劍齊鳴；通天教主已把封神榜最後一頁鎖進萬仙陣。"],
+      "guardianIds": ["su-daji", "shen-gongbao"],
+      "bossId": "boss-daji-shengongbao",
+      "treasureId": "yinhun-deng"
+    },
+    {
+      "id": 5,
+      "mapRegion": "界牌關萬仙壇",
+      "position": { "x": 89, "y": 28 },
+      "title": "萬仙封天・真言歸榜",
+      "intro": ["誅仙四劍截斷天地文脈，山河卷上只剩一條通往祭壇的金線。", "群仙將法寶之力交給你；這一戰要找回的不只是答案，而是人間共同的語言記憶。"],
+      "outro": ["四劍歸鞘，五片山河重新連成一卷，封神榜也恢復金光。", "若五段支線故事與五件法寶都已歸位，卷尾仍會浮出一頁從未有人讀過的空白天書。"],
+      "guardianIds": ["lei-zhenzi", "taiyi"],
+      "bossId": "boss-tongtian",
+      "treasureId": "zhuxian-jian"
+    }
+  ],
+  "bosses": [
+    {
+      "id": "boss-taiji-spirit",
+      "chapter": 1,
+      "levelId": 10,
+      "name": "乾坤太極陣靈",
+      "phases": [
+        { "id": "yin", "name": "陰魚藏字", "rule": "先破解兩條釋義線索，點亮陰眼。" },
+        { "id": "yang", "name": "陽魚轉位", "rule": "交叉字格旋轉後，再破解兩條創意線索。" },
+        { "id": "unity", "name": "兩儀合一", "rule": "以最後一條真言封住陣心。" }
+      ]
+    },
+    {
+      "id": "boss-sanxiao",
+      "chapter": 2,
+      "levelId": 20,
+      "name": "三霄娘娘・混元金斗",
+      "phases": [
+        { "id": "sand", "name": "九曲流沙", "rule": "沙漏倒數中破解兩條民間俗語。" },
+        { "id": "mirror", "name": "金斗倒映", "rule": "辨認一組意思相近但用法不同的句子。" },
+        { "id": "break", "name": "三花復明", "rule": "在剩餘時限內完成最長目標句。" }
+      ]
+    },
+    {
+      "id": "boss-wen-taishi",
+      "chapter": 3,
+      "levelId": 30,
+      "name": "聞太師・十絕神目",
+      "phases": [
+        { "id": "pillars", "name": "十柱護體", "rule": "每找對一句便擊碎一根對應煞柱。" },
+        { "id": "third-eye", "name": "神目辨偽", "rule": "從真假線索中選出與盤面相符者。" },
+        { "id": "thunder", "name": "雷火合圍", "rule": "提示受封印時完成最後兩句。" }
+      ]
+    },
+    {
+      "id": "boss-daji-shengongbao",
+      "chapter": 4,
+      "levelId": 40,
+      "name": "妲己與申公豹・雙面幻局",
+      "phases": [
+        { "id": "fox", "name": "九尾魅語", "rule": "看破三則諧音與反話線索。" },
+        { "id": "daoist", "name": "道友留步", "rule": "拒絕錯誤捷徑，選出真正的交叉字。" },
+        { "id": "twins", "name": "雙鏡同碎", "rule": "連續完成成語與俗語各一條。" }
+      ]
+    },
+    {
+      "id": "boss-tongtian",
+      "chapter": 5,
+      "levelId": 50,
+      "name": "通天教主・誅仙萬仙總陣",
+      "phases": [
+        { "id": "four-swords", "name": "誅仙四門", "rule": "分別破解四方劍門守護的目標句。" },
+        { "id": "myriad", "name": "萬仙壓境", "rule": "在單次提示限制下完成三條互鎖真言。" },
+        { "id": "canon", "name": "真言歸榜", "rule": "完成終極句，依探索成果進入普通或真結局。" }
+      ]
+    }
+  ],
+  "treasures": [
+    { "id": "dashen-bian", "name": "打神鞭", "ability": "revealHiddenNode", "description": "顯示本章尚未發現的事件節點。" },
+    { "id": "qiankun-quan", "name": "乾坤圈", "ability": "openRouteShortcut", "description": "完成章內主線後，開啟一條返回未探索支線的捷徑。" },
+    { "id": "sanjian-liangren-dao", "name": "三尖兩刃刀", "ability": "previewEventChoice", "description": "每日一次預覽事件選項的效果類型。" },
+    { "id": "yinhun-deng", "name": "引魂燈", "ability": "revealDailyEncounter", "description": "直接標出當日奇遇所在的已解鎖區域。" },
+    { "id": "zhuxian-jian", "name": "誅仙劍", "ability": "unlockTrueEnding", "description": "集齊全部法寶與支線條件後，斬開空白天書入口。" }
+  ],
+  "endings": {
+    "normal": {
+      "id": "ending-investiture",
+      "title": "位列封神",
+      "requirements": { "completedAll": [50] },
+      "summary": "通天總陣告破，封神榜重現人間。"
+    },
+    "true": {
+      "id": "ending-words-return",
+      "title": "人間真言",
+      "requirements": {
+        "completedAll": [50],
+        "bossMinStars": 2,
+        "bossLevels": [10, 20, 30, 40, 50],
+        "eventsSeenAll": ["c1-lore-crane-letter", "c2-lore-river-song", "c3-lore-third-eye", "c4-lore-mirror", "c5-lore-four-gates"],
+        "treasuresAll": ["dashen-bian", "qiankun-quan", "sanjian-liangren-dao", "yinhun-deng", "zhuxian-jian"]
+      },
+      "summary": "五段失落故事與五件法寶令空白天書顯字，語言真正回到每個使用它的人手中。"
+    }
+  },
+  "hiddenLevel": {
+    "id": 51,
+    "title": "天書失落之頁",
+    "unlockEnding": "ending-words-return",
+    "kind": "epilogueBoss",
+    "status": "rule-ready-content-pending",
+    "rule": "達成真結局條件後顯示；正式題盤須另依 phrases 與 levels 驗證流程生成，不在敘事層捏造。"
+  }
+}

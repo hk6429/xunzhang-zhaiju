@@ -76,3 +76,56 @@ export function buildQuestions(phrases, targetIds, count, rng = Math.random) {
   }
   return questions;
 }
+
+/**
+ * 依錯題與間隔複習狀態排序出題。既有 buildQuestions 介面與輸出規則保持不變。
+ * profile: { mastery: { [phraseId]: { nextReviewAt, mastered } }, wrongBook: [] }
+ */
+export function buildAdaptiveQuestions(
+  phrases,
+  targetIds,
+  count,
+  profile = {},
+  rng = Math.random,
+  now = new Date(),
+) {
+  if (!Array.isArray(phrases) || !Number.isFinite(count) || count <= 0) return [];
+  const targetSet = new Set(Array.isArray(targetIds) ? targetIds : []);
+  const wrongSet = new Set(Array.isArray(profile.wrongBook) ? profile.wrongBook : []);
+  const mastery = profile.mastery && typeof profile.mastery === 'object' ? profile.mastery : {};
+  const nowMs = new Date(now).getTime();
+  const due = (phrase) => {
+    const item = mastery[phrase.id];
+    if (!item || !item.nextReviewAt) return !item?.mastered;
+    const dueMs = new Date(item.nextReviewAt).getTime();
+    return !Number.isFinite(dueMs) || dueMs <= nowMs;
+  };
+
+  const groups = [
+    phrases.filter((p) => targetSet.has(p.id) && wrongSet.has(p.id)),
+    phrases.filter((p) => targetSet.has(p.id) && !wrongSet.has(p.id) && due(p)),
+    phrases.filter((p) => targetSet.has(p.id) && !wrongSet.has(p.id) && !due(p)),
+    phrases.filter((p) => !targetSet.has(p.id) && wrongSet.has(p.id)),
+    phrases.filter((p) => !targetSet.has(p.id) && !wrongSet.has(p.id) && due(p)),
+    phrases.filter((p) => !targetSet.has(p.id) && !wrongSet.has(p.id) && !due(p)),
+  ];
+  const seen = new Set();
+  const ordered = [];
+  for (const group of groups) {
+    for (const phrase of shuffle(group, rng)) {
+      if (!phrase?.id || seen.has(phrase.id)) continue;
+      seen.add(phrase.id);
+      ordered.push(phrase);
+    }
+  }
+
+  const questions = [];
+  for (let i = 0; i < Math.min(count, ordered.length); i++) {
+    const phrase = ordered[i];
+    const wantChoice = i % 2 === 0;
+    let question = wantChoice ? buildChoice(phrase, phrases, rng) : null;
+    if (!question) question = buildFill(phrase, rng);
+    questions.push(question);
+  }
+  return questions;
+}

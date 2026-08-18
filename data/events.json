@@ -1,0 +1,160 @@
+{
+  "meta": {
+    "version": 1,
+    "description": "封神世界地圖的非戰鬥事件與每日奇遇；effects 由 UI／存檔整合層解讀。"
+  },
+  "events": [
+    {
+      "id": "c1-lore-crane-letter",
+      "chapter": 1,
+      "kind": "lore",
+      "title": "白鶴銜來的玉虛簡",
+      "speaker": "姜太公",
+      "text": "白鶴落在石碑旁，口中玉簡只寫著半句古語。補全它，便能看見太極陣的來路。",
+      "choices": [
+        { "id": "read", "label": "靜心讀簡", "effect": { "type": "unlockLore", "value": "c1-origin" } },
+        { "id": "follow", "label": "跟隨白鶴", "effect": { "type": "ink", "value": 1 } }
+      ]
+    },
+    {
+      "id": "c1-treasure-four-signs",
+      "chapter": 1,
+      "kind": "treasure",
+      "title": "四象石盤",
+      "speaker": "四不像",
+      "text": "四不像用角頂開苔石，露出四象石盤。轉對方位，靈光碎片便會現身。",
+      "choices": [
+        { "id": "yin", "label": "先定陰位", "effect": { "type": "treasureShard", "value": "dashen-bian", "amount": 1 } },
+        { "id": "yang", "label": "先定陽位", "effect": { "type": "mapReveal", "value": "chapter-1-hidden" } }
+      ]
+    },
+    {
+      "id": "c2-lore-river-song",
+      "chapter": 2,
+      "kind": "lore",
+      "title": "黃河渡口的童謠",
+      "speaker": "哪吒",
+      "text": "河岸孩子唱著一首倒著念的童謠，歌詞暗藏九曲河道的安全次序。",
+      "choices": [
+        { "id": "listen", "label": "聽完童謠", "effect": { "type": "unlockLore", "value": "c2-river-song" } },
+        { "id": "race", "label": "踩風火輪探路", "effect": { "type": "routeBoost", "value": "previewNext", "uses": 1 } }
+      ]
+    },
+    {
+      "id": "c2-treasure-fire-wheel",
+      "chapter": 2,
+      "kind": "treasure",
+      "title": "流沙裡的火輪印",
+      "speaker": "哪吒",
+      "text": "流沙一閃一滅，像有火輪在地底奔馳。抓準浪退的一刻，才碰得到純金殘片。",
+      "choices": [
+        { "id": "wait", "label": "等待浪退", "effect": { "type": "treasureShard", "value": "qiankun-quan", "amount": 1 } },
+        { "id": "dash", "label": "迎浪疾衝", "effect": { "type": "ink", "value": 2 } }
+      ]
+    },
+    {
+      "id": "c3-lore-third-eye",
+      "chapter": 3,
+      "kind": "lore",
+      "title": "第三隻眼留下的影子",
+      "speaker": "楊戩",
+      "text": "焦黑石壁映出不屬於任何人的第三道影子，影子每眨一次眼，就有一個字恢復真形。",
+      "choices": [
+        { "id": "observe", "label": "記下字形", "effect": { "type": "unlockLore", "value": "c3-eye-shadow" } },
+        { "id": "ask-dog", "label": "請哮天犬追蹤", "effect": { "type": "mapReveal", "value": "chapter-3-hidden" } }
+      ]
+    },
+    {
+      "id": "c3-treasure-blade",
+      "chapter": 3,
+      "kind": "treasure",
+      "title": "熔岩上的神鋒",
+      "speaker": "楊戩",
+      "text": "一片刀鋒懸在熔岩上，只有說出石柱共同指向的詞義，火橋才會凝固。",
+      "choices": [
+        { "id": "meaning", "label": "由詞義推敲", "effect": { "type": "treasureShard", "value": "sanjian-liangren-dao", "amount": 1 } },
+        { "id": "pattern", "label": "由字形推敲", "effect": { "type": "hintToken", "value": "circle", "amount": 1 } }
+      ]
+    },
+    {
+      "id": "c4-lore-mirror",
+      "chapter": 4,
+      "kind": "lore",
+      "title": "摘星樓的反話鏡",
+      "speaker": "蘇妲己",
+      "text": "鏡中人句句說反話；若能找出哪一句其實是真話，九尾幻術便少一層。",
+      "choices": [
+        { "id": "truth", "label": "找出真話", "effect": { "type": "unlockLore", "value": "c4-mirror-truth" } },
+        { "id": "break", "label": "打碎銅鏡", "effect": { "type": "routeBoost", "value": "ignoreDebuff", "uses": 1 } }
+      ]
+    },
+    {
+      "id": "c4-treasure-lamp",
+      "chapter": 4,
+      "kind": "treasure",
+      "title": "狐火引魂燈",
+      "speaker": "申公豹",
+      "text": "道友請留步——燈裡有兩團狐火，一團指向寶物，一團指向陷阱。",
+      "choices": [
+        { "id": "blue", "label": "跟隨青狐火", "effect": { "type": "treasureShard", "value": "yinhun-deng", "amount": 1 } },
+        { "id": "red", "label": "跟隨赤狐火", "effect": { "type": "ink", "value": 3 } }
+      ]
+    },
+    {
+      "id": "c5-lore-four-gates",
+      "chapter": 5,
+      "kind": "lore",
+      "title": "誅仙四門的殘碑",
+      "speaker": "太乙真人",
+      "text": "四座殘碑各缺一角，碑文合讀後，才知道萬仙陣並非只有一個出口。",
+      "choices": [
+        { "id": "assemble", "label": "拼合碑文", "effect": { "type": "unlockLore", "value": "c5-second-ending" } },
+        { "id": "inspect", "label": "檢查劍痕", "effect": { "type": "mapReveal", "value": "chapter-5-hidden" } }
+      ]
+    },
+    {
+      "id": "c5-treasure-sword",
+      "chapter": 5,
+      "kind": "treasure",
+      "title": "星河中的誅仙殘鋒",
+      "speaker": "雷震子",
+      "text": "殘鋒被四道雷鎖纏住；每解一道文字鎖，天空便亮起一枚封神印。",
+      "choices": [
+        { "id": "unlock", "label": "逐鎖解文", "effect": { "type": "treasureShard", "value": "zhuxian-jian", "amount": 1 } },
+        { "id": "thunder", "label": "引雷破鎖", "effect": { "type": "bossBoost", "value": "shieldBreak", "uses": 1 } }
+      ]
+    }
+  ],
+  "dailyEncounters": [
+    {
+      "id": "daily-cloud-crane",
+      "title": "雲間白鶴",
+      "text": "白鶴今日停在一處已解鎖地標，留下半枚寫著成語首字的羽簡。",
+      "effect": { "type": "ink", "value": 1 }
+    },
+    {
+      "id": "daily-wandering-immortal",
+      "title": "雲遊散仙",
+      "text": "散仙願以一則封神軼聞，交換你答對一道釋義題。",
+      "effect": { "type": "unlockLore", "value": "daily-random" }
+    },
+    {
+      "id": "daily-treasure-goblin",
+      "title": "抱匣小妖",
+      "text": "小妖抱著寶匣躲進墨霧，找到牠便能預覽下一個寶物支線。",
+      "effect": { "type": "mapReveal", "value": "nextTreasureRoute" }
+    },
+    {
+      "id": "daily-word-stele",
+      "title": "無名成語碑",
+      "text": "石碑只在今日顯字，讀懂碑意可得到一次圈首字符籙。",
+      "effect": { "type": "hintToken", "value": "circle", "amount": 1 }
+    },
+    {
+      "id": "daily-river-star",
+      "title": "落入黃河的文曲星",
+      "text": "一點星光順河而下，會停在玩家尚未三星的已通關節點。",
+      "effect": { "type": "replayBonus", "value": "doubleInk", "uses": 1 }
+    }
+  ]
+}
