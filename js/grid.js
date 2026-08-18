@@ -33,7 +33,7 @@ export function createGrid(container, gridData, handlers = {}, opts = {}) {
   const revealedKeys = new Set((opts.revealed || []).map(([r, c]) => `${r},${c}`));
   const size = gridData.length;
   container.innerHTML = '';
-  container.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+  container.style.gridTemplateColumns = `repeat(${size}, minmax(0, 1fr))`;
   container.style.setProperty('--grid-n', String(size)); // 供 CSS 依尺寸縮放字級
   container.style.gap = size >= 10 ? '3px' : (size >= 8 ? '4px' : '');
   container.classList.toggle('grid-cross', mode === 'cross');

@@ -4,7 +4,9 @@ import { readFileSync } from 'node:fs';
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const css = readFileSync(new URL('../css/fengshen-ink.css', import.meta.url), 'utf8');
+const layoutCss = readFileSync(new URL('../css/style.css', import.meta.url), 'utf8');
 const js = readFileSync(new URL('../js/accessibility.js', import.meta.url), 'utf8');
+const gridJs = readFileSync(new URL('../js/grid.js', import.meta.url), 'utf8');
 
 test('all interface hooks required by app logic exist exactly once', () => {
   const ids = [
@@ -64,6 +66,12 @@ test('關卡守護角色圖片在桌機與手機皆填滿展示框', () => {
   assert.match(css, /companion-avatar-wrap[\s\S]*width:\s*100%[\s\S]*height:\s*100%/);
   assert.match(css, /companion-avatar-wrap \.fengshen-avatar-img[\s\S]*width:\s*100%[\s\S]*height:\s*100%[\s\S]*object-fit:\s*cover/);
   assert.match(css, /mask-image:\s*none/);
+});
+
+test('所有尺寸字陣與交叉輸入列皆受遊戲左欄寬度限制', () => {
+  assert.match(layoutCss, /\.grid\s*\{[\s\S]*?max-width:\s*100%/);
+  assert.match(layoutCss, /\.cross-input-row\s*\{[\s\S]*?max-width:\s*100%/);
+  assert.match(gridJs, /gridTemplateColumns\s*=\s*`repeat\(\$\{size\}, minmax\(0, 1fr\)\)`/);
 });
 
 test('accessibility controller includes focus trap, escape handling and focus restoration', () => {

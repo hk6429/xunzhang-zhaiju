@@ -467,6 +467,7 @@ main {
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
   width: min(92vw, 440px);
+  max-width: 100%;
   margin: 0 auto 1.2rem;
   touch-action: none;
   user-select: none;
@@ -674,6 +675,7 @@ main {
   gap: 0.6rem;
   justify-content: center;
   width: min(92vw, 440px);
+  max-width: 100%;
   margin: 0 auto 1.1rem;
 }
 .cross-input-row input {
