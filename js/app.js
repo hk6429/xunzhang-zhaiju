@@ -7,6 +7,7 @@ import {
 } from './progress.js';
 import {
   FENGSHEN_ARRAYS,
+  VOLUME2_ARRAYS,
   getArrayByChapter,
   CHARACTERS,
   getCharacterById,
@@ -391,7 +392,49 @@ function renderChambers() {
     box.appendChild(card);
   }
 
+  renderVolume2();
   renderEngagementHub();
+}
+
+// ── 第二卷「文林淬鍊卷」（第 51–100 關）：獨立呈現，不進封神山河圖 ───────
+function renderVolume2() {
+  const section = $('volume2-section');
+  const box = $('volume2-list');
+  if (!section || !box) return;
+
+  const volume1Done = levels.filter((l) => l.chapter <= 5)
+    .every((l) => (save.levels[String(l.id)]?.stars || 0) > 0);
+  section.classList.toggle('hidden', !volume1Done && !VOLUME2_ARRAYS.some((arr) => isUnlocked(arr.levelRange[0])));
+
+  box.innerHTML = '';
+  for (const arr of VOLUME2_ARRAYS) {
+    const [startId, endId] = arr.levelRange;
+    const chapterLevels = levels.filter((l) => l.id >= startId && l.id <= endId);
+    const completedLevels = chapterLevels.filter((l) => (save.levels[String(l.id)]?.stars || 0) > 0);
+    const chapterStars = chapterLevels.reduce((sum, l) => sum + (save.levels[String(l.id)]?.stars || 0), 0);
+    const maxStars = chapterLevels.length * 3;
+    const chapterUnlocked = isUnlocked(startId);
+    const isAllDone = chapterLevels.length > 0 && completedLevels.length === chapterLevels.length;
+    const frontierInArray = chapterLevels.find((l) => isUnlocked(l.id) && !(save.levels[String(l.id)]?.stars > 0))?.id || startId;
+
+    const card = document.createElement('div');
+    card.className = `volume2-card ${isAllDone ? 'done' : ''} ${chapterUnlocked ? '' : 'locked'}`;
+    card.style.setProperty('--chamber-color', arr.color);
+    card.style.setProperty('--chamber-accent', arr.accentColor);
+    card.innerHTML = `
+      <h3 class="volume2-card-title">${chapterUnlocked ? '' : '🔒 '}${arr.title}</h3>
+      <p class="volume2-card-alias">${arr.alias}</p>
+      <div class="volume2-card-progress-bar"><div class="volume2-card-progress-fill" style="width:${chapterLevels.length ? (completedLevels.length / chapterLevels.length) * 100 : 0}%"></div></div>
+      <div class="volume2-card-stats"><span>${completedLevels.length} / ${chapterLevels.length} 關</span><span>${chapterStars} / ${maxStars} ★</span></div>
+      <button type="button" class="${chapterUnlocked ? 'primary-btn' : 'ghost-btn'} volume2-enter-btn" ${chapterUnlocked ? '' : 'disabled'}>
+        ${!chapterUnlocked ? '🔒 通關上一章解鎖' : isAllDone ? '重探本章' : `進入（第 ${frontierInArray} 關）`}
+      </button>
+    `;
+    if (chapterUnlocked) {
+      card.querySelector('.volume2-enter-btn')?.addEventListener('click', () => enterLevel(frontierInArray));
+    }
+    box.appendChild(card);
+  }
 }
 
 function renderEngagementHub() {
@@ -740,7 +783,8 @@ function renderMap() {
   box.appendChild(bar);
 
   const frontier = frontierLevelId();
-  const orderedLevels = [...levels].sort((a, b) => a.id - b.id);
+  // 封神山河圖只涵蓋原始 5 章 50 關；第 51–100 關（文林淬鍊卷）獨立呈現於密室大廳，不進此圖
+  const orderedLevels = levels.filter((l) => l.chapter <= 5).sort((a, b) => a.id - b.id);
   const model = buildWorldMapModel(orderedLevels, save, worldStory, worldEvents, { date: localDateKey(), playerSeed: save.classroom?.teamCode || 'local-player' });
   const worldMap = makeWorldMap(orderedLevels, frontier);
   worldMap.querySelector('.world-map-canvas')?.classList.add(`world-repaired-${Math.floor(model.repairedPercent / 20)}`);

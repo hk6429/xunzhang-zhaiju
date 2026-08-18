@@ -388,8 +388,118 @@ export const FENGSHEN_ARRAYS = [
   }
 ];
 
+/**
+ * 第二卷「文林淬鍊卷」（第 6–10 章，第 51–100 關）：五大文學魔王章。
+ * 獨立於封神密室山河圖之外呈現（不進 view-map、不用封神角色立繪），
+ * 只提供文字化的「文林學士」引路人設定，避免借用封神角色形象造成錯亂。
+ */
+export const VOLUME2_ARRAYS = [
+  {
+    chapter: 6, id: 'array-hanfu', name: '漢賦遺韻卷', title: '漢賦遺韻・鋪采摛文',
+    alias: '雲夢七辯藏書閣', element: '賦體鴻筆', color: '#6b4a2f', accentColor: '#c99a5b',
+    levelRange: [51, 60],
+    guardians: [{
+      id: 'wenlin-hanfu', name: '文林學士', title: '漢賦引路人', shortTitle: '賦學士',
+      characterId: null, role: '文林引路人',
+      greeting: '「鋪采摛文，體物寫志——漢賦的鴻篇巨制，且看你能否摘出真章。」',
+      taunt: ['「賦者，鋪也；一字一句都是精心鋪陳，莫要漏看。」'],
+      cheer: '「好眼力！漢賦的堂皇氣象，盡在這一句中！」',
+      clickQuotes: ['「漢賦好比大賦鋪陳，字字皆有來歷，細看勿急。」'],
+      findQuotes: ['正是此句！漢賦氣象，躍然格上！'],
+      hintQuotes: ['且借一絲文思，助你看清賦中真意。'],
+      quizQuotes: ['答得好！於賦學一道，你已窺得門徑。'],
+      timeoutQuotes: ['時辰已到，莫急，重整思緒再來一回。'],
+      winQuotes: ['漢賦一卷，你已讀通！文林之路，繼續向前。'],
+    }],
+    lore: '漢賦鋪張揚厲，體物寫志。古詩十九首則情真意切，字字動人。此卷收錄兩者名句，考驗你辨識鴻篇與真情的眼力。',
+    treasureShard: null,
+  },
+  {
+    chapter: 7, id: 'array-yuefu', name: '樂府新聲卷', title: '樂府新聲・感於哀樂',
+    alias: '採詩觀風驛站', element: '歌行敘事', color: '#2f5a4a', accentColor: '#5bc9a0',
+    levelRange: [61, 70],
+    guardians: [{
+      id: 'wenlin-yuefu', name: '文林學士', title: '樂府引路人', shortTitle: '樂府學士',
+      characterId: null, role: '文林引路人',
+      greeting: '「樂府詩感於哀樂，緣事而發——且聽這一段段人間歌行。」',
+      taunt: ['「新樂府直陳時事，句句皆是心聲，仔細品讀。」'],
+      cheer: '「妙！這正是樂府敘事最動人之處！」',
+      clickQuotes: ['「樂府詩多敘事，順著情節找，字句自然浮現。」'],
+      findQuotes: ['正是此句！歌行敘事，情意躍然！'],
+      hintQuotes: ['且借一絲文思，助你聽清歌中真意。'],
+      quizQuotes: ['答得好！於樂府一道，你已窺得門徑。'],
+      timeoutQuotes: ['時辰已到，莫急，重整思緒再來一回。'],
+      winQuotes: ['樂府一卷，你已讀通！文林之路，繼續向前。'],
+    }],
+    lore: '樂府詩緣事而發，新樂府直陳時事、為民請命。此卷收錄兩者名句，考驗你在敘事與諷喻之間辨明句意的眼力。',
+    treasureShard: null,
+  },
+  {
+    chapter: 8, id: 'array-tangshi', name: '盛唐詩陣卷', title: '盛唐詩陣・氣象萬千',
+    alias: '謫仙醉月吟台', element: '格律氣韻', color: '#7a2f2f', accentColor: '#e08a6b',
+    levelRange: [71, 80],
+    guardians: [{
+      id: 'wenlin-tangshi', name: '文林學士', title: '唐詩引路人', shortTitle: '唐詩學士',
+      characterId: null, role: '文林引路人',
+      greeting: '「盛唐氣象萬千，格律嚴謹卻意境開闊——來，與我同遊詩陣。」',
+      taunt: ['「唐詩格律嚴整，一字一句都在平仄之間，細細推敲。」'],
+      cheer: '「好句！唐詩氣象，盡在其中！」',
+      clickQuotes: ['「唐詩講究對仗與意境，順著詩意去找，自有脈絡。」'],
+      findQuotes: ['正是此句！盛唐氣象，躍然眼前！'],
+      hintQuotes: ['且借一絲文思，助你看清詩中真意。'],
+      quizQuotes: ['答得好！於唐詩一道，你已窺得門徑。'],
+      timeoutQuotes: ['時辰已到，莫急，重整思緒再來一回。'],
+      winQuotes: ['唐詩一卷，你已讀通！文林之路，繼續向前。'],
+    }],
+    lore: '唐詩格律嚴謹、氣象萬千，名家輩出。此卷收錄盛唐名句，考驗你在千古絕唱中辨明字句的功力。',
+    treasureShard: null,
+  },
+  {
+    chapter: 9, id: 'array-cq', name: '宋詞元曲卷', title: '宋詞元曲・婉約豪放',
+    alias: '大江東去水榭', element: '詞曲聲律', color: '#2f3f7a', accentColor: '#7a93e0',
+    levelRange: [81, 90],
+    guardians: [{
+      id: 'wenlin-cq', name: '文林學士', title: '詞曲引路人', shortTitle: '詞曲學士',
+      characterId: null, role: '文林引路人',
+      greeting: '「宋詞婉約豪放兼備，元曲直白潑辣——且看你能辨明幾分。」',
+      taunt: ['「詞曲講究聲律，長短句間自有節奏，靜心細讀。」'],
+      cheer: '「好句！宋詞元曲的韻味，正在此處！」',
+      clickQuotes: ['「詞曲句式長短不一，順著詞意脈絡去找。」'],
+      findQuotes: ['正是此句！詞曲韻味，躍然眼前！'],
+      hintQuotes: ['且借一絲文思，助你看清詞中真意。'],
+      quizQuotes: ['答得好！於詞曲一道，你已窺得門徑。'],
+      timeoutQuotes: ['時辰已到，莫急，重整思緒再來一回。'],
+      winQuotes: ['詞曲一卷，你已讀通！文林之路，繼續向前。'],
+    }],
+    lore: '宋詞婉約豪放兼具，元曲直白潑辣、貼近人情。此卷收錄兩者名句，考驗你辨識聲律與情韻的功力。',
+    treasureShard: null,
+  },
+  {
+    chapter: 10, id: 'array-novel', name: '回目千秋卷', title: '回目千秋・章回總陣',
+    alias: '千古風流總陣', element: '章回敘事', color: '#4a2f6b', accentColor: '#a17ae0',
+    levelRange: [91, 100],
+    guardians: [{
+      id: 'wenlin-novel', name: '文林學士', title: '章回引路人', shortTitle: '章回學士',
+      characterId: null, role: '文林引路人',
+      greeting: '「章回小說千秋萬代，此為文林淬鍊卷終章——第一百關更是文學全庫總陣，且拿出真本事來！」',
+      taunt: ['「三國、水滸、西遊、紅樓，字字皆是千古風流，莫要輕忽。」'],
+      cheer: '「好句！章回敘事的精髓，盡在於此！」',
+      clickQuotes: ['「章回小說句式明快，順著情節脈絡去找，自有頭緒。」'],
+      findQuotes: ['正是此句！千秋回目，躍然眼前！'],
+      hintQuotes: ['且借一絲文思，助你看清回目真意。'],
+      quizQuotes: ['答得好！於章回一道，你已窺得門徑。'],
+      timeoutQuotes: ['時辰已到，莫急，重整思緒再來一回。'],
+      winQuotes: ['文林淬鍊卷，你已全數讀通！千古風流，盡歸於你！'],
+    }],
+    lore: '三國演義、水滸傳、西遊記、紅樓夢，四大章回小說名句薈萃。第一百關為終極魔王關，文學全庫混合出題，零提示、限時七分鐘，是文林淬鍊卷的最終試煉。',
+    treasureShard: null,
+  },
+];
+
+const ALL_ARRAYS = [...FENGSHEN_ARRAYS, ...VOLUME2_ARRAYS];
+
 // 初始化每個陣法的預設 guardian 引用
-FENGSHEN_ARRAYS.forEach((arr) => {
+ALL_ARRAYS.forEach((arr) => {
   if (arr.guardians && arr.guardians.length) {
     arr.guardian = arr.guardians[0];
   }
@@ -400,12 +510,12 @@ FENGSHEN_ARRAYS.forEach((arr) => {
  */
 export function getArrayByChapter(chapter) {
   const ch = Number(chapter) || 1;
-  return FENGSHEN_ARRAYS.find((a) => a.chapter === ch) || FENGSHEN_ARRAYS[0];
+  return ALL_ARRAYS.find((a) => a.chapter === ch) || FENGSHEN_ARRAYS[0];
 }
 
 export function getArrayByLevelId(levelId) {
   const id = Number(levelId) || 1;
-  const chapter = Math.min(5, Math.max(1, Math.ceil(id / 10)));
+  const chapter = Math.min(10, Math.max(1, Math.ceil(id / 10)));
   return getArrayByChapter(chapter);
 }
 

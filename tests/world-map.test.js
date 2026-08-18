@@ -17,7 +17,10 @@ import {
   worldInventory,
 } from '../js/world-map.js';
 
-const levels = JSON.parse(readFileSync(new URL('../data/levels.json', import.meta.url), 'utf8')).levels;
+// 封神山河圖世界地圖系統的設計範圍固定在原始 5 章 50 關（含第 51 關真結局隱藏關）；
+// 第 51-100 關（文林淬鍊卷）是獨立呈現的內容，不進山河圖，故此處只取前 50 關驗證世界地圖不變式。
+const levels = JSON.parse(readFileSync(new URL('../data/levels.json', import.meta.url), 'utf8')).levels
+  .filter((level) => level.chapter <= 5);
 const story = JSON.parse(readFileSync(new URL('../data/story-lore-v2.json', import.meta.url), 'utf8'));
 const eventsData = JSON.parse(readFileSync(new URL('../data/events.json', import.meta.url), 'utf8'));
 

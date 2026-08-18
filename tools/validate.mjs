@@ -23,11 +23,13 @@ import { fileURLToPath } from 'node:url';
 import { CURRICULUM, LEVEL_COUNT, inPool, isChengyu, charLen, expectedTargetCounts } from './curriculum.mjs';
 
 const CLUE_STYLES = new Set(['釋義', '急轉彎', '典故', '諧音', '情境']);
-const TYPE_SET = new Set(['成語', '諺語', '俗語']);
+const IDIOM_TYPES = new Set(['成語', '諺語', '俗語']);
+const LIT_TYPES = new Set(['漢賦', '古詩十九首', '樂府詩', '新樂府詩', '唐詩', '宋詞', '元曲', '章回小說']);
+const TYPE_SET = new Set([...IDIOM_TYPES, ...LIT_TYPES]);
 const LEVEL_SET = new Set(['常用', '進階']);
 
 // 常見簡體字元黑名單（僅收與繁體字形不同的簡化字）
-const SIMPLIFIED_RE = /[万与专业丛东丝两严个临为丽举义乐书买乱亏亚产亲亿仅从仑仓们价众优会伞伟传伤体余佣侠侣侧侨俭债倾偿儿兰关兴养兽内冈写军农冲决况净凑凤凭刘则刚创删别剧劝办务动励劳势医华协单卖卫厂厅历厉压厌县发变叙后吓吗听启员响哑唤啸国图圆圣场坏块坚坛垒垫壶处备复够头夸夺奋奖妆妇妈娄娱婶学宁宝实审宪宫对导寻将尔尘尝尽层岁岛币师带帮开异张弹归当录彻径徽忆忧怀态总恋恳恶悬惊惧惨惩愿慑懒戏战户扑执扩扫扬扰抚抛拟拢拣拥挂挚挥损换据捣掷摄摆摊敌数斋断无旧时显晓暂书术机杀杂权条来杨极构枢标栏树样桥检楼欢欧歼归残杀毁气汇汉污汤沟没泞泪泼泽洁浊测济浏涂涛润涨渐渔湾溃满滚滞潜灭灯灵灾炀点炼烁烂烦烧热爱爷牍牵犊状犹独狈狮狱猎猫献玛环现琼疗疟疡疯痒盖盘卢眍着睁瞒矫矶础矿码砖硕确离种积称笔笋筑筛简箩类粜粪紧絷纠红纤约级纪纫纬纯纱纲纳纵纷纸纹纺线练组绅细织终绍经绑绒结绕绘给络绝绞统绣继绩绪续绳维绵综缄缅缆缉缎缓缔缕编缘缚缝缠缩缴缸罚罢罗羁翘耻聂聋职联聪肃肠肤肿胀胁胆脉脏脑脱脸腊舆舰舱艰节芜苏苹范茎荐荡荣药莲获莹营萧蒙蓝蔷蕴薮虏虑虚虫蚀蚁蚂蜗蝇蝉衅补装裆裤见观规视览觉誉计订认讥讨让训议讯记讲许论讼讽设访诀证评识诉词译试诗诚话诞询该详语误说诵请诸读课谁调谈谊谋谐谓谜谢谣谦谨谬谭谱谴贝贞负贡财责贤败货质贩贪贫购贮贯贱贴贵贷贸费贺贼贾资赋赌赏赐赔赖赚赛赞赠赢赵趋践跃踊车轧轨转轮软轻载较辅辆辈辉辞辩辫边辽达迁过迈运还这进远违连迟适选逊递逻遗邓邮邻郑鉴钉针钓钟钢钥钦钱钻铁铃铅铜铝银铸铺链销锁锄锅锋错锦锻镇镜长门闪闭问闯闲间闷闸闹闻阀阁阅队阳阴阵阶际陆陈险随隐隶难雏雾韩页顶顷项顺须顽顾顿颁颂预颅领颇频颖颗题颜额风飘飞饥饭饮饰饱饲饶馆马驰驱驳驶驹驻驾骂骄骆验骏骑骗骚骤髅魇鱼鲁鲜鸟鸡鸣鸦鸿鹃鹅鹊鹰麦黄龄齐龙龟]/;
+const SIMPLIFIED_RE = /[万与专业丛东丝两严个临为丽举义乐书买乱亏亚产亲亿仅从仑仓们价众优会伞伟传伤体余佣侠侣侧侨俭债倾偿儿兰关兴养兽内冈写军农冲决况净凑凤凭刘则刚创删别剧劝办务动励劳势医华协单卖卫厂厅历厉压厌县发变叙吓吗听启员响哑唤啸国图圆圣场坏块坚坛垒垫壶处备复够头夸夺奋奖妆妇妈娄娱婶学宁宝实审宪宫对导寻将尔尘尝尽层岁岛币师带帮开异张弹归当录彻径徽忆忧怀态总恋恳恶悬惊惧惨惩愿慑懒戏战户扑执扩扫扬扰抚抛拟拢拣拥挂挚挥损换据捣掷摄摆摊敌数斋断无旧时显晓暂书术机杀杂权条来杨极构枢标栏树样桥检楼欢欧歼归残杀毁气汇汉污汤沟没泞泪泼泽洁浊测济浏涂涛润涨渐渔湾溃满滚滞潜灭灯灵灾炀点炼烁烂烦烧热爱爷牍牵犊状犹独狈狮狱猎猫献玛环现琼疗疟疡疯痒盖盘卢眍着睁瞒矫矶础矿码砖硕确离种积称笔笋筑筛简箩类粜粪紧絷纠红纤约级纪纫纬纯纱纲纳纵纷纸纹纺线练组绅细织终绍经绑绒结绕绘给络绝绞统绣继绩绪续绳维绵综缄缅缆缉缎缓缔缕编缘缚缝缠缩缴缸罚罢罗羁翘耻聂聋职联聪肃肠肤肿胀胁胆脉脏脑脱脸腊舆舰舱艰节芜苏苹茎荐荡荣药莲获莹营萧蒙蓝蔷蕴薮虏虑虚虫蚀蚁蚂蜗蝇蝉衅补装裆裤见观规视览觉誉计订认讥讨让训议讯记讲许论讼讽设访诀证评识诉词译试诗诚话诞询该详语误说诵请诸读课谁调谈谊谋谐谓谜谢谣谦谨谬谭谱谴贝贞负贡财责贤败货质贩贪贫购贮贯贱贴贵贷贸费贺贼贾资赋赌赏赐赔赖赚赛赞赠赢赵趋践跃踊车轧轨转轮软轻载较辅辆辈辉辞辩辫边辽达迁过迈运还这进远违连迟适选逊递逻遗邓邮邻郑鉴钉针钓钟钢钥钦钱钻铁铃铅铜铝银铸铺链销锁锄锅锋错锦锻镇镜长门闪闭问闯闲间闷闸闹闻阀阁阅队阳阴阵阶际陆陈险随隐隶难雏雾韩页顶顷项顺须顽顾顿颁颂预颅领颇频颖颗题颜额风飘飞饥饭饮饰饱饲饶馆马驰驱驳驶驹驻驾骂骄骆验骏骑骗骚骤髅魇鱼鲁鲜鸟鸡鸣鸦鸿鹃鹅鹊鹰麦黄龄齐龙龟]/;
 
 const CJK_SINGLE_RE = /^[㐀-䶿一-鿿豈-﫿]$/u;
 
@@ -85,19 +87,30 @@ function main() {
     if (seenIds.has(p.id)) V(`${tag}：id 重複`);
     seenIds.add(p.id);
 
-    // v4：type / level 枚舉，並禁止帶入外部來源欄位
-    if (!TYPE_SET.has(p.type)) V(`${tag}：type「${p.type}」不在枚舉 成語/諺語/俗語`);
+    // v4：type / level 枚舉；成語/諺語/俗語禁帶外部來源欄位，8 種文學 type 必填 author/dynasty
+    if (!TYPE_SET.has(p.type)) V(`${tag}：type「${p.type}」不在枚舉內`);
     if (!LEVEL_SET.has(p.level)) V(`${tag}：level「${p.level}」不在枚舉 常用/進階`);
-    for (const field of ['source', 'author', 'origin_work']) {
-      if (field in p) V(`${tag}：不得保留 ${field} 欄位，釋義須為站內原創白話內容`);
+    if (IDIOM_TYPES.has(p.type)) {
+      for (const field of ['source', 'author', 'origin_work', 'dynasty']) {
+        if (field in p) V(`${tag}：不得保留 ${field} 欄位，釋義須為站內原創白話內容`);
+      }
+    } else if (LIT_TYPES.has(p.type)) {
+      for (const field of ['source', 'origin_work']) {
+        if (field in p) V(`${tag}：不得保留 ${field} 欄位，釋義須為站內原創白話內容`);
+      }
+      if (!p.author) V(`${tag}：文學類型缺必填欄位 author`);
+      if (!p.dynasty) V(`${tag}：文學類型缺必填欄位 dynasty`);
     }
 
     if (typeof p.text === 'string') {
       const len = charLen(p.text);
-      // v3：成語一律 4 字；諺語/俗語 4–9 字
+      // v3：成語一律 4 字；諺語/俗語 4–9 字；v4：8 種文學 type 4–14 字
       if (p.type === '成語' && len !== 4) V(`${tag}：成語 text「${p.text}」不是四字`);
       if ((p.type === '諺語' || p.type === '俗語') && (len < 4 || len > 9)) {
         V(`${tag}：${p.type} text「${p.text}」長度 ${len}，須為 4–9 字`);
+      }
+      if (LIT_TYPES.has(p.type) && (len < 4 || len > 14)) {
+        V(`${tag}：${p.type} text「${p.text}」長度 ${len}，須為 4–14 字`);
       }
       if (seenTexts.has(p.text)) V(`${tag}：text「${p.text}」重複`);
       seenTexts.add(p.text);
@@ -351,12 +364,14 @@ function main() {
   const uniqueTargets = new Set(levels.flatMap(l => (l.targets ?? []).map(t => t.phraseId)));
   const fullN = levels.filter(l => l.layout === 'full').length;
   const crossN = levels.filter(l => l.layout === 'cross').length;
-  const byType = { '成語': 0, '諺語': 0, '俗語': 0 };
-  for (const p of phrases) if (byType[p.type] !== undefined) byType[p.type]++;
+  const byType = {};
+  for (const p of phrases) byType[p.type] = (byType[p.type] ?? 0) + 1;
+  const typeSummary = Object.entries(byType).map(([t, n]) => `${t} ${n}`).join('／');
+  const chapterN = new Set(levels.map(l => l.chapter)).size;
   console.log('驗證全數通過 ✔');
-  console.log(`摘要：語料 ${phrases.length} 條（成語 ${byType['成語']}／諺語 ${byType['諺語']}／俗語 ${byType['俗語']}；` +
+  console.log(`摘要：語料 ${phrases.length} 條（${typeSummary}；` +
     `clues 共 ${phrases.reduce((n, p) => n + p.clues.length, 0)} 則）；` +
-    `關卡 ${levels.length} 關（full ${fullN}／cross ${crossN}；五章）；` +
+    `關卡 ${levels.length} 關（full ${fullN}／cross ${crossN}；${chapterN} 章）；` +
     `目標 ${totalTargets} 個（不重複 ${uniqueTargets.size} 條）；黑名單 ${blacklist.length} 詞掃描無命中`);
 }
 

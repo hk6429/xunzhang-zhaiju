@@ -47,6 +47,9 @@ export function startLevel(ctx) {
   // ── 封神密室陣法與守護仙人 ──────────────
   const arrayInfo = getArrayByLevelId(level.id);
   const guardian = arrayInfo.guardian || (arrayInfo.guardians && arrayInfo.guardians[0]);
+  // 文林淬鍊卷（第 6–10 章）尚無專屬立繪，characterId 明確設為 null 以跳過生圖，只保留文字對白
+  const hasGuardianArt = guardian.characterId !== null;
+  const guardianSvg = (mood) => (hasGuardianArt ? renderGuardianSvg(guardian.characterId || guardian.id, mood) : '');
 
   // ── 目標資料 ──────────────────────────
   const targets = level.targets.map((t, i) => {
@@ -117,7 +120,7 @@ export function startLevel(ctx) {
 
   function setCompanion(mood = 'idle', customText = null, isTalking = true, sfx = null) {
     if (avatarWrap) {
-      avatarWrap.innerHTML = renderGuardianSvg(guardian.characterId || guardian.id, mood);
+      avatarWrap.innerHTML = guardianSvg(mood);
     }
     if (companionName) {
       companionName.textContent = `${guardian.name}・${guardian.shortTitle}`;
@@ -175,7 +178,7 @@ export function startLevel(ctx) {
     const speech = $('cutin-guardian-speech');
 
     if (charStage) {
-      charStage.innerHTML = renderGuardianSvg(guardian.characterId || guardian.id, 'victory');
+      charStage.innerHTML = guardianSvg('victory');
     }
     if (stamp) stamp.textContent = foundPhrase.text;
     if (sub) sub.textContent = '⚡ 陣眼勘破・真傳現世 ⚡';
@@ -349,7 +352,7 @@ export function startLevel(ctx) {
     // 渲染超時救援視窗
     const rescueAvatar = $('timeout-guardian-avatar');
     if (rescueAvatar) {
-      rescueAvatar.innerHTML = renderGuardianSvg(guardian.characterId || guardian.id, 'panic');
+      rescueAvatar.innerHTML = guardianSvg('panic');
     }
     const rescueName = $('timeout-guardian-name');
     if (rescueName) {
@@ -609,7 +612,7 @@ export function startLevel(ctx) {
     
     const completeAvatar = $('complete-guardian-avatar');
     if (completeAvatar) {
-      completeAvatar.innerHTML = renderGuardianSvg(guardian.characterId || guardian.id, 'victory');
+      completeAvatar.innerHTML = guardianSvg('victory');
     }
     const completeSpeech = $('complete-guardian-speech');
     if (completeSpeech) {

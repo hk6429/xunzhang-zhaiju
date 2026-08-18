@@ -3782,3 +3782,62 @@ main:has(#view-collection:not(.hidden)) {
   .rest-reminder,
   .mobile-tabbar { scroll-behavior: auto; }
 }
+
+/* ── 第二卷「文林淬鍊卷」（第 51–100 關）：獨立呈現，不進封神山河圖 ── */
+.volume2-section {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 2px dashed rgba(116, 83, 29, 0.4);
+}
+.volume2-section.hidden { display: none; }
+.volume2-header { text-align: center; margin-bottom: 1.25rem; }
+.volume2-kicker {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: var(--palace-gold, #c59a3f);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.35rem;
+}
+.volume2-title { margin: 0 0 0.5rem; font-size: 1.4rem; }
+.volume2-desc {
+  max-width: 640px;
+  margin: 0 auto;
+  color: var(--palace-ink-soft, #6b5c40);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+.volume2-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+.volume2-card {
+  position: relative;
+  border-radius: 12px;
+  border: 2px solid var(--chamber-color, #6b4a2f);
+  background: rgba(255, 252, 240, 0.85);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.volume2-card.locked { opacity: 0.55; filter: grayscale(0.5); }
+.volume2-card.done { border-color: var(--chamber-accent, #c99a5b); }
+.volume2-card-title { margin: 0; font-size: 1.05rem; }
+.volume2-card-alias { margin: 0; font-size: 0.8rem; color: var(--palace-ink-soft, #6b5c40); }
+.volume2-card-progress-bar {
+  height: 6px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+.volume2-card-progress-fill {
+  height: 100%;
+  background: var(--chamber-accent, #c99a5b);
+}
+.volume2-card-stats { font-size: 0.82rem; display: flex; justify-content: space-between; }
+.volume2-card .primary-btn, .volume2-card .ghost-btn { width: 100%; }
+
+@media (prefers-color-scheme: dark) {
+  .volume2-card { background: rgba(20, 24, 22, 0.55); }
+}

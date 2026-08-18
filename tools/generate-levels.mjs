@@ -27,8 +27,8 @@ const CREATIVE_STYLES = ['急轉彎', '典故', '諧音', '情境'];
 const DEFAULT_SEED = 20260818;
 const MAX_FILL_TRIES = 300;      // full：干擾字重填上限
 const MAX_LAYOUT_TRIES = 80;     // full：目標擺盤重試上限
-const MAX_SEED_BUMPS = 30;       // 換 seed（＝換一批候選重洗）重試上限
-const CROSS_NODE_BUDGET = 200000; // cross：單輪回溯節點預算，超額放棄本輪
+const MAX_SEED_BUMPS = 40;       // 換 seed（＝換一批候選重洗）重試上限
+const CROSS_NODE_BUDGET = 500000; // cross：單輪回溯節點預算，超額放棄本輪（v4 大盤面加碼）
 
 // 約 100 字國中常用字池（干擾字備用，避免生僻字）
 const COMMON_CHARS = [...new Set(
