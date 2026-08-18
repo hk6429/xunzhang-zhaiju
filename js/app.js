@@ -819,6 +819,9 @@ function enterLevel(id) {
   const level = levelsById[id];
   if (!level) return;
   if (currentGame) currentGame.destroy();
+  // 封神山河圖只涵蓋第 1–5 章；第 6–10 章（文林淬鍊卷）沒有山河圖節點，
+  // 離開／通關後要回密室大廳，而非山河圖，否則玩家找不到回文林淬鍊卷的路。
+  const homeView = level.chapter <= 5 ? 'map' : 'chamber';
   showView('game');
   currentGame = startLevel({
     level,
@@ -830,7 +833,7 @@ function enterLevel(id) {
     persist,
     boss: getBossForLevel(worldStory, id),
     hasNext: !level.boss && (level.nextIds || []).length > 0,
-    onExit: () => showView('map'),
+    onExit: () => showView(homeView),
     onRetry: () => enterLevel(id),
     onProgress: (found, total) => renderBossHud(getBossForLevel(worldStory, id), found, total),
     onComplete: () => {
@@ -840,13 +843,19 @@ function enterLevel(id) {
       if (level.boss) {
         showChapterStory(level.chapter, 'outro', () => {
           $('modal-complete')?.classList.add('hidden');
-          showView('map');
+          showView(homeView);
         });
       }
     },
     onNext: () => {
+      if (level.chapter > 5) {
+        const nextId = (level.nextIds || [])[0];
+        if (level.boss || !nextId) showView(homeView);
+        else enterLevel(nextId);
+        return;
+      }
       const next = nextReachableLevels(levels, id, save);
-      if (level.boss || next.length !== 1) showView('map');
+      if (level.boss || next.length !== 1) showView(homeView);
       else enterWorldNode(next[0]);
     },
   });
