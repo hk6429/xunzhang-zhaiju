@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "xunzhang-zhaiju-presence",
+  "main": "worker.js",
+  "compatibility_date": "2026-08-18",
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "PRESENCE_ROOM",
+        "class_name": "PresenceRoom"
+      }
+    ]
+  },
+  "exports": {
+    "PresenceRoom": {
+      "type": "durable-object",
+      "storage": "sqlite"
+    }
+  }
+}

@@ -12,6 +12,7 @@
 - **山河分支地圖**：50 關直接疊在單幅封神山河圖上，含主線、典故支線、法寶支線、非戰鬥事件與五場三階段 Boss。
 - **留存循環**：支援重修最佳成績、三種模式、每日任務、一炷香快陣、錯題間隔複習、法寶碎片、續玩與休息提醒。
 - **學習者主導**：封神寶典可寫自己的例句或使用情境，多元學習身分不做單一排名；班級協作僅交換匿名彙總成果。
+- **即時在線**：右下角顯示 Cloudflare／Netlify 兩站共用的在線人數；每個分頁只產生匿名隨機識別碼，75 秒未回報即自動離線。
 
 ## 內容
 
@@ -27,6 +28,7 @@ node tools/generate-levels.mjs data/phrases.json data/levels.json [seed]  # 重�
 node tools/validate.mjs data/phrases.json data/levels.json                # 硬閘門驗證
 node tools/validate-visuals.mjs                                          # 美術資產契約驗證
 node --test                                                               # 模組不變式測試
+npx wrangler deploy --config presence-worker/wrangler.jsonc              # 部署匿名在線 Presence API
 ```
 
 美術資產驗證會檢查 `index.html` 與各 registry 的 SVG／PNG／JPG 圖片參照是否存在、九位 Q 版角色是否具備 1:1 國風潑墨 metadata，以及首頁、五章密室與通關慶典等七個主要場景是否齊全。
