@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" width="280" height="280">
+  <defs>
+    <pattern id="halftone-tx" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.1" fill="#854d0e" opacity="0.18"/>
+    </pattern>
+    <filter id="comic-shadow-tx" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="0" flood-color="#0f172a" flood-opacity="0.8" />
+    </filter>
+    <filter id="glow-gold-tx" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="earth-grad-tx" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#ca8a04"/>
+      <stop offset="100%" stop-color="#713f12"/>
+    </linearGradient>
+    <linearGradient id="skin-tx" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff5f5"/>
+      <stop offset="100%" stop-color="#fed7aa"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Earth / Warm Amber Halftone Aura -->
+  <circle cx="140" cy="140" r="125" fill="#fefce8" opacity="0.6"/>
+  <circle cx="140" cy="140" r="115" fill="url(#halftone-tx)"/>
+
+  <!-- Underground Burrow Dirt Mound (地洞泥土堆) at Bottom -->
+  <g id="dirt-mound" filter="url(#comic-shadow-tx)">
+    <!-- Underground hole ellipse -->
+    <ellipse cx="140" cy="225" rx="85" ry="30" fill="#713f12" stroke="#0f172a" stroke-width="4.5"/>
+    <ellipse cx="140" cy="223" rx="72" ry="20" fill="#1c1917"/>
+    <!-- Dirt clumps flying -->
+    <circle cx="55" cy="210" r="6" fill="#854d0e" stroke="#0f172a" stroke-width="2"/>
+    <circle cx="45" cy="195" r="4" fill="#854d0e" stroke="#0f172a" stroke-width="1.5"/>
+    <circle cx="225" cy="210" r="6" fill="#854d0e" stroke="#0f172a" stroke-width="2"/>
+    <circle cx="235" cy="195" r="4" fill="#854d0e" stroke="#0f172a" stroke-width="1.5"/>
+  </g>
+
+  <!-- Binding-Immortal Golden Rope (捆仙繩) on Back -->
+  <g id="rope" filter="url(#glow-gold-tx)">
+    <path d="M 75 160 C 50 140 70 90 90 85 C 110 80 85 130 95 165 Z" fill="#facc15" stroke="#0f172a" stroke-width="3"/>
+    <circle cx="85" cy="85" r="5" fill="#ef4444"/>
+  </g>
+
+  <!-- Iron Staff (鑌鐵短棍) in Hand -->
+  <g id="staff" filter="url(#comic-shadow-tx)">
+    <line x1="195" y1="90" x2="225" y2="230" stroke="#334155" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="195" cy="90" r="6" fill="#facc15" stroke="#0f172a" stroke-width="2"/>
+    <circle cx="225" cy="230" r="6" fill="#facc15" stroke="#0f172a" stroke-width="2"/>
+  </g>
+
+  <!-- Compact Body (Short & Cute emerging from ground) -->
+  <g id="body" filter="url(#comic-shadow-tx)">
+    <!-- Earth Brown Tunic -->
+    <path d="M 110 165 L 95 220 Q 140 230 185 220 L 170 165 Z" fill="url(#earth-grad-tx)" stroke="#0f172a" stroke-width="4.5" stroke-linejoin="round"/>
+    <!-- Golden Belt -->
+    <path d="M 105 190 Q 140 198 175 190" stroke="#facc15" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="140" cy="194" r="6" fill="#ef4444" stroke="#0f172a" stroke-width="2"/>
+  </g>
+
+  <!-- Arms -->
+  <g id="arms" filter="url(#comic-shadow-tx)">
+    <!-- Left Hand poking up energetically -->
+    <path d="M 105 170 Q 75 155 70 135" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 105 170 Q 75 155 70 135" stroke="#ca8a04" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <circle cx="70" cy="135" r="7" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/>
+
+    <!-- Right Hand gripping iron staff -->
+    <path d="M 175 170 Q 200 155 205 135" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 175 170 Q 200 155 205 135" stroke="#ca8a04" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <circle cx="205" cy="135" r="7" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/>
+  </g>
+
+  <!-- Head Base: Mole Animal Hood (超萌小鼴鼠兜帽) -->
+  <g id="mole-hood" filter="url(#comic-shadow-tx)">
+    <ellipse cx="140" cy="105" rx="58" ry="54" fill="#713f12" stroke="#0f172a" stroke-width="4.5"/>
+    <!-- Round Mole Ears -->
+    <circle cx="85" cy="65" r="14" fill="#854d0e" stroke="#0f172a" stroke-width="3"/>
+    <circle cx="85" cy="65" r="7" fill="#fde047"/>
+    <circle cx="195" cy="65" r="14" fill="#854d0e" stroke="#0f172a" stroke-width="3"/>
+    <circle cx="195" cy="65" r="7" fill="#fde047"/>
+    <!-- Mole Nose Tip on Hood -->
+    <ellipse cx="140" cy="55" rx="10" ry="6" fill="#facc15" stroke="#0f172a" stroke-width="2"/>
+  </g>
+
+  <!-- Cute Chibi Boy Face inside Hood -->
+  <ellipse cx="140" cy="115" rx="46" ry="40" fill="url(#skin-tx)" stroke="#0f172a" stroke-width="4" filter="url(#comic-shadow-tx)"/>
+
+  <!-- Spiky Bangs poking out -->
+  <path d="M 98 96 Q 115 110 125 98 Q 140 110 155 98 Q 165 110 182 96 Q 140 80 98 96 Z" fill="#0f172a"/>
+
+  <!-- Cheerful Rosy Cheeks -->
+  <ellipse cx="102" cy="125" rx="9" ry="6" fill="#fb7185" opacity="0.75"/>
+  <ellipse cx="178" cy="125" rx="9" ry="6" fill="#fb7185" opacity="0.75"/>
+
+  <!-- Big Sparkly Mischievous Brown Eyes (鬼靈精大眼) -->
+  <g id="eyes">
+    <!-- Left Eye -->
+    <ellipse cx="118" cy="110" rx="10" ry="11" fill="#0f172a"/>
+    <circle cx="118" cy="110" r="8" fill="#854d0e"/>
+    <circle cx="115" cy="106" r="4.5" fill="#ffffff"/>
+    <circle cx="121" cy="114" r="2" fill="#ffffff"/>
+
+    <!-- Right Eye -->
+    <ellipse cx="162" cy="110" rx="10" ry="11" fill="#0f172a"/>
+    <circle cx="162" cy="110" r="8" fill="#854d0e"/>
+    <circle cx="159" cy="106" r="4.5" fill="#ffffff"/>
+    <circle cx="165" cy="114" r="2" fill="#ffffff"/>
+  </g>
+
+  <!-- Playful Eyebrows -->
+  <path d="M 104 94 Q 116 88 126 94" stroke="#0f172a" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M 176 94 Q 164 88 154 94" stroke="#0f172a" stroke-width="4" stroke-linecap="round" fill="none"/>
+
+  <!-- Tiny Button Nose -->
+  <circle cx="140" cy="120" r="4" fill="#854d0e" stroke="#0f172a" stroke-width="1.5"/>
+
+  <!-- Cute Open Smirk / Grinning Mouth (鬼靈精歪嘴笑) -->
+  <g id="mouth">
+    <path d="M 126 128 Q 138 144 154 128 Z" fill="#e11d48" stroke="#0f172a" stroke-width="2.5"/>
+    <rect x="136" y="128" width="6" height="3" rx="1" fill="#ffffff"/>
+  </g>
+</svg>

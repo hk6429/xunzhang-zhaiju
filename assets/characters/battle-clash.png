@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <!-- Patterns -->
+    <pattern id="halftone-red" width="8" height="8" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="1.3" fill="#e11d48" opacity="0.18"/>
+    </pattern>
+    <pattern id="halftone-purple" width="8" height="8" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="1.3" fill="#7e22ce" opacity="0.18"/>
+    </pattern>
+    <filter id="comic-shadow-lg" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="4" dy="6" stdDeviation="0" flood-color="#0f172a" flood-opacity="0.85" />
+    </filter>
+    <filter id="glow-vs" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="fire-side" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff1f2"/>
+      <stop offset="100%" stop-color="#fecdd3"/>
+    </linearGradient>
+    <linearGradient id="demon-side" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#faf5ff"/>
+      <stop offset="100%" stop-color="#e9d5ff"/>
+    </linearGradient>
+    <linearGradient id="gold-banner" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#facc15"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left Side Background (Hero / Fire / Azure) -->
+  <polygon points="0,0 450,0 350,450 0,450" fill="url(#fire-side)"/>
+  <polygon points="0,0 450,0 350,450 0,450" fill="url(#halftone-red)"/>
+
+  <!-- Right Side Background (Villain / Demon Purple) -->
+  <polygon points="450,0 800,0 800,450 350,450" fill="url(#demon-side)"/>
+  <polygon points="450,0 800,0 800,450 350,450" fill="url(#halftone-purple)"/>
+
+  <!-- Comic Clash Lightning Slash Dividing Center -->
+  <g filter="url(#glow-vs)">
+    <polygon points="455,0 435,160 480,180 345,450 365,450 495,190 455,170 475,0" fill="#facc15"/>
+    <polygon points="455,0 435,160 480,180 345,450 365,450 495,190 455,170 475,0" fill="#ffffff" opacity="0.6"/>
+  </g>
+
+  <!-- Dynamic Ink Splatters & Clash Sparks -->
+  <g fill="#0f172a">
+    <circle cx="380" cy="120" r="5"/>
+    <circle cx="420" cy="280" r="6"/>
+    <circle cx="440" cy="80" r="4"/>
+  </g>
+
+  <!-- ==================== LEFT TEAM: NEZHA & YANG JIAN ==================== -->
+  <!-- Nezha (Left Foreground) -->
+  <g id="clash-nezha" transform="translate(180, 260)" filter="url(#comic-shadow-lg)">
+    <!-- Red Ribbons -->
+    <path d="M -60 20 C -100 -40 20 -80 60 -30" fill="none" stroke="#e11d48" stroke-width="10" stroke-linecap="round"/>
+    <!-- Fire Spear pointing right into clash -->
+    <line x1="-30" y1="50" x2="160" y2="-40" stroke="#ca8a04" stroke-width="6" stroke-linecap="round"/>
+    <polygon points="175,-50 155,-35 155,-55" fill="#ef4444" stroke="#0f172a" stroke-width="2"/>
+    <!-- Body -->
+    <path d="M -25 35 L -35 110 L 15 110 L 25 35 Z" fill="#e11d48" stroke="#0f172a" stroke-width="4.5"/>
+    <path d="M -20 30 Q 0 45 20 30 L 25 70 Q 0 80 -25 70 Z" fill="#a7f3d0" stroke="#0f172a" stroke-width="4"/>
+    <!-- Head -->
+    <ellipse cx="0" cy="-25" rx="48" ry="42" fill="#fff1f2" stroke="#0f172a" stroke-width="5"/>
+    <circle cx="-38" cy="-60" r="16" fill="#0f172a"/>
+    <circle cx="38" cy="-60" r="16" fill="#0f172a"/>
+    <!-- Fierce Confident Eyes -->
+    <path d="M -26 -28 L 0 -22" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M 4 -22 L 30 -28" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round"/>
+    <circle cx="-13" cy="-18" r="5" fill="#dc2626"/>
+    <circle cx="17" cy="-18" r="5" fill="#dc2626"/>
+    <!-- Tsundere Battle Smile -->
+    <path d="M -12 -2 Q 0 8 12 -2" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round" fill="#e11d48"/>
+  </g>
+
+  <!-- Yang Jian (Left Background High) -->
+  <g id="clash-yangjian" transform="translate(100, 130)" filter="url(#comic-shadow-lg)">
+    <ellipse cx="0" cy="0" rx="38" ry="34" fill="#fff5f5" stroke="#0f172a" stroke-width="4"/>
+    <!-- Celestial Eye Laser beam towards right -->
+    <path d="M 0 -18 Q 8 -22 16 -18" stroke="#0284c7" stroke-width="3" fill="none"/>
+    <line x1="8" y1="-20" x2="250" y2="40" stroke="#38bdf8" stroke-width="4" stroke-dasharray="6 3" filter="url(#glow-vs)"/>
+    <!-- Cool Handsome Eyes -->
+    <path d="M -18 -2 L 0 -2" stroke="#0f172a" stroke-width="3.5"/>
+    <path d="M 6 -2 L 24 -2" stroke="#0f172a" stroke-width="3.5"/>
+  </g>
+
+  <!-- ==================== RIGHT TEAM: SHEN GONGBAO & SU DAJI ==================== -->
+  <!-- Shen Gongbao (Right Foreground) -->
+  <g id="clash-shen" transform="translate(620, 260)" filter="url(#comic-shadow-lg)">
+    <!-- Fat Tiger Roaring -->
+    <ellipse cx="-45" cy="50" rx="30" ry="20" fill="#facc15" stroke="#0f172a" stroke-width="3.5"/>
+    <circle cx="-65" cy="35" r="13" fill="#facc15" stroke="#0f172a" stroke-width="3"/>
+    <!-- Yin-Yang Mirror firing beam left -->
+    <g transform="translate(-80, -30)" filter="url(#glow-vs)">
+      <circle cx="0" cy="0" r="18" fill="#facc15" stroke="#0f172a" stroke-width="3"/>
+      <line x1="0" y1="0" x2="-180" y2="10" stroke="#a855f7" stroke-width="6" stroke-linecap="round"/>
+    </g>
+    <!-- Body -->
+    <path d="M -25 35 L -35 110 L 25 110 L 15 35 Z" fill="#6b21a8" stroke="#0f172a" stroke-width="4.5"/>
+    <!-- Head -->
+    <ellipse cx="0" cy="-25" rx="48" ry="42" fill="#fff5f5" stroke="#0f172a" stroke-width="5"/>
+    <!-- Tall Cap -->
+    <path d="M -12 -65 L 12 -65 L 8 -45 L -8 -45 Z" fill="#6b21a8" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Handlebar Mustache & Evil Laugh -->
+    <path d="M -15 -8 Q -30 -15 -45 -5" stroke="#0f172a" stroke-width="3.5" fill="none"/>
+    <path d="M 15 -8 Q 30 -15 45 -5" stroke="#0f172a" stroke-width="3.5" fill="none"/>
+    <path d="M -14 0 Q 0 14 14 0 Z" fill="#e11d48" stroke="#0f172a" stroke-width="3"/>
+  </g>
+
+  <!-- Su Daji (Right Background High) -->
+  <g id="clash-daji" transform="translate(700, 130)" filter="url(#comic-shadow-lg)">
+    <!-- Nine Tails with Pink Foxfire -->
+    <path d="M -30 20 C -70 -20 -60 -70 -40 -90" fill="none" stroke="#f43f5e" stroke-width="8" stroke-linecap="round"/>
+    <ellipse cx="0" cy="0" rx="38" ry="34" fill="#fff1f2" stroke="#0f172a" stroke-width="4"/>
+    <polygon points="-25,-25 -35,-55 -15,-40" fill="#0f172a"/>
+    <polygon points="25,-25 35,-55 15,-40" fill="#0f172a"/>
+    <!-- Foxfire floating into clash -->
+    <circle cx="-60" cy="40" r="10" fill="#f43f5e" filter="url(#glow-vs)"/>
+  </g>
+
+  <!-- CENTER COMIC "VS" BURST BADGE -->
+  <g transform="translate(410, 220)" filter="url(#comic-shadow-lg)">
+    <!-- Explosion Star Backdrop -->
+    <polygon points="0,-45 14,-15 45,-25 25,5 48,30 15,25 0,55 -15,25 -48,30 -25,5 -45,-25 -14,-15" fill="#ef4444" stroke="#0f172a" stroke-width="4"/>
+    <polygon points="0,-35 10,-12 35,-20 20,4 38,24 12,20 0,44 -12,20 -38,24 -20,4 -35,-20 -10,-12" fill="#facc15"/>
+    <text x="0" y="14" font-family="sans-serif" font-weight="900" font-style="italic" font-size="36" fill="#0f172a" text-anchor="middle">VS</text>
+  </g>
+
+  <!-- TOP TITLE BANNER -->
+  <g id="title-banner" filter="url(#comic-shadow-lg)">
+    <path d="M 220 20 L 580 20 L 560 70 L 240 70 Z" fill="#0f172a"/>
+    <path d="M 225 25 L 575 25 L 555 65 L 245 65 Z" fill="url(#gold-banner)"/>
+    <text x="400" y="54" font-family="'Noto Serif TC', serif" font-weight="900" font-size="24" fill="#0f172a" text-anchor="middle" letter-spacing="4">⚡ 仙魔字謎・宿命決戰 ⚡</text>
+  </g>
+</svg>

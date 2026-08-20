@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" width="280" height="280">
+  <defs>
+    <pattern id="halftone-tx-th" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.1" fill="#854d0e" opacity="0.18"/>
+    </pattern>
+    <filter id="comic-shadow-tx" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="0" flood-color="#0f172a" flood-opacity="0.8" />
+    </filter>
+    <filter id="glow-gold-tx" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="skin-tx" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff5f5"/>
+      <stop offset="100%" stop-color="#fed7aa"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="140" cy="140" r="125" fill="#fefce8" opacity="0.6"/>
+  <circle cx="140" cy="140" r="115" fill="url(#halftone-tx-th)"/>
+
+  <!-- Underground Burrow Hole Elevated (Submerged Deeply, Peeking out!) -->
+  <g id="dirt-mound" filter="url(#comic-shadow-tx)">
+    <ellipse cx="140" cy="190" rx="95" ry="36" fill="#713f12" stroke="#0f172a" stroke-width="4.5"/>
+    <ellipse cx="140" cy="188" rx="80" ry="24" fill="#1c1917"/>
+  </g>
+
+  <!-- Poking finger scribbling calculations in the dirt at bottom -->
+  <g id="poking-finger" transform="translate(180, 205)" filter="url(#comic-shadow-tx)">
+    <!-- Finger poking up -->
+    <path d="M 0 25 L 0 0 Q 6 -5 10 0 L 10 25 Z" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Dirt scratches / calculation runes on the ground -->
+    <path d="M 15 15 L 35 15 M 25 5 L 25 25" stroke="#ca8a04" stroke-width="3" stroke-linecap="round"/>
+    <text x="50" y="20" font-family="'Noto Serif TC', serif" font-weight="900" font-size="20" fill="#ca8a04">？</text>
+  </g>
+
+  <!-- Mole Hood and Top Half of Head Peeking Above Hole Rim -->
+  <g id="peeking-head" transform="translate(0, 30)">
+    <!-- Mole Hood -->
+    <g id="mole-hood" filter="url(#comic-shadow-tx)">
+      <ellipse cx="140" cy="105" rx="58" ry="54" fill="#713f12" stroke="#0f172a" stroke-width="4.5"/>
+      <circle cx="85" cy="65" r="14" fill="#854d0e" stroke="#0f172a" stroke-width="3"/>
+      <circle cx="85" cy="65" r="7" fill="#fde047"/>
+      <circle cx="195" cy="65" r="14" fill="#854d0e" stroke="#0f172a" stroke-width="3"/>
+      <circle cx="195" cy="65" r="7" fill="#fde047"/>
+    </g>
+
+    <!-- Cute Chibi Face -->
+    <ellipse cx="140" cy="115" rx="46" ry="40" fill="url(#skin-tx)" stroke="#0f172a" stroke-width="4" filter="url(#comic-shadow-tx)"/>
+
+    <!-- Comic Sweat Drop -->
+    <path d="M 85 95 Q 80 108 88 110 Q 94 108 90 95 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="2"/>
+
+    <!-- Bangs -->
+    <path d="M 98 96 Q 115 110 125 98 Q 140 110 155 98 Q 165 110 182 96 Q 140 80 98 96 Z" fill="#0f172a"/>
+
+    <!-- Cheerful Rosy Cheeks -->
+    <ellipse cx="102" cy="125" rx="9" ry="6" fill="#fb7185" opacity="0.75"/>
+    <ellipse cx="178" cy="125" rx="9" ry="6" fill="#fb7185" opacity="0.75"/>
+
+    <!-- Glancing Upward Thinking Eyes -->
+    <g id="eyes">
+      <ellipse cx="118" cy="110" rx="10" ry="11" fill="#0f172a"/>
+      <circle cx="118" cy="110" r="8" fill="#854d0e"/>
+      <circle cx="122" cy="106" r="4.5" fill="#ffffff"/>
+
+      <ellipse cx="162" cy="110" rx="10" ry="11" fill="#0f172a"/>
+      <circle cx="162" cy="110" r="8" fill="#854d0e"/>
+      <circle cx="166" cy="106" r="4.5" fill="#ffffff"/>
+    </g>
+
+    <!-- Thinking Brows -->
+    <path d="M 104 94 L 126 90" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
+    <path d="M 176 90 L 154 94" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- Mole Nose -->
+    <circle cx="140" cy="120" r="4" fill="#854d0e" stroke="#0f172a" stroke-width="1.5"/>
+
+    <!-- Puzzled Little Mouth -->
+    <circle cx="140" cy="128" r="3" fill="#e11d48" stroke="#0f172a" stroke-width="1.5"/>
+  </g>
+</svg>

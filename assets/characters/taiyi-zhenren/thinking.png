@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" width="280" height="280">
+  <defs>
+    <pattern id="halftone-ty-th" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.1" fill="#d97706" opacity="0.18"/>
+    </pattern>
+    <filter id="comic-shadow-ty" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="0" flood-color="#0f172a" flood-opacity="0.8" />
+    </filter>
+    <filter id="glow-gold-ty" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="gourd-grad-ty" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="robe-grad-ty" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fffbeb"/>
+      <stop offset="50%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </linearGradient>
+    <linearGradient id="skin-ty" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff5f5"/>
+      <stop offset="100%" stop-color="#fed7aa"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="140" cy="140" r="125" fill="#fffbeb" opacity="0.6"/>
+  <circle cx="140" cy="140" r="115" fill="url(#halftone-ty-th)"/>
+
+  <!-- Golden Wine Gourd on Left Back -->
+  <g id="wine-gourd" transform="translate(65, 140) rotate(-18)" filter="url(#comic-shadow-ty)">
+    <circle cx="0" cy="-35" r="18" fill="url(#gourd-grad-ty)" stroke="#0f172a" stroke-width="3.5"/>
+    <rect x="-6" y="-58" width="12" height="12" rx="2" fill="#dc2626" stroke="#0f172a" stroke-width="2"/>
+    <circle cx="0" cy="5" r="28" fill="url(#gourd-grad-ty)" stroke="#0f172a" stroke-width="4"/>
+  </g>
+
+  <!-- Floating Smoking Golden Elixir Pill with Question Mark -->
+  <g transform="translate(210, 80)" filter="url(#glow-gold-ty)">
+    <circle cx="0" cy="0" r="10" fill="#facc15" stroke="#0f172a" stroke-width="2"/>
+    <circle cx="-3" cy="-3" r="3" fill="#ffffff"/>
+    <!-- Smoke puff from pill -->
+    <path d="M 0 -10 Q -10 -25 0 -35 Q 10 -45 0 -55" stroke="#64748b" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <text x="15" y="-15" font-family="'Noto Serif TC', serif" font-weight="900" font-size="28" fill="#d97706">？</text>
+  </g>
+
+  <!-- Chubby Round Body -->
+  <g id="body" filter="url(#comic-shadow-ty)">
+    <ellipse cx="140" cy="205" rx="55" ry="40" fill="url(#robe-grad-ty)" stroke="#0f172a" stroke-width="4.5"/>
+    <path d="M 92 215 Q 140 235 188 215" stroke="#dc2626" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <circle cx="140" cy="225" r="8" fill="#facc15" stroke="#0f172a" stroke-width="2.5"/>
+    <ellipse cx="115" cy="245" rx="14" ry="7" fill="#0f172a"/>
+    <ellipse cx="165" cy="245" rx="14" ry="7" fill="#0f172a"/>
+  </g>
+
+  <!-- Arms: One hand holding glowing elixir, other stroking double chin -->
+  <g id="arms" filter="url(#comic-shadow-ty)">
+    <!-- Left Hand stroking double chin -->
+    <path d="M 95 180 Q 110 160 125 150" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 95 180 Q 110 160 125 150" stroke="#fde68a" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <circle cx="125" cy="150" r="7.5" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/>
+
+    <!-- Right Hand presenting smoking pill -->
+    <path d="M 185 180 Q 205 140 205 100" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 185 180 Q 205 140 205 100" stroke="#fde68a" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <circle cx="205" cy="100" r="7.5" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/>
+  </g>
+
+  <!-- Head Base -->
+  <g id="hair-back" filter="url(#comic-shadow-ty)">
+    <ellipse cx="140" cy="105" rx="60" ry="54" fill="#0f172a" stroke="#0f172a" stroke-width="4"/>
+    <path d="M 125 50 L 155 50 L 150 28 L 130 28 Z" fill="#facc15" stroke="#0f172a" stroke-width="3"/>
+    <circle cx="140" cy="38" r="4" fill="#dc2626"/>
+  </g>
+
+  <!-- Round Face -->
+  <ellipse cx="140" cy="115" rx="52" ry="46" fill="url(#skin-ty)" stroke="#0f172a" stroke-width="4.5" filter="url(#comic-shadow-ty)"/>
+
+  <!-- Comic Sweat Drop -->
+  <path d="M 85 95 Q 80 108 88 110 Q 94 108 90 95 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="2"/>
+
+  <!-- Comic Thinking Eyes (Glancing sideways at the pill) -->
+  <g id="eyes">
+    <ellipse cx="118" cy="108" rx="9" ry="10" fill="#0f172a"/>
+    <circle cx="122" cy="104" r="4" fill="#ffffff"/>
+    <ellipse cx="162" cy="108" rx="9" ry="10" fill="#0f172a"/>
+    <circle cx="166" cy="104" r="4" fill="#ffffff"/>
+  </g>
+
+  <!-- Asymmetric Puzzled Brows -->
+  <path d="M 102 94 Q 115 100 128 92" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  <path d="M 152 90 Q 165 82 178 88" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+
+  <circle cx="140" cy="118" r="5" fill="#f97316" stroke="#0f172a" stroke-width="2"/>
+
+  <!-- Puzzled O-Mouth -->
+  <ellipse cx="140" cy="132" rx="7" ry="5" fill="#e11d48" stroke="#0f172a" stroke-width="2.5"/>
+
+  <!-- Cute Double Chin line -->
+  <path d="M 125 145 Q 140 152 155 145" stroke="#fed7aa" stroke-width="3" stroke-linecap="round" fill="none"/>
+</svg>

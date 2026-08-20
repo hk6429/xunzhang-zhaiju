@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" width="280" height="280">
+  <defs>
+    <filter id="comic-shadow-jt" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="0" flood-color="#0f172a" flood-opacity="0.8" />
+    </filter>
+    <linearGradient id="robe-grad-jt" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#f0f9ff"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+    <linearGradient id="skin-jt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff5f5"/>
+      <stop offset="100%" stop-color="#fed7aa"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Comic Panic Background (Blue Gradient Tint / Vertical Panic Lines) -->
+  <g stroke="#38bdf8" stroke-width="2" opacity="0.4">
+    <line x1="40" y1="20" x2="40" y2="80"/>
+    <line x1="60" y1="10" x2="60" y2="90"/>
+    <line x1="80" y1="25" x2="80" y2="75"/>
+    <line x1="200" y1="15" x2="200" y2="85"/>
+    <line x1="220" y1="25" x2="220" y2="75"/>
+    <line x1="240" y1="10" x2="240" y2="90"/>
+  </g>
+
+  <!-- Upside Down Dropped Flag -->
+  <g transform="translate(230, 200) rotate(70)" filter="url(#comic-shadow-jt)">
+    <path d="M 0 0 L 0 120" stroke="#78350f" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 0 10 Q 40 25 0 60 Z" fill="#facc15" stroke="#0f172a" stroke-width="3"/>
+  </g>
+
+  <!-- Body (Trembling Shiver Lines) -->
+  <g id="body" filter="url(#comic-shadow-jt)">
+    <path d="M 105 165 L 80 240 Q 140 255 200 240 L 175 165 Z" fill="url(#robe-grad-jt)" stroke="#0f172a" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M 98 195 Q 140 205 182 195 L 180 210 Q 140 220 100 210 Z" fill="#0284c7" stroke="#0f172a" stroke-width="3.5"/>
+    <circle cx="140" cy="204" r="8" fill="#facc15" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Shivering Feet -->
+    <ellipse cx="115" cy="245" rx="14" ry="7" fill="#0f172a"/>
+    <ellipse cx="165" cy="245" rx="14" ry="7" fill="#0f172a"/>
+  </g>
+
+  <!-- Trembling Hands Clasping Head in Panic -->
+  <g id="arms" filter="url(#comic-shadow-jt)">
+    <!-- Left Arm to Head -->
+    <path d="M 100 175 Q 60 140 85 95" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 100 175 Q 60 140 85 95" stroke="#bae6fd" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <circle cx="85" cy="95" r="9" fill="#fed7aa" stroke="#0f172a" stroke-width="3"/>
+
+    <!-- Right Arm to Head -->
+    <path d="M 180 175 Q 220 140 195 95" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 180 175 Q 220 140 195 95" stroke="#bae6fd" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <circle cx="195" cy="95" r="9" fill="#fed7aa" stroke="#0f172a" stroke-width="3"/>
+  </g>
+
+  <!-- Hair Base (Disheveled / Spiky) -->
+  <g id="hair-back" filter="url(#comic-shadow-jt)">
+    <ellipse cx="140" cy="105" rx="60" ry="55" fill="#f8fafc" stroke="#0f172a" stroke-width="4.5"/>
+    <!-- Wild Spikes on Hair -->
+    <path d="M 78 120 C 50 140 60 180 90 185" fill="#f8fafc" stroke="#0f172a" stroke-width="4"/>
+    <path d="M 202 120 C 230 140 220 180 190 185" fill="#f8fafc" stroke="#0f172a" stroke-width="4"/>
+  </g>
+
+  <!-- Crooked Sage Crown -->
+  <g id="topknot" transform="rotate(-15 140 50)" filter="url(#comic-shadow-jt)">
+    <ellipse cx="140" cy="50" rx="20" ry="16" fill="#f8fafc" stroke="#0f172a" stroke-width="4"/>
+    <path d="M 125 54 Q 140 32 155 54 Z" fill="#0284c7" stroke="#0f172a" stroke-width="3.5"/>
+    <path d="M 115 50 L 165 46" stroke="#facc15" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Head & Face -->
+  <ellipse cx="140" cy="115" rx="50" ry="44" fill="url(#skin-jt)" stroke="#0f172a" stroke-width="4.5" filter="url(#comic-shadow-jt)"/>
+
+  <!-- Comic Waterfall Tears (漫畫瀑布眼淚) -->
+  <path d="M 112 115 Q 105 140 100 185" stroke="#38bdf8" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <path d="M 168 115 Q 175 140 180 185" stroke="#38bdf8" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <circle cx="98" cy="190" r="4.5" fill="#38bdf8"/>
+  <circle cx="182" cy="190" r="4.5" fill="#38bdf8"/>
+
+  <!-- Huge Comic Sweat Droplets -->
+  <g filter="url(#comic-shadow-jt)">
+    <path d="M 65 75 Q 55 95 70 100 Q 80 95 72 75 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="2.5"/>
+    <path d="M 215 75 Q 225 95 210 100 Q 200 95 208 75 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="2.5"/>
+  </g>
+
+  <!-- Comic Egg Tears Eyes (>< or White Dot Panic Eyes) -->
+  <g id="eyes">
+    <ellipse cx="118" cy="108" rx="8" ry="8" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+    <circle cx="118" cy="108" r="3" fill="#0f172a"/>
+    <ellipse cx="162" cy="108" rx="8" ry="8" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+    <circle cx="162" cy="108" r="3" fill="#0f172a"/>
+  </g>
+
+  <!-- Wavy Panic Eyebrows -->
+  <path d="M 102 90 Q 115 100 128 92" stroke="#0f172a" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M 152 92 Q 165 100 178 90" stroke="#0f172a" stroke-width="4" stroke-linecap="round" fill="none"/>
+
+  <!-- Huge Screaming O-Mouth with Wavy Teeth -->
+  <g id="mouth">
+    <ellipse cx="140" cy="135" rx="16" ry="14" fill="#e11d48" stroke="#0f172a" stroke-width="3.5"/>
+    <path d="M 130 126 Q 140 130 150 126" stroke="#ffffff" stroke-width="3" fill="none"/>
+  </g>
+
+  <!-- Messy Shaken Beard (Blown to pieces in panic) -->
+  <g id="beard" filter="url(#comic-shadow-jt)">
+    <path d="M 138 128 Q 110 135 90 145 Q 120 148 138 133 Z" fill="#f8fafc" stroke="#0f172a" stroke-width="3"/>
+    <path d="M 142 128 Q 170 135 190 145 Q 160 148 142 133 Z" fill="#f8fafc" stroke="#0f172a" stroke-width="3"/>
+    <!-- Split Wavy Beard -->
+    <path d="M 120 145 Q 100 180 115 210 Q 130 185 140 175 Q 150 185 165 210 Q 180 180 160 145 Z" fill="#f8fafc" stroke="#0f172a" stroke-width="4"/>
+  </g>
+</svg>

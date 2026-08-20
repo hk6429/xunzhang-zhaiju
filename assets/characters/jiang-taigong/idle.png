@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" width="280" height="280">
+  <defs>
+    <!-- Comic Screentone Pattern -->
+    <pattern id="halftone-jt" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1" fill="#0284c7" opacity="0.18"/>
+    </pattern>
+    <!-- Filters -->
+    <filter id="comic-shadow-jt" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="0" flood-color="#0f172a" flood-opacity="0.8" />
+    </filter>
+    <filter id="glow-gold-jt" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <!-- Gradients -->
+    <linearGradient id="robe-grad-jt" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#f0f9ff"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+    <linearGradient id="gold-whip-jt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#facc15"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+    <linearGradient id="skin-jt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff5f5"/>
+      <stop offset="100%" stop-color="#fed7aa"/>
+    </linearGradient>
+    <radialGradient id="tai-chi-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background Comic Splash & Aura -->
+  <circle cx="140" cy="140" r="125" fill="url(#tai-chi-glow)" />
+  <circle cx="140" cy="140" r="115" fill="url(#halftone-jt)" />
+  
+  <!-- Ink Splash Accents -->
+  <path d="M 25 60 Q 15 80 40 85 Q 50 65 25 60 Z" fill="#0f172a" opacity="0.8"/>
+  <circle cx="20" cy="95" r="3.5" fill="#0f172a" opacity="0.7"/>
+  <circle cx="35" cy="50" r="2" fill="#0f172a" opacity="0.6"/>
+  <path d="M 245 190 Q 265 200 250 220 Q 235 210 245 190 Z" fill="#0f172a" opacity="0.8"/>
+  <circle cx="260" cy="180" r="3" fill="#0f172a" opacity="0.6"/>
+
+  <!-- Comic Action / Zen Speed Ring -->
+  <ellipse cx="140" cy="245" rx="75" ry="14" fill="#0f172a" opacity="0.2"/>
+
+  <!-- Apricot Flag on the Right Back -->
+  <g id="apricot-flag" filter="url(#comic-shadow-jt)">
+    <!-- Flagpole -->
+    <path d="M 210 60 L 210 230" stroke="#78350f" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="210" cy="55" r="7" fill="#facc15" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Triangular Golden Banner with Inking -->
+    <path d="M 210 65 Q 265 85 215 130 Z" fill="#facc15" stroke="#0f172a" stroke-width="3.5" stroke-linejoin="round"/>
+    <!-- Banner Rune -->
+    <path d="M 225 88 Q 235 95 230 105" stroke="#b45309" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <circle cx="232" cy="97" r="2" fill="#b45309"/>
+  </g>
+
+  <!-- Chibi Taoist Robe (Body ~ 1:1 scale) -->
+  <g id="body" filter="url(#comic-shadow-jt)">
+    <!-- Robe Base -->
+    <path d="M 105 165 L 80 240 Q 140 255 200 240 L 175 165 Z" fill="url(#robe-grad-jt)" stroke="#0f172a" stroke-width="4.5" stroke-linejoin="round"/>
+    <!-- Blue Trim / Belt -->
+    <path d="M 98 195 Q 140 205 182 195 L 180 210 Q 140 220 100 210 Z" fill="#0284c7" stroke="#0f172a" stroke-width="3.5"/>
+    <circle cx="140" cy="204" r="8" fill="#facc15" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Taiji Symbol on Chest -->
+    <circle cx="140" cy="180" r="10" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+    <path d="M 140 170 A 5 5 0 0 1 140 180 A 5 5 0 0 0 140 190 A 10 10 0 0 1 140 170 Z" fill="#0f172a"/>
+    <circle cx="140" cy="175" r="1.5" fill="#ffffff"/>
+    <circle cx="140" cy="185" r="1.5" fill="#0f172a"/>
+    
+    <!-- Tiny Shoes -->
+    <ellipse cx="115" cy="245" rx="14" ry="7" fill="#0f172a"/>
+    <ellipse cx="165" cy="245" rx="14" ry="7" fill="#0f172a"/>
+  </g>
+
+  <!-- Hands & Arms -->
+  <!-- Left Hand holding Dashan-bian (God-striking whip) -->
+  <g id="arm-left" filter="url(#comic-shadow-jt)">
+    <path d="M 100 175 Q 65 180 60 160" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 100 175 Q 65 180 60 160" stroke="#bae6fd" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <circle cx="58" cy="158" r="8" fill="#fed7aa" stroke="#0f172a" stroke-width="3"/>
+    <!-- Whip -->
+    <path d="M 58 185 L 45 105" stroke="#78350f" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 58 185 L 45 105" stroke="url(#gold-whip-jt)" stroke-width="4" stroke-linecap="round"/>
+    <!-- Whip Segments / Knots -->
+    <circle cx="53" cy="155" r="4.5" fill="#facc15" stroke="#0f172a" stroke-width="2"/>
+    <circle cx="49" cy="130" r="4.5" fill="#facc15" stroke="#0f172a" stroke-width="2"/>
+    <circle cx="45" cy="105" r="5.5" fill="#facc15" stroke="#0f172a" stroke-width="2" filter="url(#glow-gold-jt)"/>
+    <!-- Sparkles -->
+    <path d="M 45 92 L 48 98 L 54 99 L 49 104 L 51 110 L 45 106 L 39 110 L 41 104 L 36 99 L 42 98 Z" fill="#fef08a" stroke="#0f172a" stroke-width="1.5"/>
+  </g>
+
+  <!-- Right Arm (Relaxed) -->
+  <g id="arm-right" filter="url(#comic-shadow-jt)">
+    <path d="M 180 175 Q 205 185 208 170" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 180 175 Q 205 185 208 170" stroke="#bae6fd" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <circle cx="210" cy="170" r="8" fill="#fed7aa" stroke="#0f172a" stroke-width="3"/>
+  </g>
+
+  <!-- Huge Chibi Head & White Hair -->
+  <!-- Hair Base (Back) -->
+  <g id="hair-back" filter="url(#comic-shadow-jt)">
+    <ellipse cx="140" cy="105" rx="60" ry="55" fill="#f8fafc" stroke="#0f172a" stroke-width="4.5"/>
+    <path d="M 78 120 C 60 160 85 190 100 185" fill="#f8fafc" stroke="#0f172a" stroke-width="4"/>
+    <path d="M 202 120 C 220 160 195 190 180 185" fill="#f8fafc" stroke="#0f172a" stroke-width="4"/>
+  </g>
+
+  <!-- Sage Crown (Topknot) -->
+  <g id="topknot" filter="url(#comic-shadow-jt)">
+    <ellipse cx="140" cy="50" rx="20" ry="16" fill="#f8fafc" stroke="#0f172a" stroke-width="4"/>
+    <!-- Cyan Crown Cap -->
+    <path d="M 125 54 Q 140 32 155 54 Z" fill="#0284c7" stroke="#0f172a" stroke-width="3.5"/>
+    <!-- Gold Hairpin -->
+    <path d="M 115 50 L 165 46" stroke="#facc15" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="165" cy="46" r="3" fill="#ca8a04"/>
+  </g>
+
+  <!-- Face -->
+  <ellipse cx="140" cy="115" rx="50" ry="44" fill="url(#skin-jt)" stroke="#0f172a" stroke-width="4.5" filter="url(#comic-shadow-jt)"/>
+
+  <!-- Blushing Cheeks -->
+  <ellipse cx="102" cy="125" rx="9" ry="5" fill="#fb7185" opacity="0.6"/>
+  <ellipse cx="178" cy="125" rx="9" ry="5" fill="#fb7185" opacity="0.6"/>
+
+  <!-- Comic Eyes (Idle: Calm, Wise & Smiling) -->
+  <g id="eyes">
+    <ellipse cx="118" cy="110" rx="9" ry="11" fill="#0f172a"/>
+    <circle cx="115" cy="106" r="4" fill="#ffffff"/>
+    <circle cx="121" cy="114" r="2" fill="#ffffff"/>
+    <!-- Right Eye -->
+    <ellipse cx="162" cy="110" rx="9" ry="11" fill="#0f172a"/>
+    <circle cx="159" cy="106" r="4" fill="#ffffff"/>
+    <circle cx="165" cy="114" r="2" fill="#ffffff"/>
+  </g>
+
+  <!-- Bushy White Eyebrows -->
+  <path d="M 102 96 Q 118 90 130 96 Q 120 86 102 96 Z" fill="#f8fafc" stroke="#0f172a" stroke-width="3"/>
+  <path d="M 178 96 Q 162 90 150 96 Q 160 86 178 96 Z" fill="#f8fafc" stroke="#0f172a" stroke-width="3"/>
+
+  <!-- Cute Nose -->
+  <circle cx="140" cy="120" r="3" fill="#fb923c"/>
+
+  <!-- Mouth -->
+  <path d="M 132 128 Q 140 136 148 128" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round" fill="#e11d48"/>
+
+  <!-- Magnificent White Long Beard (老頑童仙長長鬚) -->
+  <g id="beard" filter="url(#comic-shadow-jt)">
+    <!-- Mustache -->
+    <path d="M 138 128 Q 118 135 105 142 Q 125 144 138 133 Z" fill="#f8fafc" stroke="#0f172a" stroke-width="3"/>
+    <path d="M 142 128 Q 162 135 175 142 Q 155 144 142 133 Z" fill="#f8fafc" stroke="#0f172a" stroke-width="3"/>
+    <!-- Main Long Beard -->
+    <path d="M 120 135 C 105 170 120 205 140 215 C 160 205 175 170 160 135 Z" fill="#f8fafc" stroke="#0f172a" stroke-width="4"/>
+    <!-- Beard Texture Inking -->
+    <path d="M 133 150 Q 137 185 140 205" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <path d="M 147 150 Q 143 185 140 205" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>

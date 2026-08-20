@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <!-- Background Patterns & Gradients -->
+    <pattern id="halftone-trio" width="8" height="8" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="1.3" fill="#0284c7" opacity="0.12"/>
+    </pattern>
+    <filter id="comic-shadow-lg" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="4" dy="6" stdDeviation="0" flood-color="#0f172a" flood-opacity="0.85" />
+    </filter>
+    <filter id="glow-gold-lg" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="bg-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0f9ff"/>
+      <stop offset="60%" stop-color="#e0f2fe"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+    <linearGradient id="gold-banner" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#facc15"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Sky & Halftone -->
+  <rect width="800" height="450" fill="url(#bg-sky)"/>
+  <rect width="800" height="450" fill="url(#halftone-trio)"/>
+
+  <!-- Comic Speedlines from Top Center -->
+  <g stroke="#38bdf8" stroke-width="2" opacity="0.45" stroke-linecap="round">
+    <line x1="400" y1="0" x2="20" y2="450"/>
+    <line x1="400" y1="0" x2="120" y2="450"/>
+    <line x1="400" y1="0" x2="240" y2="450"/>
+    <line x1="400" y1="0" x2="560" y2="450"/>
+    <line x1="400" y1="0" x2="680" y2="450"/>
+    <line x1="400" y1="0" x2="780" y2="450"/>
+  </g>
+
+  <!-- Ink Wash Mountains (水墨遠山) -->
+  <path d="M 0 350 Q 150 260 300 340 T 600 320 Q 720 280 800 350 L 800 450 L 0 450 Z" fill="#94a3b8" opacity="0.35"/>
+  <path d="M 0 380 Q 200 310 400 370 T 800 380 L 800 450 L 0 450 Z" fill="#64748b" opacity="0.4"/>
+
+  <!-- Golden Taiji Bagua Aura Behind Center -->
+  <g transform="translate(400, 200)" filter="url(#glow-gold-lg)" opacity="0.5">
+    <circle cx="0" cy="0" r="140" fill="none" stroke="#facc15" stroke-width="6" stroke-dasharray="16 8"/>
+    <circle cx="0" cy="0" r="110" fill="none" stroke="#ca8a04" stroke-width="3"/>
+  </g>
+
+  <!-- TOP COMIC TITLE BANNER -->
+  <g id="title-banner" filter="url(#comic-shadow-lg)">
+    <!-- Banner Plate -->
+    <path d="M 180 30 L 620 30 L 600 85 L 200 85 Z" fill="#0f172a"/>
+    <path d="M 185 35 L 615 35 L 595 80 L 205 80 Z" fill="url(#gold-banner)"/>
+    <!-- Banner Text -->
+    <text x="400" y="68" font-family="'Noto Serif TC', serif" font-weight="900" font-size="32" fill="#0f172a" text-anchor="middle" letter-spacing="6">封神三仙・共破文陣</text>
+  </g>
+
+  <!-- ==================== 1. JIANG TAIGONG (Center) ==================== -->
+  <g id="group-taigong" transform="translate(400, 230)" filter="url(#comic-shadow-lg)">
+    <!-- Apricot Flag -->
+    <path d="M 60 -100 L 60 120" stroke="#78350f" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 60 -95 Q 120 -65 65 -25 Z" fill="#facc15" stroke="#0f172a" stroke-width="4"/>
+    <!-- Taoist Robe -->
+    <path d="M -45 40 L -75 140 Q 0 160 75 140 L 45 40 Z" fill="#ffffff" stroke="#0f172a" stroke-width="5"/>
+    <path d="M -50 75 Q 0 90 50 75 L 48 92 Q 0 105 -48 92 Z" fill="#0284c7" stroke="#0f172a" stroke-width="4"/>
+    <circle cx="0" cy="85" r="9" fill="#facc15" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Head -->
+    <ellipse cx="0" cy="-25" rx="55" ry="50" fill="#fff5f5" stroke="#0f172a" stroke-width="5"/>
+    <!-- Sage Crown -->
+    <path d="M -18 -75 Q 0 -95 18 -75 Z" fill="#0284c7" stroke="#0f172a" stroke-width="4"/>
+    <line x1="-25" y1="-78" x2="25" y2="-82" stroke="#facc15" stroke-width="4.5" stroke-linecap="round"/>
+    <!-- Happy Joy Eyes -->
+    <path d="M -30 -30 Q -18 -44 -6 -30" stroke="#0f172a" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M 6 -30 Q 18 -44 30 -30" stroke="#0f172a" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <!-- Brows -->
+    <path d="M -35 -48 Q -15 -58 0 -48" stroke="#ffffff" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <path d="M 35 -48 Q 15 -58 0 -48" stroke="#ffffff" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <!-- Laughing Mouth -->
+    <path d="M -18 -12 Q 0 -2 18 -12 Q 0 15 -18 -12 Z" fill="#e11d48" stroke="#0f172a" stroke-width="3.5"/>
+    <!-- Magnificent Long Beard -->
+    <path d="M -25 0 C -40 50 -10 100 0 110 C 10 100 40 50 25 0 Z" fill="#ffffff" stroke="#0f172a" stroke-width="4.5"/>
+    <!-- Dashan-bian in Hand -->
+    <path d="M -50 45 Q -80 30 -85 0" stroke="#0f172a" stroke-width="14" stroke-linecap="round" fill="none"/>
+    <path d="M -85 0 L -80 -70" stroke="#ca8a04" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="-80" cy="-70" r="7" fill="#facc15" stroke="#0f172a" stroke-width="2"/>
+  </g>
+
+  <!-- ==================== 2. NEZHA (Right Side, Flying on Fenghuolun) ==================== -->
+  <g id="group-nezha" transform="translate(620, 240)" filter="url(#comic-shadow-lg)">
+    <!-- Dynamic Red Ribbons swirling -->
+    <path d="M -80 0 C -120 -60 40 -100 80 -40 C 120 20 -40 80 -80 0 Z" fill="none" stroke="#e11d48" stroke-width="12" stroke-linejoin="round"/>
+    <!-- Wind-Fire Wheel -->
+    <g transform="translate(0, 130)" filter="url(#glow-gold-lg)">
+      <circle cx="0" cy="0" r="18" fill="#ef4444" stroke="#0f172a" stroke-width="3"/>
+      <circle cx="0" cy="0" r="7" fill="#facc15"/>
+    </g>
+    <!-- Body -->
+    <path d="M -25 35 L -40 105 L 10 105 L 25 35 Z" fill="#e11d48" stroke="#0f172a" stroke-width="4.5"/>
+    <path d="M -20 30 Q 0 45 20 30 L 25 70 Q 0 80 -25 70 Z" fill="#a7f3d0" stroke="#0f172a" stroke-width="4"/>
+    <!-- Head -->
+    <ellipse cx="0" cy="-25" rx="50" ry="44" fill="#fff1f2" stroke="#0f172a" stroke-width="5"/>
+    <!-- Double Buns -->
+    <circle cx="-42" cy="-65" r="18" fill="#0f172a"/>
+    <circle cx="42" cy="-65" r="18" fill="#0f172a"/>
+    <!-- Cinnabar Mark -->
+    <circle cx="0" cy="-45" r="3.5" fill="#e11d48"/>
+    <!-- Qiankun Ring in Right Hand -->
+    <g transform="translate(45, -20) rotate(20)" filter="url(#glow-gold-lg)">
+      <circle cx="0" cy="0" r="22" fill="none" stroke="#facc15" stroke-width="6"/>
+    </g>
+    <!-- Tsundere Laughing Face -->
+    <path d="M -24 -28 Q -12 -40 0 -28" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+    <path d="M 0 -28 Q 12 -40 24 -28" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+    <path d="M -14 -8 Q 0 5 14 -8" stroke="#0f172a" stroke-width="4" stroke-linecap="round" fill="#e11d48"/>
+  </g>
+
+  <!-- ==================== 3. YANG JIAN & XIAOTIAN DOG (Left Side) ==================== -->
+  <g id="group-yangjian" transform="translate(180, 240)" filter="url(#comic-shadow-lg)">
+    <!-- White Cape -->
+    <path d="M -20 40 C -80 60 -70 140 -40 145 C -20 110 0 80 10 50 Z" fill="#f8fafc" stroke="#0f172a" stroke-width="4"/>
+    <!-- Three-pointed Blade in Hand -->
+    <line x1="-30" y1="130" x2="-60" y2="-90" stroke="#ca8a04" stroke-width="6" stroke-linecap="round"/>
+    <polygon points="-60,-110 -52,-90 -68,-90" fill="#38bdf8" stroke="#0f172a" stroke-width="2"/>
+    <!-- Body (Silver Blue Armor) -->
+    <path d="M -25 35 L -35 115 L 25 115 L 15 35 Z" fill="#0284c7" stroke="#0f172a" stroke-width="4.5"/>
+    <circle cx="-5" cy="65" r="8" fill="#facc15" stroke="#0f172a" stroke-width="2"/>
+    <!-- Head -->
+    <ellipse cx="0" cy="-25" rx="50" ry="44" fill="#fff5f5" stroke="#0f172a" stroke-width="5"/>
+    <!-- Phoenix Gold Crown -->
+    <polygon points="-15,-70 15,-70 0,-85" fill="#facc15" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Celestial Eye Glowing -->
+    <path d="M -8 -50 Q 0 -56 8 -50 Q 0 -44 -8 -50 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="2"/>
+    <!-- Cool Confident Eyes -->
+    <path d="M -26 -28 L 0 -28" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M 4 -28 L 30 -28" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round"/>
+    <circle cx="-13" cy="-22" r="4.5" fill="#0284c7"/>
+    <circle cx="17" cy="-22" r="4.5" fill="#0284c7"/>
+    <!-- Smirk -->
+    <path d="M -8 -8 Q 0 -3 8 -9" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+
+    <!-- Xiaotian Dog Wearing Sunglasses at Yang Jian's Feet -->
+    <g id="husky-trio" transform="translate(60, 95)" filter="url(#comic-shadow-lg)">
+      <ellipse cx="0" cy="8" rx="18" ry="13" fill="#0f172a"/>
+      <circle cx="8" cy="-6" r="14" fill="#0f172a"/>
+      <ellipse cx="10" cy="-4" rx="10" ry="9" fill="#ffffff"/>
+      <!-- Sunglasses -->
+      <rect x="2" y="-10" width="18" height="8" rx="2" fill="#0f172a" stroke="#ca8a04" stroke-width="1.5"/>
+      <!-- Happy Tongue -->
+      <path d="M 8 2 Q 10 9 12 2" stroke="#fb7185" stroke-width="4" stroke-linecap="round" fill="#fb7185"/>
+    </g>
+  </g>
+
+  <!-- Bottom Comic Callout Box -->
+  <g transform="translate(400, 410)" filter="url(#comic-shadow-lg)">
+    <rect x="-160" y="-18" width="320" height="36" rx="18" fill="#0f172a" stroke="#facc15" stroke-width="2.5"/>
+    <text x="0" y="6" font-family="'Noto Serif TC', serif" font-weight="700" font-size="16" fill="#fef08a" text-anchor="middle">★ 太公垂釣・三壇海會・二郎顯聖 ★</text>
+  </g>
+</svg>

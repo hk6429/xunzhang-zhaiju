@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" width="280" height="280">
+  <defs>
+    <filter id="comic-shadow-jt" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="0" flood-color="#0f172a" flood-opacity="0.8" />
+    </filter>
+    <filter id="glow-gold-jt" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="gold-whip-jt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#facc15"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+    <linearGradient id="skin-jt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff5f5"/>
+      <stop offset="100%" stop-color="#fed7aa"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Comic Action Burst / Speed Lines (Burst from Center) -->
+  <g stroke="#facc15" stroke-width="2.5" opacity="0.6" stroke-linecap="round">
+    <line x1="140" y1="140" x2="20" y2="20"/>
+    <line x1="140" y1="140" x2="80" y2="10"/>
+    <line x1="140" y1="140" x2="200" y2="10"/>
+    <line x1="140" y1="140" x2="260" y2="25"/>
+    <line x1="140" y1="140" x2="270" y2="90"/>
+    <line x1="140" y1="140" x2="265" y2="170"/>
+    <line x1="140" y1="140" x2="260" y2="240"/>
+    <line x1="140" y1="140" x2="20" y2="240"/>
+    <line x1="140" y1="140" x2="10" y2="150"/>
+    <line x1="140" y1="140" x2="15" y2="80"/>
+  </g>
+
+  <!-- Golden Aura -->
+  <circle cx="140" cy="140" r="120" fill="#fef08a" opacity="0.25"/>
+
+  <!-- Golden Lightning Strikes from God-Striking Whip -->
+  <path d="M 60 20 L 75 55 L 65 65 L 85 105" stroke="#facc15" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-gold-jt)"/>
+  <path d="M 230 40 L 215 70 L 225 80 L 205 110" stroke="#facc15" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-gold-jt)"/>
+
+  <!-- Floating Golden Talisman "妙" -->
+  <g transform="translate(225, 65) rotate(12)" filter="url(#comic-shadow-jt)">
+    <rect x="-18" y="-24" width="36" height="48" fill="#fef08a" stroke="#ca8a04" stroke-width="2.5" rx="3"/>
+    <text x="0" y="8" font-family="'Noto Serif TC', serif" font-weight="900" font-size="22" fill="#dc2626" text-anchor="middle">妙</text>
+  </g>
+
+  <!-- Body -->
+  <g id="body" filter="url(#comic-shadow-jt)">
+    <path d="M 105 165 L 75 235 Q 140 250 205 235 L 175 165 Z" fill="#ffffff" stroke="#0f172a" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M 98 190 Q 140 200 182 190 L 180 205 Q 140 215 100 205 Z" fill="#0284c7" stroke="#0f172a" stroke-width="3.5"/>
+    <circle cx="140" cy="198" r="8" fill="#facc15" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Jumping/Triumphant Shoes -->
+    <ellipse cx="110" cy="242" rx="14" ry="7" fill="#0f172a" transform="rotate(-10 110 242)"/>
+    <ellipse cx="170" cy="242" rx="14" ry="7" fill="#0f172a" transform="rotate(10 170 242)"/>
+  </g>
+
+  <!-- Raised Arms (V-Shape / Holding Whip in Joy) -->
+  <g id="arms" filter="url(#comic-shadow-jt)">
+    <!-- Left Arm Raised High Holding Whip -->
+    <path d="M 100 170 Q 70 140 75 100" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 100 170 Q 70 140 75 100" stroke="#bae6fd" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <circle cx="75" cy="98" r="8" fill="#fed7aa" stroke="#0f172a" stroke-width="3"/>
+    <!-- Dashan-bian pointing to sky -->
+    <path d="M 75 125 L 85 45" stroke="#78350f" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 75 125 L 85 45" stroke="url(#gold-whip-jt)" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="85" cy="45" r="7" fill="#facc15" stroke="#0f172a" stroke-width="2" filter="url(#glow-gold-jt)"/>
+
+    <!-- Right Arm Victory Sign / Thumbs Up -->
+    <path d="M 180 170 Q 210 140 205 100" stroke="#0f172a" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M 180 170 Q 210 140 205 100" stroke="#bae6fd" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <circle cx="205" cy="98" r="8" fill="#fed7aa" stroke="#0f172a" stroke-width="3"/>
+    <!-- Victory Peace Sign Fingers -->
+    <line x1="202" y1="94" x2="198" y2="82" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="208" y1="94" x2="212" y2="82" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Hair Base (Back) -->
+  <g id="hair-back" filter="url(#comic-shadow-jt)">
+    <ellipse cx="140" cy="105" rx="60" ry="55" fill="#f8fafc" stroke="#0f172a" stroke-width="4.5"/>
+    <path d="M 78 120 C 55 155 80 190 95 185" fill="#f8fafc" stroke="#0f172a" stroke-width="4"/>
+    <path d="M 202 120 C 225 155 200 190 185 185" fill="#f8fafc" stroke="#0f172a" stroke-width="4"/>
+  </g>
+
+  <!-- Sage Crown -->
+  <g id="topknot" filter="url(#comic-shadow-jt)">
+    <ellipse cx="140" cy="50" rx="20" ry="16" fill="#f8fafc" stroke="#0f172a" stroke-width="4"/>
+    <path d="M 125 54 Q 140 32 155 54 Z" fill="#0284c7" stroke="#0f172a" stroke-width="3.5"/>
+    <path d="M 115 50 L 165 46" stroke="#facc15" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Head & Face -->
+  <ellipse cx="140" cy="115" rx="50" ry="44" fill="url(#skin-jt)" stroke="#0f172a" stroke-width="4.5" filter="url(#comic-shadow-jt)"/>
+
+  <!-- Big Red Rosy Cheeks -->
+  <ellipse cx="100" cy="122" rx="11" ry="7" fill="#fb7185" opacity="0.8"/>
+  <ellipse cx="180" cy="122" rx="11" ry="7" fill="#fb7185" opacity="0.8"/>
+
+  <!-- Comic Star / Joy Eyes (^^ or Sparkling Stars) -->
+  <g id="eyes">
+    <path d="M 108 110 Q 120 96 132 110" stroke="#0f172a" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M 148 110 Q 160 96 172 110" stroke="#0f172a" stroke-width="5" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- High Raised Happy Eyebrows -->
+  <path d="M 100 88 Q 118 80 132 88 Q 120 78 100 88 Z" fill="#f8fafc" stroke="#0f172a" stroke-width="3"/>
+  <path d="M 180 88 Q 162 80 148 88 Q 160 78 180 88 Z" fill="#f8fafc" stroke="#0f172a" stroke-width="3"/>
+
+  <!-- Big Open Laughing Mouth -->
+  <g id="mouth">
+    <path d="M 125 125 Q 140 115 155 125 Q 140 152 125 125 Z" fill="#e11d48" stroke="#0f172a" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M 132 138 Q 140 130 148 138" fill="#fda4af"/>
+    <path d="M 130 123 Q 140 126 150 123" stroke="#ffffff" stroke-width="2.5" fill="none"/>
+  </g>
+
+  <!-- Flying Dynamic Long Beard (Floating with Excitement) -->
+  <g id="beard" filter="url(#comic-shadow-jt)">
+    <path d="M 138 128 Q 112 132 98 140 Q 120 144 138 133 Z" fill="#f8fafc" stroke="#0f172a" stroke-width="3"/>
+    <path d="M 142 128 Q 168 132 182 140 Q 160 144 142 133 Z" fill="#f8fafc" stroke="#0f172a" stroke-width="3"/>
+    <!-- Floating Waves Beard -->
+    <path d="M 115 138 C 90 180 120 220 140 215 C 160 220 190 180 165 138 Z" fill="#f8fafc" stroke="#0f172a" stroke-width="4"/>
+    <path d="M 128 155 Q 133 190 140 210" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <path d="M 152 155 Q 147 190 140 210" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>
