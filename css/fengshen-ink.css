@@ -3931,6 +3931,15 @@ body:has(.modal-backdrop:not(.hidden)) .online-presence {
   .map-immersive-active .online-presence {
     bottom: max(0.65rem, env(safe-area-inset-bottom));
   }
+  /* 學習航站登入雲朵鈕（外部 SDK 以 inline style 固定在左下）：
+     手機版會壓住底部分頁列，抬到分頁列上方；沉浸地圖模式分頁列已隱藏，貼回底部。 */
+  button[aria-label="學習航站登入狀態"] {
+    left: 0.65rem !important;
+    bottom: calc(76px + env(safe-area-inset-bottom)) !important;
+  }
+  .map-immersive-active button[aria-label="學習航站登入狀態"] {
+    bottom: max(0.65rem, env(safe-area-inset-bottom)) !important;
+  }
   body:has(#view-game:not(.hidden)) .online-presence { display: none; }
   .map-immersive-active #view-map .daily-encounter-card { bottom: 3.85rem; }
 }

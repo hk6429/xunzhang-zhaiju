@@ -825,10 +825,16 @@ function renderMap() {
     box.appendChild(hidden);
   }
 
-  requestAnimationFrame(() => {
+  // iOS in-app 瀏覽器（FB/LINE WebView）的 scrollIntoView 對巢狀捲動容器常常不動作，
+  // 玩家會停在山河圖左上角的空白雲海以為地圖壞了；改為手動置中目前節點。
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    const shell = box.querySelector('.world-map-shell');
     const curNode = box.querySelector('.path-node.current');
-    if (curNode) curNode.scrollIntoView({ block: 'center', inline: 'center', behavior: 'auto' });
-  });
+    if (!shell || !curNode) return;
+    const wrap = curNode.closest('.path-node-wrap') || curNode;
+    shell.scrollLeft = Math.max(0, wrap.offsetLeft - shell.clientWidth / 2);
+    shell.scrollTop = Math.max(0, wrap.offsetTop - shell.clientHeight / 2);
+  }));
 }
 
 // ── 進入關卡 ─────────────────────────
