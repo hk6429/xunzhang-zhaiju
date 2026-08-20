@@ -3175,7 +3175,9 @@ main:has(#view-collection:not(.hidden)) {
 .world-map-canvas {
   position: relative;
   min-width: 2600px;
-  isolation: isolate;
+  /* iOS 經典地雷：fixed 容器內的捲動區程式跳捲後拒繪；把內容強制升到獨立合成層。
+     另外不用 isolation/filter/全幅覆蓋層，修復度黯淡直接併進背景漸層堆疊。 */
+  transform: translateZ(0);
   background:
     linear-gradient(180deg, rgba(9, 30, 28, 0.02), rgba(9, 30, 28, 0.13)),
     url('../assets/art/generated/chamber-map-v2.png') center / 100% 100% no-repeat;
@@ -3224,25 +3226,20 @@ main:has(#view-collection:not(.hidden)) {
 .world-map-canvas .path-node.route-treasure { border-color: #c4851c; }
 .world-map-canvas .path-node.boss { width: 62px; height: 62px; border-color: #9f241d; box-shadow: 0 0 0 5px rgba(159, 36, 29, 0.22), 0 6px 18px rgba(8, 24, 23, 0.7); }
 .world-map-canvas .path-node.event::after { content: "!"; position: absolute; translate: 18px -20px; color: #fff7dd; background: #a9362d; border-radius: 50%; width: 20px; height: 20px; line-height: 20px; }
-/* 修復進度的畫面氛圍：不可用 filter —— 2600×900 畫布在 dpr3 的 iPhone 上
-   濾鏡層要 7800×2700，超過 iOS 材質上限會整層拒繪（玩家只看到文件底色）。
-   改用半透明墨色覆蓋層模擬「尚未修復」的黯淡感。 */
-.world-map-canvas::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
-  background: rgba(16, 27, 26, 0.3);
-  opacity: 0;
-  pointer-events: none;
-}
-.world-map-canvas.world-repaired-0::before { opacity: 1; }
-.world-map-canvas.world-repaired-1::before { opacity: 0.75; }
-.world-map-canvas.world-repaired-2::before { opacity: 0.5; }
-.world-map-canvas.world-repaired-3::before { opacity: 0.25; }
+/* 修復進度的畫面氛圍：不可用 filter／覆蓋層（iOS 大層拒繪），
+   直接以不同深淺的漸層疊在背景圖堆疊最上層。 */
+.world-map-canvas.world-repaired-0 { background:
+  linear-gradient(180deg, rgba(9, 30, 28, 0.3), rgba(9, 30, 28, 0.38)),
+  url('../assets/art/generated/chamber-map-v2.png') center / 100% 100% no-repeat; }
+.world-map-canvas.world-repaired-1 { background:
+  linear-gradient(180deg, rgba(9, 30, 28, 0.22), rgba(9, 30, 28, 0.3)),
+  url('../assets/art/generated/chamber-map-v2.png') center / 100% 100% no-repeat; }
+.world-map-canvas.world-repaired-2 { background:
+  linear-gradient(180deg, rgba(9, 30, 28, 0.15), rgba(9, 30, 28, 0.22)),
+  url('../assets/art/generated/chamber-map-v2.png') center / 100% 100% no-repeat; }
+.world-map-canvas.world-repaired-3 { background:
+  linear-gradient(180deg, rgba(9, 30, 28, 0.08), rgba(9, 30, 28, 0.15)),
+  url('../assets/art/generated/chamber-map-v2.png') center / 100% 100% no-repeat; }
 
 .daily-encounter-card,
 .hidden-level-node,

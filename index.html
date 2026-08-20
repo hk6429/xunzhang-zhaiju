@@ -12,6 +12,40 @@
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Serif+TC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/fengshen-ink.css">
+<script>
+// 臨時真機診斷層（iOS 地圖空白調查中，結案即拆）：網址帶 ?debug=1 時把 JS 錯誤與地圖狀態印在畫面上
+if (/debug=1/.test(location.search)) (function () {
+  var box = null;
+  function out(msg) {
+    if (!box) {
+      box = document.createElement('pre');
+      box.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:2147483647;max-height:55vh;overflow:auto;' +
+        'margin:0;padding:8px;background:rgba(120,0,0,.92);color:#fff;font:11px/1.45 Menlo,monospace;white-space:pre-wrap';
+      (document.body || document.documentElement).appendChild(box);
+    }
+    box.textContent += msg + '\n';
+  }
+  window.addEventListener('error', function (e) {
+    if (e.message) out('[JS錯誤] ' + e.message + ' @ ' + (e.filename || '').split('/').pop() + ':' + e.lineno);
+    else if (e.target && e.target.tagName) out('[資源失敗] ' + e.target.tagName + ' ' + (e.target.src || e.target.href || ''));
+  }, true);
+  window.addEventListener('unhandledrejection', function (e) { out('[Promise錯誤] ' + (e.reason && (e.reason.stack || e.reason.message) || e.reason)); });
+  window.addEventListener('load', function () {
+    out('[UA] ' + navigator.userAgent);
+    out('[viewport] ' + window.innerWidth + 'x' + window.innerHeight + ' dpr=' + devicePixelRatio);
+    setInterval(function () {
+      var v = document.getElementById('view-map');
+      if (!v || v.classList.contains('hidden') || box.textContent.indexOf('[map]') >= 0) return;
+      var cs = getComputedStyle(v);
+      var shell = v.querySelector('.world-map-shell');
+      var canvas = v.querySelector('.world-map-canvas');
+      out('[map] position=' + cs.position + ' h=' + v.offsetHeight);
+      out('[map] shell=' + (shell ? shell.clientWidth + 'x' + shell.clientHeight + ' scroll=' + shell.scrollLeft + ',' + shell.scrollTop : '無'));
+      out('[map] canvas=' + (canvas ? canvas.clientWidth + 'x' + canvas.clientHeight + ' 子節點=' + canvas.childElementCount : '無'));
+    }, 800);
+  });
+})();
+</script>
   <script src="https://xuexi-hangzhan-api.hk6429.workers.dev/naicheng-sso.js" defer></script>
 </head>
 <body>
