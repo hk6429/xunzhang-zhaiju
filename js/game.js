@@ -6,6 +6,7 @@ import {
   applyModeToLevel,
   calculateQuizInkReward,
   clearUnfinishedRun,
+  computeCultivationProgress,
   ensureDailyPlan,
   ensureRetention,
   getUnfinishedRun,
@@ -86,6 +87,7 @@ export function startLevel(ctx) {
   let mistakes = resumedRun?.mistakes || 0;
   let quizAnsweredThisRun = 0;
   let quizCorrectThisRun = 0;
+  let quizWrongStreak = 0;
   const knowledgeQueue = [];
   const runStartedAt = resumedRun?.startedAt || new Date().toISOString();
 
@@ -101,6 +103,16 @@ export function startLevel(ctx) {
     const types = [...new Set(targets.map((target) => target.phrase.type))].join('、');
     learningGoal.textContent = `本關學習目標：能依線索辨認 ${targets.length} 句${types || '語文素材'}，並透過研墨題理解與運用句義。`;
   }
+  // 把七階功名進度搬進關卡內（原本只在大廳看得到，動機在正在解謎時反而消失）
+  function refreshCultivationHint() {
+    const el = $('level-cultivation-hint');
+    if (!el) return;
+    const cultivation = computeCultivationProgress(save);
+    el.textContent = cultivation.next
+      ? `修為・${cultivation.current.title}，距 ${cultivation.next.title} 尚差 ${cultivation.remaining} 點`
+      : `修為・${cultivation.current.title}，已登最高境界`;
+  }
+  refreshCultivationHint();
   const arrayBadgeEl = $('game-array-badge');
   if (arrayBadgeEl) {
     arrayBadgeEl.textContent = arrayInfo.name;
@@ -509,6 +521,7 @@ export function startLevel(ctx) {
     renderSealProgress();
     if (typeof ctx.onProgress === 'function') ctx.onProgress(targets.filter((item) => item.found).length, targets.length);
     if (isCross) updateCrossSelection();
+    refreshCultivationHint();
     persistActiveRun();
     ctx.persist();
     if (targets.every((x) => x.found)) setTimeout(finishLevel, real ? 500 : 250);
@@ -548,6 +561,26 @@ export function startLevel(ctx) {
     const unfound = targets.filter((t) => !t.found);
     if (!unfound.length) return null;
     return unfound.find((t) => t.phraseId === selectedTargetId) || unfound[0];
+  }
+
+  // 防呆逃生閥：墨水歸零＋連續 3 次研墨題答錯＝真卡死，仙人免費指點一字（不動 hintEngine 帳本，
+  // 不違反 hints.js 凍結不變式：墨水只能由 earn 增加），避免無解僵局。
+  function maybeGrantRescueHint() {
+    if (finished || quizWrongStreak < 3) return;
+    if (hintEngine.getInk() > 0 || capExhausted()) return;
+    const t = pickHintTarget();
+    if (!t) return;
+    quizWrongStreak = 0;
+    if (isCross) {
+      if (!grid.isFilled(t.path[0][0], t.path[0][1])) grid.setChar(t.path[0][0], t.path[0][1], t.phrase.text[0]);
+    } else {
+      grid.circleCell(t.path[0][0], t.path[0][1]);
+    }
+    usedHint = true;
+    say('仙人見道友多次苦思無果，心疼指點一字（不扣墨水）。');
+    setCompanion('thinking', '道友莫急，且看仙人略施援手。', true, '援！');
+    persistActiveRun();
+    ctx.persist();
   }
 
   function useHint(tier) {
@@ -759,6 +792,7 @@ export function startLevel(ctx) {
     const examQuote = $('quiz-examiner-quote');
 
     if (correct) {
+      quizWrongStreak = 0;
       save.quizStats.correct += 1;
       const kind = q.type === 'choice' ? 'choice' : 'fill';
       const gained = calculateQuizInkReward({
@@ -782,6 +816,7 @@ export function startLevel(ctx) {
       }
       setCompanion('victory', getRandomQuote(guardian.quizQuotes), false, '墨＋！');
     } else {
+      quizWrongStreak += 1;
       const phrase = phrasesById[q.phraseId];
       const explanation = phrase?.meaning ? ` 判斷關鍵：${phrase.meaning}` : '';
       $('quiz-feedback').textContent = `你選的「${given}」與題意不合；正解是「${q.answer}」。${explanation}`;
@@ -793,6 +828,7 @@ export function startLevel(ctx) {
       }
       setCompanion('thinking', '此題甚深，道友記住此典，下回必能答對！', false, '思！');
     }
+    maybeGrantRescueHint();
     if (q.type === 'choice') {
       for (const b of $('quiz-options').querySelectorAll('button')) {
         b.disabled = true;
@@ -881,7 +917,19 @@ export function startLevel(ctx) {
   }
 
   function showKnowledgeCard(phrase) {
+    $('card-badge').textContent = '摘句入集';
+    $('card-review-nav')?.classList.add('hidden');
     $('card-text').textContent = phrase.text;
+    const sourceEl = $('card-source');
+    if (sourceEl) {
+      if (phrase.author) {
+        sourceEl.textContent = `—— ${phrase.dynasty ? `${phrase.dynasty}．` : ''}${phrase.author}`;
+        sourceEl.classList.remove('hidden');
+      } else {
+        sourceEl.textContent = '';
+        sourceEl.classList.add('hidden');
+      }
+    }
     $('card-meaning').textContent = phrase.meaning || '';
     $('card-insight').textContent = phrase.insight || '';
     $('modal-card').classList.remove('hidden');

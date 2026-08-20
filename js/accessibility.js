@@ -106,11 +106,18 @@ function bindOnboarding() {
   const dialog = $('modal-onboarding');
   const skip = $('btn-skip-onboarding');
   const start = $('btn-start-onboarding');
+  const modePicker = $('onboarding-mode-picker');
   if (!dialog || !skip || !start) return;
 
   const finish = () => closeDialog(dialog, true);
   skip.addEventListener('click', finish);
   start.addEventListener('click', () => {
+    // 新手預設「悟道模式」，避免第一關就被標準模式的計時/扣血夾殺；已玩過的老玩家不受影響。
+    const chosen = modePicker?.querySelector('input[name="onboarding-mode"]:checked')?.value;
+    if (chosen) {
+      try { localStorage.setItem(MODE_KEY, chosen); } catch { /* noop */ }
+      window.dispatchEvent(new CustomEvent('xzzj:play-mode-change', { detail: { mode: chosen } }));
+    }
     finish();
     const firstLevelButton = document.querySelector('.chamber-enter-btn:not([disabled])');
     if (firstLevelButton) firstLevelButton.click();

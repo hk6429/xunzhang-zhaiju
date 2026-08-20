@@ -640,7 +640,7 @@ main {
 .clue-tag[data-style="釋義"]   { background: #dce8f0; color: #203e58; border: 1px solid #b8d2e4; }
 .clue-tag[data-style="急轉彎"] { background: #faecc3; color: #7a5303; border: 1px solid #edd187; }
 .clue-tag[data-style="典故"]   { background: #eddce8; color: #693b5d; border: 1px solid #d9b8d2; }
-.clue-tag[data-style="諧音"]   { background: #e0edd3; color: #3e5e23; border: 1px solid #bcd9a3; }
+.clue-tag[data-style="換句話說"]   { background: #e0edd3; color: #3e5e23; border: 1px solid #bcd9a3; }
 .clue-tag[data-style="情境"]   { background: #fae0d2; color: #853e1c; border: 1px solid #f0ba9f; }
 
 /* ── Cross 填字格 ───────────────────── */

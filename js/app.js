@@ -50,6 +50,20 @@ import {
 
 const $ = (id) => document.getElementById(id);
 const VIEWS = ['chamber', 'map', 'game', 'collection', 'settings'];
+
+// 唐詩/宋詞/元曲等文學類句子的 author/dynasty 資料原本就存在，只是知識卡沒顯示出處——
+// 讓既有資料直接可見，不需另外編造出處（無 author 的成語/諺語類則不顯示這行）。
+function setCardSource(phrase) {
+  const el = $('card-source');
+  if (!el) return;
+  if (phrase?.author) {
+    el.textContent = `—— ${phrase.dynasty ? `${phrase.dynasty}．` : ''}${phrase.author}`;
+    el.classList.remove('hidden');
+  } else {
+    el.textContent = '';
+    el.classList.add('hidden');
+  }
+}
 const CN_NUM = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
 const GUARDIAN_PORTRAITS = {
   'jiang-taigong': 'assets/art/companions-v4/jiang-taigong.png',
@@ -922,6 +936,7 @@ function renderCollection() {
 function renderPhrasesTab() {
   const ids = collection.list();
   $('collection-empty').classList.toggle('hidden', ids.length > 0);
+  $('btn-collection-review')?.classList.toggle('hidden', ids.length < 2);
   const ul = $('collection-list');
   ul.innerHTML = '';
   for (const pid of ids) {
@@ -932,7 +947,10 @@ function renderPhrasesTab() {
     btn.type = 'button';
     btn.textContent = phrase.text;
     btn.addEventListener('click', () => {
+      $('card-badge').textContent = '摘句入集';
+      $('card-review-nav')?.classList.add('hidden');
       $('card-text').textContent = phrase.text;
+      setCardSource(phrase);
       $('card-meaning').textContent = phrase.meaning || '';
       $('card-insight').textContent = phrase.insight || '';
       $('modal-card').classList.remove('hidden');
@@ -1245,6 +1263,33 @@ function bindGlobal() {
       renderCollection();
     });
   }
+
+  // 摘句圖鑑「隨機複習」：收藏了就沒下文，讓已收藏成語能被重新利用複習
+  let reviewQueue = [];
+  let reviewIdx = 0;
+  function showReviewCard() {
+    const phrase = phrasesById[reviewQueue[reviewIdx]];
+    if (!phrase) return;
+    $('card-badge').textContent = '複習時間';
+    $('card-text').textContent = phrase.text;
+    setCardSource(phrase);
+    $('card-meaning').textContent = phrase.meaning || '';
+    $('card-insight').textContent = phrase.insight || '';
+    $('card-review-nav').classList.remove('hidden');
+    $('card-review-progress').textContent = `第 ${reviewIdx + 1} / ${reviewQueue.length} 句`;
+    $('btn-card-review-next').textContent = reviewIdx + 1 < reviewQueue.length ? '下一句' : '複習完成';
+    $('modal-card').classList.remove('hidden');
+  }
+  $('btn-collection-review')?.addEventListener('click', () => {
+    reviewQueue = collection.list().sort(() => Math.random() - 0.5).slice(0, 5);
+    reviewIdx = 0;
+    if (reviewQueue.length) showReviewCard();
+  });
+  $('btn-card-review-next')?.addEventListener('click', () => {
+    reviewIdx += 1;
+    if (reviewIdx < reviewQueue.length) showReviewCard();
+    else $('modal-card').classList.add('hidden');
+  });
 }
 
 function closeMapView() {

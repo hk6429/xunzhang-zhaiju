@@ -1196,7 +1196,7 @@ main {
 .clue-tag[data-style="釋義"]   { background: #dceaf2; color: #1c455c; border: 1px solid #acc8d8; }
 .clue-tag[data-style="急轉彎"] { background: #faecc3; color: #7f5203; border: 1px solid #e0c67e; }
 .clue-tag[data-style="典故"]   { background: #ebd5e4; color: #6b335c; border: 1px solid #ccaec4; }
-.clue-tag[data-style="諧音"]   { background: #dfebd4; color: #3b5d23; border: 1px solid #b6d1a5; }
+.clue-tag[data-style="換句話說"]   { background: #dfebd4; color: #3b5d23; border: 1px solid #b6d1a5; }
 .clue-tag[data-style="情境"]   { background: #f7ded3; color: #873d1f; border: 1px solid #dfb09e; }
 
 /* ── 提示工具列 (Hint Bar) ── */
@@ -3941,7 +3941,12 @@ body:has(.modal-backdrop:not(.hidden)) .online-presence {
   .class-coop-fields button { grid-column: 1; min-height: 48px; }
   .settings-actions { display: grid; grid-template-columns: 1fr; }
   .settings-actions > button { width: 100%; min-height: 48px; }
-  .rest-reminder { bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .rest-reminder {
+    bottom: calc(88px + env(safe-area-inset-bottom));
+    right: max(0.65rem, env(safe-area-inset-right));
+    width: min(300px, calc(100vw - 3.4rem));
+    z-index: 80;
+  }
   .online-presence {
     right: max(0.65rem, env(safe-area-inset-right));
     bottom: calc(76px + env(safe-area-inset-bottom));
@@ -4114,4 +4119,46 @@ body:has(.modal-backdrop:not(.hidden)) .online-presence {
   font-size: 0.86rem;
   line-height: 1.5;
   color: var(--palace-ink-deep);
+}
+
+/* ── 關卡內修為進度提示（原僅大廳可見，動機在解謎當下反而消失） ── */
+.level-cultivation-hint {
+  margin: -0.3rem 0 0.6rem;
+  font-size: 0.82rem;
+  color: var(--palace-ink-soft);
+}
+
+/* ── 摘句圖鑑「隨機複習」按鈕 ── */
+.collection-review-btn {
+  display: inline-flex;
+  margin: 0.3rem 0 0.9rem;
+}
+
+/* ── 知識卡複習模式導覽（下一句／完成） ── */
+.card-review-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(170, 125, 49, 0.4);
+}
+.card-review-progress {
+  font-size: 0.82rem;
+  color: var(--palace-ink-soft);
+}
+
+/* ── 新手引導：模式挑選（重用 .play-mode-selector 樣式，這裡只補間距） ── */
+.onboarding-mode-picker {
+  margin: 0.9rem 0;
+}
+
+/* ── 知識卡出處（唐詩宋詞元曲等文學類句子的作者／朝代，資料本就存在，過去沒顯示） ── */
+.card-source {
+  margin: -0.4rem 0 0.4rem;
+  font-size: 0.86rem;
+  font-style: italic;
+  color: var(--palace-ink-soft);
+  text-align: right;
 }

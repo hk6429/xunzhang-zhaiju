@@ -193,6 +193,7 @@ if (/debug=1/.test(location.search)) (function () {
     </div>
 
     <p id="level-learning-goal" class="level-learning-goal" aria-live="polite">本關學習目標載入中。</p>
+<p id="level-cultivation-hint" class="level-cultivation-hint" aria-live="off"></p>
 
     <!-- 密室破陣封印進度條 -->
     <div id="seal-progress-bar" class="seal-progress-bar">
@@ -282,6 +283,7 @@ if (/debug=1/.test(location.search)) (function () {
     <!-- 摘句典藏分頁 -->
     <div id="coltab-pane-phrases" class="coltab-pane">
       <p id="collection-empty" class="muted hidden">尚未收藏任何句子，到關卡中尋章摘句吧。</p>
+      <button type="button" id="btn-collection-review" class="ghost-btn collection-review-btn hidden">🔁 隨機複習 5 句</button>
       <ul id="collection-list" class="collection-list"></ul>
     </div>
 
@@ -369,6 +371,11 @@ if (/debug=1/.test(location.search)) (function () {
       <li><span>二</span><div><strong>沿字找出句子</strong><small>按住首字，順著字句滑動。</small></div></li>
       <li><span>三</span><div><strong>收入封神寶典</strong><small>找到後會收入寶典，完整解釋可在結算研讀。</small></div></li>
     </ol>
+    <fieldset id="onboarding-mode-picker" class="play-mode-selector onboarding-mode-picker">
+      <legend>第一次玩，選個節奏：</legend>
+      <label><input type="radio" name="onboarding-mode" value="explore" checked><span><strong>悟道模式</strong><small>推薦，時間寬鬆、提示更好用</small></span></label>
+      <label><input type="radio" name="onboarding-mode" value="standard"><span><strong>標準模式</strong><small>已熟悉玩法再選這個</small></span></label>
+    </fieldset>
     <button type="button" id="btn-start-onboarding" class="primary-btn">開始第一關</button>
   </div>
 </div>
@@ -377,10 +384,15 @@ if (/debug=1/.test(location.search)) (function () {
 <div id="modal-card" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="card-text">
   <div class="modal knowledge-card" tabindex="-1">
     <button type="button" class="modal-close" data-close="modal-card" aria-label="關閉">✕</button>
-    <p class="card-badge">摘句入集</p>
+    <p id="card-badge" class="card-badge">摘句入集</p>
     <h3 id="card-text" class="card-text"></h3>
+    <p id="card-source" class="card-source hidden"></p>
     <p id="card-meaning" class="card-meaning"></p>
     <p id="card-insight" class="card-insight"></p>
+    <div id="card-review-nav" class="card-review-nav hidden">
+      <span id="card-review-progress" class="card-review-progress"></span>
+      <button type="button" id="btn-card-review-next" class="primary-btn">下一句</button>
+    </div>
   </div>
 </div>
 

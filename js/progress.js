@@ -6,11 +6,14 @@ import { defaultRetention, ensureRetention, normalizeRetention } from './retenti
 
 export const SAVE_KEY = 'xzzj_save_v1';
 
+// 新手津貼：全新存檔起始送 3 點墨水，避免第一關就卡在「答不出成語→答不出研墨題→完全無提示可用」的死局
+const STARTER_INK = 3;
+
 export function defaultSave() {
   return {
     v: 1,
     levels: {},
-    ink: 0,
+    ink: STARTER_INK,
     collection: [],
     quizStats: { answered: 0, correct: 0 },
     retention: defaultRetention(),
