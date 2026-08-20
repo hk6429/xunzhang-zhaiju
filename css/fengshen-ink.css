@@ -3132,8 +3132,8 @@ main:has(#view-collection:not(.hidden)) {
 
 #view-map .map-progress {
   color: #fff7dc;
-  background: rgba(7, 27, 25, 0.72);
-  backdrop-filter: blur(8px);
+  /* 地圖檢視內禁用 backdrop-filter：iOS 對 fixed 全螢幕＋巨型捲動畫布取樣背景會整段拒繪 */
+  background: rgba(7, 27, 25, 0.9);
 }
 
 #view-map .map-progress .muted {
@@ -3263,8 +3263,7 @@ main:has(#view-collection:not(.hidden)) {
   width: min(340px, calc(100% - 2rem));
   margin: 0;
   padding: 0.7rem 0.8rem;
-  background: rgba(255, 250, 232, 0.94);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 250, 232, 0.97);
 }
 #view-map .daily-encounter-card p {
   display: none;
@@ -3287,7 +3286,6 @@ main:has(#view-collection:not(.hidden)) {
   border-width: 2px;
   background: radial-gradient(circle, rgba(255, 253, 244, 0.96) 34%, rgba(226, 204, 147, 0.9) 100%);
   box-shadow: 0 3px 9px rgba(8, 24, 23, 0.42), inset 0 0 0 2px rgba(255, 255, 255, 0.66);
-  backdrop-filter: blur(2px);
 }
 
 .world-map-canvas .path-stars,
@@ -3310,7 +3308,6 @@ main:has(#view-collection:not(.hidden)) {
   color: #fff7dd;
   text-align: center;
   box-shadow: 0 6px 18px rgba(7, 24, 22, 0.32);
-  backdrop-filter: blur(4px);
 }
 
 .chapter-landmark span {
