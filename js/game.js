@@ -91,6 +91,17 @@ export function startLevel(ctx) {
   const knowledgeQueue = [];
   const runStartedAt = resumedRun?.startedAt || new Date().toISOString();
 
+  // 連擊計數：僅本局暫存，不寫入存檔——12 秒內連續找到下一句就疊加
+  const COMBO_WINDOW_MS = 12000;
+  let comboCount = 0;
+  let comboLastFoundAt = 0;
+  let comboHideTimer = null;
+
+  // 觸覺回饋：iOS Safari 無 Vibration API，直接 no-op；不影響其他瀏覽器
+  function vibrate(pattern) {
+    try { navigator.vibrate?.(pattern); } catch { /* noop */ }
+  }
+
   // ── 計時與提示限次 ────────────────────
   const timeLimit = modeConfig.timeLimit;
   const hintCap = modeConfig.hintCap;
@@ -274,17 +285,12 @@ export function startLevel(ctx) {
     revealed: level.revealed || [],
   });
 
-  // 解謎優先體感：線索模式關卡進場先讓格子矇上薄紗，逼玩家視線先落在線索卡，
-  // 讀過一張線索或等待片刻後才淡入清楚——純視覺節流，不影響任何找字判定邏輯
-  let veilTimer = null;
-  if (clueMode && boardEl) {
-    boardEl.classList.add('grid-veiled');
-    veilTimer = setTimeout(() => boardEl.classList.remove('grid-veiled'), 1400);
-  }
+  // 解謎優先體感（溫和版）：線索模式關卡進場格子矇上薄紗且不可互動，
+  // 必須先點過至少一張線索卡才淡入清楚——不設等待逾時自動放行的後門，
+  // 純粹擋掉「不讀線索直接硬找」這條路，不影響找字判定邏輯本身
+  if (clueMode && boardEl) boardEl.classList.add('grid-veiled');
   function unveilGrid() {
-    if (!boardEl) return;
-    clearTimeout(veilTimer);
-    boardEl.classList.remove('grid-veiled');
+    boardEl?.classList.remove('grid-veiled');
   }
 
   function capExhausted() {
@@ -522,6 +528,21 @@ export function startLevel(ctx) {
     grid.markFound(t.path, t.colorIdx);
     if (!completedBefore && !levelSave.found.includes(t.phraseId)) levelSave.found.push(t.phraseId);
     if (real) {
+      vibrate(30);
+      const now = Date.now();
+      comboCount = (comboCount > 0 && now - comboLastFoundAt <= COMBO_WINDOW_MS) ? comboCount + 1 : 1;
+      comboLastFoundAt = now;
+      const comboEl = $('combo-badge');
+      if (comboEl) {
+        clearTimeout(comboHideTimer);
+        if (comboCount >= 2) {
+          comboEl.textContent = `🔥 連擊 x${comboCount}`;
+          comboEl.classList.remove('hidden');
+          comboHideTimer = setTimeout(() => comboEl.classList.add('hidden'), 3000);
+        } else {
+          comboEl.classList.add('hidden');
+        }
+      }
       collection.add(t.phraseId);
       recordDailyProgress(save, 'phrase-found');
       knowledgeQueue.push(t.phrase);
@@ -552,6 +573,7 @@ export function startLevel(ctx) {
     if (hit) {
       markFound(hit, { real: true });
     } else {
+      vibrate(80);
       mistakes += 1;
       persistActiveRun();
       ctx.persist();
@@ -658,6 +680,7 @@ export function startLevel(ctx) {
   function finishLevel() {
     if (finished) return;
     finished = true;
+    vibrate([40, 60, 40, 60, 80]);
     hideMiniCard();
     stopTimer();
     const stars = computeStars();
@@ -1075,7 +1098,7 @@ export function startLevel(ctx) {
       clearTimeout(speechTimer);
       clearTimeout(cutinTimer);
       clearTimeout(cutinHideTimer);
-      clearTimeout(veilTimer);
+      clearTimeout(comboHideTimer);
       boardEl?.classList.remove('grid-veiled');
       hideMiniCard();
       if (companionWidget) companionWidget.removeEventListener('click', handleCompanionClick);

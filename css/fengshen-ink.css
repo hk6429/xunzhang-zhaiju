@@ -4224,13 +4224,42 @@ body:has(.modal-backdrop:not(.hidden)) .online-presence {
 .palace-jade-board[data-chapter] { border-color: var(--board-chapter-accent, var(--palace-gold)); }
 .palace-jade-board[data-chapter] .board-corner { border-color: var(--board-chapter-accent, var(--palace-gold)); }
 
-/* ── 解謎優先體感：線索模式進場先矇上薄紗，逼視線先落在線索卡 ── */
+/* ── 解謎優先體感（溫和版）：線索模式進場先矇上薄紗且不可互動，點過線索才淡入 ── */
 .palace-jade-board.grid-veiled #grid {
   filter: blur(5px);
   opacity: 0.55;
   transition: filter 0.5s ease, opacity 0.5s ease;
   pointer-events: none;
 }
+.palace-jade-board.grid-veiled::after {
+  content: '👉 先點選右側一則線索';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--palace-ink, #2b2620);
+  background: rgba(251, 247, 238, 0.35);
+  pointer-events: none;
+  z-index: 2;
+}
 .palace-jade-board #grid {
   transition: filter 0.5s ease, opacity 0.5s ease;
+}
+
+/* ── 連擊徽章（本局暫存，不寫入存檔） ── */
+.combo-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, var(--palace-vermilion, #b82823), var(--palace-gold, #c59a3f));
+  animation: found-pop 0.4s ease;
 }
