@@ -4077,3 +4077,41 @@ body:has(.modal-backdrop:not(.hidden)) .online-presence {
 .cell.found-2, .palace-jade-board .cell.found-2 { background: linear-gradient(135deg, #c4e2bd 0%, #8bb97f 100%); color: #193a16; border-color: #6d9c60; }
 .cell.found-3, .palace-jade-board .cell.found-3 { background: linear-gradient(135deg, #ddc8e8 0%, #ad8ac0 100%); color: #3a1a4a; border-color: #8f6ba3; }
 .cell.found-4, .palace-jade-board .cell.found-4 { background: linear-gradient(135deg, #f0e3b4 0%, #cfb567 100%); color: #4d3a0b; border-color: #ab923f; }
+
+/* ── 中間句輕量小卡（答對第 2 句起短暫彈出句義，點一下或倒數自動收） ── */
+#mini-knowledge-card {
+  position: fixed;
+  top: max(0.8rem, env(safe-area-inset-top));
+  left: 50%;
+  transform: translate(-50%, -140%);
+  z-index: 95;
+  width: min(92vw, 460px);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.65rem 0.95rem;
+  border: 1.5px solid var(--palace-gold-bright);
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(255, 253, 246, 0.98), rgba(238, 228, 205, 0.96));
+  box-shadow: 0 10px 26px rgba(16, 27, 26, 0.32);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.28s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.24s ease;
+  cursor: pointer;
+}
+#mini-knowledge-card.show {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  pointer-events: auto;
+}
+#mini-knowledge-card strong {
+  font-family: var(--font-calligraphy);
+  font-size: 1.12rem;
+  letter-spacing: 0.08em;
+  color: var(--palace-vermilion);
+}
+#mini-knowledge-card span {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--palace-ink-deep);
+}

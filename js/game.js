@@ -501,6 +501,7 @@ export function startLevel(ctx) {
         setCompanion('victory', getRandomQuote(guardian.findQuotes), true, '破！');
       } else {
         setCompanion('victory', `「${t.phrase.text}」已收入待研讀卷軸！`, true, '收！');
+        showMiniCard(t.phrase);
       }
     }
     if (selectedTargetId === t.phraseId) selectedTargetId = null;
@@ -606,6 +607,7 @@ export function startLevel(ctx) {
   function finishLevel() {
     if (finished) return;
     finished = true;
+    hideMiniCard();
     stopTimer();
     const stars = computeStars();
     const now = new Date();
@@ -853,6 +855,31 @@ export function startLevel(ctx) {
   }
 
   // ── 知識卡 ───────────────────────────
+  // ── 中間句輕量小卡：短暫彈出句子＋釋義後自動收，不中斷破陣節奏 ──
+  let miniCardTimer = null;
+  function showMiniCard(phrase) {
+    let el = document.getElementById('mini-knowledge-card');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'mini-knowledge-card';
+      el.setAttribute('role', 'status');
+      el.addEventListener('click', hideMiniCard);
+      document.body.appendChild(el);
+    }
+    el.innerHTML = `<strong>${phrase.text}</strong><span>${phrase.meaning || ''}</span>`;
+    el.classList.remove('show');
+    void el.offsetWidth;
+    el.classList.add('show');
+    clearTimeout(miniCardTimer);
+    const meaningLen = Array.from(phrase.meaning || '').length;
+    miniCardTimer = setTimeout(hideMiniCard, Math.min(3500, 1500 + meaningLen * 45));
+  }
+  function hideMiniCard() {
+    clearTimeout(miniCardTimer);
+    const el = document.getElementById('mini-knowledge-card');
+    if (el) el.classList.remove('show');
+  }
+
   function showKnowledgeCard(phrase) {
     $('card-text').textContent = phrase.text;
     $('card-meaning').textContent = phrase.meaning || '';
@@ -947,6 +974,7 @@ export function startLevel(ctx) {
       clearTimeout(speechTimer);
       clearTimeout(cutinTimer);
       clearTimeout(cutinHideTimer);
+      hideMiniCard();
       if (companionWidget) companionWidget.removeEventListener('click', handleCompanionClick);
       if (cutinOverlay) cutinOverlay.removeEventListener('click', handleCutinDismiss);
       for (const [el, ev, fn] of listeners) el.removeEventListener(ev, fn);
