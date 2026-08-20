@@ -96,6 +96,10 @@ export function startLevel(ctx) {
   const hintCap = modeConfig.hintCap;
   let hintsUsed = resumedRun?.hintsUsed || 0;
 
+  // 章節視覺主題：目前 10 章玩法完全相同、僅難度曲線不同，先用棋盤配色做出章節辨識度
+  const boardEl = document.querySelector('.palace-jade-board');
+  if (boardEl) boardEl.dataset.chapter = String(level.chapter || 1);
+
   // ── DOM 頂部標題與陣法徽章 ───────────
   $('game-level-title').textContent = `第 ${level.id} 關・${modeConfig.label}`;
   const learningGoal = $('level-learning-goal');
@@ -270,6 +274,19 @@ export function startLevel(ctx) {
     revealed: level.revealed || [],
   });
 
+  // 解謎優先體感：線索模式關卡進場先讓格子矇上薄紗，逼玩家視線先落在線索卡，
+  // 讀過一張線索或等待片刻後才淡入清楚——純視覺節流，不影響任何找字判定邏輯
+  let veilTimer = null;
+  if (clueMode && boardEl) {
+    boardEl.classList.add('grid-veiled');
+    veilTimer = setTimeout(() => boardEl.classList.remove('grid-veiled'), 1400);
+  }
+  function unveilGrid() {
+    if (!boardEl) return;
+    clearTimeout(veilTimer);
+    boardEl.classList.remove('grid-veiled');
+  }
+
   function capExhausted() {
     return hintCap != null && hintsUsed >= hintCap;
   }
@@ -429,6 +446,7 @@ export function startLevel(ctx) {
       }
       if (t.phraseId === selectedTargetId && !t.found) li.classList.add('selected');
       li.addEventListener('click', () => {
+        unveilGrid();
         if (t.found) return;
         setSelected(selectedTargetId === t.phraseId ? null : t.phraseId);
       });
@@ -679,6 +697,19 @@ export function startLevel(ctx) {
 
     $('complete-stars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars);
 
+    // 破關徽章：calculateBadges() 早就算好 insight/swift/scholar，只是從沒渲染過
+    const badgesEl = $('complete-badges');
+    if (badgesEl) {
+      const BADGE_LABELS = {
+        insight: '🎯 洞察無失誤',
+        swift: '⚡ 疾風破陣',
+        scholar: '📖 研墨全通',
+      };
+      const labels = (completion.newBadges || []).map((code) => BADGE_LABELS[code]).filter(Boolean);
+      badgesEl.innerHTML = labels.map((label) => `<span class="complete-badge-chip">${label}</span>`).join('');
+      badgesEl.classList.toggle('hidden', !labels.length);
+    }
+
     // 連續挑戰紀錄：streak 資料早就有算，只是從沒顯示過——在破陣當下告訴玩家，養成回訪習慣
     const streakEl = $('complete-streak');
     if (streakEl) {
@@ -722,6 +753,12 @@ export function startLevel(ctx) {
           : '';
         descEl.textContent = `${shard.desc}${fragmentStatus}`;
       }
+      // 法寶集齊（10/10）是稀有里程碑，跟日常掉落用同一套視覺會被淹沒，特別標示出來
+      const treasureBox = $('complete-treasure-box');
+      const treasureHeader = treasureBox?.querySelector('.treasure-header');
+      const treasureComplete = !!completion.treasure?.complete;
+      treasureBox?.classList.toggle('treasure-complete', treasureComplete);
+      if (treasureHeader) treasureHeader.textContent = treasureComplete ? '✨ 法寶集齊！' : '✨ 御賜封神法寶碎片';
     }
 
     $('btn-next-level').classList.toggle('hidden', !ctx.hasNext);
@@ -1038,6 +1075,8 @@ export function startLevel(ctx) {
       clearTimeout(speechTimer);
       clearTimeout(cutinTimer);
       clearTimeout(cutinHideTimer);
+      clearTimeout(veilTimer);
+      boardEl?.classList.remove('grid-veiled');
       hideMiniCard();
       if (companionWidget) companionWidget.removeEventListener('click', handleCompanionClick);
       if (cutinOverlay) cutinOverlay.removeEventListener('click', handleCutinDismiss);

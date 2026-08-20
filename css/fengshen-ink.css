@@ -4179,3 +4179,58 @@ body:has(.modal-backdrop:not(.hidden)) .online-presence {
   color: var(--palace-vermilion, #b5432a);
   margin: 0.2rem 0 0;
 }
+
+/* ── 破關徽章（calculateBadges 早就算好 insight/swift/scholar，過去沒渲染過） ── */
+.complete-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: -0.4rem 0 1rem;
+}
+.complete-badge-chip {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--palace-gold-dark);
+  background: rgba(197, 154, 63, 0.16);
+  border: 1px solid var(--palace-gold);
+  animation: found-pop 0.5s ease;
+}
+
+/* ── 法寶集齊（10/10）是稀有里程碑，跟日常掉落分開視覺 ── */
+.complete-treasure-box.treasure-complete {
+  border: 2px solid var(--palace-gold-bright);
+  box-shadow: 0 0 18px var(--palace-gold-glow);
+  animation: sparkle-pulse 1.4s ease-in-out infinite;
+}
+.complete-treasure-box.treasure-complete .treasure-header {
+  color: var(--palace-gold-dark);
+  font-weight: 900;
+}
+
+/* ── 章節視覺主題：10 章玩法目前相同，先用棋盤配色做辨識度 ── */
+.palace-jade-board[data-chapter="1"],
+.palace-jade-board[data-chapter="2"] { --board-chapter-accent: var(--palace-jade, #3f6b52); }
+.palace-jade-board[data-chapter="3"],
+.palace-jade-board[data-chapter="4"] { --board-chapter-accent: var(--palace-vermilion, #b82823); }
+.palace-jade-board[data-chapter="5"],
+.palace-jade-board[data-chapter="6"] { --board-chapter-accent: var(--palace-gold-dark, #8a6721); }
+.palace-jade-board[data-chapter="7"],
+.palace-jade-board[data-chapter="8"] { --board-chapter-accent: #4a5a8f; }
+.palace-jade-board[data-chapter="9"],
+.palace-jade-board[data-chapter="10"] { --board-chapter-accent: #6a3f8f; }
+.palace-jade-board[data-chapter] { border-color: var(--board-chapter-accent, var(--palace-gold)); }
+.palace-jade-board[data-chapter] .board-corner { border-color: var(--board-chapter-accent, var(--palace-gold)); }
+
+/* ── 解謎優先體感：線索模式進場先矇上薄紗，逼視線先落在線索卡 ── */
+.palace-jade-board.grid-veiled #grid {
+  filter: blur(5px);
+  opacity: 0.55;
+  transition: filter 0.5s ease, opacity 0.5s ease;
+  pointer-events: none;
+}
+.palace-jade-board #grid {
+  transition: filter 0.5s ease, opacity 0.5s ease;
+}
