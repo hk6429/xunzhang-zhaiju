@@ -1050,11 +1050,12 @@ main {
   100% { transform: scale(1) rotate(0deg); filter: brightness(1); }
 }
 
-.cell.found-0 { background: linear-gradient(135deg, #faeae5 0%, var(--found-0) 100%); color: #6a1c15; border-color: #d1978a; }
-.cell.found-1 { background: linear-gradient(135deg, #e5f2fa 0%, var(--found-1) 100%); color: #16364a; border-color: #8bb3cb; }
-.cell.found-2 { background: linear-gradient(135deg, #e9f5e5 0%, var(--found-2) 100%); color: #1e451b; border-color: #9ac290; }
-.cell.found-3 { background: linear-gradient(135deg, #f2e9f7 0%, var(--found-3) 100%); color: #431f54; border-color: #b79cc4; }
-.cell.found-4 { background: linear-gradient(135deg, #faf5de 0%, var(--found-4) 100%); color: #5a450e; border-color: #c9b77d; }
+/* 加深已破字格顏色：與未破的漢白玉底明顯區隔，孩子找剩餘成語時一眼可辨 */
+.cell.found-0 { background: linear-gradient(135deg, #f5c4b4 0%, #e08b6f 100%); color: #5d190f; border-color: #c06a4c; }
+.cell.found-1 { background: linear-gradient(135deg, #bcd9ec 0%, #7fa9c4 100%); color: #122d3f; border-color: #5d89a6; }
+.cell.found-2 { background: linear-gradient(135deg, #c4e2bd 0%, #8bb97f 100%); color: #193a16; border-color: #6d9c60; }
+.cell.found-3 { background: linear-gradient(135deg, #ddc8e8 0%, #ad8ac0 100%); color: #3a1a4a; border-color: #8f6ba3; }
+.cell.found-4 { background: linear-gradient(135deg, #f0e3b4 0%, #cfb567 100%); color: #4d3a0b; border-color: #ab923f; }
 
 /* 錯誤震顫 (Cinnabar Shake) */
 .cell.invalid {
@@ -4063,3 +4064,16 @@ body:has(.modal-backdrop:not(.hidden)) .online-presence {
     margin: 0.8rem 0 0;
   }
 }
+
+/* ── 已破字格五色必須壓過 .palace-jade-board 主題底色（主題規則在後面會蓋掉 found 色，
+      導致已破與未破幾乎同色、孩子找剩餘成語不易辨認） ── */
+.cell.found,
+.palace-jade-board .cell.found {
+  border-color: var(--palace-gold-bright);
+  box-shadow: 0 4px 10px rgba(26, 23, 20, 0.15), inset 0 0 8px rgba(255, 255, 255, 0.55);
+}
+.cell.found-0, .palace-jade-board .cell.found-0 { background: linear-gradient(135deg, #f5c4b4 0%, #e08b6f 100%); color: #5d190f; border-color: #c06a4c; }
+.cell.found-1, .palace-jade-board .cell.found-1 { background: linear-gradient(135deg, #bcd9ec 0%, #7fa9c4 100%); color: #122d3f; border-color: #5d89a6; }
+.cell.found-2, .palace-jade-board .cell.found-2 { background: linear-gradient(135deg, #c4e2bd 0%, #8bb97f 100%); color: #193a16; border-color: #6d9c60; }
+.cell.found-3, .palace-jade-board .cell.found-3 { background: linear-gradient(135deg, #ddc8e8 0%, #ad8ac0 100%); color: #3a1a4a; border-color: #8f6ba3; }
+.cell.found-4, .palace-jade-board .cell.found-4 { background: linear-gradient(135deg, #f0e3b4 0%, #cfb567 100%); color: #4d3a0b; border-color: #ab923f; }
