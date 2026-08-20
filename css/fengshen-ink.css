@@ -3056,11 +3056,18 @@ main:has(#view-collection:not(.hidden)) {
 
 #view-map:not(.hidden) {
   position: fixed;
+  /* 舊版 iOS Safari（<14.5 不吃 inset、<15.4 不吃 dvh）：先給長寫法與 vh fallback，
+     否則 fixed 元素不撐滿、地圖列高度歸零，玩家只看到一片 html 底色。 */
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   inset: 0;
   z-index: 1200;
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr);
   width: 100%;
+  height: 100vh;
   height: 100dvh;
   padding: max(0.8rem, env(safe-area-inset-top)) max(0.85rem, env(safe-area-inset-right)) max(0.8rem, env(safe-area-inset-bottom)) max(0.85rem, env(safe-area-inset-left));
   overflow: hidden;
@@ -3158,7 +3165,9 @@ main:has(#view-collection:not(.hidden)) {
 
 #view-map .world-map-shell {
   height: 100%;
-  min-height: 0;
+  /* 高度保險絲：部分 iOS Safari 會把巢狀 grid 裡的百分比高度算成近 0，
+     地圖整條縮成細縫；vh 是全瀏覽器都吃的單位，保底一定看得到地圖。 */
+  min-height: 55vh;
   overflow: auto;
   overscroll-behavior: contain;
 }
@@ -3192,7 +3201,7 @@ main:has(#view-collection:not(.hidden)) {
   stroke: #f3d275;
   stroke-width: 2;
   opacity: 0.16;
-  filter: drop-shadow(0 1px 1px rgba(25, 32, 27, 0.38));
+  /* 不加 drop-shadow：2600×900 SVG 的濾鏡區在 iOS 上同樣會撞層大小上限 */
 }
 
 .world-map-canvas .path-badges {
@@ -3215,12 +3224,25 @@ main:has(#view-collection:not(.hidden)) {
 .world-map-canvas .path-node.route-treasure { border-color: #c4851c; }
 .world-map-canvas .path-node.boss { width: 62px; height: 62px; border-color: #9f241d; box-shadow: 0 0 0 5px rgba(159, 36, 29, 0.22), 0 6px 18px rgba(8, 24, 23, 0.7); }
 .world-map-canvas .path-node.event::after { content: "!"; position: absolute; translate: 18px -20px; color: #fff7dd; background: #a9362d; border-radius: 50%; width: 20px; height: 20px; line-height: 20px; }
-.world-map-canvas.world-repaired-0 { filter: saturate(0.76) brightness(0.88); }
-.world-map-canvas.world-repaired-1 { filter: saturate(0.82) brightness(0.91); }
-.world-map-canvas.world-repaired-2 { filter: saturate(0.88) brightness(0.94); }
-.world-map-canvas.world-repaired-3 { filter: saturate(0.94) brightness(0.97); }
-.world-map-canvas.world-repaired-4,
-.world-map-canvas.world-repaired-5 { filter: saturate(1) brightness(1); }
+/* 修復進度的畫面氛圍：不可用 filter —— 2600×900 畫布在 dpr3 的 iPhone 上
+   濾鏡層要 7800×2700，超過 iOS 材質上限會整層拒繪（玩家只看到文件底色）。
+   改用半透明墨色覆蓋層模擬「尚未修復」的黯淡感。 */
+.world-map-canvas::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  background: rgba(16, 27, 26, 0.3);
+  opacity: 0;
+  pointer-events: none;
+}
+.world-map-canvas.world-repaired-0::before { opacity: 1; }
+.world-map-canvas.world-repaired-1::before { opacity: 0.75; }
+.world-map-canvas.world-repaired-2::before { opacity: 0.5; }
+.world-map-canvas.world-repaired-3::before { opacity: 0.25; }
 
 .daily-encounter-card,
 .hidden-level-node,

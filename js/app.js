@@ -492,7 +492,7 @@ function renderEngagementHub() {
   }
 
   const titles = availableTitles(learningStats());
-  if (!titles.some((title) => title.id === save.preferences.titleId)) save.preferences.titleId = titles.at(-1)?.id || 'traveler';
+  if (!titles.some((title) => title.id === save.preferences.titleId)) save.preferences.titleId = titles[titles.length - 1]?.id || 'traveler';
   const title = titles.find((item) => item.id === save.preferences.titleId) || titles[0];
   if (resume && title) resume.dataset.identityTitle = title.name;
 
@@ -787,7 +787,7 @@ function renderMap() {
   const totalStars = totalStarsOf(save);
   const collected = collection ? collection.list().length : 0;
   const titles = availableTitles(learningStats());
-  const currentTitle = titles.find((title) => title.id === save.preferences?.titleId) || titles.at(-1) || { name: '文道旅人' };
+  const currentTitle = titles.find((title) => title.id === save.preferences?.titleId) || titles[titles.length - 1] || { name: '文道旅人' };
   const cultivation = computeCultivationProgress(save);
   const bar = document.createElement('div');
   bar.className = 'map-progress';
