@@ -678,7 +678,23 @@ export function startLevel(ctx) {
     }
 
     $('complete-stars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars);
-    
+
+    // 連續挑戰紀錄：streak 資料早就有算，只是從沒顯示過——在破陣當下告訴玩家，養成回訪習慣
+    const streakEl = $('complete-streak');
+    if (streakEl) {
+      const streak = ensureRetention(save).streak;
+      const daily = ensureDailyPlan(save, { phrases });
+      if (daily.completedAt) {
+        streakEl.textContent = streak.current <= 1
+          ? '🔥 今日三帖已達成，連續挑戰第 1 天開始！明天再訪可延續。'
+          : `🔥 今日三帖已達成，連續挑戰第 ${streak.current} 天！明天再訪可延續。`;
+        streakEl.classList.remove('hidden');
+      } else {
+        streakEl.textContent = '';
+        streakEl.classList.add('hidden');
+      }
+    }
+
     const completeAvatar = $('complete-guardian-avatar');
     if (completeAvatar) {
       completeAvatar.innerHTML = guardianSvg('victory');

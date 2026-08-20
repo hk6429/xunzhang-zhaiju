@@ -501,7 +501,11 @@ function renderEngagementHub() {
   }
   if (panel) {
     const quickBest = retentionDaily.quickChallenge?.best;
-    panel.innerHTML = `<div><span class="resume-kicker">今日三帖</span><strong>${missions.filter((m) => m.done).length} / 3 完成</strong></div><ul>${missions.map((m) => `<li class="${m.done ? 'done' : ''}">${m.done ? '✓' : '○'} ${m.label} <small>${Math.min(m.value, m.target)}/${m.target}</small></li>`).join('')}</ul><button type="button" id="btn-daily-quick" class="ghost-btn">一炷香快陣${quickBest ? `・最佳 ${quickBest.score}/5` : ''}</button>`;
+    const streak = ensureRetention(save).streak;
+    const streakBadge = streak.current > 0
+      ? `<p class="home-streak-badge">🔥 連續挑戰 ${streak.current} 天</p>`
+      : '';
+    panel.innerHTML = `<div><span class="resume-kicker">今日三帖</span><strong>${missions.filter((m) => m.done).length} / 3 完成</strong></div>${streakBadge}<ul>${missions.map((m) => `<li class="${m.done ? 'done' : ''}">${m.done ? '✓' : '○'} ${m.label} <small>${Math.min(m.value, m.target)}/${m.target}</small></li>`).join('')}</ul><button type="button" id="btn-daily-quick" class="ghost-btn">一炷香快陣${quickBest ? `・最佳 ${quickBest.score}/5` : ''}</button>`;
     panel.querySelector('#btn-daily-quick')?.addEventListener('click', openDailyQuickChallenge);
   }
 
