@@ -614,7 +614,7 @@ export function renderGuardianSvg(guardianId, mood = 'idle') {
   else if (mood === 'panic' || mood === 'shock' || mood === 'timeout') exprKey = 'panic';
 
   const char = getCharacterById(charId);
-  const src = (char && char.expressions && char.expressions[exprKey]) || `assets/art/companions-v4/${charId || 'jiang-taigong'}.png`;
+  const src = (char && char.expressions && char.expressions[exprKey]) || `assets/art/companions-v4/${charId || 'jiang-taigong'}.webp`;
   const name = (char && char.name) || guardianId;
 
   return `<img src="${src}" alt="${name}" class="fengshen-avatar-img ${charId}" data-char="${charId}" data-mood="${exprKey}" loading="lazy" />`;

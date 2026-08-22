@@ -231,10 +231,15 @@ export function applyModeToLevel(level, mode = 'standard') {
   };
 }
 
-export function calculateBadges({ mistakes = 0, remainingMs = 0, timeLimitMs = 0, quizCorrect = 0, quizAnswered = 0 } = {}) {
+export function calculateBadges({
+  mistakes = 0, remainingMs = 0, timeLimitMs = 0, quizCorrect = 0, quizAnswered = 0,
+  usedReveal = false, usedHint = false,
+} = {}) {
   const badges = [];
-  if (finiteInt(mistakes) === 0) badges.push('insight');
-  if (timeLimitMs > 0 && remainingMs / timeLimitMs >= 0.35) badges.push('swift');
+  // 代筆（reveal）不計 mistakes，也不花時間——不擋的話「完全沒自己找出任何一句」反而必得
+  // 「洞察無失誤」與「疾風破陣」。勳章要是連作弊局都發，就不值得收集了。
+  if (!usedReveal && finiteInt(mistakes) === 0) badges.push('insight');
+  if (!usedReveal && !usedHint && timeLimitMs > 0 && remainingMs / timeLimitMs >= 0.35) badges.push('swift');
   if (quizAnswered >= 3 && quizCorrect === quizAnswered) badges.push('scholar');
   return badges;
 }
@@ -318,6 +323,8 @@ export function recordLevelCompletion(save, {
   quizCorrect = 0,
   quizAnswered = 0,
   treasure = null,
+  usedReveal = false,
+  usedHint = false,
   now = new Date(),
 } = {}) {
   if (!Number.isFinite(Number(levelId))) throw new TypeError('levelId is required');
@@ -327,7 +334,7 @@ export function recordLevelCompletion(save, {
   const cappedStars = Math.min(getModeRules(mode).maxStars, Math.min(3, finiteInt(stars)));
   level.stars = Math.max(finiteInt(level.stars), cappedStars);
   level.found = uniqueStrings(level.found);
-  const newBadges = calculateBadges({ mistakes, remainingMs, timeLimitMs, quizCorrect, quizAnswered });
+  const newBadges = calculateBadges({ mistakes, remainingMs, timeLimitMs, quizCorrect, quizAnswered, usedReveal, usedHint });
   level.badges = uniqueStrings([...(level.badges || []), ...newBadges]);
   level.best = level.best && typeof level.best === 'object' ? level.best : {};
   if (durationMs != null && (level.best.durationMs == null || durationMs < level.best.durationMs)) {
@@ -531,13 +538,16 @@ export function computeCultivationProgress(save) {
   const score = totalStars + Math.floor(collected / 10) + badges + treasureSets * 3 + Math.floor(masteredPhrases / 5);
   let current = CULTIVATION_RANKS[0];
   let next = null;
+  let level = 1;
   for (const rank of CULTIVATION_RANKS) {
-    if (score >= rank.need) current = rank;
+    if (score >= rank.need) { current = rank; level = CULTIVATION_RANKS.indexOf(rank) + 1; }
     else { next = rank; break; }
   }
   return {
     score, totalStars, collected, badges, treasureSets, current,
     next,
+    // level：白丁／童生／貢士 這些名字看不出大小，介面要能講「等級 3」
+    level,
     remaining: next ? next.need - score : 0,
   };
 }

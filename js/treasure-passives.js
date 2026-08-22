@@ -9,11 +9,16 @@ export const TREASURE_PASSIVES = {
   qiankunquan_shard: { name: '乾坤圈', effect: 'comboThreshold', value: 1, desc: '擲出如流星：連擊再提前一級。' },
   'chengxin-zhi_shard': { name: '澄心堂紙', effect: 'reviewSlots', value: 3, desc: '紙夠寬：每日複習名額 +3 句。' },
   'tinggui-mo_shard': { name: '廷珪墨', effect: 'reviewSlots', value: 2, desc: '墨夠濃：每日複習名額再 +2 句。' },
+  // 原本這四件是純裝飾——四章四十關的收集成果換來一句沒有作用的敘述。
+  sanjianliangren_shard: { name: '三尖兩刃刀', effect: 'secondChance', value: 1, desc: '鋒銳無匹：研墨選擇題多一次「刪去一個錯的」機會。' },
+  yinhundeng_shard: { name: '引魂燈', effect: 'clueExtra', value: 1, desc: '照徹迷局：每關可多看一則線索卡。' },
+  'zihao-bi_shard': { name: '宣州紫毫', effect: 'secondChance', value: 1, desc: '筆鋒聽話：研墨選擇題再多一次補救機會。' },
+  'duanxi-yan_shard': { name: '端溪硯', effect: 'clueExtra', value: 1, desc: '硯池映文脈：每關再多一則線索卡。' },
 };
 
 /** 只有集滿 maxFragments 的法寶才算數；回傳累加後的被動總表 */
 export function treasurePassives(retention = {}) {
-  const out = { extraTimeSec: 0, comboThreshold: 0, reviewSlots: 0, owned: [] };
+  const out = { extraTimeSec: 0, comboThreshold: 0, reviewSlots: 0, secondChance: 0, clueExtra: 0, owned: [] };
   const store = retention.treasures || {};
   for (const [id, passive] of Object.entries(TREASURE_PASSIVES)) {
     const item = store[id];

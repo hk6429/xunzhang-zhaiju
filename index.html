@@ -6,10 +6,10 @@
 <title>尋章摘句 — 封神密室逃脫</title>
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.svg">
-<link rel="preload" as="image" href="assets/art/generated/hero-home.png" fetchpriority="high">
+<link rel="preload" as="image" href="assets/art/generated/hero-home.webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Serif+TC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/fengshen-ink.css">
 <script>
@@ -99,7 +99,7 @@ if (/debug=1/.test(location.search)) (function () {
 
     <div class="chamber-hero palace-hero-card">
       <div class="palace-hero-banner-wrap">
-        <img src="assets/art/generated/hero-home.png" alt="姜太公、哪吒與楊戩化身一比一頭身的 Q 版封神人物，在國風潑墨仙境中迎接玩家破陣" class="palace-hero-banner-img" width="1672" height="941" loading="eager" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='assets/art/scenes/palace-hero-banner.svg'">
+        <img src="assets/art/generated/hero-home.webp" alt="姜太公、哪吒與楊戩化身一比一頭身的 Q 版封神人物，在國風潑墨仙境中迎接玩家破陣" class="palace-hero-banner-img" width="1672" height="941" loading="eager" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='assets/art/scenes/palace-hero-banner.svg'">
         <div class="palace-hero-overlay"></div>
       </div>
       <div class="palace-hero-body">
@@ -209,7 +209,7 @@ if (/debug=1/.test(location.search)) (function () {
     <details id="game-scene-details" class="game-scene-details" open>
       <summary><span>陣法故事場景</span><small>點擊收合，立即開始破陣</small></summary>
       <figure class="section-story-figure game-story-figure">
-        <img src="assets/art/generated/game-board.png" alt="Q 版封神人物在潑墨文字符陣前施法破關" class="section-story-img" width="1672" height="941" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/art/scenes/chamber-taiji.svg'">
+        <img src="assets/art/generated/game-board.webp" alt="Q 版封神人物在潑墨文字符陣前施法破關" class="section-story-img" width="1672" height="941" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/art/scenes/chamber-taiji.svg'">
         <figcaption hidden>尋章摘句，以文墨之力破解封神字陣。</figcaption>
       </figure>
     </details>
@@ -260,7 +260,7 @@ if (/debug=1/.test(location.search)) (function () {
           <button type="button" id="btn-hint-circle" class="hint-btn">借一字<small>1 墨・封頂 2★</small></button>
           <button type="button" id="btn-hint-flash" class="hint-btn">借一句<small>3 墨・封頂 2★</small></button>
           <button type="button" id="btn-hint-reveal" class="hint-btn">請仙人代筆<small>5 墨・封頂 1★</small></button>
-          <button type="button" id="btn-earn-ink" class="hint-btn earn">去研墨</button>
+          <button type="button" id="btn-earn-ink" class="hint-btn earn">去答題賺墨水</button>
         </div>
         <p class="ink-earning-note">借了也沒關係——這句晚點會再來找你。墨只能自己研：答對選擇題 +1 墨、填字題 +2 墨。</p>
         <p id="hint-msg" class="hint-msg" aria-live="polite"></p>
@@ -282,7 +282,7 @@ if (/debug=1/.test(location.search)) (function () {
     </div>
 
     <figure class="section-story-figure collection-story-figure">
-      <img src="assets/art/generated/collection-heroes-v2.png" alt="七位一比一頭身的 Q 版封神人物齊聚山河卷軸的國風潑墨群像" class="section-story-img" width="1672" height="941" loading="lazy" decoding="async">
+      <img src="assets/art/generated/collection-heroes-v2.webp" alt="七位一比一頭身的 Q 版封神人物齊聚山河卷軸的國風潑墨群像" class="section-story-img" width="1672" height="941" loading="lazy" decoding="async">
       <figcaption hidden>封神群仙以文會友，收錄玩家摘得的佳句與角色。</figcaption>
     </figure>
 
@@ -326,7 +326,7 @@ if (/debug=1/.test(location.search)) (function () {
   <section id="view-settings" class="view hidden">
     <h2 class="view-title">設定</h2>
     <div class="settings-block">
-      <h3>匯出進度碼</h3>
+      <h3>匯出進度碼（備份存檔）</h3>
       <p class="privacy-note"><strong>隱私提醒：</strong>進度碼不是加密檔，請勿填入姓名、學號或公開分享。</p>
       <textarea id="export-code" class="code-area" readonly placeholder="按下方按鈕產生進度碼"></textarea>
       <div class="settings-actions">
@@ -335,7 +335,7 @@ if (/debug=1/.test(location.search)) (function () {
       </div>
     </div>
     <div class="settings-block">
-      <h3>匯入進度碼</h3>
+      <h3>匯入進度碼（還原存檔）</h3>
       <textarea id="import-code" class="code-area" placeholder="貼上進度碼"></textarea>
       <div class="settings-actions">
         <button type="button" id="btn-import" class="primary-btn">匯入</button>
@@ -345,9 +345,9 @@ if (/debug=1/.test(location.search)) (function () {
       <h3>闖關模式</h3>
       <fieldset id="play-mode-selector" class="play-mode-selector">
         <legend>選擇適合自己的節奏</legend>
-        <label><input type="radio" name="play-mode" value="explore"><span><strong>探索</strong><small>無倒數壓力，適合初次熟悉玩法</small></span></label>
-        <label><input type="radio" name="play-mode" value="standard" checked><span><strong>標準</strong><small>保留原本時間與提示規則</small></span></label>
-        <label><input type="radio" name="play-mode" value="challenge"><span><strong>挑戰</strong><small>適合已熟悉玩法、想專注破陣者</small></span></label>
+        <label><input type="radio" name="play-mode" value="explore"><span><strong>悟道（輕鬆）</strong><small>沒有倒數，提示更好用。最高 2 星</small></span></label>
+        <label><input type="radio" name="play-mode" value="standard" checked><span><strong>標準</strong><small>有倒數，可拿滿 3 星</small></span></label>
+        <label><input type="radio" name="play-mode" value="challenge"><span><strong>天劫（挑戰）</strong><small>時間更短、提示更少，可拿滿 3 星</small></span></label>
       </fieldset>
       <p id="play-mode-status" class="muted" aria-live="polite">目前使用標準模式。</p>
     </div>
@@ -401,8 +401,8 @@ if (/debug=1/.test(location.search)) (function () {
     </ol>
     <fieldset id="onboarding-mode-picker" class="play-mode-selector onboarding-mode-picker">
       <legend>第一次玩，選個節奏：</legend>
-      <label><input type="radio" name="onboarding-mode" value="explore" checked><span><strong>悟道模式</strong><small>推薦，時間寬鬆、提示更好用</small></span></label>
-      <label><input type="radio" name="onboarding-mode" value="standard"><span><strong>標準模式</strong><small>已熟悉玩法再選這個</small></span></label>
+      <label><input type="radio" name="onboarding-mode" value="explore" checked><span><strong>悟道（輕鬆）</strong><small>推薦。沒有倒數、提示更好用</small></span></label>
+      <label><input type="radio" name="onboarding-mode" value="standard"><span><strong>標準</strong><small>有倒數，已熟悉玩法再選這個</small></span></label>
     </fieldset>
     <button type="button" id="btn-start-onboarding" class="primary-btn">開始第一關</button>
   </div>
@@ -509,7 +509,7 @@ if (/debug=1/.test(location.search)) (function () {
 
       <!-- 大尺寸群仙破陣大合照海報 -->
       <div class="complete-group-photo-wrap">
-        <img src="assets/art/generated/victory-celebration.png" alt="Q 版封神群仙在國風潑墨金光中歡慶玩家破陣封神" class="complete-group-photo-img" width="1672" height="941" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/art/scenes/victory-celebration.svg'">
+        <img src="assets/art/generated/victory-celebration.webp" alt="Q 版封神群仙在國風潑墨金光中歡慶玩家破陣封神" class="complete-group-photo-img" width="1672" height="941" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/art/scenes/victory-celebration.svg'">
         <div class="group-photo-silk-ribbon">✨ 萬仙同慶・名列金榜 ✨</div>
       </div>
 

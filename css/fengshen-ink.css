@@ -3190,7 +3190,7 @@ main:has(#view-collection:not(.hidden)) {
   transform: translateZ(0);
   background:
     linear-gradient(180deg, rgba(9, 30, 28, 0.02), rgba(9, 30, 28, 0.13)),
-    url('../assets/art/generated/chamber-map-v2.png') center / 100% 100% no-repeat;
+    url('../assets/art/generated/chamber-map-v2.webp') center / 100% 100% no-repeat;
 }
 
 .world-map-canvas::after {
@@ -3240,16 +3240,16 @@ main:has(#view-collection:not(.hidden)) {
    直接以不同深淺的漸層疊在背景圖堆疊最上層。 */
 .world-map-canvas.world-repaired-0 { background:
   linear-gradient(180deg, rgba(9, 30, 28, 0.3), rgba(9, 30, 28, 0.38)),
-  url('../assets/art/generated/chamber-map-v2.png') center / 100% 100% no-repeat; }
+  url('../assets/art/generated/chamber-map-v2.webp') center / 100% 100% no-repeat; }
 .world-map-canvas.world-repaired-1 { background:
   linear-gradient(180deg, rgba(9, 30, 28, 0.22), rgba(9, 30, 28, 0.3)),
-  url('../assets/art/generated/chamber-map-v2.png') center / 100% 100% no-repeat; }
+  url('../assets/art/generated/chamber-map-v2.webp') center / 100% 100% no-repeat; }
 .world-map-canvas.world-repaired-2 { background:
   linear-gradient(180deg, rgba(9, 30, 28, 0.15), rgba(9, 30, 28, 0.22)),
-  url('../assets/art/generated/chamber-map-v2.png') center / 100% 100% no-repeat; }
+  url('../assets/art/generated/chamber-map-v2.webp') center / 100% 100% no-repeat; }
 .world-map-canvas.world-repaired-3 { background:
   linear-gradient(180deg, rgba(9, 30, 28, 0.08), rgba(9, 30, 28, 0.15)),
-  url('../assets/art/generated/chamber-map-v2.png') center / 100% 100% no-repeat; }
+  url('../assets/art/generated/chamber-map-v2.webp') center / 100% 100% no-repeat; }
 
 .daily-encounter-card,
 .hidden-level-node,
@@ -4236,7 +4236,7 @@ body:has(.modal-backdrop:not(.hidden)) .online-presence {
   pointer-events: none;
 }
 .palace-jade-board.grid-veiled::after {
-  content: '👉 先點選右側一則線索';
+  content: '👆 先點任一則線索，字盤才會亮起';
   position: absolute;
   inset: 0;
   display: flex;
@@ -4541,3 +4541,52 @@ body[data-lesson="on"] #rest-reminder { display: none !important; }
 .team-seal-bar > span { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #4f7d68, #c9a44a); }
 .team-seal-marks { display: flex; justify-content: space-between; list-style: none; padding: 0; margin: 0; font-size: .74rem; opacity: .55; }
 .team-seal-marks li.lit { opacity: 1; font-weight: 700; color: #8a6a3a; }
+
+/* ── 學習航站登入鈕（外部 SDK 注入）不要蓋住題目與主按鈕 ──
+   實測它會擋到：研墨填空題的題幹、遊戲裡的「去研墨」主鈕、一炷香快陣第 3 個選項、寶典進度條。
+   SDK 不歸本站管，只能從站內以 aria-label 選中它覆蓋樣式（跨站通用作法）。 */
+button[aria-label="學習航站登入狀態"] {
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 70px) !important;
+  transform: scale(.86);
+  transform-origin: left bottom;
+  opacity: .9;
+  transition: opacity .2s ease;
+}
+/* 任何對話框開著時直接讓路——它擋住的正好都是要作答的內容 */
+body:has(.modal-backdrop:not(.hidden)) button[aria-label="學習航站登入狀態"],
+body:has(#view-game:not(.hidden)) button[aria-label="學習航站登入狀態"] {
+  display: none !important;
+}
+@media (min-width: 900px) {
+  button[aria-label="學習航站登入狀態"] {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 14px) !important;
+  }
+}
+
+/* ── 四位評估員實測回報的版面修正 ── */
+/* 山河復原度環：原本白字白底完全讀不到 */
+.world-repair-ring > b { color: #4a3520; font-weight: 800; }
+.world-repair-ring > small { color: #6b5740; }
+.world-repair-ring::before { background: #fbf7ee; }
+@media (prefers-color-scheme: dark) {
+  .world-repair-ring::before { background: #241d16; }
+  .world-repair-ring > b { color: #f3e6cd; }
+  .world-repair-ring > small { color: #c7b295; }
+}
+
+/* 結算「紀錄更新！」金標被切成兩行、右緣還被裁掉 */
+.record-chip { white-space: nowrap; display: inline-block; }
+.complete-best { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+
+/* 說明類文字原本 10.9–13.4px，正好是最需要讀懂的規則字 */
+.ink-daily-note, .hint-star-outlook, .level-learning-goal .goal-item,
+.hint-note, .map-instruction { font-size: max(13.5px, .86rem); line-height: 1.6; }
+
+/* 手機：線索卡與字盤隔了整張立繪，玩一句要來回滑四五次 */
+@media (max-width: 720px) {
+  .guardian-portrait, .array-guardian-art { max-height: 180px; object-fit: cover; }
+  #target-list { scroll-margin-top: 12px; }
+}
+.clue-extra { margin-top: 6px; font-size: .84rem; }
+.clue-extra > summary { cursor: pointer; color: #8a6a3a; font-weight: 600; }
+.clue-extra > p { margin: 4px 0 0; opacity: .85; }

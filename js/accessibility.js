@@ -110,14 +110,18 @@ function bindOnboarding() {
   if (!dialog || !skip || !start) return;
 
   const finish = () => closeDialog(dialog, true);
-  skip.addEventListener('click', finish);
+  // 按 ✕ 跳過的人，同樣沿用卡面上「推薦」的那個模式——
+  // 原本會被靜默丟進標準模式，玩家完全不知道自己在玩比較難的版本。
+  const applyChosenMode = () => {
+    const chosen = modePicker?.querySelector('input[name="onboarding-mode"]:checked')?.value;
+    if (!chosen) return;
+    try { localStorage.setItem(MODE_KEY, chosen); } catch { /* noop */ }
+    window.dispatchEvent(new CustomEvent('xzzj:play-mode-change', { detail: { mode: chosen } }));
+  };
+  skip.addEventListener('click', () => { applyChosenMode(); finish(); });
   start.addEventListener('click', () => {
     // 新手預設「悟道模式」，避免第一關就被標準模式的計時/扣血夾殺；已玩過的老玩家不受影響。
-    const chosen = modePicker?.querySelector('input[name="onboarding-mode"]:checked')?.value;
-    if (chosen) {
-      try { localStorage.setItem(MODE_KEY, chosen); } catch { /* noop */ }
-      window.dispatchEvent(new CustomEvent('xzzj:play-mode-change', { detail: { mode: chosen } }));
-    }
+    applyChosenMode();
     finish();
     const firstLevelButton = document.querySelector('.chamber-enter-btn:not([disabled])');
     if (firstLevelButton) firstLevelButton.click();
@@ -137,7 +141,10 @@ function bindMobileControls() {
       target?.focus({ preventScroll: true });
     });
   });
-  $('btn-mobile-game-exit')?.addEventListener('click', () => $('btn-back-map')?.click());
+  // 手機「離開」原本一律跳關卡地圖（49 個鎖頭），改成回大廳
+  $('btn-mobile-game-exit')?.addEventListener('click', () => {
+    document.querySelector('.nav-btn[data-view="chamber"]')?.click();
+  });
   $('btn-dismiss-play-tip')?.addEventListener('click', () => $('play-instruction-tip')?.classList.add('hidden'));
   $('btn-rest-dismiss')?.addEventListener('click', () => $('rest-reminder')?.classList.add('hidden'));
 }
@@ -170,7 +177,9 @@ function bindModeSelector() {
   const initial = selector.querySelector(`input[value="${selected}"]`) || selector.querySelector('[value="standard"]');
   if (initial) initial.checked = true;
 
-  const labels = { explore: '探索', standard: '標準', challenge: '挑戰' };
+  // 名稱必須與 retention.js 的 PLAY_MODES.label 一致——原本設定頁叫「探索／挑戰」、
+  // 開場卡與關卡標題叫「悟道／天劫」，玩家會以為自己選錯模式。
+  const labels = { explore: '悟道（輕鬆）', standard: '標準', challenge: '天劫（挑戰）' };
   const update = (value) => {
     if (status) status.textContent = `目前使用${labels[value] || '標準'}模式。`;
     try { localStorage.setItem(MODE_KEY, value); } catch { /* noop */ }

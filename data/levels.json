@@ -7,7 +7,7 @@
       "size": 5,
       "layout": "full",
       "timeLimit": null,
-      "hintCap": null,
+      "hintCap": 3,
       "directions": [
         "E",
         "S"
@@ -21,7 +21,7 @@
             1
           ],
           "dir": "S",
-          "clueIndex": 0
+          "clueIndex": 2
         },
         {
           "phraseId": "p0001",
@@ -30,7 +30,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 0
+          "clueIndex": 1
         },
         {
           "phraseId": "p0029",
@@ -104,7 +104,7 @@
       "size": 5,
       "layout": "full",
       "timeLimit": null,
-      "hintCap": null,
+      "hintCap": 3,
       "directions": [
         "E",
         "S"
@@ -127,7 +127,7 @@
             2
           ],
           "dir": "S",
-          "clueIndex": 0
+          "clueIndex": 2
         },
         {
           "phraseId": "p0050",
@@ -204,7 +204,7 @@
       "size": 5,
       "layout": "full",
       "timeLimit": null,
-      "hintCap": null,
+      "hintCap": 3,
       "directions": [
         "E",
         "S"
@@ -236,7 +236,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0030",
@@ -312,7 +312,7 @@
       "size": 5,
       "layout": "full",
       "timeLimit": null,
-      "hintCap": null,
+      "hintCap": 3,
       "directions": [
         "E",
         "S"
@@ -326,7 +326,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0044",
@@ -425,7 +425,7 @@
       "size": 5,
       "layout": "full",
       "timeLimit": null,
-      "hintCap": null,
+      "hintCap": 3,
       "directions": [
         "E",
         "S"
@@ -439,7 +439,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0056",
@@ -448,7 +448,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0024",
@@ -457,7 +457,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0058",
@@ -533,7 +533,7 @@
       "size": 7,
       "layout": "cross",
       "timeLimit": null,
-      "hintCap": null,
+      "hintCap": 3,
       "directions": [
         "E",
         "S"
@@ -547,7 +547,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0052",
@@ -556,7 +556,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0017",
@@ -574,7 +574,7 @@
             1
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -683,7 +683,7 @@
       "size": 7,
       "layout": "cross",
       "timeLimit": null,
-      "hintCap": null,
+      "hintCap": 3,
       "directions": [
         "E",
         "S"
@@ -697,7 +697,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0042",
@@ -706,7 +706,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0001",
@@ -833,7 +833,7 @@
       "size": 8,
       "layout": "cross",
       "timeLimit": null,
-      "hintCap": null,
+      "hintCap": 3,
       "directions": [
         "E",
         "S"
@@ -847,7 +847,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0038",
@@ -874,7 +874,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0029",
@@ -883,7 +883,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -1017,7 +1017,7 @@
       "size": 8,
       "layout": "cross",
       "timeLimit": null,
-      "hintCap": null,
+      "hintCap": 3,
       "directions": [
         "E",
         "S"
@@ -1031,7 +1031,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0020",
@@ -1040,7 +1040,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0013",
@@ -1049,7 +1049,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0017",
@@ -1067,7 +1067,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -1196,7 +1196,7 @@
       "size": 8,
       "layout": "cross",
       "timeLimit": null,
-      "hintCap": null,
+      "hintCap": 3,
       "directions": [
         "E",
         "S"
@@ -1210,7 +1210,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0023",
@@ -1219,7 +1219,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0027",
@@ -1228,7 +1228,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0039",
@@ -1393,7 +1393,7 @@
             2
           ],
           "dir": "S",
-          "clueIndex": 0
+          "clueIndex": 2
         },
         {
           "phraseId": "p0174",
@@ -1411,7 +1411,7 @@
             5
           ],
           "dir": "S",
-          "clueIndex": 0
+          "clueIndex": 1
         },
         {
           "phraseId": "p0125",
@@ -1529,7 +1529,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 0
+          "clueIndex": 2
         },
         {
           "phraseId": "p0142",
@@ -1547,7 +1547,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 0
+          "clueIndex": 1
         },
         {
           "phraseId": "p0122",
@@ -1556,7 +1556,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -1666,7 +1666,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 0
+          "clueIndex": 2
         },
         {
           "phraseId": "p0159",
@@ -1684,7 +1684,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 0
+          "clueIndex": 2
         },
         {
           "phraseId": "p0199",
@@ -1693,7 +1693,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0162",
@@ -1702,7 +1702,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 0
+          "clueIndex": 1
         }
       ],
       "grid": [
@@ -1820,7 +1820,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0168",
@@ -1829,7 +1829,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 0
+          "clueIndex": 1
         },
         {
           "phraseId": "p0131",
@@ -1979,7 +1979,7 @@
             5
           ],
           "dir": "S",
-          "clueIndex": 0
+          "clueIndex": 1
         },
         {
           "phraseId": "p0153",
@@ -1988,7 +1988,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -2165,7 +2165,7 @@
             1
           ],
           "dir": "S",
-          "clueIndex": 0
+          "clueIndex": 1
         },
         {
           "phraseId": "p0150",
@@ -2333,7 +2333,7 @@
             5
           ],
           "dir": "S",
-          "clueIndex": 0
+          "clueIndex": 1
         },
         {
           "phraseId": "p0135",
@@ -2351,7 +2351,7 @@
             7
           ],
           "dir": "S",
-          "clueIndex": 0
+          "clueIndex": 1
         },
         {
           "phraseId": "p0155",
@@ -2360,7 +2360,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -2519,7 +2519,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 0
+          "clueIndex": 1
         },
         {
           "phraseId": "p0193",
@@ -2537,7 +2537,7 @@
             1
           ],
           "dir": "S",
-          "clueIndex": 0
+          "clueIndex": 1
         },
         {
           "phraseId": "p0136",
@@ -2743,7 +2743,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 0
+          "clueIndex": 1
         },
         {
           "phraseId": "p0184",
@@ -2752,7 +2752,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0173",
@@ -2761,7 +2761,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 0
+          "clueIndex": 2
         },
         {
           "phraseId": "p0171",
@@ -2779,7 +2779,7 @@
             8
           ],
           "dir": "S",
-          "clueIndex": 0
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -2962,7 +2962,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 0
+          "clueIndex": 1
         },
         {
           "phraseId": "p0183",
@@ -2971,7 +2971,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0161",
@@ -2980,7 +2980,7 @@
             1
           ],
           "dir": "S",
-          "clueIndex": 0
+          "clueIndex": 1
         },
         {
           "phraseId": "p0186",
@@ -2989,7 +2989,7 @@
             2
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0131",
@@ -2998,7 +2998,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 0
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -3185,7 +3185,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0110",
@@ -3194,7 +3194,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0076",
@@ -3203,7 +3203,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0113",
@@ -3221,7 +3221,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -3347,7 +3347,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0109",
@@ -3356,7 +3356,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0091",
@@ -3365,7 +3365,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0097",
@@ -3374,7 +3374,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0104",
@@ -3510,7 +3510,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0061",
@@ -3519,7 +3519,7 @@
             1
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0118",
@@ -3528,7 +3528,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0108",
@@ -3546,7 +3546,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0065",
@@ -3681,7 +3681,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0105",
@@ -3699,7 +3699,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0101",
@@ -3857,7 +3857,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0105",
@@ -3866,7 +3866,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0106",
@@ -3893,7 +3893,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -4056,7 +4056,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0094",
@@ -4074,7 +4074,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0087",
@@ -4092,7 +4092,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -4255,7 +4255,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0109",
@@ -4264,7 +4264,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0065",
@@ -4282,7 +4282,7 @@
             2
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0103",
@@ -4454,7 +4454,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0105",
@@ -4463,7 +4463,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0094",
@@ -4490,7 +4490,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0087",
@@ -4691,7 +4691,7 @@
             5
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0094",
@@ -4923,7 +4923,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0105",
@@ -5159,7 +5159,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0099",
@@ -5168,7 +5168,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0188",
@@ -5177,7 +5177,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0191",
@@ -5195,7 +5195,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0111",
@@ -5204,7 +5204,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -5349,7 +5349,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0157",
@@ -5367,7 +5367,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0015",
@@ -5376,7 +5376,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0114",
@@ -5385,7 +5385,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0178",
@@ -5540,7 +5540,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0045",
@@ -5558,7 +5558,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0195",
@@ -5585,7 +5585,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0190",
@@ -5739,7 +5739,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0077",
@@ -5748,7 +5748,7 @@
             2
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0009",
@@ -5757,7 +5757,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0147",
@@ -5775,7 +5775,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0040",
@@ -5793,7 +5793,7 @@
             5
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -5801,7 +5801,7 @@
           "塞",
           "人",
           "右",
-          "拔",
+          "揠",
           "苗",
           "助",
           "長",
@@ -5943,7 +5943,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0086",
@@ -5952,7 +5952,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0034",
@@ -6176,7 +6176,7 @@
             5
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0113",
@@ -6194,7 +6194,7 @@
             2
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0088",
@@ -6409,7 +6409,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0098",
@@ -6427,7 +6427,7 @@
             8
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0139",
@@ -6436,7 +6436,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0146",
@@ -6642,7 +6642,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0137",
@@ -6651,7 +6651,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0053",
@@ -6660,7 +6660,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0197",
@@ -6678,7 +6678,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0058",
@@ -6902,7 +6902,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0130",
@@ -6911,7 +6911,7 @@
             8
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0142",
@@ -6929,7 +6929,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0068",
@@ -6938,7 +6938,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0051",
@@ -6947,7 +6947,7 @@
             2
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -7166,7 +7166,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0092",
@@ -7175,7 +7175,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0198",
@@ -7202,7 +7202,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -7416,7 +7416,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0026",
@@ -7425,7 +7425,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0085",
@@ -7434,7 +7434,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0048",
@@ -7443,7 +7443,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0154",
@@ -7470,7 +7470,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -7636,7 +7636,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0112",
@@ -7645,7 +7645,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0014",
@@ -7672,7 +7672,7 @@
             7
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0081",
@@ -7681,7 +7681,7 @@
             2
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0008",
@@ -7690,7 +7690,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -7857,7 +7857,7 @@
             8
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0187",
@@ -7875,7 +7875,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0054",
@@ -7884,7 +7884,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0036",
@@ -7902,7 +7902,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0175",
@@ -7911,7 +7911,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0089",
@@ -8086,7 +8086,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0006",
@@ -8095,7 +8095,7 @@
             7
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0070",
@@ -8104,7 +8104,7 @@
             5
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0032",
@@ -8122,7 +8122,7 @@
             8
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0059",
@@ -8131,7 +8131,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0152",
@@ -8140,7 +8140,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0181",
@@ -8320,7 +8320,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0114",
@@ -8329,7 +8329,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0162",
@@ -8338,7 +8338,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0150",
@@ -8356,7 +8356,7 @@
             7
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0147",
@@ -8365,7 +8365,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0088",
@@ -8589,7 +8589,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0043",
@@ -8616,7 +8616,7 @@
             10
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0003",
@@ -8643,7 +8643,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -8858,7 +8858,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0044",
@@ -8894,7 +8894,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0046",
@@ -8912,7 +8912,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -9127,7 +9127,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0133",
@@ -9136,7 +9136,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0062",
@@ -9145,7 +9145,7 @@
             5
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0032",
@@ -9154,7 +9154,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0180",
@@ -9163,7 +9163,7 @@
             9
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0089",
@@ -9181,7 +9181,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -9425,7 +9425,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0058",
@@ -9434,7 +9434,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0158",
@@ -9452,7 +9452,7 @@
             11
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0038",
@@ -9470,7 +9470,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0087",
@@ -9718,7 +9718,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0165",
@@ -9727,7 +9727,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0176",
@@ -9736,7 +9736,7 @@
             9
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0166",
@@ -9745,7 +9745,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0030",
@@ -9754,7 +9754,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0117",
@@ -9763,7 +9763,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0181",
@@ -9781,7 +9781,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -10026,7 +10026,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0240",
@@ -10044,7 +10044,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0221",
@@ -10062,7 +10062,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0203",
@@ -10071,7 +10071,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0226",
@@ -10089,7 +10089,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -10328,7 +10328,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0215",
@@ -10337,7 +10337,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0214",
@@ -10355,7 +10355,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0229",
@@ -10382,7 +10382,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -10666,7 +10666,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0211",
@@ -10684,7 +10684,7 @@
             2
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -10914,7 +10914,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0228",
@@ -10941,7 +10941,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0218",
@@ -10959,7 +10959,7 @@
             10
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0235",
@@ -10986,7 +10986,7 @@
             1
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -11225,7 +11225,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0225",
@@ -11234,7 +11234,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0231",
@@ -11252,7 +11252,7 @@
             2
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0234",
@@ -11261,7 +11261,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0221",
@@ -11270,7 +11270,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0214",
@@ -11279,7 +11279,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0212",
@@ -11288,7 +11288,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -11599,7 +11599,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0227",
@@ -11608,7 +11608,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0221",
@@ -11617,7 +11617,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0213",
@@ -11626,7 +11626,7 @@
             11
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0238",
@@ -11653,7 +11653,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -11955,7 +11955,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0212",
@@ -11964,7 +11964,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0231",
@@ -11982,7 +11982,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0225",
@@ -11991,7 +11991,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0233",
@@ -12000,7 +12000,7 @@
             2
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0234",
@@ -12009,7 +12009,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0221",
@@ -12018,7 +12018,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -12320,7 +12320,7 @@
             10
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0219",
@@ -12329,7 +12329,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0201",
@@ -12338,7 +12338,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0239",
@@ -12347,7 +12347,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0226",
@@ -12356,7 +12356,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0224",
@@ -12374,7 +12374,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0218",
@@ -12383,7 +12383,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0203",
@@ -12392,7 +12392,7 @@
             13
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -12698,7 +12698,7 @@
             10
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0219",
@@ -12707,7 +12707,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0239",
@@ -12716,7 +12716,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0226",
@@ -12725,7 +12725,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0201",
@@ -12752,7 +12752,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0215",
@@ -12761,7 +12761,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0203",
@@ -13076,7 +13076,7 @@
             10
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0226",
@@ -13085,7 +13085,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0219",
@@ -13094,7 +13094,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0201",
@@ -13103,7 +13103,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0239",
@@ -13112,7 +13112,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0224",
@@ -13130,7 +13130,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0203",
@@ -13139,7 +13139,7 @@
             13
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0215",
@@ -13148,7 +13148,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -13445,7 +13445,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0245",
@@ -13454,7 +13454,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0249",
@@ -13481,7 +13481,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0268",
@@ -13776,7 +13776,7 @@
             8
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0262",
@@ -13803,7 +13803,7 @@
             5
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0243",
@@ -13830,7 +13830,7 @@
             8
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0260",
@@ -14107,7 +14107,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0241",
@@ -14116,7 +14116,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0242",
@@ -14125,7 +14125,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0247",
@@ -14134,7 +14134,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0244",
@@ -14143,7 +14143,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0274",
@@ -14161,7 +14161,7 @@
             1
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0278",
@@ -14170,7 +14170,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0253",
@@ -14179,7 +14179,7 @@
             7
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0246",
@@ -14188,7 +14188,7 @@
             9
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -14447,7 +14447,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0259",
@@ -14465,7 +14465,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0251",
@@ -14474,7 +14474,7 @@
             2
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0279",
@@ -14492,7 +14492,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0276",
@@ -14519,7 +14519,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0257",
@@ -14528,7 +14528,7 @@
             9
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -14787,7 +14787,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0269",
@@ -14796,7 +14796,7 @@
             8
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0268",
@@ -14805,7 +14805,7 @@
             7
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0253",
@@ -14814,7 +14814,7 @@
             10
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0248",
@@ -14859,7 +14859,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0267",
@@ -15205,7 +15205,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0273",
@@ -15214,7 +15214,7 @@
             9
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0268",
@@ -15259,7 +15259,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0261",
@@ -15277,7 +15277,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -15605,7 +15605,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0265",
@@ -15632,7 +15632,7 @@
             9
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0268",
@@ -15641,7 +15641,7 @@
             8
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0260",
@@ -15659,7 +15659,7 @@
             11
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0259",
@@ -15668,7 +15668,7 @@
             9
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0264",
@@ -15677,7 +15677,7 @@
             12
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0241",
@@ -16014,7 +16014,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0253",
@@ -16023,7 +16023,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0268",
@@ -16050,7 +16050,7 @@
             8
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0242",
@@ -16086,7 +16086,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0261",
@@ -16436,7 +16436,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0265",
@@ -16454,7 +16454,7 @@
             7
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0275",
@@ -16463,7 +16463,7 @@
             7
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0268",
@@ -16481,7 +16481,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0272",
@@ -16526,7 +16526,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -16858,7 +16858,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0242",
@@ -16867,7 +16867,7 @@
             8
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0274",
@@ -16885,7 +16885,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0248",
@@ -16912,7 +16912,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0279",
@@ -16921,7 +16921,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0251",
@@ -16948,7 +16948,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -17280,7 +17280,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0304",
@@ -17289,7 +17289,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0281",
@@ -17298,7 +17298,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0319",
@@ -17334,7 +17334,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0290",
@@ -17352,7 +17352,7 @@
             9
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0300",
@@ -17361,7 +17361,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -17669,7 +17669,7 @@
             1
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0288",
@@ -17678,7 +17678,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0316",
@@ -17705,7 +17705,7 @@
             2
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0286",
@@ -17714,7 +17714,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0320",
@@ -17723,7 +17723,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0299",
@@ -17732,7 +17732,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -18022,7 +18022,7 @@
             8
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0302",
@@ -18049,7 +18049,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0296",
@@ -18058,7 +18058,7 @@
             13
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0308",
@@ -18076,7 +18076,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0294",
@@ -18112,7 +18112,7 @@
             8
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -18402,7 +18402,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0314",
@@ -18411,7 +18411,7 @@
             10
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0301",
@@ -18420,7 +18420,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0306",
@@ -18429,7 +18429,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0307",
@@ -18465,7 +18465,7 @@
             9
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0285",
@@ -18474,7 +18474,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0298",
@@ -18483,7 +18483,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0321",
@@ -18492,7 +18492,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -18782,7 +18782,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0310",
@@ -18791,7 +18791,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0323",
@@ -18800,7 +18800,7 @@
             10
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0324",
@@ -18818,7 +18818,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0314",
@@ -18827,7 +18827,7 @@
             1
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0294",
@@ -18845,7 +18845,7 @@
             5
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0303",
@@ -18854,7 +18854,7 @@
             9
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0313",
@@ -18863,7 +18863,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0292",
@@ -19237,7 +19237,7 @@
             9
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0322",
@@ -19246,7 +19246,7 @@
             7
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0294",
@@ -19264,7 +19264,7 @@
             11
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0281",
@@ -19273,7 +19273,7 @@
             11
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0315",
@@ -19282,7 +19282,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0302",
@@ -19291,7 +19291,7 @@
             8
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0299",
@@ -19300,7 +19300,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0301",
@@ -19309,7 +19309,7 @@
             7
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0295",
@@ -19318,7 +19318,7 @@
             8
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0293",
@@ -19327,7 +19327,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -19701,7 +19701,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0286",
@@ -19710,7 +19710,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0317",
@@ -19719,7 +19719,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0302",
@@ -19728,7 +19728,7 @@
             7
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0305",
@@ -19746,7 +19746,7 @@
             11
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0322",
@@ -19764,7 +19764,7 @@
             12
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0299",
@@ -19773,7 +19773,7 @@
             14
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0283",
@@ -19782,7 +19782,7 @@
             11
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -20147,7 +20147,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0294",
@@ -20174,7 +20174,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0299",
@@ -20183,7 +20183,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0308",
@@ -20192,7 +20192,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0290",
@@ -20210,7 +20210,7 @@
             10
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0314",
@@ -20219,7 +20219,7 @@
             9
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0288",
@@ -20228,7 +20228,7 @@
             13
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0291",
@@ -20246,7 +20246,7 @@
             1
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -20624,7 +20624,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0306",
@@ -20633,7 +20633,7 @@
             8
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0299",
@@ -20642,7 +20642,7 @@
             7
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0286",
@@ -20651,7 +20651,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0295",
@@ -20660,7 +20660,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0302",
@@ -20669,7 +20669,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0283",
@@ -20678,7 +20678,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0298",
@@ -20687,7 +20687,7 @@
             7
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0303",
@@ -20696,7 +20696,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0324",
@@ -20714,7 +20714,7 @@
             9
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -21083,7 +21083,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0306",
@@ -21092,7 +21092,7 @@
             7
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0316",
@@ -21119,7 +21119,7 @@
             11
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0294",
@@ -21137,7 +21137,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0281",
@@ -21155,7 +21155,7 @@
             12
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0296",
@@ -21164,7 +21164,7 @@
             9
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0307",
@@ -21182,7 +21182,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -21551,7 +21551,7 @@
             10
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0341",
@@ -21569,7 +21569,7 @@
             9
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0349",
@@ -21578,7 +21578,7 @@
             14
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0360",
@@ -21587,7 +21587,7 @@
             15
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0332",
@@ -21596,7 +21596,7 @@
             10
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0355",
@@ -21632,7 +21632,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0342",
@@ -21973,7 +21973,7 @@
             9
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0352",
@@ -21982,7 +21982,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0369",
@@ -22000,7 +22000,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0362",
@@ -22018,7 +22018,7 @@
             9
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0331",
@@ -22045,7 +22045,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0356",
@@ -22386,7 +22386,7 @@
             11
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0346",
@@ -22395,7 +22395,7 @@
             5
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0357",
@@ -22404,7 +22404,7 @@
             14
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0329",
@@ -22422,7 +22422,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0354",
@@ -22431,7 +22431,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0339",
@@ -22458,7 +22458,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0351",
@@ -22476,7 +22476,7 @@
             2
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         }
       ],
       "grid": [
@@ -22799,7 +22799,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0340",
@@ -22817,7 +22817,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0328",
@@ -22835,7 +22835,7 @@
             7
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0348",
@@ -22844,7 +22844,7 @@
             12
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0368",
@@ -22862,7 +22862,7 @@
             12
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0343",
@@ -22871,7 +22871,7 @@
             7
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0363",
@@ -22880,7 +22880,7 @@
             15
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0336",
@@ -22889,7 +22889,7 @@
             7
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0350",
@@ -22898,7 +22898,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -23239,7 +23239,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0341",
@@ -23257,7 +23257,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0329",
@@ -23266,7 +23266,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0359",
@@ -23275,7 +23275,7 @@
             7
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0350",
@@ -23284,7 +23284,7 @@
             12
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0336",
@@ -23293,7 +23293,7 @@
             12
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0356",
@@ -23302,7 +23302,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0352",
@@ -23311,7 +23311,7 @@
             14
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0328",
@@ -23733,7 +23733,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0360",
@@ -23742,7 +23742,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0357",
@@ -23751,7 +23751,7 @@
             7
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0334",
@@ -23769,7 +23769,7 @@
             11
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0330",
@@ -23778,7 +23778,7 @@
             15
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0359",
@@ -23787,7 +23787,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0338",
@@ -23796,7 +23796,7 @@
             10
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0355",
@@ -23814,7 +23814,7 @@
             9
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0328",
@@ -24245,7 +24245,7 @@
             10
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0334",
@@ -24254,7 +24254,7 @@
             13
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0328",
@@ -24272,7 +24272,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0357",
@@ -24281,7 +24281,7 @@
             8
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0346",
@@ -24290,7 +24290,7 @@
             9
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0348",
@@ -24299,7 +24299,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0339",
@@ -24308,7 +24308,7 @@
             9
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0329",
@@ -24317,7 +24317,7 @@
             7
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0365",
@@ -24326,7 +24326,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -24748,7 +24748,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0363",
@@ -24757,7 +24757,7 @@
             9
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0335",
@@ -24775,7 +24775,7 @@
             8
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0357",
@@ -24784,7 +24784,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0349",
@@ -24793,7 +24793,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0345",
@@ -24820,7 +24820,7 @@
             8
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0341",
@@ -25273,7 +25273,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0338",
@@ -25282,7 +25282,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0329",
@@ -25291,7 +25291,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0366",
@@ -25309,7 +25309,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0360",
@@ -25318,7 +25318,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0354",
@@ -25327,7 +25327,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0365",
@@ -25336,7 +25336,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0325",
@@ -25345,7 +25345,7 @@
             12
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0355",
@@ -25798,7 +25798,7 @@
             14
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0355",
@@ -25816,7 +25816,7 @@
             7
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0357",
@@ -25825,7 +25825,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0344",
@@ -25834,7 +25834,7 @@
             3
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0362",
@@ -25843,7 +25843,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0369",
@@ -25852,7 +25852,7 @@
             5
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0365",
@@ -25861,7 +25861,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0329",
@@ -25870,7 +25870,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -26278,7 +26278,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0409",
@@ -26323,7 +26323,7 @@
             17
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0392",
@@ -26332,7 +26332,7 @@
             16
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0397",
@@ -26350,7 +26350,7 @@
             14
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0382",
@@ -26368,7 +26368,7 @@
             7
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0377",
@@ -26772,7 +26772,7 @@
             12
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0373",
@@ -26781,7 +26781,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0390",
@@ -26790,7 +26790,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0384",
@@ -26808,7 +26808,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0381",
@@ -26817,7 +26817,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0395",
@@ -26844,7 +26844,7 @@
             8
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0374",
@@ -26862,7 +26862,7 @@
             13
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0378",
@@ -27275,7 +27275,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0370",
@@ -27284,7 +27284,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0375",
@@ -27302,7 +27302,7 @@
             9
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0387",
@@ -27311,7 +27311,7 @@
             10
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0393",
@@ -27320,7 +27320,7 @@
             12
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0408",
@@ -27338,7 +27338,7 @@
             8
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0389",
@@ -27347,7 +27347,7 @@
             2
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0385",
@@ -27356,7 +27356,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0398",
@@ -27769,7 +27769,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0388",
@@ -27778,7 +27778,7 @@
             13
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0387",
@@ -27787,7 +27787,7 @@
             14
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0382",
@@ -27796,7 +27796,7 @@
             7
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0380",
@@ -27814,7 +27814,7 @@
             4
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0402",
@@ -27823,7 +27823,7 @@
             15
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0385",
@@ -27832,7 +27832,7 @@
             0
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0386",
@@ -27841,7 +27841,7 @@
             5
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0376",
@@ -27859,7 +27859,7 @@
             7
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0396",
@@ -27868,7 +27868,7 @@
             8
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0374",
@@ -27877,7 +27877,7 @@
             16
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -28281,7 +28281,7 @@
             9
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0399",
@@ -28290,7 +28290,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0390",
@@ -28299,7 +28299,7 @@
             7
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0380",
@@ -28317,7 +28317,7 @@
             5
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0391",
@@ -28326,7 +28326,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0381",
@@ -28335,7 +28335,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0405",
@@ -28344,7 +28344,7 @@
             11
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0378",
@@ -28371,7 +28371,7 @@
             1
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0403",
@@ -28834,7 +28834,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0394",
@@ -28843,7 +28843,7 @@
             6
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0396",
@@ -28852,7 +28852,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0397",
@@ -28861,7 +28861,7 @@
             11
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0386",
@@ -28870,7 +28870,7 @@
             8
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0408",
@@ -28888,7 +28888,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0388",
@@ -28897,7 +28897,7 @@
             12
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0395",
@@ -28906,7 +28906,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0392",
@@ -28915,7 +28915,7 @@
             10
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0371",
@@ -28933,7 +28933,7 @@
             15
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -29378,7 +29378,7 @@
             9
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0377",
@@ -29387,7 +29387,7 @@
             8
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0381",
@@ -29396,7 +29396,7 @@
             15
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0370",
@@ -29405,7 +29405,7 @@
             14
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 0
         },
         {
           "phraseId": "p0397",
@@ -29414,7 +29414,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0406",
@@ -29423,7 +29423,7 @@
             5
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0371",
@@ -29477,7 +29477,7 @@
             8
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0390",
@@ -29486,7 +29486,7 @@
             1
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -29940,7 +29940,7 @@
             11
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0405",
@@ -29958,7 +29958,7 @@
             13
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0408",
@@ -30003,7 +30003,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0397",
@@ -30012,7 +30012,7 @@
             5
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0396",
@@ -30021,7 +30021,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0371",
@@ -30039,7 +30039,7 @@
             6
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0406",
@@ -30048,7 +30048,7 @@
             5
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -30545,7 +30545,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0396",
@@ -30563,7 +30563,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0401",
@@ -30572,7 +30572,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0399",
@@ -30581,7 +30581,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0394",
@@ -30590,7 +30590,7 @@
             9
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0380",
@@ -30617,7 +30617,7 @@
             13
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0393",
@@ -30626,7 +30626,7 @@
             14
           ],
           "dir": "S",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0392",
@@ -30635,7 +30635,7 @@
             8
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0404",
@@ -30644,7 +30644,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0406",
@@ -30653,7 +30653,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [
@@ -31141,7 +31141,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 2
+          "clueIndex": 1
         },
         {
           "phraseId": "p0209",
@@ -31159,7 +31159,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0239",
@@ -31168,7 +31168,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0281",
@@ -31177,7 +31177,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 0
         },
         {
           "phraseId": "p0312",
@@ -31186,7 +31186,7 @@
             3
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0342",
@@ -31195,7 +31195,7 @@
             2
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0372",
@@ -31204,7 +31204,7 @@
             0
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0329",
@@ -31222,7 +31222,7 @@
             1
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0376",
@@ -31231,7 +31231,7 @@
             4
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0367",
@@ -31249,7 +31249,7 @@
             2
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0205",
@@ -31258,7 +31258,7 @@
             12
           ],
           "dir": "S",
-          "clueIndex": 1
+          "clueIndex": 2
         },
         {
           "phraseId": "p0255",
@@ -31267,7 +31267,7 @@
             12
           ],
           "dir": "E",
-          "clueIndex": 1
+          "clueIndex": 2
         }
       ],
       "grid": [

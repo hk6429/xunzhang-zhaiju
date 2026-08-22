@@ -85,16 +85,27 @@ test('fill 題：answer 確為 prompt 挖空位置的原字；全形括號＋全
   }
 });
 
-test('fill 挖空位置由 rng 決定（rng=0 挖第一字；rng→1 挖最後一字）', () => {
+test('fill 挖空位置由 rng 決定（rng=0 挖可挖池的第一個；rng→1 挖最後一個）', () => {
   // 只給一條語料 → 無法出 choice，全部退化為 fill
-  const one = [corpus[0]]; // 一心一意
-  const first = buildQuestions(one, ['p0001'], 1, () => 0);
+  // 註：可挖池只含「在本句中唯一」的字，避免挖掉的答案仍印在題幹上（見下一則測試）。
+  const one = [makePhrase('p0101', '守株待兔', '比喻拘泥守成，不知變通。')];
+  const first = buildQuestions(one, ['p0101'], 1, () => 0);
   assert.equal(first[0].type, 'fill');
-  assert.equal(first[0].prompt, '［　］心一意');
-  assert.equal(first[0].answer, '一');
-  const last = buildQuestions(one, ['p0001'], 1, () => 0.999999);
-  assert.equal(last[0].prompt, '一心一［　］');
-  assert.equal(last[0].answer, '意');
+  assert.equal(first[0].prompt, '［　］株待兔');
+  assert.equal(first[0].answer, '守');
+  const last = buildQuestions(one, ['p0101'], 1, () => 0.999999);
+  assert.equal(last[0].prompt, '守株待［　］');
+  assert.equal(last[0].answer, '兔');
+});
+
+test('fill 不得挖掉在句中重複出現的字（否則答案就印在題幹上）', () => {
+  // 一心一意：挖「一」的話題幹還留著另一個「一」，等於直接送分
+  const one = [corpus[0]];
+  for (let i = 0; i < 20; i++) {
+    const q = buildQuestions(one, ['p0001'], 1, () => i / 20)[0];
+    assert.equal(q.type, 'fill');
+    assert.ok(!q.prompt.includes(q.answer), `挖 ${q.answer} 後題幹仍含該字：${q.prompt}`);
+  }
 });
 
 test('targetIds 優先於全庫：count ≤ targets 時全部出自 targetIds', () => {

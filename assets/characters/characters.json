@@ -9,7 +9,7 @@
     "themeColor": "#0284c7",
     "accentColor": "#facc15",
     "exclusiveItem": "dashen-bian",
-    "artImage": "assets/art/companions-v4/jiang-taigong.png",
+    "artImage": "assets/art/companions-v4/jiang-taigong.webp",
     "artPalette": [
       "#0284c7",
       "#facc15",
@@ -18,10 +18,10 @@
       "#f8fafc"
     ],
     "expressions": {
-      "idle": "assets/art/companions-v4/jiang-taigong.png",
-      "thinking": "assets/art/companions-v4/jiang-taigong.png",
-      "victory": "assets/art/companions-v4/jiang-taigong.png",
-      "panic": "assets/art/companions-v4/jiang-taigong.png"
+      "idle": "assets/art/companions-v4/jiang-taigong.webp",
+      "thinking": "assets/art/companions-v4/jiang-taigong.webp",
+      "victory": "assets/art/companions-v4/jiang-taigong.webp",
+      "panic": "assets/art/companions-v4/jiang-taigong.webp"
     },
     "quotes": {
       "idle": "老夫在此垂釣，願者上鉤～",
@@ -40,7 +40,7 @@
     "themeColor": "#e11d48",
     "accentColor": "#10b981",
     "exclusiveItem": "qiankun-quan",
-    "artImage": "assets/art/companions-v4/nezha.png",
+    "artImage": "assets/art/companions-v4/nezha.webp",
     "artPalette": [
       "#e11d48",
       "#10b981",
@@ -49,10 +49,10 @@
       "#fff1f2"
     ],
     "expressions": {
-      "idle": "assets/art/companions-v4/nezha.png",
-      "thinking": "assets/art/companions-v4/nezha.png",
-      "victory": "assets/art/companions-v4/nezha.png",
-      "panic": "assets/art/companions-v4/nezha.png"
+      "idle": "assets/art/companions-v4/nezha.webp",
+      "thinking": "assets/art/companions-v4/nezha.webp",
+      "victory": "assets/art/companions-v4/nezha.webp",
+      "panic": "assets/art/companions-v4/nezha.webp"
     },
     "quotes": {
       "idle": "這點字謎小陣，小爺我閉著眼睛也能破！",
@@ -71,7 +71,7 @@
     "themeColor": "#0284c7",
     "accentColor": "#ca8a04",
     "exclusiveItem": "sanjian-liangren-dao",
-    "artImage": "assets/art/companions-v4/yang-jian.png",
+    "artImage": "assets/art/companions-v4/yang-jian.webp",
     "artPalette": [
       "#0284c7",
       "#ca8a04",
@@ -80,10 +80,10 @@
       "#eff6ff"
     ],
     "expressions": {
-      "idle": "assets/art/companions-v4/yang-jian.png",
-      "thinking": "assets/art/companions-v4/yang-jian.png",
-      "victory": "assets/art/companions-v4/yang-jian.png",
-      "panic": "assets/art/companions-v4/yang-jian.png"
+      "idle": "assets/art/companions-v4/yang-jian.webp",
+      "thinking": "assets/art/companions-v4/yang-jian.webp",
+      "victory": "assets/art/companions-v4/yang-jian.webp",
+      "panic": "assets/art/companions-v4/yang-jian.webp"
     },
     "quotes": {
       "idle": "哮天，守住陣眼，且看本君破陣。",
@@ -102,7 +102,7 @@
     "themeColor": "#db2777",
     "accentColor": "#fda4af",
     "exclusiveItem": "yinhun-deng",
-    "artImage": "assets/art/companions-v4/su-daji.png",
+    "artImage": "assets/art/companions-v4/su-daji.webp",
     "artPalette": [
       "#db2777",
       "#fda4af",
@@ -111,10 +111,10 @@
       "#fdf2f8"
     ],
     "expressions": {
-      "idle": "assets/art/companions-v4/su-daji.png",
-      "thinking": "assets/art/companions-v4/su-daji.png",
-      "victory": "assets/art/companions-v4/su-daji.png",
-      "panic": "assets/art/companions-v4/su-daji.png"
+      "idle": "assets/art/companions-v4/su-daji.webp",
+      "thinking": "assets/art/companions-v4/su-daji.webp",
+      "victory": "assets/art/companions-v4/su-daji.webp",
+      "panic": "assets/art/companions-v4/su-daji.webp"
     },
     "quotes": {
       "idle": "呵呵～道友，這字謎可比你想像中更有趣呢～",
@@ -133,7 +133,7 @@
     "themeColor": "#7e22ce",
     "accentColor": "#eab308",
     "exclusiveItem": "yin-yang-jing",
-    "artImage": "assets/art/companions-v4/shen-gongbao.png",
+    "artImage": "assets/art/companions-v4/shen-gongbao.webp",
     "artPalette": [
       "#7e22ce",
       "#eab308",
@@ -142,10 +142,10 @@
       "#faf5ff"
     ],
     "expressions": {
-      "idle": "assets/art/companions-v4/shen-gongbao.png",
-      "thinking": "assets/art/companions-v4/shen-gongbao.png",
-      "victory": "assets/art/companions-v4/shen-gongbao.png",
-      "panic": "assets/art/companions-v4/shen-gongbao.png"
+      "idle": "assets/art/companions-v4/shen-gongbao.webp",
+      "thinking": "assets/art/companions-v4/shen-gongbao.webp",
+      "victory": "assets/art/companions-v4/shen-gongbao.webp",
+      "panic": "assets/art/companions-v4/shen-gongbao.webp"
     },
     "quotes": {
       "idle": "道友請留步！老夫看你骨骼驚奇，不如來解一題？",
@@ -164,7 +164,7 @@
     "themeColor": "#0d9488",
     "accentColor": "#f59e0b",
     "exclusiveItem": "fenglei-chui",
-    "artImage": "assets/art/companions-v4/lei-zhenzi.png",
+    "artImage": "assets/art/companions-v4/lei-zhenzi.webp",
     "artPalette": [
       "#0d9488",
       "#f59e0b",
@@ -173,10 +173,10 @@
       "#f0fdfa"
     ],
     "expressions": {
-      "idle": "assets/art/companions-v4/lei-zhenzi.png",
-      "thinking": "assets/art/companions-v4/lei-zhenzi.png",
-      "victory": "assets/art/companions-v4/lei-zhenzi.png",
-      "panic": "assets/art/companions-v4/lei-zhenzi.png"
+      "idle": "assets/art/companions-v4/lei-zhenzi.webp",
+      "thinking": "assets/art/companions-v4/lei-zhenzi.webp",
+      "victory": "assets/art/companions-v4/lei-zhenzi.webp",
+      "panic": "assets/art/companions-v4/lei-zhenzi.webp"
     },
     "quotes": {
       "idle": "雙翼展風雷！今天也要全力以赴破陣！",
@@ -195,7 +195,7 @@
     "themeColor": "#d97706",
     "accentColor": "#ef4444",
     "exclusiveItem": "jiulong-shenhuozhao",
-    "artImage": "assets/art/companions-v4/taiyi-zhenren.png",
+    "artImage": "assets/art/companions-v4/taiyi-zhenren.webp",
     "artPalette": [
       "#d97706",
       "#ef4444",
@@ -204,10 +204,10 @@
       "#fffbeb"
     ],
     "expressions": {
-      "idle": "assets/art/companions-v4/taiyi-zhenren.png",
-      "thinking": "assets/art/companions-v4/taiyi-zhenren.png",
-      "victory": "assets/art/companions-v4/taiyi-zhenren.png",
-      "panic": "assets/art/companions-v4/taiyi-zhenren.png"
+      "idle": "assets/art/companions-v4/taiyi-zhenren.webp",
+      "thinking": "assets/art/companions-v4/taiyi-zhenren.webp",
+      "victory": "assets/art/companions-v4/taiyi-zhenren.webp",
+      "panic": "assets/art/companions-v4/taiyi-zhenren.webp"
     },
     "quotes": {
       "idle": "貧道乾元山太乙是也！徒兒莫慌，飲一杯仙酒再破陣！",
@@ -226,7 +226,7 @@
     "themeColor": "#854d0e",
     "accentColor": "#eab308",
     "exclusiveItem": "kunxian-sheng",
-    "artImage": "assets/art/companions-v4/tuxing-sun.png",
+    "artImage": "assets/art/companions-v4/tuxing-sun.webp",
     "artPalette": [
       "#854d0e",
       "#eab308",
@@ -235,10 +235,10 @@
       "#fefce8"
     ],
     "expressions": {
-      "idle": "assets/art/companions-v4/tuxing-sun.png",
-      "thinking": "assets/art/companions-v4/tuxing-sun.png",
-      "victory": "assets/art/companions-v4/tuxing-sun.png",
-      "panic": "assets/art/companions-v4/tuxing-sun.png"
+      "idle": "assets/art/companions-v4/tuxing-sun.webp",
+      "thinking": "assets/art/companions-v4/tuxing-sun.webp",
+      "victory": "assets/art/companions-v4/tuxing-sun.webp",
+      "panic": "assets/art/companions-v4/tuxing-sun.webp"
     },
     "quotes": {
       "idle": "嘿咻！地上風光好，且看俺老土如何神出鬼沒！",
@@ -257,7 +257,7 @@
     "themeColor": "#0284c7",
     "accentColor": "#facc15",
     "exclusiveItem": "dashen-bian",
-    "artImage": "assets/art/companions-v4/moling.png",
+    "artImage": "assets/art/companions-v4/moling.webp",
     "artPalette": [
       "#0284c7",
       "#facc15",
@@ -266,10 +266,10 @@
       "#f0f9ff"
     ],
     "expressions": {
-      "idle": "assets/art/companions-v4/moling.png",
-      "thinking": "assets/art/companions-v4/moling.png",
-      "victory": "assets/art/companions-v4/moling.png",
-      "panic": "assets/art/companions-v4/moling.png"
+      "idle": "assets/art/companions-v4/moling.webp",
+      "thinking": "assets/art/companions-v4/moling.webp",
+      "victory": "assets/art/companions-v4/moling.webp",
+      "panic": "assets/art/companions-v4/moling.webp"
     },
     "quotes": {
       "idle": "歡迎來到尋章摘句！文道大千，墨靈伴你破萬陣！",

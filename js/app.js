@@ -70,19 +70,19 @@ function setCardSource(phrase) {
 }
 const CN_NUM = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
 const GUARDIAN_PORTRAITS = {
-  'jiang-taigong': 'assets/art/companions-v4/jiang-taigong.png',
-  nezha: 'assets/art/companions-v4/nezha.png',
-  'yang-jian': 'assets/art/companions-v4/yang-jian.png',
-  'su-daji': 'assets/art/companions-v4/su-daji.png',
-  'shen-gongbao': 'assets/art/companions-v4/shen-gongbao.png',
-  'lei-zhenzi': 'assets/art/companions-v4/lei-zhenzi.png',
-  taiyi: 'assets/art/companions-v4/taiyi-zhenren.png',
-  'taiyi-zhenren': 'assets/art/companions-v4/taiyi-zhenren.png',
+  'jiang-taigong': 'assets/art/companions-v4/jiang-taigong.webp',
+  nezha: 'assets/art/companions-v4/nezha.webp',
+  'yang-jian': 'assets/art/companions-v4/yang-jian.webp',
+  'su-daji': 'assets/art/companions-v4/su-daji.webp',
+  'shen-gongbao': 'assets/art/companions-v4/shen-gongbao.webp',
+  'lei-zhenzi': 'assets/art/companions-v4/lei-zhenzi.webp',
+  taiyi: 'assets/art/companions-v4/taiyi-zhenren.webp',
+  'taiyi-zhenren': 'assets/art/companions-v4/taiyi-zhenren.webp',
 };
 
 function guardianPortrait(g) {
   const id = g.characterId || g.id;
-  return GUARDIAN_PORTRAITS[id] || 'assets/art/companions-v4/jiang-taigong.png';
+  return GUARDIAN_PORTRAITS[id] || 'assets/art/companions-v4/jiang-taigong.webp';
 }
 
 function fmtTime(sec) {
@@ -181,7 +181,19 @@ async function loadData() {
 }
 
 // ── 視圖切換 ─────────────────────────
+// 手機返回手勢／返回鍵原本會直接離開整個網站（切分頁不產生任何歷史紀錄）。
+// 玩到一半習慣性右滑就整個遊戲不見了——這在手機上是最常見的意外離站原因。
+let suppressHistory = false;
+function pushViewHistory(name) {
+  if (suppressHistory) return;
+  try {
+    if (history.state?.xzzjView === name) return;
+    history.pushState({ xzzjView: name }, '', `#${name}`);
+  } catch { /* noop */ }
+}
+
 function showView(name) {
+  pushViewHistory(name);
   if (currentGame && name !== 'game') {
     currentGame.destroy();
     currentGame = null;
@@ -497,7 +509,7 @@ function renderEngagementHub() {
     if (canContinue) $('unfinished-quest-summary').textContent = `第 ${activeRun.levelId} 關尚未完成，可接續已找到的 ${activeRun.found?.length || 0} 句。`;
   }
 
-  const retentionDaily = ensureDailyPlan(save, { phrases });
+  const retentionDaily = ensureDailyPlan(save, { phrases: quickChallengePool() });
   const missions = retentionDaily.quests.map((quest) => ({
     ...quest,
     value: quest.progress,
@@ -516,7 +528,7 @@ function renderEngagementHub() {
     const streakBadge = streak.current > 0
       ? `<p class="home-streak-badge">🔥 連續挑戰 ${streak.current} 天</p>`
       : '';
-    panel.innerHTML = `<div><span class="resume-kicker">今日三帖</span><strong>${missions.filter((m) => m.done).length} / 3 完成</strong></div>${streakBadge}<ul>${missions.map((m) => `<li class="${m.done ? 'done' : ''}">${m.done ? '✓' : '○'} ${m.label} <small>${Math.min(m.value, m.target)}/${m.target}</small></li>`).join('')}</ul><button type="button" id="btn-daily-quick" class="ghost-btn">一炷香快陣${quickBest ? `・最佳 ${quickBest.score}/5` : ''}</button>`;
+    panel.innerHTML = `<div><span class="resume-kicker">今日三帖（今天的 3 個任務）</span><strong>${missions.filter((m) => m.done).length} / 3 完成</strong></div>${streakBadge}<ul>${missions.map((m) => `<li class="${m.done ? 'done' : ''}">${m.done ? '✓' : '○'} ${m.label} <small>${Math.min(m.value, m.target)}/${m.target}</small></li>`).join('')}</ul><button type="button" id="btn-daily-quick" class="ghost-btn">一炷香快陣${quickBest ? `・最佳 ${quickBest.score}/5` : ''}</button>`;
     panel.querySelector('#btn-daily-quick')?.addEventListener('click', openDailyQuickChallenge);
   }
 
@@ -632,7 +644,11 @@ function openStudySession(count, onDone) {
   let earned = 0;
   const ask = () => {
     const phrase = items[index];
-    const pool = phrases.filter((item) => item.id !== phrase.id && item.type === phrase.type);
+    const sameLevel = phrases.filter((item) => item.id !== phrase.id
+      && item.type === phrase.type && item.level === phrase.level);
+    const pool = sameLevel.length >= 3
+      ? sameLevel
+      : phrases.filter((item) => item.id !== phrase.id && item.type === phrase.type);
     const distractors = seededPick(pool, 3, `study|${phrase.id}|${index}`).map((item) => item.text);
     const options = seededPick([phrase.text, ...distractors], 4, `study-order|${phrase.id}`);
     showChoiceDialog({
@@ -756,8 +772,25 @@ function showHiddenEndingLevel() {
   });
 }
 
+/**
+ * 一炷香快陣的出題池。
+ * 這是首頁第二顯眼的按鈕，很多人第一次玩就先按它——原本直接從全庫抽，
+ * 新玩家開局第一題就是〈子虛賦〉，四個選項一個字都看不懂，當場勸退。
+ * 改成：優先出已收藏的句子；還沒收滿 20 句的新手只出常用成語／諺語／俗語。
+ */
+function quickChallengePool() {
+  const owned = new Set(collection ? collection.list() : []);
+  const ownedPhrases = phrases.filter((item) => owned.has(item.id));
+  if (ownedPhrases.length >= 20) return ownedPhrases;
+  const starter = phrases.filter((item) => item.level === '常用'
+    && ['成語', '諺語', '俗語'].includes(item.type));
+  const pool = [...ownedPhrases];
+  for (const item of starter) if (!owned.has(item.id)) pool.push(item);
+  return pool.length >= 5 ? pool : phrases;
+}
+
 function openDailyQuickChallenge() {
-  const daily = ensureDailyPlan(save, { phrases });
+  const daily = ensureDailyPlan(save, { phrases: quickChallengePool() });
   const ids = daily.quickChallenge?.phraseIds || createDailyQuickChallenge(phrases).phraseIds;
   const items = ids.map((id) => phrasesById[id]).filter(Boolean);
   if (!items.length) return;
@@ -768,7 +801,11 @@ function openDailyQuickChallenge() {
     const phrase = items[index];
     // 誘答改抽全庫同類（原本固定取當日前三句，五題來回都同一批），選項洗牌且不標 primary——
     // 原本 primary 會把正解畫成唯一的實心按鈕，等於直接把答案指給玩家看。
-    const pool = phrases.filter((item) => item.id !== phrase.id && item.type === phrase.type);
+    const sameLevel = phrases.filter((item) => item.id !== phrase.id
+      && item.type === phrase.type && item.level === phrase.level);
+    const pool = sameLevel.length >= 3
+      ? sameLevel
+      : phrases.filter((item) => item.id !== phrase.id && item.type === phrase.type);
     const distractors = seededPick(pool, 3, `quick|${daily.dateKey}|${phrase.id}`).map((item) => item.text);
     const options = seededPick([phrase.text, ...distractors], 4, `quick-order|${daily.dateKey}|${index}`);
     showChoiceDialog({
@@ -979,8 +1016,8 @@ function renderMap() {
   const bar = document.createElement('div');
   bar.className = 'map-progress';
   const nextTxt = cultivation.next
-    ? `修為・${cultivation.current.title}，距 ${cultivation.next.title} 尚差 ${cultivation.remaining} 點`
-    : `修為・${cultivation.current.title}，已登最高境界`;
+    ? `等級 ${cultivation.level}・${cultivation.current.title}，再 ${cultivation.remaining} 分升到等級 ${cultivation.level + 1}（${cultivation.next.title}）`
+    : `等級 ${cultivation.level}・${cultivation.current.title}（已經是最高級）`;
   // 山河復原度：全 100 關的整體完成率，讓「還剩多少」隨時看得到（不再只有本章進度）
   const clearedAll = levels.filter((level) => (save.levels[String(level.id)]?.stars || 0) > 0).length;
   const donePct = Math.round((clearedAll / Math.max(1, levels.length)) * 100);
@@ -1620,6 +1657,13 @@ function bindEngagement() {
 
 // ── 全域事件 ─────────────────────────
 function bindGlobal() {
+  window.addEventListener('popstate', (event) => {
+    const target = event.state?.xzzjView;
+    if (!target || !VIEWS.includes(target)) return;
+    suppressHistory = true;
+    showView(target);
+    suppressHistory = false;
+  });
   for (const btn of document.querySelectorAll('.nav-btn')) {
     btn.addEventListener('click', () => {
       showView(btn.dataset.view);

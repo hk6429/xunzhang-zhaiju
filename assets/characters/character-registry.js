@@ -14,14 +14,14 @@ export const CHARACTERS = [
     themeColor: "#0284c7",
     accentColor: "#facc15",
     exclusiveItem: "dashen-bian",
-    artImage: "assets/art/companions-v4/jiang-taigong.png",
+    artImage: "assets/art/companions-v4/jiang-taigong.webp",
     artPalette: ["#0284c7", "#facc15", "#dc2626", "#1e293b", "#f8fafc"],
     artHighlights: ["蓬鬆雪白仙髯與劍眉", "故宮明黃與孔雀藍道袍", "泥金流光勾勒法寶打神鞭", "周身靈動水墨筆觸飛濺"],
     expressions: {
-      idle: "assets/art/companions-v4/jiang-taigong.png",
-      thinking: "assets/art/companions-v4/jiang-taigong.png",
-      victory: "assets/art/companions-v4/jiang-taigong.png",
-      panic: "assets/art/companions-v4/jiang-taigong.png"
+      idle: "assets/art/companions-v4/jiang-taigong.webp",
+      thinking: "assets/art/companions-v4/jiang-taigong.webp",
+      victory: "assets/art/companions-v4/jiang-taigong.webp",
+      panic: "assets/art/companions-v4/jiang-taigong.webp"
     },
     quotes: {
       idle: "老夫在此垂釣，願者上鉤～",
@@ -40,14 +40,14 @@ export const CHARACTERS = [
     themeColor: "#e11d48",
     accentColor: "#10b981",
     exclusiveItem: "qiankun-quan",
-    artImage: "assets/art/companions-v4/nezha.png",
+    artImage: "assets/art/companions-v4/nezha.webp",
     artPalette: ["#e11d48", "#10b981", "#f59e0b", "#1e293b", "#fff1f2"],
     artHighlights: ["雙抓髻包包頭繫紅絲帶", "青碧蓮花護心甲", "環繞周身的飛舞赤紅混天綾", "腳底烈焰風火雙輪"],
     expressions: {
-      idle: "assets/art/companions-v4/nezha.png",
-      thinking: "assets/art/companions-v4/nezha.png",
-      victory: "assets/art/companions-v4/nezha.png",
-      panic: "assets/art/companions-v4/nezha.png"
+      idle: "assets/art/companions-v4/nezha.webp",
+      thinking: "assets/art/companions-v4/nezha.webp",
+      victory: "assets/art/companions-v4/nezha.webp",
+      panic: "assets/art/companions-v4/nezha.webp"
     },
     quotes: {
       idle: "這點字謎小陣，小爺我閉著眼睛也能破！",
@@ -66,14 +66,14 @@ export const CHARACTERS = [
     themeColor: "#0284c7",
     accentColor: "#ca8a04",
     exclusiveItem: "sanjian-liangren-dao",
-    artImage: "assets/art/companions-v4/yang-jian.png",
+    artImage: "assets/art/companions-v4/yang-jian.webp",
     artPalette: ["#0284c7", "#ca8a04", "#dc2626", "#334155", "#eff6ff"],
     artHighlights: ["鳳翅紫金頭盔", "額間湛藍金芒天眼神光", "神威三尖兩刃神鋒", "身旁元氣可愛哮天犬"],
     expressions: {
-      idle: "assets/art/companions-v4/yang-jian.png",
-      thinking: "assets/art/companions-v4/yang-jian.png",
-      victory: "assets/art/companions-v4/yang-jian.png",
-      panic: "assets/art/companions-v4/yang-jian.png"
+      idle: "assets/art/companions-v4/yang-jian.webp",
+      thinking: "assets/art/companions-v4/yang-jian.webp",
+      victory: "assets/art/companions-v4/yang-jian.webp",
+      panic: "assets/art/companions-v4/yang-jian.webp"
     },
     quotes: {
       idle: "哮天，守住陣眼，且看本君破陣。",
@@ -92,14 +92,14 @@ export const CHARACTERS = [
     themeColor: "#db2777",
     accentColor: "#fda4af",
     exclusiveItem: "yinhun-deng",
-    artImage: "assets/art/companions-v4/su-daji.png",
+    artImage: "assets/art/companions-v4/su-daji.webp",
     artPalette: ["#db2777", "#fda4af", "#9333ea", "#be185d", "#fdf2f8"],
     artHighlights: ["毛茸茸粉白狐耳與金步搖", "背後如花綻放的九條天狐尾", "手提精緻復古宮燈", "周圍幽藍粉紫靈動狐火"],
     expressions: {
-      idle: "assets/art/companions-v4/su-daji.png",
-      thinking: "assets/art/companions-v4/su-daji.png",
-      victory: "assets/art/companions-v4/su-daji.png",
-      panic: "assets/art/companions-v4/su-daji.png"
+      idle: "assets/art/companions-v4/su-daji.webp",
+      thinking: "assets/art/companions-v4/su-daji.webp",
+      victory: "assets/art/companions-v4/su-daji.webp",
+      panic: "assets/art/companions-v4/su-daji.webp"
     },
     quotes: {
       idle: "呵呵～道友，這字謎可比你想像中更有趣呢～",
@@ -118,14 +118,14 @@ export const CHARACTERS = [
     themeColor: "#7e22ce",
     accentColor: "#eab308",
     exclusiveItem: "yin-yang-jing",
-    artImage: "assets/art/companions-v4/shen-gongbao.png",
+    artImage: "assets/art/companions-v4/shen-gongbao.webp",
     artPalette: ["#7e22ce", "#eab308", "#18181b", "#a855f7", "#faf5ff"],
     artHighlights: ["滑稽俏皮的八字鬍與歪嘴笑", "紫金玄色宮廷道袍", "懸浮發光的陰陽八卦鏡", "趴著眨大眼的胖萌黑點虎"],
     expressions: {
-      idle: "assets/art/companions-v4/shen-gongbao.png",
-      thinking: "assets/art/companions-v4/shen-gongbao.png",
-      victory: "assets/art/companions-v4/shen-gongbao.png",
-      panic: "assets/art/companions-v4/shen-gongbao.png"
+      idle: "assets/art/companions-v4/shen-gongbao.webp",
+      thinking: "assets/art/companions-v4/shen-gongbao.webp",
+      victory: "assets/art/companions-v4/shen-gongbao.webp",
+      panic: "assets/art/companions-v4/shen-gongbao.webp"
     },
     quotes: {
       idle: "道友請留步！老夫看你骨骼驚奇，不如來解一題？",
@@ -144,14 +144,14 @@ export const CHARACTERS = [
     themeColor: "#0d9488",
     accentColor: "#f59e0b",
     exclusiveItem: "fenglei-chui",
-    artImage: "assets/art/companions-v4/lei-zhenzi.png",
+    artImage: "assets/art/companions-v4/lei-zhenzi.webp",
     artPalette: ["#0d9488", "#f59e0b", "#06b6d4", "#134e4a", "#f0fdfa"],
     artHighlights: ["華麗青金羽冠", "大張的風雷流光雙羽翼", "雙持雷霆金錐與重錘", "金光璀璨的呆萌大圓眼"],
     expressions: {
-      idle: "assets/art/companions-v4/lei-zhenzi.png",
-      thinking: "assets/art/companions-v4/lei-zhenzi.png",
-      victory: "assets/art/companions-v4/lei-zhenzi.png",
-      panic: "assets/art/companions-v4/lei-zhenzi.png"
+      idle: "assets/art/companions-v4/lei-zhenzi.webp",
+      thinking: "assets/art/companions-v4/lei-zhenzi.webp",
+      victory: "assets/art/companions-v4/lei-zhenzi.webp",
+      panic: "assets/art/companions-v4/lei-zhenzi.webp"
     },
     quotes: {
       idle: "雙翼展風雷！今天也要全力以赴破陣！",
@@ -170,14 +170,14 @@ export const CHARACTERS = [
     themeColor: "#d97706",
     accentColor: "#ef4444",
     exclusiveItem: "jiulong-shenhuozhao",
-    artImage: "assets/art/companions-v4/taiyi-zhenren.png",
+    artImage: "assets/art/companions-v4/taiyi-zhenren.webp",
     artPalette: ["#d97706", "#ef4444", "#fbbf24", "#78350f", "#fffbeb"],
     artHighlights: ["富態討喜的大圓臉與開懷笑顏", "威嚴華貴的純金五嶽冠", "烈焰繚繞的金光神火仙葫蘆", "銀絲太極拂塵"],
     expressions: {
-      idle: "assets/art/companions-v4/taiyi-zhenren.png",
-      thinking: "assets/art/companions-v4/taiyi-zhenren.png",
-      victory: "assets/art/companions-v4/taiyi-zhenren.png",
-      panic: "assets/art/companions-v4/taiyi-zhenren.png"
+      idle: "assets/art/companions-v4/taiyi-zhenren.webp",
+      thinking: "assets/art/companions-v4/taiyi-zhenren.webp",
+      victory: "assets/art/companions-v4/taiyi-zhenren.webp",
+      panic: "assets/art/companions-v4/taiyi-zhenren.webp"
     },
     quotes: {
       idle: "貧道乾元山太乙是也！徒兒莫慌，飲一杯仙酒再破陣！",
@@ -196,14 +196,14 @@ export const CHARACTERS = [
     themeColor: "#854d0e",
     accentColor: "#eab308",
     exclusiveItem: "kunxian-sheng",
-    artImage: "assets/art/companions-v4/tuxing-sun.png",
+    artImage: "assets/art/companions-v4/tuxing-sun.webp",
     artPalette: ["#854d0e", "#eab308", "#78350f", "#451a03", "#fefce8"],
     artHighlights: ["超萌毛茸茸小鼴鼠兜帽", "盤繞肩膀的璀璨捆仙金繩", "破土而出的碎石與金芒特效", "俏皮開朗的少年笑顏"],
     expressions: {
-      idle: "assets/art/companions-v4/tuxing-sun.png",
-      thinking: "assets/art/companions-v4/tuxing-sun.png",
-      victory: "assets/art/companions-v4/tuxing-sun.png",
-      panic: "assets/art/companions-v4/tuxing-sun.png"
+      idle: "assets/art/companions-v4/tuxing-sun.webp",
+      thinking: "assets/art/companions-v4/tuxing-sun.webp",
+      victory: "assets/art/companions-v4/tuxing-sun.webp",
+      panic: "assets/art/companions-v4/tuxing-sun.webp"
     },
     quotes: {
       idle: "嘿咻！地上風光好，且看俺老土如何神出鬼沒！",
@@ -222,14 +222,14 @@ export const CHARACTERS = [
     themeColor: "#0284c7",
     accentColor: "#facc15",
     exclusiveItem: "dashen-bian",
-    artImage: "assets/art/companions-v4/moling.png",
+    artImage: "assets/art/companions-v4/moling.webp",
     artPalette: ["#0284c7", "#facc15", "#0ea5e9", "#0f172a", "#f0f9ff"],
     artHighlights: ["太極陰陽金簪束髮", "揮灑水墨金光的巨型如意毛筆", "飄逸的書法字紋墨藍斗篷", "清澈靈動的湛藍琉璃大眼"],
     expressions: {
-      idle: "assets/art/companions-v4/moling.png",
-      thinking: "assets/art/companions-v4/moling.png",
-      victory: "assets/art/companions-v4/moling.png",
-      panic: "assets/art/companions-v4/moling.png"
+      idle: "assets/art/companions-v4/moling.webp",
+      thinking: "assets/art/companions-v4/moling.webp",
+      victory: "assets/art/companions-v4/moling.webp",
+      panic: "assets/art/companions-v4/moling.webp"
     },
     quotes: {
       idle: "歡迎來到尋章摘句！文道大千，墨靈伴你破萬陣！",
@@ -276,12 +276,12 @@ export function getCharacterAvatar(id, mood = 'idle') {
   if (char && char.expressions) {
     return char.expressions[mood] || char.expressions.idle;
   }
-  return `assets/art/companions-v4/${char?.id || 'jiang-taigong'}.png`;
+  return `assets/art/companions-v4/${char?.id || 'jiang-taigong'}.webp`;
 }
 
 export function getCharacterArt(id) {
   const char = getCharacterById(id);
-  return char?.artImage || 'assets/art/companions-v4/jiang-taigong.png';
+  return char?.artImage || 'assets/art/companions-v4/jiang-taigong.webp';
 }
 
 export default CHARACTERS;
