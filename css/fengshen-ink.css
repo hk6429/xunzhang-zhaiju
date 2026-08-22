@@ -2285,6 +2285,10 @@ main {
   position: relative;
 }
 
+/* 研墨題未達標時，金印收斂為半透明——避免玩家把「找完字」誤讀成「全部完成」 */
+#modal-complete.quiz-pending .palace-vermilion-seal-stamp { opacity: 0.35; filter: grayscale(0.6); }
+#modal-complete.quiz-pending .edict-plaque-title::after { content: '（研墨未成）'; font-size: 0.7em; opacity: 0.8; }
+
 .palace-vermilion-seal-stamp {
   position: absolute;
   top: -10px;
@@ -4067,11 +4071,14 @@ body:has(.modal-backdrop:not(.hidden)) .online-presence {
     margin-top: 0.7rem;
   }
 
-  /* 今日奇遇改為地圖下方的一般卡片，不再絕對定位壓在圖上 */
+  /* 今日奇遇改為地圖下方的一般卡片，不再絕對定位壓在圖上。
+     真正的底部導覽列遮蔽問題出在 js/app.js requestMapFullscreen()：
+     手機不該進原生全螢幕（見該處註解），這裡的 margin 只是額外保留一點
+     安全間距，避免內容真的很長時卡片底緣貼近 #mobile-tabbar。 */
   #view-map .daily-encounter-card {
     position: static;
     width: 100%;
-    margin: 0.8rem 0 0;
+    margin: 0.8rem 0 1.2rem;
   }
 }
 
@@ -4457,7 +4464,7 @@ body:has(.modal-backdrop:not(.hidden)) .online-presence {
 
 #treasure-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
 #treasure-gallery .treasure-card {
-  text-align: center; padding: 12px 10px; border-radius: 12px;
+  display: block; text-align: center; padding: 12px 10px; border-radius: 12px;
   border: 1px solid rgba(60,50,40,.18); background: rgba(255,253,246,.6);
 }
 #treasure-gallery .treasure-card h4 { margin: 6px 0 4px; font-size: .95rem; }
@@ -4590,3 +4597,9 @@ body:has(#view-game:not(.hidden)) button[aria-label="學習航站登入狀態"] 
 .clue-extra { margin-top: 6px; font-size: .84rem; }
 .clue-extra > summary { cursor: pointer; color: #8a6a3a; font-weight: 600; }
 .clue-extra > p { margin: 4px 0 0; opacity: .85; }
+
+/* ── 鍵盤 focus 樣式跟著主題走，別讓瀏覽器預設紅框跳色 ── */
+:focus-visible {
+  outline: 2px solid var(--palace-gold-bright, #c9a44a);
+  outline-offset: 2px;
+}

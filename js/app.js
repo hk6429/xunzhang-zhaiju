@@ -1771,6 +1771,11 @@ function syncMapFullscreenControl() {
 function requestMapFullscreen() {
   const mapView = $('view-map');
   if (!mapView || typeof mapView.requestFullscreen !== 'function' || document.fullscreenElement) return;
+  // 手機（≤760px）地圖刻意走一般頁面流，不進原生全螢幕：瀏覽器一旦真的進入
+  // Fullscreen，會把 #view-map 強制蓋成 UA 的 position:fixed 頂層，蓋住下方
+  // 固定在螢幕底部的 #mobile-tabbar（寶典/設定分頁因此完全點不到），跟這裡
+  // CSS 假設的手機版面完全對不上。桌機（>760px）才需要沉浸式全螢幕地圖。
+  if (!window.matchMedia('(min-width: 761px)').matches) return;
   mapView.requestFullscreen({ navigationUI: 'hide' }).catch(() => {
     // iOS 或瀏覽器拒絕原生全螢幕時，仍保留 CSS 沉浸式視窗。
   });

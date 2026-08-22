@@ -336,10 +336,20 @@ export function startLevel(ctx) {
     const ink = hintEngine.getInk();
     $('ink-amount').textContent = String(ink);
     const capped = capExhausted();
-    $('btn-hint-circle').disabled = finished || capped || !hintEngine.canSpend('circle');
-    $('btn-hint-flash').disabled = finished || capped || !hintEngine.canSpend('flash');
-    $('btn-hint-reveal').disabled = finished || capped || !hintEngine.canSpend('reveal');
-    
+    // 按鈕變灰卻沒說原因，玩家點下去沒反應會以為壞了——補上滑鼠停留可見的原因文字
+    const disableReason = (tier) => {
+      if (finished) return '本關已完成';
+      if (capped) return '本關提示次數已用罄';
+      if (!hintEngine.canSpend(tier)) return '墨水不夠，答對題目可賺更多墨水';
+      return '';
+    };
+    for (const [id, tier] of [['btn-hint-circle', 'circle'], ['btn-hint-flash', 'flash'], ['btn-hint-reveal', 'reveal']]) {
+      const btn = $(id);
+      const reason = disableReason(tier);
+      btn.disabled = !!reason;
+      if (reason) btn.title = reason; else btn.removeAttribute('title');
+    }
+
     const quota = $('hint-quota');
     if (hintCap == null) {
       quota.classList.add('hidden');
@@ -545,7 +555,9 @@ export function startLevel(ctx) {
       row.classList.remove('invalid');
       const input = $('cross-input');
       input.value = '';
-      input.focus();
+      // preventScroll：手機上原生 focus 捲動行為在此頁常常過量（曾把整個字盤捲出畫面外），
+      // 交叉字格輸入列本來就緊接在字盤下方，不需要瀏覽器再幫忙捲動。
+      input.focus({ preventScroll: true });
     } else {
       grid.setActivePath([]);
       row.classList.add('hidden');
@@ -814,9 +826,22 @@ export function startLevel(ctx) {
     $('modal-card').classList.add('hidden');
 
     // 渲染封神破陣結算視窗
+    // 找完字只是「破陣」，還沒答完研墨題不算真的學會——滿版金榜慶典若不分狀態，
+    // 玩家很容易誤以為已經 100% 完成而直接關掉彈窗，錯過真正鞏固記憶的研墨題。
+    const quizDone = quizCorrectThisRun >= INK_HONOR_TARGET;
+    const modalEl = $('modal-complete');
+    if (modalEl) modalEl.classList.toggle('quiz-pending', !quizDone);
+
     const completeTitle = $('complete-title');
-    if (completeTitle) completeTitle.textContent = '尋章功成・位列封神';
-    
+    if (completeTitle) completeTitle.textContent = quizDone ? '尋章功成・位列封神' : '尋句已得・研墨未成';
+
+    const ribbonEl = document.querySelector('#modal-complete .group-photo-silk-ribbon');
+    if (ribbonEl) {
+      ribbonEl.textContent = quizDone
+        ? '✨ 萬仙同慶・名列金榜 ✨'
+        : `📜 字句已尋得・研墨答對 ${quizCorrectThisRun}/${INK_HONOR_TARGET} 題才算真通關`;
+    }
+
     const arrayNameEl = $('complete-array-name');
     if (arrayNameEl) {
       arrayNameEl.textContent = `${arrayInfo.title}・第 ${level.id} 關 陣眼破解`;

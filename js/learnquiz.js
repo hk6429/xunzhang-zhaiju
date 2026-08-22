@@ -27,8 +27,22 @@ function distractorScore(candidate, phrase) {
   return score;
 }
 
+// 部分近義成語措辭不同、字面重疊率低，字元 Jaccard 抓不到，但語意幾乎相同——
+// 同時出現在同一題會變成「兩個選項都對」的爭議題（例：一心一意／專心致志／全神貫注）。
+// 人工標記已知叢集；尚未窮舉全庫，後續發現新的爭議組合可直接加進這裡。
+const SYNONYM_CLUSTERS = [
+  ['一心一意', '專心致志', '全神貫注'],
+  ['群策群力', '齊心協力', '同心協力'],
+];
+const synonymClusterOf = new Map();
+for (const cluster of SYNONYM_CLUSTERS) {
+  for (const text of cluster) synonymClusterOf.set(text, cluster);
+}
+
 // 語意過於接近的同義叢集不可同時出現，否則會出現「兩個選項都對」的爭議題。
 function tooSimilar(candidate, phrase) {
+  const cluster = synonymClusterOf.get(phrase.text);
+  if (cluster && cluster.includes(candidate.text)) return true;
   const a = String(phrase.meaning || '');
   const b = String(candidate.meaning || '');
   if (!a || !b) return false;
@@ -61,7 +75,18 @@ function buildChoice(phrase, phrases, rng) {
     .map((p, i) => ({ p, i, s: distractorScore(p, phrase) }))
     .sort((a, b) => (b.s - a.s) || (a.i - b.i))
     .map((item) => item.p.text);
-  const distractors = ranked.slice(0, 3);
+  // tooSimilar 只比對「候選 vs 正解」，抓不到兩個候選彼此互為同義叢集的情況
+  // （例如正解是「三心二意」，但候選裡的「同心協力」「齊心協力」互為近義詞）——
+  // 這裡再補一層：同一題的誘答彼此也不可以來自同一個叢集。
+  const distractors = [];
+  const usedClusters = new Set();
+  for (const text of ranked) {
+    const cluster = synonymClusterOf.get(text);
+    if (cluster && usedClusters.has(cluster)) continue;
+    distractors.push(text);
+    if (cluster) usedClusters.add(cluster);
+    if (distractors.length === 3) break;
+  }
   const options = shuffle([phrase.text, ...distractors], rng);
   return {
     type: 'choice',
