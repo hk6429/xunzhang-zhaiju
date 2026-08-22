@@ -1,6 +1,7 @@
 // js/game.js — 單關遊戲流程：比對、提示、學習題、星等結算
 // 整合：封神密室逃脫機制、Q 版守護仙人伴隨互動、破陣 Cut-in 特寫、研墨考官、燃香/硯台 HUD、破陣封印條
 import { createGrid, targetPath, pathKey } from './grid.js';
+import { treasurePassives } from './treasure-passives.js';
 import { buildAdaptiveQuestions } from './learnquiz.js';
 import {
   applyModeToLevel,
@@ -48,9 +49,17 @@ export function startLevel(ctx) {
   // ── 封神密室陣法與守護仙人 ──────────────
   const arrayInfo = getArrayByLevelId(level.id);
   const guardian = arrayInfo.guardian || (arrayInfo.guardians && arrayInfo.guardians[0]);
-  // 文林淬鍊卷（第 6–10 章）尚無專屬立繪，characterId 明確設為 null 以跳過生圖，只保留文字對白
+  // 文林淬鍊卷（第 6–10 章）尚無專屬立繪。原本直接回空字串，四個角色位置全變空框，
+  // 而後半段盤面更大、提示更少，正是最需要情緒支撐的地方。改用書法印章版位頂上。
   const hasGuardianArt = guardian.characterId !== null;
-  const guardianSvg = (mood) => (hasGuardianArt ? renderGuardianSvg(guardian.characterId || guardian.id, mood) : '');
+  const guardianSeal = (mood) => {
+    const moodMark = { victory: '賀', thinking: '思', panic: '急' }[mood] || '文';
+    return `<div class="guardian-seal-avatar" data-mood="${mood}" role="img" aria-label="${guardian.name}">`
+      + `<span class="guardian-seal-glyph">${guardian.sealGlyph || guardian.shortTitle?.[0] || '文'}</span>`
+      + `<span class="guardian-seal-mark">${moodMark}</span>`
+      + `<span class="guardian-seal-name">${guardian.name}</span></div>`;
+  };
+  const guardianSvg = (mood) => (hasGuardianArt ? renderGuardianSvg(guardian.characterId || guardian.id, mood) : guardianSeal(mood));
 
   // ── 目標資料 ──────────────────────────
   const targets = level.targets.map((t, i) => {
@@ -95,6 +104,8 @@ export function startLevel(ctx) {
   const COMBO_WINDOW_MS = 12000;
   let comboCount = 0;
   let comboLastFoundAt = 0;
+  let bestCombo = 0;
+  const revealedPhraseIds = new Set(); // 本關被揭示的句子：結算時要告訴玩家它們會回來找他
   let comboHideTimer = null;
 
   // 觸覺回饋：iOS Safari 無 Vibration API，直接 no-op；不影響其他瀏覽器
@@ -103,7 +114,14 @@ export function startLevel(ctx) {
   }
 
   // ── 計時與提示限次 ────────────────────
-  const timeLimit = modeConfig.timeLimit;
+  // 課堂模式（?lesson=）：老師帶著全班一起打，倒數只會製造焦慮與「來不及」的哭聲，一律關掉
+  const lessonMode = document.body.dataset.lesson === 'on';
+  // 集滿的文房法寶：加時與連擊門檻（不發墨、不送星，只動這兩個維度）
+  const passives = treasurePassives(ensureRetention(save));
+  const baseTimeLimit = modeConfig.timeLimit;
+  const timeLimit = lessonMode || baseTimeLimit == null
+    ? null
+    : baseTimeLimit + passives.extraTimeSec;
   const hintCap = modeConfig.hintCap;
   let hintsUsed = resumedRun?.hintsUsed || 0;
 
@@ -114,9 +132,17 @@ export function startLevel(ctx) {
   // ── DOM 頂部標題與陣法徽章 ───────────
   $('game-level-title').textContent = `第 ${level.id} 關・${modeConfig.label}`;
   const learningGoal = $('level-learning-goal');
-  if (learningGoal) {
+  const INK_HONOR_TARGET = 3; // 本關墨誠達標門檻：研墨答對三題
+  function refreshLearningGoal() {
+    if (!learningGoal) return;
+    const foundCount = targets.filter((t) => t.found).length;
     const types = [...new Set(targets.map((target) => target.phrase.type))].join('、');
-    learningGoal.textContent = `本關學習目標：能依線索辨認 ${targets.length} 句${types || '語文素材'}，並透過研墨題理解與運用句義。`;
+    const items = [
+      { done: foundCount >= targets.length, label: `找出 ${foundCount}/${targets.length} 句${types || '語文素材'}` },
+      { done: quizCorrectThisRun >= INK_HONOR_TARGET, label: `研墨答對 ${Math.min(quizCorrectThisRun, INK_HONOR_TARGET)}/${INK_HONOR_TARGET} 題（墨誠）` },
+    ];
+    learningGoal.innerHTML = '<span class="goal-lead">本關目標</span>'
+      + items.map((item) => `<span class="goal-item${item.done ? ' done' : ''}">${item.done ? '✓' : '○'} ${item.label}</span>`).join('');
   }
   // 把七階功名進度搬進關卡內（原本只在大廳看得到，動機在正在解謎時反而消失）
   function refreshCultivationHint() {
@@ -128,6 +154,7 @@ export function startLevel(ctx) {
       : `修為・${cultivation.current.title}，已登最高境界`;
   }
   refreshCultivationHint();
+  refreshLearningGoal();
   const arrayBadgeEl = $('game-array-badge');
   if (arrayBadgeEl) {
     arrayBadgeEl.textContent = arrayInfo.name;
@@ -202,11 +229,15 @@ export function startLevel(ctx) {
   let cutinTimer = null;
   let cutinHideTimer = null;
 
+  let cutinAfter = null;
   function dismissCutIn(fadeMs = 250) {
     const overlay = $('manga-cutin-overlay');
     if (!overlay) return;
     clearTimeout(cutinTimer);
     clearTimeout(cutinHideTimer);
+    const after = cutinAfter;
+    cutinAfter = null;
+    if (after) setTimeout(after, fadeMs + 60);
     overlay.classList.remove('active');
     cutinHideTimer = setTimeout(() => {
       overlay.classList.add('hidden');
@@ -314,6 +345,23 @@ export function startLevel(ctx) {
       quota.textContent = capped ? `提示 0/${hintCap}・本關提示已用罄` : `提示 ${left}/${hintCap}`;
       quota.classList.toggle('exhausted', capped);
     }
+
+    // 目前可得星等：讓「要不要借提示」變成知情選擇，而不是事後才發現被扣分
+    const starOutlook = $('hint-star-outlook');
+    if (starOutlook) {
+      const potential = Math.min(usedReveal ? 1 : (usedHint ? 2 : 3), modeConfig.maxStars);
+      starOutlook.textContent = `本關目前可得 ${'★'.repeat(potential)}${'☆'.repeat(3 - potential)}`
+        + (modeConfig.maxStars < 3 ? `（悟道模式上限 ${modeConfig.maxStars}★，改標準模式重打可補滿）` : '');
+      starOutlook.dataset.stars = String(potential);
+    }
+
+    // 墨水節流原本完全不可見，玩家體感是「答對了卻沒給墨＝系統壞了」
+    const inkNote = $('ink-daily-note');
+    if (inkNote) {
+      const daily = ensureDailyPlan(save, { phrases: ctx.phrases || [] });
+      const rewarded = daily.quizRewardedPhraseIds?.length || 0;
+      inkNote.textContent = ink >= 30 ? '墨滿（上限 30）' : `今日已研墨 ${rewarded} 句`;
+    }
   }
 
   // ── 燃香倒數計時器 ────────────────────
@@ -371,6 +419,7 @@ export function startLevel(ctx) {
     if (!finished && !document.hidden && !isAnyModalOpen()) remainingMs -= (now - lastTick);
     lastTick = now;
     renderTimer();
+    if (isBoardStuck()) maybeGrantRescueHint({ stuckOnBoard: true });
     if (remainingMs <= 0 && !finished) handleTimeout();
   }
 
@@ -395,7 +444,7 @@ export function startLevel(ctx) {
     stopTimer();
     remainingMs = 0;
     clearUnfinishedRun(save, level.id);
-    if (!completedBefore) levelSave.found = [];
+    // 已破的陣眼保留：超時是時間不夠，不是前面找到的都不算
     ctx.persist();
     renderTimer();
     refreshInk();
@@ -414,7 +463,10 @@ export function startLevel(ctx) {
     }
     const rescueSpeech = $('timeout-guardian-speech');
     if (rescueSpeech) {
-      rescueSpeech.textContent = getRandomQuote(guardian.timeoutQuotes);
+      const kept = targets.filter((t) => t.found).length;
+      rescueSpeech.textContent = kept > 0
+        ? `時辰是到了，不過道友已拿下 ${kept} 句——這 ${kept} 句是真的，替你留著。`
+        : getRandomQuote(guardian.timeoutQuotes);
     }
 
     $('modal-timeout').classList.remove('hidden');
@@ -535,8 +587,11 @@ export function startLevel(ctx) {
       const comboEl = $('combo-badge');
       if (comboEl) {
         clearTimeout(comboHideTimer);
+        if (comboCount > bestCombo) bestCombo = comboCount;
         if (comboCount >= 2) {
-          comboEl.textContent = `🔥 連擊 x${comboCount}`;
+          const COMBO_TIERS = { 2: '文思泉湧', 3: '筆走龍蛇' };
+          comboEl.dataset.tier = String(Math.min(4, comboCount));
+          comboEl.textContent = `🔥 ${COMBO_TIERS[comboCount] || '一氣呵成'} x${comboCount}`;
           comboEl.classList.remove('hidden');
           comboHideTimer = setTimeout(() => comboEl.classList.add('hidden'), 3000);
         } else {
@@ -547,8 +602,14 @@ export function startLevel(ctx) {
       recordDailyProgress(save, 'phrase-found');
       knowledgeQueue.push(t.phrase);
       if (knowledgeQueue.length === 1) {
-        triggerCutIn(t.phrase);
-        showKnowledgeCard(t.phrase);
+        const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+        if (reduceMotion) {
+          showKnowledgeCard(t.phrase);
+        } else {
+          // 特寫播完（或玩家提早點掉）才升起知識卡：原本兩者同時出現，玩家猛點會把知識卡一起關掉
+          cutinAfter = () => showKnowledgeCard(t.phrase);
+          triggerCutIn(t.phrase);
+        }
         setCompanion('victory', getRandomQuote(guardian.findQuotes), true, '破！');
       } else {
         setCompanion('victory', `「${t.phrase.text}」已收入待研讀卷軸！`, true, '收！');
@@ -561,6 +622,7 @@ export function startLevel(ctx) {
     if (typeof ctx.onProgress === 'function') ctx.onProgress(targets.filter((item) => item.found).length, targets.length);
     if (isCross) updateCrossSelection();
     refreshCultivationHint();
+    refreshLearningGoal();
     persistActiveRun();
     ctx.persist();
     if (targets.every((x) => x.found)) setTimeout(finishLevel, real ? 500 : 250);
@@ -605,8 +667,9 @@ export function startLevel(ctx) {
 
   // 防呆逃生閥：墨水歸零＋連續 3 次研墨題答錯＝真卡死，仙人免費指點一字（不動 hintEngine 帳本，
   // 不違反 hints.js 凍結不變式：墨水只能由 earn 增加），避免無解僵局。
-  function maybeGrantRescueHint() {
-    if (finished || quizWrongStreak < 3) return;
+  function maybeGrantRescueHint({ stuckOnBoard = false } = {}) {
+    if (finished) return;
+    if (!stuckOnBoard && quizWrongStreak < 3) return;
     if (hintEngine.getInk() > 0 || capExhausted()) return;
     const t = pickHintTarget();
     if (!t) return;
@@ -623,6 +686,13 @@ export function startLevel(ctx) {
     ctx.persist();
   }
 
+  // 真正常見的卡死型態是「盤面看不懂、根本沒去開研墨題」，這種玩家永遠觸發不到連錯三題的逃生閥
+  function isBoardStuck() {
+    if (finished || timeLimit == null) return false;
+    const elapsedRatio = 1 - (remainingMs / (timeLimit * 1000));
+    return elapsedRatio >= 0.6 && targets.every((t) => !t.found);
+  }
+
   function useHint(tier) {
     if (finished) return;
     if (capExhausted()) {
@@ -632,9 +702,8 @@ export function startLevel(ctx) {
     const t = pickHintTarget();
     if (!t) return;
     if (!hintEngine.canSpend(tier)) {
-      say('墨水不足，按「賺墨水」答題補充。');
-      // 墨水告急：仙人切換驚慌催促
-      setCompanion('panic', '哎呀！墨水不足了，道友快按「賺墨水」研墨補充靈氣！', true, '乾！');
+      say('墨用完了不打緊，去研墨檯練兩題。');
+      setCompanion('thinking', '墨用完了不打緊——去研墨檯練兩題，練出來的墨最有靈氣。', true, '研！');
       return;
     }
     if (!hintEngine.spend(tier)) { refreshInk(); return; }
@@ -662,7 +731,10 @@ export function startLevel(ctx) {
       }
     } else if (tier === 'reveal') {
       usedReveal = true;
-      say(`已揭示「${t.phrase.text}」。`);
+      const wrongBook = ensureRetention(save).wrongBook;
+      if (!wrongBook.includes(t.phraseId)) wrongBook.push(t.phraseId);
+      revealedPhraseIds.add(t.phraseId);
+      say(`已揭示「${t.phrase.text}」。這句記在心裡——下回研墨會先問你它。`);
       if (isCross) fillTargetChars(t);
       markFound(t, { real: false });
     }
@@ -680,6 +752,7 @@ export function startLevel(ctx) {
   function finishLevel() {
     if (finished) return;
     finished = true;
+    const rankBefore = computeCultivationProgress(save).current.title;
     vibrate([40, 60, 40, 60, 80]);
     hideMiniCard();
     stopTimer();
@@ -705,6 +778,12 @@ export function startLevel(ctx) {
       } : null,
       now,
     });
+    // 法寶被動：連擊勳章門檻最低可降到 2 連（打神鞭／乾坤圈各降 1）
+    const comboNeeded = Math.max(2, 4 - Math.max(0, passives.comboThreshold));
+    if (bestCombo >= comboNeeded && !levelSave.badges.includes('combo')) {
+      levelSave.badges.push('combo');
+      (completion.newBadges || []).push('combo');
+    }
     ctx.persist();
     refreshInk();
     $('modal-card').classList.add('hidden');
@@ -718,7 +797,13 @@ export function startLevel(ctx) {
       arrayNameEl.textContent = `${arrayInfo.title}・第 ${level.id} 關 陣眼破解`;
     }
 
-    $('complete-stars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars);
+    const starsEl = $('complete-stars');
+    starsEl.innerHTML = [0, 1, 2].map((i) => `<span class="star-slot${i < stars ? ' earned' : ''}">${i < stars ? '★' : '☆'}</span>`).join('');
+    const reduceMotionStars = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    starsEl.querySelectorAll('.star-slot.earned').forEach((el, i) => {
+      if (reduceMotionStars) { el.classList.add('lit'); return; }
+      setTimeout(() => { el.classList.add('lit'); vibrate(20); }, i * 260);
+    });
 
     // 破關徽章：calculateBadges() 早就算好 insight/swift/scholar，只是從沒渲染過
     const badgesEl = $('complete-badges');
@@ -727,10 +812,51 @@ export function startLevel(ctx) {
         insight: '🎯 洞察無失誤',
         swift: '⚡ 疾風破陣',
         scholar: '📖 研墨全通',
+        combo: '⚡ 一氣呵成',
       };
       const labels = (completion.newBadges || []).map((code) => BADGE_LABELS[code]).filter(Boolean);
       badgesEl.innerHTML = labels.map((label) => `<span class="complete-badge-chip">${label}</span>`).join('');
       badgesEl.classList.toggle('hidden', !labels.length);
+    }
+
+    // 金榜唱名：跨過修為門檻的那一秒，原本完全沒有事情發生，玩家可能從童生升到舉人都沒察覺
+    const promotionEl = $('complete-promotion');
+    if (promotionEl) {
+      const rankAfter = computeCultivationProgress(save).current.title;
+      if (rankAfter !== rankBefore) {
+        promotionEl.innerHTML = `<span class="promotion-seal">${rankAfter}</span>`
+          + `<span class="promotion-text">金榜唱名——${rankBefore} 晉 ${rankAfter}。${guardian.name}：「${getRandomQuote(guardian.winQuotes)}」</span>`;
+        promotionEl.classList.remove('hidden');
+      } else {
+        promotionEl.classList.add('hidden');
+      }
+    }
+
+    // O8：最佳紀錄早就存在 level.best，從來沒有顯示過——已通關的關卡因此完全沒有重玩理由
+    const bestEl = $('complete-best');
+    if (bestEl) {
+      const best = levelSave.best || {};
+      const fmt = (ms) => (Number.isFinite(ms) ? `${String(Math.floor(ms / 60000)).padStart(2, '0')}:${String(Math.floor((ms % 60000) / 1000)).padStart(2, '0')}` : '—');
+      if (Number.isFinite(best.durationMs)) {
+        const isRecord = Number.isFinite(durationMs) && durationMs <= best.durationMs;
+        bestEl.innerHTML = `本關最佳 ${fmt(best.durationMs)}・${best.mistakes ?? 0} 失誤（本次 ${fmt(durationMs)}・${mistakes} 失誤）`
+          + (isRecord ? '<span class="record-chip">紀錄更新！</span>' : '');
+        bestEl.classList.remove('hidden');
+      } else bestEl.classList.add('hidden');
+    }
+
+    // R2：破關情緒最高點沒有給「再一關就能拿到 X」的鉤子，玩家很容易在此離站
+    const nextGoalEl = $('complete-nextgoal');
+    if (nextGoalEl) {
+      const cultivation = computeCultivationProgress(save);
+      const hints = [];
+      if (cultivation.next) hints.push(`再 ${cultivation.remaining} 點修為可晉 ${cultivation.next.title}`);
+      if (completion.treasure && !completion.treasure.complete) {
+        hints.push(`再 ${10 - completion.treasure.total} 片可集齊${shard ? shard.name : '法寶'}`);
+      }
+      if (revealedPhraseIds.size) hints.push(`本關有 ${revealedPhraseIds.size} 句是請仙人代筆的，下回研墨會先問你`);
+      nextGoalEl.textContent = hints.length ? `👉 ${hints[0]}` : '';
+      nextGoalEl.classList.toggle('hidden', !hints.length);
     }
 
     // 連續挑戰紀錄：streak 資料早就有算，只是從沒顯示過——在破陣當下告訴玩家，養成回訪習慣
@@ -788,7 +914,10 @@ export function startLevel(ctx) {
     if (ctx.hasNext) $('btn-next-level').textContent = ctx.getNextActionLabel?.() || '進入下一關';
     const summaryText = $('session-summary-text');
     const summaryList = $('session-summary-list');
-    if (summaryText) summaryText.textContent = `本關尋得 ${knowledgeQueue.length} 句，獲得 ${stars} 星，正式納入封神寶典。`;
+    if (summaryText) {
+      const honor = quizCorrectThisRun >= INK_HONOR_TARGET ? '墨誠達標' : `墨誠 ${quizCorrectThisRun}/${INK_HONOR_TARGET}`;
+      summaryText.textContent = `本關尋得 ${knowledgeQueue.length} 句，獲得 ${stars} 星・${honor}。星看你破陣的乾淨度，墨誠看你真的把句子吃進去多少。`;
+    }
     if (summaryList) summaryList.innerHTML = knowledgeQueue.map((phrase) => `<li><strong>${phrase.text}</strong>：${phrase.meaning || ''}</li>`).join('');
     $('modal-complete').classList.remove('hidden');
     if (typeof ctx.onComplete === 'function') ctx.onComplete(level.id, stars);
@@ -858,8 +987,23 @@ export function startLevel(ctx) {
     }
   }
 
+  const quizSecondChance = new Set(); // 每題只給一次「再想一次」
+
   function answer(q, given, btnEl) {
     const correct = given === q.answer;
+    // 首次答錯不結案：刪掉一個明顯的誘答並給一則線索，讓答錯變成學習機會而不是判決
+    if (!correct && q.type === 'choice' && !quizSecondChance.has(q.phraseId)) {
+      quizSecondChance.add(q.phraseId);
+      const phrase = phrasesById[q.phraseId];
+      const buttons = [...$('quiz-options').querySelectorAll('button')];
+      const removable = buttons.find((b) => b.textContent !== q.answer && b.textContent !== given && !b.disabled);
+      if (removable) { removable.disabled = true; removable.classList.add('eliminated'); }
+      if (btnEl) { btnEl.disabled = true; btnEl.classList.add('wrong'); }
+      const clue = phrase?.clues?.[0]?.text || phrase?.meaning || '';
+      $('quiz-feedback').textContent = `先別急——我幫你刪掉一個明顯不對的。${clue ? `再看一次線索：${clue}` : '再看一次題目。'}`;
+      setCompanion('thinking', '不急。想清楚了再落筆，這才叫研墨。', false, '再！');
+      return;
+    }
     save.quizStats.answered += 1;
     quizAnsweredThisRun += 1;
     if (correct) quizCorrectThisRun += 1;
@@ -895,7 +1039,10 @@ export function startLevel(ctx) {
       quizWrongStreak += 1;
       const phrase = phrasesById[q.phraseId];
       const explanation = phrase?.meaning ? ` 判斷關鍵：${phrase.meaning}` : '';
-      $('quiz-feedback').textContent = `你選的「${given}」與題意不合；正解是「${q.answer}」。${explanation}`;
+      // 把玩家「為什麼會被那個選項騙到」講出來，否則下次還會錯同一個
+      const chosen = phrases.find((item) => item.text === given);
+      const contrast = chosen?.meaning ? `「${given}」講的是${chosen.meaning}；` : '';
+      $('quiz-feedback').textContent = `${contrast}你要的正解是「${q.answer}」。${explanation}`;
       if (examAvatar && currentExaminer) {
         examAvatar.innerHTML = `<img src="${currentExaminer.panicAvatar}" alt="${currentExaminer.name}" class="examiner-img" />`;
       }
@@ -916,6 +1063,7 @@ export function startLevel(ctx) {
       $('quiz-fill-submit').disabled = true;
     }
     refreshInk();
+    refreshLearningGoal();
     ctx.persist();
     if (quiz.idx + 1 < quiz.questions.length) {
       $('quiz-next').classList.remove('hidden');
@@ -1030,6 +1178,12 @@ export function startLevel(ctx) {
   on('cross-submit', 'click', submitCross);
   on('cross-input', 'keydown', (ev) => { if (ev.key === 'Enter') submitCross(); });
   on('btn-back-map', 'click', () => ctx.onExit());
+  // 超時後保留已找到的句子接著打：時間不夠不等於前面的努力不算
+  on('btn-timeout-keep', 'click', () => {
+    $('modal-timeout').classList.add('hidden');
+    if (typeof ctx.onRetry === 'function') ctx.onRetry();
+    else ctx.onExit();
+  });
   on('btn-retry-level', 'click', () => {
     clearFoundForRetry();
     $('modal-timeout').classList.add('hidden');

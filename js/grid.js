@@ -263,8 +263,14 @@ export function createGrid(container, gridData, handlers = {}, opts = {}) {
   return {
     /** 永久高亮找到的句子（colorIdx 循環五色） */
     markFound(path, colorIdx) {
-      eachInPath(path, (el) => {
+      // 逐字依筆順亮起（總時長固定約 0.4s），讓玩家的視線被迫從第一字讀到最後一字；
+      // 原本全路徑同時爆閃，字多的關卡會變成一團光，反而讀不出句子。
+      const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+      const step = reduceMotion ? 0 : Math.min(55, 400 / Math.max(1, path.length));
+      path.forEach(([r, c], i) => {
+        const el = cellAt(r, c);
         el.classList.remove('hint-circle', 'active');
+        el.style.setProperty('--found-delay', `${Math.round(i * step)}ms`);
         el.classList.add('found', `found-${((colorIdx % 5) + 5) % 5}`);
         el.setAttribute('aria-label', `${el.getAttribute('aria-label')}，已找到`);
       });

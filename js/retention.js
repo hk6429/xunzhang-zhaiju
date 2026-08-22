@@ -19,6 +19,10 @@ export const CULTIVATION_RANKS = Object.freeze([
   Object.freeze({ need: 75, title: '貢士' }),
   Object.freeze({ need: 110, title: '進士' }),
   Object.freeze({ need: 140, title: '狀元' }),
+  Object.freeze({ need: 190, title: '翰林' }),
+  Object.freeze({ need: 250, title: '大學士' }),
+  Object.freeze({ need: 320, title: '文宗' }),
+  Object.freeze({ need: 420, title: '文曲星君' }),
 ]);
 
 const QUEST_DEFS = Object.freeze([
@@ -58,7 +62,7 @@ export function defaultRetention() {
     wrongBook: [],
     levelStats: {},
     daily: null,
-    streak: { current: 0, best: 0, lastCompletedDate: null },
+    streak: { current: 0, best: 0, lastCompletedDate: null, makeups: 1, makeupRefillDate: null },
     activeRun: null,
     lastWrapUp: null,
     activity: {
@@ -156,6 +160,8 @@ export function normalizeRetention(value) {
   out.streak = {
     current: finiteInt(streak.current),
     best: finiteInt(streak.best),
+    makeups: Math.min(2, finiteInt(streak.makeups, 1)),
+    makeupRefillDate: textOrNull(streak.makeupRefillDate),
     lastCompletedDate: textOrNull(streak.lastCompletedDate),
   };
 
@@ -362,6 +368,23 @@ export function recordLevelCompletion(save, {
   };
 }
 
+/** 往回找上一個非週末日；週六日不視為連續紀錄的中斷點 */
+function previousSchoolDay(dateKey) {
+  let cursor = addDays(dateKey, -1);
+  for (let i = 0; i < 3; i += 1) {
+    const day = new Date(`${cursor}T00:00:00`).getDay();
+    if (day !== 0 && day !== 6) return cursor;
+    cursor = addDays(cursor, -1);
+  }
+  return cursor;
+}
+
+/** 該日期所屬那一週的星期一（補簽回補的錨點） */
+function mondayOf(dateKey) {
+  const day = new Date(`${dateKey}T00:00:00`).getDay();
+  return addDays(dateKey, -((day + 6) % 7));
+}
+
 function addDays(dateKey, delta) {
   const [y, m, d] = String(dateKey).split('-').map(Number);
   const date = new Date(y, m - 1, d + delta, 12, 0, 0);
@@ -425,7 +448,19 @@ export function recordDailyProgress(save, event, amount = 1, now = new Date()) {
     daily.completedAt = new Date(now).toISOString();
     const streak = ensureRetention(save).streak;
     const yesterday = addDays(daily.dateKey, -1);
-    streak.current = streak.lastCompletedDate === yesterday ? streak.current + 1 : 1;
+    // 每週回補一張補簽（以 ISO 週一為界）
+    const weekAnchor = mondayOf(daily.dateKey);
+    if (streak.makeupRefillDate !== weekAnchor) {
+      streak.makeups = Math.min(2, finiteInt(streak.makeups, 1) + 1);
+      streak.makeupRefillDate = weekAnchor;
+    }
+    const lastDate = streak.lastCompletedDate;
+    let continued = lastDate === yesterday || lastDate === previousSchoolDay(daily.dateKey);
+    if (!continued && lastDate && lastDate === addDays(daily.dateKey, -2) && streak.makeups > 0) {
+      streak.makeups -= 1; // 漏接一天以補簽續上，不歸零
+      continued = true;
+    }
+    streak.current = continued ? streak.current + 1 : 1;
     streak.best = Math.max(streak.best, streak.current);
     streak.lastCompletedDate = daily.dateKey;
   }
@@ -456,7 +491,8 @@ export function recordQuizAnswer(save, phraseId, { correct, now = new Date() } =
     item.correct += 1;
     item.correctStreak += 1;
     item.mastered = item.correctStreak >= 3;
-    const reviewDays = item.mastered ? 7 : Math.min(3, item.correctStreak);
+    const REVIEW_LADDER = [1, 3, 7, 14, 30];
+    const reviewDays = REVIEW_LADDER[Math.min(REVIEW_LADDER.length - 1, Math.max(0, item.correctStreak - 1))];
     item.nextReviewAt = new Date(new Date(now).getTime() + reviewDays * 86400000).toISOString();
     if (item.correctStreak >= 2) retention.wrongBook = retention.wrongBook.filter((id) => id !== phraseId);
     recordDailyProgress(save, 'quiz-correct', 1, now);
@@ -489,8 +525,10 @@ export function computeCultivationProgress(save) {
   const totalStars = levels.reduce((sum, level) => sum + Math.min(3, finiteInt(level?.stars)), 0);
   const collected = uniqueStrings(save?.collection).length;
   const badges = levels.reduce((sum, level) => sum + uniqueStrings(level?.badges).length, 0);
-  const treasureSets = Object.values(ensureRetention(save).treasures).filter((item) => item.sources.length >= item.maxFragments).length;
-  const score = totalStars + Math.floor(collected / 10) + badges + treasureSets * 3;
+  const retention = ensureRetention(save);
+  const treasureSets = Object.values(retention.treasures).filter((item) => item.sources.length >= item.maxFragments).length;
+  const masteredPhrases = Object.values(retention.mastery || {}).filter((item) => item?.mastered).length;
+  const score = totalStars + Math.floor(collected / 10) + badges + treasureSets * 3 + Math.floor(masteredPhrases / 5);
   let current = CULTIVATION_RANKS[0];
   let next = null;
   for (const rank of CULTIVATION_RANKS) {

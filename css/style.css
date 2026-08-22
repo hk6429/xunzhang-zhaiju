@@ -488,7 +488,7 @@ main {
   align-items: center;
   justify-content: center;
   font-family: var(--font-serif);
-  font-size: clamp(0.85rem, calc(min(92vw, 440px) * 0.58 / var(--grid-n, 5)), 2rem);
+  font-size: clamp(0.85rem, calc(min(96vw, max(440px, var(--grid-n, 5) * 30px)) * 0.58 / var(--grid-n, 5)), 2rem);
   font-weight: 700;
   background: radial-gradient(circle at 35% 30%, #ffffff 0%, #f7f1e5 80%, #ebe0cd 100%);
   color: var(--palace-ink-deep);

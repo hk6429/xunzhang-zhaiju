@@ -943,7 +943,9 @@ main {
     var(--shadow-ink),
     0 0 30px rgba(197, 154, 63, 0.12),
     inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
 }
 
 /* 盤面太極與八卦雲氣金線底紋 */
@@ -973,7 +975,8 @@ main {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
-  width: min(92vw, 450px);
+  /* 盤面寬度隨 --grid-n 成長，確保大盤面每格仍有可觸控尺寸；超出視窗時由 .game-board 水平捲動 */
+  width: min(96vw, max(450px, calc(var(--grid-n, 5) * 30px)));
   margin: 0 auto 1.2rem;
   touch-action: none;
   user-select: none;
@@ -998,7 +1001,7 @@ main {
   justify-content: center;
   font-family: var(--font-serif);
   font-weight: 700;
-  font-size: clamp(0.88rem, calc(min(92vw, 450px) * 0.58 / var(--grid-n, 5)), 2.1rem);
+  font-size: clamp(0.88rem, calc(min(96vw, max(450px, var(--grid-n, 5) * 30px)) * 0.58 / var(--grid-n, 5)), 2.1rem);
   background: radial-gradient(circle at 35% 30%, #ffffff 0%, #f8f2e7 75%, #ece1cf 100%);
   color: var(--palace-ink-deep);
   border: 1.5px solid var(--palace-gold);
@@ -1038,6 +1041,8 @@ main {
 /* 破陣成功：五行琉璃靈光 */
 .cell.found {
   animation: palace-breakthrough 0.65s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  animation-delay: var(--found-delay, 0ms);
+  animation-fill-mode: both;
   border-color: var(--palace-gold-bright);
   font-weight: 900;
   box-shadow: 0 4px 10px rgba(26, 23, 20, 0.15), inset 0 0 8px rgba(255, 255, 255, 0.7);
@@ -4226,9 +4231,8 @@ body:has(.modal-backdrop:not(.hidden)) .online-presence {
 
 /* ── 解謎優先體感（溫和版）：線索模式進場先矇上薄紗且不可互動，點過線索才淡入 ── */
 .palace-jade-board.grid-veiled #grid {
-  filter: blur(5px);
-  opacity: 0.55;
-  transition: filter 0.5s ease, opacity 0.5s ease;
+  opacity: 0.32;
+  transition: opacity 0.5s ease;
   pointer-events: none;
 }
 .palace-jade-board.grid-veiled::after {
@@ -4243,12 +4247,14 @@ body:has(.modal-backdrop:not(.hidden)) .online-presence {
   font-size: 1rem;
   font-weight: 700;
   color: var(--palace-ink, #2b2620);
-  background: rgba(251, 247, 238, 0.35);
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.5) 0 2px, rgba(255, 255, 255, 0) 2px 5px),
+    rgba(251, 247, 238, 0.74);
   pointer-events: none;
   z-index: 2;
 }
 .palace-jade-board #grid {
-  transition: filter 0.5s ease, opacity 0.5s ease;
+  transition: opacity 0.5s ease;
 }
 
 /* ── 連擊徽章（本局暫存，不寫入存檔） ── */
@@ -4263,3 +4269,275 @@ body:has(.modal-backdrop:not(.hidden)) .online-presence {
   background: linear-gradient(135deg, var(--palace-vermilion, #b82823), var(--palace-gold, #c59a3f));
   animation: found-pop 0.4s ease;
 }
+
+/* ── 遊戲化深化補丁（2026-08-22 四專家審查）─────────────────── */
+
+/* 文林淬鍊卷守護者：尚無立繪，以書法印章版位頂替，避免四處空框 */
+.guardian-seal-avatar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  width: 100%;
+  min-height: 96px;
+  padding: 0.6rem 0.4rem;
+  border-radius: var(--radius-lg, 12px);
+  background: linear-gradient(150deg, #4a3628 0%, #2b2118 100%);
+  border: 2px solid var(--palace-gold, #c59a3f);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+.guardian-seal-glyph {
+  font-family: var(--font-serif, serif);
+  font-size: 2.4rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #f6ecd8;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+.guardian-seal-mark {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.5rem;
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 4px;
+  background: #9b2c2c;
+  color: #fff5e8;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.guardian-seal-name {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: #e8d6a8;
+}
+
+/* 三顆星逐顆點亮：原本是一個字串瞬間出現，三星與一星體感無差別 */
+.complete-stars .star-slot {
+  display: inline-block;
+  transform: scale(1);
+}
+.complete-stars .star-slot.earned {
+  opacity: 0;
+  transform: scale(0);
+}
+.complete-stars .star-slot.earned.lit {
+  animation: star-pop 0.52s cubic-bezier(0.18, 0.89, 0.32, 1.4) forwards;
+}
+@keyframes star-pop {
+  0% { opacity: 0; transform: scale(0); }
+  55% { opacity: 1; transform: scale(1.5); text-shadow: 0 0 18px var(--palace-gold-bright, #e8c06a); }
+  100% { opacity: 1; transform: scale(1); text-shadow: 0 0 6px var(--palace-gold-bright, #e8c06a); }
+}
+
+/* 金榜唱名：跨過修為門檻的那一秒 */
+.complete-promotion {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0.6rem auto;
+  padding: 0.6rem 0.9rem;
+  max-width: 34rem;
+  border-radius: var(--radius-lg, 12px);
+  background: linear-gradient(120deg, rgba(197, 154, 63, 0.18), rgba(155, 44, 44, 0.14));
+  border: 1px solid var(--palace-gold, #c59a3f);
+  text-align: left;
+}
+.promotion-seal {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 6px;
+  background: #9b2c2c;
+  color: #fff5e8;
+  font-family: var(--font-serif, serif);
+  font-size: 1.05rem;
+  font-weight: 900;
+  animation: seal-drop 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.5) both;
+}
+@keyframes seal-drop {
+  0% { opacity: 0; transform: scale(2.2) rotate(-14deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-6deg); }
+}
+.promotion-text { font-size: 0.92rem; line-height: 1.55; }
+
+.complete-best,
+.complete-nextgoal {
+  font-size: 0.88rem;
+  color: var(--muted, #6b6258);
+  margin: 0.3rem 0;
+}
+.record-chip {
+  margin-left: 0.45rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: var(--palace-gold, #c59a3f);
+  color: #241d14;
+  font-weight: 700;
+  font-size: 0.78rem;
+}
+
+/* 提示的星等後果直接寫在提示列上，讓「要不要借」成為知情選擇 */
+.hint-star-outlook {
+  display: block;
+  width: 100%;
+  font-size: 0.8rem;
+  color: var(--muted, #6b6258);
+  margin-bottom: 0.25rem;
+}
+.hint-star-outlook[data-stars="1"] { color: #9b2c2c; }
+.ink-daily-note {
+  display: block;
+  font-size: 0.68rem;
+  opacity: 0.75;
+  line-height: 1.2;
+}
+
+/* 連擊分級 */
+.combo-badge[data-tier="3"] { background: #9b2c2c; }
+.combo-badge[data-tier="4"] { background: linear-gradient(120deg, #c59a3f, #9b2c2c); }
+
+.daily-encounter-card.claimed { opacity: 0.68; }
+
+/* 本關目標改成可即時打勾的檢核項（原本是一百關同一句樣板話） */
+.level-learning-goal { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.level-learning-goal .goal-lead { font-weight: 700; opacity: 0.8; }
+.level-learning-goal .goal-item {
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(26, 23, 20, 0.06);
+  font-size: 0.84rem;
+}
+.level-learning-goal .goal-item.done {
+  background: rgba(197, 154, 63, 0.24);
+  font-weight: 700;
+}
+#quiz-options button.eliminated { opacity: 0.35; text-decoration: line-through; }
+
+/* ── 典藏閣新分頁（錯題本／文房寶物／功名牆）＋提取式複習 ── */
+.collection-overview {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px;
+  padding: 10px 12px; margin-bottom: 10px;
+  border: 1px solid rgba(60,50,40,.18); border-radius: 10px;
+  background: rgba(255,253,246,.7);
+}
+.collection-overview .overview-bar {
+  flex: 1 1 140px; height: 8px; border-radius: 99px;
+  background: rgba(60,50,40,.12); overflow: hidden;
+}
+.collection-overview .overview-bar > span {
+  display: block; height: 100%; border-radius: 99px;
+  background: linear-gradient(90deg, #8a6a3a, #c9a44a);
+}
+
+.collection-typebars { display: grid; gap: 6px; margin-bottom: 12px; }
+.collection-typebars .typebar {
+  display: grid; grid-template-columns: minmax(4em, 6em) 1fr auto;
+  gap: 8px; align-items: center; font-size: .82rem;
+}
+.collection-typebars .typebar-track { height: 6px; border-radius: 99px; background: rgba(60,50,40,.12); overflow: hidden; }
+.collection-typebars .typebar-fill { display: block; height: 100%; background: #8a6a3a; }
+.collection-typebars .typebar-num { opacity: .75; white-space: nowrap; }
+
+#wrongbook-list { display: grid; gap: 8px; list-style: none; padding: 0; margin: 0; }
+#wrongbook-list .wrongbook-item > button {
+  width: 100%; text-align: left; display: flex; justify-content: space-between;
+  align-items: baseline; gap: 10px; padding: 9px 11px; cursor: pointer;
+  border: 0; border-left: 3px solid rgba(180,90,60,.55); border-radius: 8px;
+  background: rgba(200,120,90,.09); font: inherit; color: inherit;
+}
+#wrongbook-list .wrongbook-item > button:hover { background: rgba(200,120,90,.16); }
+#wrongbook-list .wrongbook-item small { opacity: .7; white-space: nowrap; }
+
+#treasure-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+#treasure-gallery .treasure-card {
+  text-align: center; padding: 12px 10px; border-radius: 12px;
+  border: 1px solid rgba(60,50,40,.18); background: rgba(255,253,246,.6);
+}
+#treasure-gallery .treasure-card h4 { margin: 6px 0 4px; font-size: .95rem; }
+#treasure-gallery .treasure-card-img { width: 64px; height: 64px; filter: grayscale(1); opacity: .4; }
+#treasure-gallery .treasure-card.complete { border-color: rgba(201,164,74,.8); box-shadow: 0 0 0 2px rgba(201,164,74,.18) inset; }
+#treasure-gallery .treasure-card.complete .treasure-card-img { filter: none; opacity: 1; }
+#treasure-gallery .treasure-card .shard-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 3px; margin: 6px 0; }
+#treasure-gallery .treasure-card .shard-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(60,50,40,.16); }
+#treasure-gallery .treasure-card .shard-dot.got { background: #c9a44a; }
+#treasure-gallery .treasure-card-desc { font-size: .78rem; opacity: .78; margin: 6px 0 0; }
+
+.badge-wall-count { margin: 0 0 10px; font-weight: 600; }
+#badge-wall .badge-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)); gap: 6px; }
+.badge-cell {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 6px 2px; border-radius: 8px; font-size: .75rem; background: rgba(201,164,74,.16);
+}
+.badge-cell.locked { background: rgba(60,50,40,.06); opacity: .5; }
+.badge-cell-id { font-weight: 700; opacity: .7; }
+.badge-dot { opacity: .22; font-size: .8rem; }
+.badge-dot.got { opacity: 1; }
+
+.card-review-selfcheck { display: grid; gap: 8px; justify-items: center; }
+.card-review-rate { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.card-review-selfcheck.hidden, .card-review-rate.hidden { display: none; }
+
+/* ── 山河復原度環／真結局進度提示／稱號按鈕 ── */
+button.rank-badge { border: 0; font: inherit; cursor: pointer; }
+button.rank-badge:hover { text-decoration: underline; }
+.world-repair-ring {
+  display: inline-grid; place-items: center; width: 62px; height: 62px;
+  border-radius: 50%; line-height: 1.1; text-align: center;
+  background: conic-gradient(#c9a44a calc(var(--repair, 0) * 1%), rgba(60,50,40,.14) 0);
+  position: relative;
+}
+.world-repair-ring::before {
+  content: ''; position: absolute; inset: 6px; border-radius: 50%;
+  background: var(--paper, #fbf7ee);
+}
+.world-repair-ring > b, .world-repair-ring > small { position: relative; }
+.world-repair-ring > b { font-size: .92rem; }
+.world-repair-ring > small { font-size: .58rem; opacity: .7; }
+
+.true-ending-hint {
+  margin-top: 12px; padding: 12px 14px; border-radius: 12px;
+  border: 1px dashed rgba(138,106,58,.5); background: rgba(201,164,74,.08);
+}
+.true-ending-hint p { margin: 4px 0 6px; }
+.true-ending-hint ul { margin: 0; padding-left: 1.2em; font-size: .88rem; }
+
+/* ── 收筆卡 ── */
+.closing-card { display: grid; gap: 10px; }
+.closing-card .closing-stats { display: flex; flex-wrap: wrap; gap: 8px 16px; font-weight: 600; }
+.closing-card .closing-hook {
+  padding: 10px 12px; border-radius: 10px;
+  background: rgba(138,106,58,.1); border-left: 3px solid #8a6a3a;
+}
+
+/* ── 課堂模式 ── */
+.lesson-mode-banner {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px;
+  margin: 8px 0 12px; padding: 9px 12px; border-radius: 10px;
+  background: rgba(90,130,110,.14); border-left: 3px solid #4f7d68; font-size: .9rem;
+}
+body[data-lesson="on"] .home-streak-badge,
+body[data-lesson="on"] #rest-reminder { display: none !important; }
+#treasure-gallery .treasure-ability { font-size: .78rem; margin: 6px 0 0; opacity: .7; }
+#treasure-gallery .treasure-ability.active { opacity: 1; color: #8a6a3a; font-weight: 600; }
+
+/* ── 群仙錄剪影 ── */
+.character-gallery-card.locked { opacity: .85; }
+.locked-silhouette { position: relative; }
+.locked-silhouette .char-gallery-img { filter: brightness(0) opacity(.22); }
+.locked-silhouette .lock-glyph {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-size: 2.4rem; font-weight: 700; color: rgba(60,50,40,.35);
+}
+
+/* ── 協力封印進度條 ── */
+.team-seal-bar { height: 9px; border-radius: 99px; background: rgba(60,50,40,.12); overflow: hidden; margin: 8px 0 6px; }
+.team-seal-bar > span { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #4f7d68, #c9a44a); }
+.team-seal-marks { display: flex; justify-content: space-between; list-style: none; padding: 0; margin: 0; font-size: .74rem; opacity: .55; }
+.team-seal-marks li.lit { opacity: 1; font-weight: 700; color: #8a6a3a; }

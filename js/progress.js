@@ -21,7 +21,7 @@ export function defaultSave() {
     phrasePractice: {},
     daily: { date: '', counters: {} },
     classroom: null,
-    world: { eventsSeen: [], treasures: [], loreUnlocked: [], chaptersSeen: [], bonuses: {} },
+    world: { eventsSeen: [], treasures: [], loreUnlocked: [], chaptersSeen: [], bonuses: {}, hiddenEnding: null },
   };
 }
 
@@ -70,9 +70,14 @@ function normalizeEngagementFields(obj) {
     treasures: cleanIds(rawWorld.treasures),
     loreUnlocked: cleanIds(rawWorld.loreUnlocked),
     chaptersSeen: Array.isArray(rawWorld.chaptersSeen)
-      ? [...new Set(rawWorld.chaptersSeen.filter((id) => Number.isInteger(id) && id >= 1 && id <= 5))]
+      ? [...new Set(rawWorld.chaptersSeen.filter((id) => Number.isInteger(id) && id >= 1 && id <= 10))]
       : [],
     bonuses: {},
+    // 隱藏天書一問的作答紀錄。獨立於 levels，避免與真實第 51 關（漢賦十九首）撞號
+    hiddenEnding: (rawWorld.hiddenEnding && typeof rawWorld.hiddenEnding === 'object'
+      && ['people', 'single'].includes(rawWorld.hiddenEnding.choice))
+      ? { choice: rawWorld.hiddenEnding.choice, answeredAt: Math.max(0, Math.floor(Number(rawWorld.hiddenEnding.answeredAt) || 0)) }
+      : null,
   };
   if (rawWorld.bonuses && typeof rawWorld.bonuses === 'object' && !Array.isArray(rawWorld.bonuses)) {
     for (const [key, value] of Object.entries(rawWorld.bonuses)) {
@@ -115,6 +120,13 @@ export function validateSave(obj) {
     ? { answered: qs.answered, correct: qs.correct }
     : { answered: 0, correct: 0 };
   const engagement = normalizeEngagementFields(obj);
+  // 一次性遷移：舊版把隱藏天書一問寫成 levels['51']，與真實第 51 關撞號。
+  // 特徵＝三星但 found 為空（真正破關必有 found），視為隱藏關殘留：還原成 world.hiddenEnding。
+  const legacy51 = levels['51'];
+  if (legacy51 && legacy51.stars === 3 && legacy51.found.length === 0) {
+    delete levels['51'];
+    if (!engagement.world.hiddenEnding) engagement.world.hiddenEnding = { choice: 'people', answeredAt: 0 };
+  }
   return {
     v: 1,
     levels,

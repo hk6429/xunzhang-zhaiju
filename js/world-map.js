@@ -227,7 +227,11 @@ export function evaluateEndings(save = {}, story = {}) {
   const trueRule = story?.endings?.true?.requirements || {};
   const normal = evaluateRequirements(normalRule, save);
   const trueRequirements = evaluateRequirements(trueRule, save);
-  const hiddenLevelCompleted = Number(levelRecord(save, story?.hiddenLevel?.id || 51)?.stars || 0) > 0;
+  // 隱藏天書完成旗標。新版寫 world.hiddenEnding；levels['51'] 的舊寫法必須「found 為空」才算數——
+  // 真實第 51 關（漢賦十九首）正常破關一定有 found，否則老實打完第 51 關會誤觸真結局。
+  const legacyHidden = levelRecord(save, story?.hiddenLevel?.id || 51);
+  const hiddenLevelCompleted = Boolean(save?.world?.hiddenEnding?.choice)
+    || (Number(legacyHidden?.stars || 0) > 0 && (legacyHidden?.found?.length || 0) === 0);
   return {
     normalUnlocked: normal.met,
     trueRequirementsMet: trueRequirements.met,

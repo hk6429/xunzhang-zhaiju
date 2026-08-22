@@ -1,5 +1,6 @@
 // js/app.js — 入口：資料載入、視圖切換、密室大廳／地圖／圖鑑／設定
 import { createHintEngine } from './hints.js';
+import { treasurePassives, TREASURE_PASSIVES } from './treasure-passives.js';
 import { createCollection } from './collection.js';
 import { startLevel } from './game.js';
 import {
@@ -42,7 +43,10 @@ import {
   ensureDailyPlan,
   ensureRetention,
   getUnfinishedRun,
+  recordDailyProgress,
   recordQuickChallengeResult,
+  recordQuizAnswer,
+  calculateQuizInkReward,
   recordRest,
   recordSessionWrapUp,
   shouldSuggestRest,
@@ -145,6 +149,13 @@ async function loadData() {
   let demo = false;
   let levelsDoc;
   const params = new URLSearchParams(window.location.search);
+  // 課堂模式：?lesson=on 關倒數、關連續天數壓力，改成純練習場（?lesson=1-10 另限定關卡範圍）
+  const lesson = params.get('lesson');
+  if (lesson) {
+    document.body.dataset.lesson = 'on';
+    const range = /^(\d+)-(\d+)$/.exec(lesson);
+    if (range) document.body.dataset.lessonRange = `${range[1]}-${range[2]}`;
+  }
   const levelsUrl = params.get('levels') || 'data/levels.json';
   const phrasesUrl = params.get('phrases') || 'data/phrases.json';
   try {
@@ -527,7 +538,14 @@ function renderClassroomProgress(message = '') {
     return;
   }
   const milestone = teamMilestone(save.classroom.masteredCount || 0);
-  output.textContent = message || `${save.classroom.teamCode} 隊內最高進度為 ${milestone.count} 句，距下一座協力封印還差 ${milestone.remaining} 句。`;
+  // 協力封印要「看得見在長」：純文字的隊伍進度沒有人會盯，進度條才會。
+  const MILESTONES = [50, 100, 200, 300, 409];
+  const pct = Math.min(100, Math.round((milestone.count / milestone.next) * 100));
+  output.innerHTML = `<p>${message || `${save.classroom.teamCode} 隊內最高進度為 ${milestone.count} 句，距下一座協力封印還差 ${milestone.remaining} 句。`}</p>`
+    + `<div class="team-seal-bar"><span style="width:${pct}%"></span></div>`
+    + '<ol class="team-seal-marks">'
+    + MILESTONES.map((mark) => `<li class="${milestone.count >= mark ? 'lit' : ''}">${mark >= 409 ? '滿卷' : mark}</li>`).join('')
+    + '</ol>';
 }
 
 function chapterReached() {
@@ -561,25 +579,103 @@ function showChoiceDialog({ id, kicker, title, text, choices, onChoose }) {
   requestAnimationFrame(() => backdrop.querySelector('button')?.focus());
 }
 
+/**
+ * 套用世界事件效果。
+ * - 冪等：同一 eventId 只生效一次，避免「回大廳再開地圖」重複領取（原本先發獎勵、最後才記 eventsSeen）。
+ * - 支援單一效果或效果陣列（主線事件兩個選項都會給關鍵獎勵，差異放在次要效果）。
+ * - 不再直接發墨水：墨水只能靠答對研墨題賺。事件改發 study（免費研墨機會），由呼叫端開題。
+ * @returns {{studyCount: number}} 需要開幾題免費研墨
+ */
 function applyWorldEffect(effect, eventId) {
   ensureEngagementState();
-  if (!effect) return;
-  if (effect.type === 'unlockLore' && !save.world.loreUnlocked.includes(effect.value)) save.world.loreUnlocked.push(effect.value);
-  if (effect.type === 'treasureShard' && !save.world.treasures.includes(effect.value)) save.world.treasures.push(effect.value);
-  if (effect.type === 'ink') {
-    save.ink = Math.min(30, hintEngine.getInk() + Math.max(0, Number(effect.value) || 0));
-    hintEngine = createHintEngine(save.ink);
-  }
-  if (effect.type === 'hintToken') {
-    save.ink = Math.min(30, hintEngine.getInk() + Math.max(1, Number(effect.amount) || 1));
-    hintEngine = createHintEngine(save.ink);
-  }
-  if (['mapReveal', 'routeBoost', 'bossBoost', 'replayBonus'].includes(effect.type)) {
-    const key = `${effect.type}:${effect.value || 'active'}`;
-    save.world.bonuses[key] = (save.world.bonuses[key] || 0) + Math.max(1, Number(effect.uses) || 1);
+  if (eventId && save.world.eventsSeen.includes(eventId)) return { studyCount: 0 };
+  const effects = Array.isArray(effect) ? effect.filter(Boolean) : (effect ? [effect] : []);
+  let studyCount = 0;
+  for (const item of effects) {
+    if (item.type === 'unlockLore' && !save.world.loreUnlocked.includes(item.value)) save.world.loreUnlocked.push(item.value);
+    if (item.type === 'treasureShard' && !save.world.treasures.includes(item.value)) save.world.treasures.push(item.value);
+    if (item.type === 'study') studyCount += Math.max(1, Number(item.amount) || 1);
+    if (['mapReveal', 'routeBoost', 'bossBoost', 'replayBonus'].includes(item.type)) {
+      const key = `${item.type}:${item.value || 'active'}`;
+      save.world.bonuses[key] = (save.world.bonuses[key] || 0) + Math.max(1, Number(item.uses) || 1);
+    }
   }
   if (eventId && !save.world.eventsSeen.includes(eventId)) save.world.eventsSeen.push(eventId);
   persist();
+  return { studyCount };
+}
+
+// ── 免費研墨機會（事件獎勵的唯一墨水來源：仍然必須答對才有墨） ──
+function pickStudyPhrases(count) {
+  const retention = ensureRetention(save);
+  const now = Date.now();
+  const seen = new Set();
+  const queue = [];
+  const push = (id) => {
+    const phrase = phrasesById[id];
+    if (!phrase || seen.has(id)) return;
+    seen.add(id); queue.push(phrase);
+  };
+  for (const id of retention.wrongBook) push(id);
+  for (const [id, item] of Object.entries(retention.mastery)) {
+    if (item?.nextReviewAt && Date.parse(item.nextReviewAt) <= now) push(id);
+  }
+  for (const id of (collection ? collection.list() : [])) push(id);
+  for (const phrase of phrases) push(phrase.id);
+  return queue.slice(0, Math.max(1, count));
+}
+
+function openStudySession(count, onDone) {
+  const items = pickStudyPhrases(count);
+  if (!items.length) { onDone?.(); return; }
+  let index = 0;
+  let earned = 0;
+  const ask = () => {
+    const phrase = items[index];
+    const pool = phrases.filter((item) => item.id !== phrase.id && item.type === phrase.type);
+    const distractors = seededPick(pool, 3, `study|${phrase.id}|${index}`).map((item) => item.text);
+    const options = seededPick([phrase.text, ...distractors], 4, `study-order|${phrase.id}`);
+    showChoiceDialog({
+      id: 'modal-study', kicker: `仙人指路・研墨 ${index + 1}/${items.length}`, title: phrase.meaning,
+      text: '選出最符合這段白話解釋的句子。答對才有墨——墨水從來只能自己研出來。',
+      choices: options.map((label) => ({ id: label, label })),
+      onChoose: (choice) => {
+        const correct = choice.id === phrase.text;
+        const result = recordQuizAnswer(save, phrase.id, { correct });
+        if (correct) {
+          const gained = calculateQuizInkReward({
+            currentInk: hintEngine.getInk(), kind: 'choice', rewardEligible: result.rewardEligible,
+          });
+          if (gained === 1) { hintEngine.earn('choice'); earned += 1; }
+        }
+        index += 1;
+        persist();
+        if (index < items.length) ask();
+        else {
+          showChoiceDialog({
+            id: 'modal-study-done', kicker: '研墨畢', title: earned > 0 ? `研得 ${earned} 點墨` : '這回沒研出墨',
+            text: earned > 0 ? '墨已入池，去破陣吧。' : '答錯與今日領過的句子都不生墨，但熟練度都記下了——它們晚點會再來找你。',
+            choices: [{ id: 'ok', label: '收下', primary: true }],
+            onChoose: () => onDone?.(),
+          });
+        }
+      },
+    });
+  };
+  ask();
+}
+
+/** 以字串種子做穩定抽樣，避免 Math.random 造成同一天結果不一致 */
+function seededPick(list, count, seedText) {
+  const arr = list.slice();
+  let hash = 2166136261;
+  for (let i = 0; i < seedText.length; i += 1) { hash ^= seedText.charCodeAt(i); hash = Math.imul(hash, 16777619); }
+  for (let i = arr.length - 1; i > 0; i -= 1) {
+    hash = Math.imul(hash ^ (hash >>> 15), 2246822507);
+    const j = (hash >>> 0) % (i + 1);
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr.slice(0, count);
 }
 
 function showChapterStory(chapter, phase, onDone) {
@@ -604,7 +700,11 @@ function enterWorldNode(level) {
       showChoiceDialog({
         id: 'modal-world-event', kicker: `${event.speaker}・非戰鬥事件`, title: event.title, text: event.text,
         choices: event.choices.map((choice, index) => ({ ...choice, primary: index === 0 })),
-        onChoose: (choice) => { applyWorldEffect(choice.effect, event.id); enterLevel(level.id); },
+        onChoose: (choice) => {
+          const { studyCount } = applyWorldEffect(choice.effect, event.id);
+          if (studyCount) openStudySession(studyCount, () => enterLevel(level.id));
+          else enterLevel(level.id);
+        },
       });
       return;
     }
@@ -623,7 +723,12 @@ function showDailyEncounter(encounter) {
   showChoiceDialog({
     id: 'modal-daily-encounter', kicker: `今日奇遇・第 ${encounter.chapter} 章`, title: encounter.title, text: encounter.text,
     choices: [{ id: 'accept', label: '收下今日機緣', effect: encounter.effect, primary: true }, { id: 'leave', label: '今日先略過' }],
-    onChoose: (choice) => { if (choice.effect) applyWorldEffect(choice.effect, `daily:${encounter.dateKey}:${encounter.id}`); renderMap(); },
+    onChoose: (choice) => {
+      if (!choice.effect) { renderMap(); return; }
+      const { studyCount } = applyWorldEffect(choice.effect, `daily:${encounter.dateKey}:${encounter.id}`);
+      if (studyCount) openStudySession(studyCount, renderMap);
+      else renderMap();
+    },
   });
 }
 
@@ -634,7 +739,7 @@ function showHiddenEndingLevel() {
     return;
   }
   showChoiceDialog({
-    id: 'modal-hidden-level', kicker: '隱藏第 51 關', title: worldStory.hiddenLevel.title,
+    id: 'modal-hidden-level', kicker: '隱藏一頁', title: worldStory.hiddenLevel.title,
     text: '五段故事與五件法寶在空白天書上化為最後一問：文字的力量，來自唯一的標準答案，還是來自人們願意理解並使用它？',
     choices: [
       { id: 'people', label: '來自人們理解與使用', primary: true },
@@ -642,7 +747,8 @@ function showHiddenEndingLevel() {
     ],
     onChoose: (choice) => {
       if (choice.id === 'people') {
-        save.levels['51'] = { stars: 3, found: [], badges: ['insight'], best: { durationMs: 0, mistakes: 0, modes: ['standard'] } };
+        // 存成 world.hiddenEnding：真實第 51 關是漢賦十九首，寫 levels['51'] 會白送整關並反向誤觸真結局
+        save.world.hiddenEnding = { choice: 'people', answeredAt: Date.now() };
         persist();
         showHiddenEndingLevel();
       } else renderMap();
@@ -660,14 +766,20 @@ function openDailyQuickChallenge() {
   let score = 0;
   const showQuestion = () => {
     const phrase = items[index];
-    const distractors = items.filter((item) => item.id !== phrase.id).slice(0, 3).map((item) => item.text);
-    const options = [phrase.text, ...distractors].sort((a, b) => a.localeCompare(b, 'zh-Hant'));
+    // 誘答改抽全庫同類（原本固定取當日前三句，五題來回都同一批），選項洗牌且不標 primary——
+    // 原本 primary 會把正解畫成唯一的實心按鈕，等於直接把答案指給玩家看。
+    const pool = phrases.filter((item) => item.id !== phrase.id && item.type === phrase.type);
+    const distractors = seededPick(pool, 3, `quick|${daily.dateKey}|${phrase.id}`).map((item) => item.text);
+    const options = seededPick([phrase.text, ...distractors], 4, `quick-order|${daily.dateKey}|${index}`);
     showChoiceDialog({
       id: 'modal-daily-quick', kicker: `一炷香快陣・${index + 1}/${items.length}`, title: phrase.meaning,
       text: '選出最符合這段白話解釋的句子。',
-      choices: options.map((label) => ({ id: label, label, primary: label === phrase.text })),
+      choices: options.map((label) => ({ id: label, label })),
       onChoose: (choice) => {
-        if (choice.id === phrase.text) score += 1;
+        const correct = choice.id === phrase.text;
+        if (correct) score += 1;
+        // 快陣是最容易被點開的複習入口，之前完全不寫回熟練度／錯題本，等於白練
+        recordQuizAnswer(save, phrase.id, { correct });
         index += 1;
         if (index < items.length) showQuestion();
         else {
@@ -798,6 +910,63 @@ function makeWorldMap(list, frontier) {
   return shell;
 }
 
+/** 收筆卡：不只結算今天，更要留一個明天非回來不可的鉤子 */
+function renderClosingCard(progress) {
+  const list = $('session-summary-list');
+  if (!list) return;
+  const retention = ensureRetention(save);
+  const streak = retention.streak?.current || 0;
+  const due = dueForReview(99).length;
+  const nextLevel = levels.find((level) => level.id === progress.nextLevelId);
+  const cultivation = computeCultivationProgress(save);
+  const rows = [
+    `今日連續第 <b>${Math.max(1, streak)}</b> 天研墨・修為 <b>${cultivation.current.title}</b>`,
+    `已破 <b>${progress.levelsCompleted}</b> 關・典藏 <b>${progress.phrasesFound}</b> 句`,
+  ];
+  const hooks = [];
+  if (nextLevel) hooks.push(`明天第一件事：第 ${nextLevel.id} 關「${nextLevel.chapterTitle || '未名之陣'}」在等你`);
+  if (due) hooks.push(`有 ${due} 句到了複習時辰，明天不練就會從記憶裡溜走`);
+  if (cultivation.next) hooks.push(`距 ${cultivation.next.title} 只差 ${cultivation.remaining} 點`);
+  list.innerHTML = rows.map((row) => `<li>${row}</li>`).join('')
+    + (hooks.length ? `<li class="closing-hook">${hooks[0]}${hooks[1] ? `<br><small>${hooks[1]}</small>` : ''}</li>` : '');
+}
+
+/** 把 evaluateRequirements 的 failures 翻成玩家看得懂的一句話 */
+function describeTrueEndingGaps(failures) {
+  const lines = [];
+  for (const fail of failures) {
+    if (fail.type === 'completedAll') lines.push(`打通第 ${(fail.expected || []).join('、')} 關`);
+    else if (fail.type === 'completedAny') lines.push(`至少打通第 ${(fail.expected || []).join(' 或 ')} 關其中一關`);
+    else if (fail.type === 'minTotalStars') lines.push(`累積 ${fail.expected} 顆星（目前 ${totalStarsOf(save)} 顆）`);
+    else if (fail.type === 'eventsSeenAll') lines.push('把山河圖上的奇遇都走過一遍');
+    else if (fail.type === 'treasuresAll') lines.push('集齊五件文房法寶');
+    else if (fail.type === 'bossMinStars') lines.push(`章末大陣（第 ${(fail.levelIds || []).join('、')} 關）各拿到 ${fail.expected} 星`);
+  }
+  return lines;
+}
+
+/** 稱號自選：解鎖了卻不能挑，等於沒有身分感 */
+function openTitlePicker(titles) {
+  showChoiceDialog({
+    id: 'dlg-title-picker',
+    kicker: '自報名號',
+    title: '你想以什麼身分行走文道？',
+    text: '稱號依你的練功軌跡解鎖，隨時可以換。',
+    choices: titles.map((item) => ({
+      id: item.id,
+      label: `${item.name}${item.id === save.preferences?.titleId ? '（目前）' : ''}`,
+      primary: item.id === save.preferences?.titleId,
+    })),
+    onChoose: (choice) => {
+      if (!choice?.id) return;
+      save.preferences.titleId = choice.id;
+      persist();
+      renderEngagementHub();
+      renderMap();
+    },
+  });
+}
+
 function renderMap() {
   const box = $('level-map');
   box.innerHTML = '';
@@ -812,10 +981,25 @@ function renderMap() {
   const nextTxt = cultivation.next
     ? `修為・${cultivation.current.title}，距 ${cultivation.next.title} 尚差 ${cultivation.remaining} 點`
     : `修為・${cultivation.current.title}，已登最高境界`;
-  bar.innerHTML = `<span class="rank-badge">身分・${currentTitle.name}</span>`
+  // 山河復原度：全 100 關的整體完成率，讓「還剩多少」隨時看得到（不再只有本章進度）
+  const clearedAll = levels.filter((level) => (save.levels[String(level.id)]?.stars || 0) > 0).length;
+  const donePct = Math.round((clearedAll / Math.max(1, levels.length)) * 100);
+  bar.innerHTML = '<button type="button" class="rank-badge" id="btn-pick-title" '
+    + `title="換一個稱號">身分・${currentTitle.name} ▾</button>`
     + `<span class="rank-stats">★ ${totalStars}　📖 ${collected} 句</span>`
+    + `<span class="world-repair-ring" style="--repair:${donePct}"><b>${donePct}%</b><small>山河復原</small></span>`
     + `<span class="rank-next muted">${nextTxt}</span>`;
   box.appendChild(bar);
+  bar.querySelector('#btn-pick-title')?.addEventListener('click', () => openTitlePicker(titles));
+
+  // 課堂模式橫幅：老師投影時要一眼看出「這台沒有倒數、也不算連續天數」
+  if (document.body.dataset.lesson === 'on') {
+    const range = document.body.dataset.lessonRange;
+    const banner = document.createElement('aside');
+    banner.className = 'lesson-mode-banner';
+    banner.innerHTML = `<strong>課堂模式</strong><span>已關閉倒數計時${range ? `・本節範圍第 ${range.replace('-', '–')} 關` : ''}，慢慢想沒關係。</span>`;
+    box.appendChild(banner);
+  }
 
   const frontier = frontierLevelId();
   // 封神山河圖只涵蓋原始 5 章 50 關；第 51–100 關（文林淬鍊卷）獨立呈現於密室大廳，不進此圖
@@ -827,18 +1011,35 @@ function renderMap() {
 
   const encounter = model.dailyEncounter;
   if (encounter) {
+    const claimed = save.world?.eventsSeen?.includes(`daily:${encounter.dateKey}:${encounter.id}`);
     const daily = document.createElement('aside');
-    daily.className = 'daily-encounter-card';
-    daily.innerHTML = `<span class="resume-kicker">今日奇遇・第 ${encounter.chapter} 章</span><strong>${encounter.title}</strong><p>${encounter.text}</p><button type="button" class="ghost-btn">查看今日奇遇</button>`;
-    daily.querySelector('button').addEventListener('click', () => showDailyEncounter(encounter));
+    daily.className = `daily-encounter-card${claimed ? ' claimed' : ''}`;
+    daily.innerHTML = `<span class="resume-kicker">今日奇遇・第 ${encounter.chapter} 章</span><strong>${encounter.title}</strong><p>${encounter.text}</p>`
+      + (claimed
+        ? '<p class="muted">今日機緣已收下，明日再來。</p>'
+        : '<button type="button" class="ghost-btn">查看今日奇遇</button>');
+    daily.querySelector('button')?.addEventListener('click', () => showDailyEncounter(encounter));
     box.appendChild(daily);
+  }
+
+  // 真結局進度提示：以前條件全藏在資料裡，玩家根本不知道自己差什麼
+  if (!model.endings.hiddenLevelUnlocked) {
+    const missing = describeTrueEndingGaps(model.endings.missingForTrue || []);
+    if (missing.length) {
+      const hint = document.createElement('aside');
+      hint.className = 'true-ending-hint';
+      hint.innerHTML = '<span class="resume-kicker">天書失落之頁</span>'
+        + '<p>山河圖角落有一頁沒人翻開過。要讓它現形，還差：</p>'
+        + `<ul>${missing.map((line) => `<li>${line}</li>`).join('')}</ul>`;
+      box.appendChild(hint);
+    }
   }
 
   if (model.endings.hiddenLevelUnlocked) {
     const hidden = document.createElement('button');
     hidden.type = 'button';
     hidden.className = `hidden-level-node ${model.endings.hiddenLevelCompleted ? 'done' : ''}`;
-    hidden.textContent = model.endings.hiddenLevelCompleted ? '✓ 第 51 關・天書失落之頁' : '第 51 關・天書失落之頁';
+    hidden.textContent = model.endings.hiddenLevelCompleted ? '✓ 天書失落之頁' : '天書失落之頁';
     hidden.addEventListener('click', showHiddenEndingLevel);
     box.appendChild(hidden);
   }
@@ -859,6 +1060,15 @@ function renderMap() {
 function enterLevel(id) {
   const level = levelsById[id];
   if (!level) return;
+  // 第 6–10 章沒有山河圖節點，章回開場白（含文林淬鍊卷的開卷儀式）要在這裡補上，
+  // 否則整個第二卷玩下來一句故事都沒有，玩家只覺得「關卡變多而已」。
+  ensureEngagementState();
+  if (level.chapter > 5 && !save.world.chaptersSeen.includes(level.chapter)) {
+    save.world.chaptersSeen.push(level.chapter);
+    persist();
+    showChapterStory(level.chapter, 'intro', () => enterLevel(id));
+    return;
+  }
   if (currentGame) currentGame.destroy();
   // 封神山河圖只涵蓋第 1–5 章；第 6–10 章（文林淬鍊卷）沒有山河圖節點，
   // 離開／通關後要回密室大廳，而非山河圖，否則玩家找不到回文林淬鍊卷的路。
@@ -927,20 +1137,159 @@ function renderCollection() {
   for (const btn of document.querySelectorAll('.col-tab-btn')) {
     btn.classList.toggle('active', btn.dataset.coltab === activeColTab);
   }
-  $('coltab-pane-phrases').classList.toggle('hidden', activeColTab !== 'phrases');
-  $('coltab-pane-characters').classList.toggle('hidden', activeColTab !== 'characters');
-
-  if (activeColTab === 'phrases') {
-    renderPhrasesTab();
-  } else {
-    renderCharactersTab();
+  for (const tab of ['phrases', 'wrongbook', 'treasures', 'badges', 'characters']) {
+    $(`coltab-pane-${tab}`)?.classList.toggle('hidden', activeColTab !== tab);
   }
+
+  if (activeColTab === 'phrases') renderPhrasesTab();
+  else if (activeColTab === 'wrongbook') renderWrongBookTab();
+  else if (activeColTab === 'treasures') renderTreasureTab();
+  else if (activeColTab === 'badges') renderBadgeTab();
+  else renderCharactersTab();
+}
+
+/** 待複習清單：依 SRS 到期時間與錯題本排序，取代原本的純亂數抽 5 句 */
+function dueForReview(limit = 5) {
+  const retention = ensureRetention(save);
+  // 澄心堂紙／廷珪墨集滿可加開複習名額
+  limit += treasurePassives(retention).reviewSlots;
+  const now = Date.now();
+  const owned = new Set(collection.list());
+  const score = (id) => {
+    if (retention.wrongBook.includes(id)) return 0;
+    const due = Date.parse(retention.mastery[id]?.nextReviewAt || '');
+    return Number.isFinite(due) && due <= now ? 1 : 2;
+  };
+  return [...owned]
+    .filter((id) => phrasesById[id])
+    .sort((a, b) => score(a) - score(b))
+    .filter((id) => score(id) < 2)
+    .slice(0, limit);
+}
+
+/** 待補的字：wrongBook 與 mastery 是全站最有教學價值的資料，原本完全沒有 UI */
+function renderWrongBookTab() {
+  const retention = ensureRetention(save);
+  const ids = retention.wrongBook.filter((id) => phrasesById[id]);
+  const ul = $('wrongbook-list');
+  const empty = $('wrongbook-empty');
+  const drill = $('btn-wrongbook-drill');
+  if (!ul) return;
+  ul.innerHTML = '';
+  empty?.classList.toggle('hidden', ids.length > 0);
+  drill?.classList.toggle('hidden', ids.length === 0);
+  for (const id of ids) {
+    const phrase = phrasesById[id];
+    const stat = retention.mastery[id] || {};
+    const li = document.createElement('li');
+    li.className = 'wrongbook-item';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.innerHTML = `<strong>${phrase.text}</strong><small>答錯 ${stat.wrong || 1} 次</small>`;
+    btn.addEventListener('click', () => {
+      $('card-badge').textContent = '待補的字';
+      $('card-review-nav')?.classList.add('hidden');
+      $('card-text').textContent = phrase.text;
+      setCardSource(phrase);
+      $('card-meaning').textContent = phrase.meaning || '';
+      $('card-insight').textContent = phrase.insight || '';
+      $('modal-card').classList.remove('hidden');
+    });
+    li.appendChild(btn);
+    ul.appendChild(li);
+  }
+}
+
+/** 法寶閣：五件法寶各十片碎片的陳列櫃，並第一次把 ability 描述顯示出來 */
+function renderTreasureTab() {
+  const box = $('treasure-gallery');
+  if (!box) return;
+  const retention = ensureRetention(save);
+  const catalog = worldStory?.treasures || [];
+  const shardsByChapter = [...FENGSHEN_ARRAYS, ...VOLUME2_ARRAYS]
+    .map((arr) => arr.treasureShard)
+    .filter(Boolean);
+  box.innerHTML = shardsByChapter.map((shard) => {
+    const item = retention.treasures[shard.id] || { sources: [], maxFragments: 10 };
+    const got = item.sources.length;
+    const max = item.maxFragments || 10;
+    const complete = got >= max;
+    const lore = catalog.find((t) => shard.id.startsWith(t.id));
+    return `<article class="treasure-card${complete ? ' complete' : ''}">`
+      + `<img src="${shard.imagePath || shard.svgPath}" alt="${shard.name}" class="treasure-card-img" loading="lazy">`
+      + `<h4>${shard.icon} ${shard.name}</h4>`
+      + `<div class="shard-row">${Array.from({ length: max }, (_, i) => `<span class="shard-dot${i < got ? ' got' : ''}"></span>`).join('')}</div>`
+      + `<p class="muted">${got}/${max}${complete && lore ? `・${lore.description}` : ''}</p>`
+      + `<p class="treasure-card-desc">${shard.desc}</p>`
+      + (TREASURE_PASSIVES[shard.id]
+        ? `<p class="treasure-ability${complete ? ' active' : ''}">${complete ? '✦ 已生效：' : '集滿後：'}${TREASURE_PASSIVES[shard.id].desc}</p>`
+        : '<p class="treasure-ability muted">純收藏：集滿只為好看，不影響戰力。</p>')
+      + '</article>';
+  }).join('');
+}
+
+/** 破陣勳章牆：每關三枚，缺哪一枚一目瞭然——這是重玩舊關最強的誘因 */
+function renderBadgeTab() {
+  const wall = $('badge-wall');
+  if (!wall) return;
+  const LABELS = { insight: '🎯', swift: '⚡', scholar: '📖', combo: '🔥' };
+  const cleared = levels.filter((level) => (save.levels[String(level.id)]?.stars || 0) > 0);
+  const total = cleared.reduce((sum, level) => sum + (save.levels[String(level.id)]?.badges?.length || 0), 0);
+  wall.innerHTML = `<p class="badge-wall-count">已得勳章 ${total} 枚・已破 ${cleared.length}/${levels.length} 關</p>`
+    + '<div class="badge-grid">'
+    + levels.map((level) => {
+      const rec = save.levels[String(level.id)];
+      const badges = rec?.badges || [];
+      const done = (rec?.stars || 0) > 0;
+      const marks = ['insight', 'swift', 'scholar'].map((code) => `<span class="badge-dot${badges.includes(code) ? ' got' : ''}" title="${code}">${LABELS[code]}</span>`).join('');
+      return `<div class="badge-cell${done ? '' : ' locked'}" title="第 ${level.id} 關"><span class="badge-cell-id">${level.id}</span>${done ? marks : '<span class="badge-dot">·</span>'}</div>`;
+    }).join('')
+    + '</div>';
 }
 
 function renderPhrasesTab() {
   const ids = collection.list();
   $('collection-empty').classList.toggle('hidden', ids.length > 0);
-  $('btn-collection-review')?.classList.toggle('hidden', ids.length < 2);
+
+  const retention = ensureRetention(save);
+  const due = dueForReview(5);
+  const reviewBtn = $('btn-collection-review');
+  if (reviewBtn) {
+    reviewBtn.classList.toggle('hidden', ids.length < 2);
+    reviewBtn.textContent = due.length ? `🔁 今日待複習 ${due.length} 句` : '🔁 今日已複習完畢';
+    reviewBtn.disabled = due.length === 0;
+  }
+
+  const overview = $('collection-overview');
+  if (overview) {
+    const mastered = Object.values(retention.mastery).filter((item) => item?.mastered).length;
+    const pct = Math.round((ids.length / Math.max(1, phrases.length)) * 100);
+    overview.innerHTML = `<strong>摘句典藏 ${ids.length} / ${phrases.length}</strong>`
+      + `<span class="overview-bar"><span style="width:${pct}%"></span></span>`
+      + `<small>其中 ${mastered} 句已練熟・待補 ${retention.wrongBook.length} 句</small>`;
+  }
+
+  // 依 type 分桶算正確率：學生答錯原本只知道「錯一題」，不知道自己是哪一類垮掉
+  const bars = $('collection-typebars');
+  if (bars) {
+    const buckets = new Map();
+    for (const phrase of phrases) {
+      const key = phrase.type || '其他';
+      if (!buckets.has(key)) buckets.set(key, { total: 0, owned: 0, answered: 0, correct: 0 });
+      const bucket = buckets.get(key);
+      bucket.total += 1;
+      if (ids.includes(phrase.id)) bucket.owned += 1;
+      const stat = retention.mastery[phrase.id];
+      if (stat) { bucket.answered += stat.answered || 0; bucket.correct += stat.correct || 0; }
+    }
+    bars.innerHTML = [...buckets.entries()].map(([key, bucket]) => {
+      const rate = bucket.answered ? Math.round((bucket.correct / bucket.answered) * 100) : null;
+      const pct = Math.round((bucket.owned / bucket.total) * 100);
+      return `<div class="typebar"><span class="typebar-name">${key}</span>`
+        + `<span class="typebar-track"><span class="typebar-fill" style="width:${pct}%"></span></span>`
+        + `<span class="typebar-num">${bucket.owned}/${bucket.total}${rate === null ? '' : `・答對率 ${rate}%`}</span></div>`;
+    }).join('');
+  }
   const ul = $('collection-list');
   ul.innerHTML = '';
   for (const pid of ids) {
@@ -990,14 +1339,47 @@ function renderPhrasesTab() {
   }
 }
 
+/** 群仙錄解鎖：仙人要「在他的陣裡破過一關」才會現身，否則只留剪影 */
+function unlockedCharacterIds() {
+  const ids = new Set();
+  for (const arr of [...FENGSHEN_ARRAYS, ...VOLUME2_ARRAYS]) {
+    const [from, to] = arr.levelRange || [];
+    if (!from) continue;
+    const cleared = Object.entries(save.levels || {})
+      .some(([id, rec]) => (rec?.stars || 0) > 0 && Number(id) >= from && Number(id) <= to);
+    if (!cleared) continue;
+    for (const g of [arr.guardian, ...(arr.guardians || [])]) {
+      if (g?.characterId) ids.add(g.characterId);
+    }
+  }
+  return ids;
+}
+
 function renderCharactersTab() {
   const gallery = $('characters-gallery');
   if (!gallery) return;
   gallery.innerHTML = '';
 
+  const unlocked = unlockedCharacterIds();
+  const desc = document.querySelector('#coltab-pane-characters .characters-tab-desc');
+  if (desc) desc.textContent = `太極玄門群仙，已現身 ${[...unlocked].filter((id) => CHARACTERS.some((c) => c.id === id)).length} / ${CHARACTERS.length} 位。破過他鎮守的陣，剪影才會化為真身。`;
+
   for (const char of CHARACTERS) {
+    const isUnlocked = unlocked.has(char.id);
     const card = document.createElement('div');
-    card.className = 'character-gallery-card';
+    card.className = `character-gallery-card${isUnlocked ? '' : ' locked'}`;
+    if (!isUnlocked) {
+      const arr = [...FENGSHEN_ARRAYS, ...VOLUME2_ARRAYS]
+        .find((a) => [a.guardian, ...(a.guardians || [])].some((g) => g?.characterId === char.id));
+      const range = arr?.levelRange;
+      card.innerHTML = `<div class="char-gallery-avatar-box locked-silhouette">`
+        + `<img src="${char.artImage || char.expressions.idle}" alt="尚未現身的仙人" class="char-gallery-img" loading="lazy">`
+        + '<span class="lock-glyph">？</span></div>'
+        + '<div class="char-gallery-info"><h3 class="char-gallery-name">？？？</h3>'
+        + `<p class="char-gallery-desc">${range ? `破開第 ${range[0]}–${range[1]} 關其中一關，他就會現身。` : '走到他鎮守的陣前，他才會現身。'}</p></div>`;
+      gallery.appendChild(card);
+      continue;
+    }
     card.style.setProperty('--char-theme', char.themeColor || '#0284c7');
     card.style.setProperty('--char-accent', char.accentColor || '#facc15');
 
@@ -1220,6 +1602,7 @@ function bindEngagement() {
       nextLevelId: frontierLevelId(),
     });
     if ($('session-summary-text')) $('session-summary-text').textContent = `本次收筆：已掌握 ${progress.phrasesFound} 句，前線停在第 ${progress.nextLevelId} 關。`;
+    renderClosingCard(progress);
     persist();
     $('modal-complete')?.classList.add('hidden');
     showView('chamber');
@@ -1271,29 +1654,58 @@ function bindGlobal() {
   // 摘句圖鑑「隨機複習」：收藏了就沒下文，讓已收藏成語能被重新利用複習
   let reviewQueue = [];
   let reviewIdx = 0;
+  // 複習改成提取練習：先遮住釋義自己想，翻牌後自評，結果餵回間隔複習排程。
+  // 原本是「攤開來重讀」——效果最差的複習方式，而且完全不更新 mastery。
   function showReviewCard() {
     const phrase = phrasesById[reviewQueue[reviewIdx]];
     if (!phrase) return;
     $('card-badge').textContent = '複習時間';
     $('card-text').textContent = phrase.text;
     setCardSource(phrase);
-    $('card-meaning').textContent = phrase.meaning || '';
-    $('card-insight').textContent = phrase.insight || '';
+    $('card-meaning').textContent = '';
+    $('card-insight').textContent = '';
     $('card-review-nav').classList.remove('hidden');
+    $('card-review-selfcheck').classList.remove('hidden');
+    $('card-review-rate').classList.add('hidden');
     $('card-review-progress').textContent = `第 ${reviewIdx + 1} / ${reviewQueue.length} 句`;
-    $('btn-card-review-next').textContent = reviewIdx + 1 < reviewQueue.length ? '下一句' : '複習完成';
     $('modal-card').classList.remove('hidden');
   }
+
+  function advanceReview() {
+    reviewIdx += 1;
+    if (reviewIdx < reviewQueue.length) showReviewCard();
+    else {
+      $('modal-card').classList.add('hidden');
+      renderCollection();
+    }
+  }
   $('btn-collection-review')?.addEventListener('click', () => {
-    reviewQueue = collection.list().sort(() => Math.random() - 0.5).slice(0, 5);
+    reviewQueue = dueForReview(5);
     reviewIdx = 0;
     if (reviewQueue.length) showReviewCard();
   });
-  $('btn-card-review-next')?.addEventListener('click', () => {
-    reviewIdx += 1;
-    if (reviewIdx < reviewQueue.length) showReviewCard();
-    else $('modal-card').classList.add('hidden');
+  // 待補的字：直接開一輪研墨，答對兩次才會離開錯題本
+  $('btn-wrongbook-drill')?.addEventListener('click', () => {
+    const ids = ensureRetention(save).wrongBook.filter((id) => phrasesById[id]);
+    if (ids.length) openStudySession(Math.min(5, ids.length), () => { renderCollection(); });
   });
+  $('btn-card-review-flip')?.addEventListener('click', () => {
+    const phrase = phrasesById[reviewQueue[reviewIdx]];
+    if (!phrase) return;
+    $('card-meaning').textContent = phrase.meaning || '';
+    $('card-insight').textContent = phrase.insight || '';
+    $('card-review-selfcheck').classList.add('hidden');
+    $('card-review-rate').classList.remove('hidden');
+  });
+  for (const btn of document.querySelectorAll('#card-review-rate button')) {
+    btn.addEventListener('click', () => {
+      const phraseId = reviewQueue[reviewIdx];
+      // 自評結果直接進 SRS：想得出來＝答對，其餘進錯題本等它再來找你
+      if (phraseId) recordQuizAnswer(save, phraseId, { correct: btn.dataset.rate === 'good' });
+      persist();
+      advanceReview();
+    });
+  }
 }
 
 function closeMapView() {

@@ -9,57 +9,204 @@
     {
       "id": 1,
       "mapRegion": "崑崙玉虛境",
-      "position": { "x": 13, "y": 23 },
+      "position": {
+        "x": 13,
+        "y": 23
+      },
       "title": "太極初開・玉虛問道",
-      "intro": ["封神榜忽然失去第一行真言，崑崙山門也隨之化為無字石壁。", "姜太公交給你一管靈墨：字不是被抹去，而是藏進乾坤太極陣中。"],
-      "outro": ["陰陽魚重新轉動，玉虛宮的簷角逐一亮起。", "黃河方向卻傳來倒流巨響；下一頁真言已被捲入九曲河心。"],
-      "guardianIds": ["jiang-taigong"],
+      "intro": [
+        "封神榜忽然失去第一行真言，崑崙山門也隨之化為無字石壁。",
+        "姜太公交給你一管靈墨：字不是被抹去，而是藏進乾坤太極陣中。"
+      ],
+      "outro": [
+        "陰陽魚重新轉動，玉虛宮的簷角逐一亮起。",
+        "黃河方向卻傳來倒流巨響；下一頁真言已被捲入九曲河心。"
+      ],
+      "guardianIds": [
+        "jiang-taigong"
+      ],
       "bossId": "boss-taiji-spirit",
       "treasureId": "dashen-bian"
     },
     {
       "id": 2,
       "mapRegion": "九曲黃河渡",
-      "position": { "x": 31, "y": 54 },
+      "position": {
+        "x": 31,
+        "y": 54
+      },
       "title": "九曲翻浪・金斗迷津",
-      "intro": ["黃河九曲同時改道，村落的俗語與歌謠被沖成零碎字片。", "哪吒踩著風火輪掠過河面，邀你在沙漏漏盡前找回百姓的話。"],
-      "outro": ["九曲回到河床，失落的童謠又從渡口響起。", "遠方十座黑色陣門同時落下，聞太師已在雷火中等候。"],
-      "guardianIds": ["nezha"],
+      "intro": [
+        "黃河九曲同時改道，村落的俗語與歌謠被沖成零碎字片。",
+        "哪吒踩著風火輪掠過河面，邀你在沙漏漏盡前找回百姓的話。"
+      ],
+      "outro": [
+        "九曲回到河床，失落的童謠又從渡口響起。",
+        "遠方十座黑色陣門同時落下，聞太師已在雷火中等候。"
+      ],
+      "guardianIds": [
+        "nezha"
+      ],
       "bossId": "boss-sanxiao",
       "treasureId": "qiankun-quan"
     },
     {
       "id": 3,
       "mapRegion": "西岐十絕原",
-      "position": { "x": 51, "y": 33 },
+      "position": {
+        "x": 51,
+        "y": 33
+      },
       "title": "十絕雷火・神目辨真",
-      "intro": ["十座陣門輪流噴出雷、火、風與寒霜，進階成語被煉成真假難分的影子。", "楊戩開啟天眼，請你別追逐幻字，只看每道線索真正指向的意思。"],
-      "outro": ["十根煞柱崩落，焦土上長出第一株青苗。", "青苗的倒影卻映出朝歌摘星樓；那裡每面鏡子都在說謊。"],
-      "guardianIds": ["yang-jian"],
+      "intro": [
+        "十座陣門輪流噴出雷、火、風與寒霜，進階成語被煉成真假難分的影子。",
+        "楊戩開啟天眼，請你別追逐幻字，只看每道線索真正指向的意思。"
+      ],
+      "outro": [
+        "十根煞柱崩落，焦土上長出第一株青苗。",
+        "青苗的倒影卻映出朝歌摘星樓；那裡每面鏡子都在說謊。"
+      ],
+      "guardianIds": [
+        "yang-jian"
+      ],
       "bossId": "boss-wen-taishi",
       "treasureId": "sanjian-liangren-dao"
     },
     {
       "id": 4,
       "mapRegion": "朝歌摘星樓",
-      "position": { "x": 70, "y": 62 },
+      "position": {
+        "x": 70,
+        "y": 62
+      },
       "title": "九尾幻鏡・真假魅語",
-      "intro": ["摘星樓的銅鏡把成語、諺語與俚語互相倒映，連真話也長出假的影子。", "妲己邀你猜鏡中話，申公豹則在每條岔路喊著：道友請留步。"],
-      "outro": ["最後一面幻鏡碎成桃花，朝歌百姓重新想起彼此熟悉的話語。", "界牌關上四劍齊鳴；通天教主已把封神榜最後一頁鎖進萬仙陣。"],
-      "guardianIds": ["su-daji", "shen-gongbao"],
+      "intro": [
+        "摘星樓的銅鏡把成語、諺語與俚語互相倒映，連真話也長出假的影子。",
+        "妲己邀你猜鏡中話，申公豹則在每條岔路喊著：道友請留步。"
+      ],
+      "outro": [
+        "最後一面幻鏡碎成桃花，朝歌百姓重新想起彼此熟悉的話語。",
+        "界牌關上四劍齊鳴；通天教主已把封神榜最後一頁鎖進萬仙陣。"
+      ],
+      "guardianIds": [
+        "su-daji",
+        "shen-gongbao"
+      ],
       "bossId": "boss-daji-shengongbao",
       "treasureId": "yinhun-deng"
     },
     {
       "id": 5,
       "mapRegion": "界牌關萬仙壇",
-      "position": { "x": 89, "y": 28 },
+      "position": {
+        "x": 89,
+        "y": 28
+      },
       "title": "萬仙封天・真言歸榜",
-      "intro": ["誅仙四劍截斷天地文脈，山河卷上只剩一條通往祭壇的金線。", "群仙將法寶之力交給你；這一戰要找回的不只是答案，而是人間共同的語言記憶。"],
-      "outro": ["四劍歸鞘，五片山河重新連成一卷，封神榜也恢復金光。", "若五段支線故事與五件法寶都已歸位，卷尾仍會浮出一頁從未有人讀過的空白天書。"],
-      "guardianIds": ["lei-zhenzi", "taiyi"],
+      "intro": [
+        "誅仙四劍截斷天地文脈，山河卷上只剩一條通往祭壇的金線。",
+        "群仙將法寶之力交給你；這一戰要找回的不只是答案，而是人間共同的語言記憶。"
+      ],
+      "outro": [
+        "四劍歸鞘，五片山河重新連成一卷，封神榜也恢復金光。",
+        "若五段支線故事與五件法寶都已歸位，卷尾仍會浮出一頁從未有人讀過的空白天書。"
+      ],
+      "guardianIds": [
+        "lei-zhenzi",
+        "taiyi"
+      ],
       "bossId": "boss-tongtian",
       "treasureId": "zhuxian-jian"
+    },
+    {
+      "id": 6,
+      "mapRegion": "上林苑賦台",
+      "position": {
+        "x": 14,
+        "y": 72
+      },
+      "title": "漢賦遺韻・鋪采摛文",
+      "intro": [
+        "封神一役收場，文脈卻只接回一半。山河卷翻過封面，露出第二卷——文林。",
+        "上林苑的賦台上堆著寫壞的竹簡，司馬相如背對著你：「辭賦不是堆字，是把看見的世界一寸一寸描給沒去過的人聽。」"
+      ],
+      "outro": [
+        "賦台上的竹簡自己排好了隊，鋪陳終於有了骨架。",
+        "司馬相如把案頭那塊裂了的青玉鎮紙推給你：「壓得住紙，才壓得住浮躁。」"
+      ],
+      "treasureId": "zhenzhi"
+    },
+    {
+      "id": 7,
+      "mapRegion": "新豐驛樂府坊",
+      "position": {
+        "x": 33,
+        "y": 84
+      },
+      "title": "樂府新聲・老嫗能解",
+      "intro": [
+        "文林第二站是驛站旁的樂府坊，牆上釘滿了退回來的詩稿。",
+        "白居易正把一首詩念給洗衣的老婆婆聽：「她聽不懂，就是我寫壞了。你也念一遍試試。」"
+      ],
+      "outro": [
+        "坊裡的歌開始傳出巷子，字句反而更短更狠。",
+        "白居易撕下一角澄心堂紙：「好紙留給說得清楚的人。」"
+      ],
+      "treasureId": "chengxin-zhi"
+    },
+    {
+      "id": 8,
+      "mapRegion": "採石磯月下渡",
+      "position": {
+        "x": 55,
+        "y": 90
+      },
+      "title": "盛唐詩陣・清水芙蓉",
+      "intro": [
+        "江面浮著一輪不肯散的月，李白坐在船頭，手邊的酒還是滿的。",
+        "「規矩我都會，只是不肯讓規矩替我說話。」他把一支禿了的紫毫拋過來，「你先寫，我來挑刺。」"
+      ],
+      "outro": [
+        "月影終於散開，江面照出一整片沒有匠氣的句子。",
+        "紫毫斷了鋒，卻比新筆更聽話。"
+      ],
+      "treasureId": "zihao-bi"
+    },
+    {
+      "id": 9,
+      "mapRegion": "黃州東坡雪堂",
+      "position": {
+        "x": 74,
+        "y": 76
+      },
+      "title": "宋詞元曲・以文為戲",
+      "intro": [
+        "雪堂的爐火半明半滅，蘇軾把貶謫令墊在硯台下當防滑墊。",
+        "「詞牌有格律，日子沒有。」他笑，「被格律綁住的人，才需要學會在裡面翻筋斗。」"
+      ],
+      "outro": [
+        "長短句在紙上跳起來，格律反而成了跳板。",
+        "爐邊那塊李廷珪墨碎了一角，磨出來的墨卻濃得化不開。"
+      ],
+      "treasureId": "tinggui-mo"
+    },
+    {
+      "id": 10,
+      "mapRegion": "瓦舍說書棚",
+      "position": {
+        "x": 90,
+        "y": 62
+      },
+      "title": "回目千秋・且聽下回",
+      "intro": [
+        "文林盡頭是一座擠滿人的說書棚。醒木先生一拍案，全場靜下來。",
+        "「一部書幾百回，靠的不是每回都精彩，是每回結尾都讓人捨不得走。你的字，留得住人嗎？」"
+      ],
+      "outro": [
+        "醒木最後一拍，滿棚的人卻沒散——他們在等你接著說。",
+        "端溪硯只剩半塊，硯池裡的墨卻映得出整條文脈：從封神的第一句成語，到今天你自己說出口的話。"
+      ],
+      "treasureId": "duanxi-yan"
     }
   ],
   "bosses": [
@@ -69,9 +216,21 @@
       "levelId": 10,
       "name": "乾坤太極陣靈",
       "phases": [
-        { "id": "yin", "name": "陰魚藏字", "rule": "先破解兩條釋義線索，點亮陰眼。" },
-        { "id": "yang", "name": "陽魚轉位", "rule": "交叉字格旋轉後，再破解兩條創意線索。" },
-        { "id": "unity", "name": "兩儀合一", "rule": "以最後一條真言封住陣心。" }
+        {
+          "id": "yin",
+          "name": "陰魚藏字",
+          "rule": "先破解兩條釋義線索，點亮陰眼。"
+        },
+        {
+          "id": "yang",
+          "name": "陽魚轉位",
+          "rule": "交叉字格旋轉後，再破解兩條創意線索。"
+        },
+        {
+          "id": "unity",
+          "name": "兩儀合一",
+          "rule": "以最後一條真言封住陣心。"
+        }
       ]
     },
     {
@@ -80,9 +239,21 @@
       "levelId": 20,
       "name": "三霄娘娘・混元金斗",
       "phases": [
-        { "id": "sand", "name": "九曲流沙", "rule": "沙漏倒數中破解兩條民間俗語。" },
-        { "id": "mirror", "name": "金斗倒映", "rule": "辨認一組意思相近但用法不同的句子。" },
-        { "id": "break", "name": "三花復明", "rule": "在剩餘時限內完成最長目標句。" }
+        {
+          "id": "sand",
+          "name": "九曲流沙",
+          "rule": "沙漏倒數中破解兩條民間俗語。"
+        },
+        {
+          "id": "mirror",
+          "name": "金斗倒映",
+          "rule": "辨認一組意思相近但用法不同的句子。"
+        },
+        {
+          "id": "break",
+          "name": "三花復明",
+          "rule": "在剩餘時限內完成最長目標句。"
+        }
       ]
     },
     {
@@ -91,9 +262,21 @@
       "levelId": 30,
       "name": "聞太師・十絕神目",
       "phases": [
-        { "id": "pillars", "name": "十柱護體", "rule": "每找對一句便擊碎一根對應煞柱。" },
-        { "id": "third-eye", "name": "神目辨偽", "rule": "從真假線索中選出與盤面相符者。" },
-        { "id": "thunder", "name": "雷火合圍", "rule": "提示受封印時完成最後兩句。" }
+        {
+          "id": "pillars",
+          "name": "十柱護體",
+          "rule": "每找對一句便擊碎一根對應煞柱。"
+        },
+        {
+          "id": "third-eye",
+          "name": "神目辨偽",
+          "rule": "從真假線索中選出與盤面相符者。"
+        },
+        {
+          "id": "thunder",
+          "name": "雷火合圍",
+          "rule": "提示受封印時完成最後兩句。"
+        }
       ]
     },
     {
@@ -102,9 +285,21 @@
       "levelId": 40,
       "name": "妲己與申公豹・雙面幻局",
       "phases": [
-        { "id": "fox", "name": "九尾魅語", "rule": "看破三則諧音與反話線索。" },
-        { "id": "daoist", "name": "道友留步", "rule": "拒絕錯誤捷徑，選出真正的交叉字。" },
-        { "id": "twins", "name": "雙鏡同碎", "rule": "連續完成成語與俗語各一條。" }
+        {
+          "id": "fox",
+          "name": "九尾魅語",
+          "rule": "看破三則諧音與反話線索。"
+        },
+        {
+          "id": "daoist",
+          "name": "道友留步",
+          "rule": "拒絕錯誤捷徑，選出真正的交叉字。"
+        },
+        {
+          "id": "twins",
+          "name": "雙鏡同碎",
+          "rule": "連續完成成語與俗語各一條。"
+        }
       ]
     },
     {
@@ -113,35 +308,96 @@
       "levelId": 50,
       "name": "通天教主・誅仙萬仙總陣",
       "phases": [
-        { "id": "four-swords", "name": "誅仙四門", "rule": "分別破解四方劍門守護的目標句。" },
-        { "id": "myriad", "name": "萬仙壓境", "rule": "在單次提示限制下完成三條互鎖真言。" },
-        { "id": "canon", "name": "真言歸榜", "rule": "完成終極句，依探索成果進入普通或真結局。" }
+        {
+          "id": "four-swords",
+          "name": "誅仙四門",
+          "rule": "分別破解四方劍門守護的目標句。"
+        },
+        {
+          "id": "myriad",
+          "name": "萬仙壓境",
+          "rule": "在單次提示限制下完成三條互鎖真言。"
+        },
+        {
+          "id": "canon",
+          "name": "真言歸榜",
+          "rule": "完成終極句，依探索成果進入普通或真結局。"
+        }
       ]
     }
   ],
   "treasures": [
-    { "id": "dashen-bian", "name": "打神鞭", "ability": "revealHiddenNode", "description": "顯示本章尚未發現的事件節點。" },
-    { "id": "qiankun-quan", "name": "乾坤圈", "ability": "openRouteShortcut", "description": "完成章內主線後，開啟一條返回未探索支線的捷徑。" },
-    { "id": "sanjian-liangren-dao", "name": "三尖兩刃刀", "ability": "previewEventChoice", "description": "每日一次預覽事件選項的效果類型。" },
-    { "id": "yinhun-deng", "name": "引魂燈", "ability": "revealDailyEncounter", "description": "直接標出當日奇遇所在的已解鎖區域。" },
-    { "id": "zhuxian-jian", "name": "誅仙劍", "ability": "unlockTrueEnding", "description": "集齊全部法寶與支線條件後，斬開空白天書入口。" }
+    {
+      "id": "dashen-bian",
+      "name": "打神鞭",
+      "ability": "revealHiddenNode",
+      "description": "顯示本章尚未發現的事件節點。"
+    },
+    {
+      "id": "qiankun-quan",
+      "name": "乾坤圈",
+      "ability": "openRouteShortcut",
+      "description": "完成章內主線後，開啟一條返回未探索支線的捷徑。"
+    },
+    {
+      "id": "sanjian-liangren-dao",
+      "name": "三尖兩刃刀",
+      "ability": "previewEventChoice",
+      "description": "每日一次預覽事件選項的效果類型。"
+    },
+    {
+      "id": "yinhun-deng",
+      "name": "引魂燈",
+      "ability": "revealDailyEncounter",
+      "description": "直接標出當日奇遇所在的已解鎖區域。"
+    },
+    {
+      "id": "zhuxian-jian",
+      "name": "誅仙劍",
+      "ability": "unlockTrueEnding",
+      "description": "集齊全部法寶與支線條件後，斬開空白天書入口。"
+    }
   ],
   "endings": {
     "normal": {
       "id": "ending-investiture",
       "title": "位列封神",
-      "requirements": { "completedAll": [50] },
+      "requirements": {
+        "completedAll": [
+          50
+        ]
+      },
       "summary": "通天總陣告破，封神榜重現人間。"
     },
     "true": {
       "id": "ending-words-return",
       "title": "人間真言",
       "requirements": {
-        "completedAll": [50],
+        "completedAll": [
+          50
+        ],
         "bossMinStars": 2,
-        "bossLevels": [10, 20, 30, 40, 50],
-        "eventsSeenAll": ["c1-lore-crane-letter", "c2-lore-river-song", "c3-lore-third-eye", "c4-lore-mirror", "c5-lore-four-gates"],
-        "treasuresAll": ["dashen-bian", "qiankun-quan", "sanjian-liangren-dao", "yinhun-deng", "zhuxian-jian"]
+        "bossLevels": [
+          10,
+          20,
+          30,
+          40,
+          50
+        ],
+        "eventsSeenAll": [
+          "c1-lore-crane-letter",
+          "c2-lore-river-song",
+          "c3-lore-third-eye",
+          "c4-lore-mirror",
+          "c5-lore-four-gates"
+        ],
+        "treasuresAll": [
+          "dashen-bian",
+          "qiankun-quan",
+          "sanjian-liangren-dao",
+          "yinhun-deng",
+          "zhuxian-jian"
+        ]
       },
       "summary": "五段失落故事與五件法寶令空白天書顯字，語言真正回到每個使用它的人手中。"
     }

@@ -189,6 +189,7 @@ if (/debug=1/.test(location.search)) (function () {
         <span class="ink-text-wrap">
           <small class="ink-tag">文思墨水</small>
           <span id="ink-amount">0</span>
+          <small id="ink-daily-note" class="ink-daily-note"></small>
         </span>
       </div>
     </div>
@@ -255,12 +256,13 @@ if (/debug=1/.test(location.search)) (function () {
 
         <div class="hint-bar">
           <span id="hint-quota" class="hint-quota hidden" aria-live="polite"></span>
-          <button type="button" id="btn-hint-circle" class="hint-btn">圈首字<small>1 墨</small></button>
-          <button type="button" id="btn-hint-flash" class="hint-btn">閃現整句<small>3 墨</small></button>
-          <button type="button" id="btn-hint-reveal" class="hint-btn">直接揭示<small>5 墨</small></button>
-          <button type="button" id="btn-earn-ink" class="hint-btn earn">賺墨水</button>
+          <span id="hint-star-outlook" class="hint-star-outlook" aria-live="polite"></span>
+          <button type="button" id="btn-hint-circle" class="hint-btn">借一字<small>1 墨・封頂 2★</small></button>
+          <button type="button" id="btn-hint-flash" class="hint-btn">借一句<small>3 墨・封頂 2★</small></button>
+          <button type="button" id="btn-hint-reveal" class="hint-btn">請仙人代筆<small>5 墨・封頂 1★</small></button>
+          <button type="button" id="btn-earn-ink" class="hint-btn earn">去研墨</button>
         </div>
-        <p class="ink-earning-note">墨水不足時，按「賺墨水」完成學習題；每題可得 1–2 墨。</p>
+        <p class="ink-earning-note">借了也沒關係——這句晚點會再來找你。墨只能自己研：答對選擇題 +1 墨、填字題 +2 墨。</p>
         <p id="hint-msg" class="hint-msg" aria-live="polite"></p>
       </aside>
     </div>
@@ -272,6 +274,9 @@ if (/debug=1/.test(location.search)) (function () {
       <h2 class="view-title">封神寶典</h2>
       <div class="collection-tabs">
         <button type="button" class="col-tab-btn active" data-coltab="phrases">📖 摘句典藏</button>
+        <button type="button" class="col-tab-btn" data-coltab="wrongbook">✍️ 待補的字</button>
+        <button type="button" class="col-tab-btn" data-coltab="treasures">🏺 法寶閣</button>
+        <button type="button" class="col-tab-btn" data-coltab="badges">🎖 破陣勳章</button>
         <button type="button" class="col-tab-btn" data-coltab="characters">🎎 封神群仙錄</button>
       </div>
     </div>
@@ -283,9 +288,31 @@ if (/debug=1/.test(location.search)) (function () {
 
     <!-- 摘句典藏分頁 -->
     <div id="coltab-pane-phrases" class="coltab-pane">
-      <p id="collection-empty" class="muted hidden">尚未收藏任何句子，到關卡中尋章摘句吧。</p>
-      <button type="button" id="btn-collection-review" class="ghost-btn collection-review-btn hidden">🔁 隨機複習 5 句</button>
+      <div id="collection-overview" class="collection-overview"></div>
+      <p id="collection-empty" class="muted hidden">卷冊空空，字還在陣裡等你。</p>
+      <button type="button" id="btn-collection-review" class="ghost-btn collection-review-btn hidden">🔁 今日待複習</button>
+      <div id="collection-typebars" class="collection-typebars"></div>
       <ul id="collection-list" class="collection-list"></ul>
+    </div>
+
+    <!-- 待補的字（錯題本）：wrongBook 與 mastery 早就存在存檔裡，只是從沒被畫出來過 -->
+    <div id="coltab-pane-wrongbook" class="coltab-pane hidden">
+      <p class="characters-tab-desc">這幾句還沒被你收服——不是不會，是還沒練夠。</p>
+      <button type="button" id="btn-wrongbook-drill" class="primary-btn hidden">現在就練這幾句</button>
+      <ul id="wrongbook-list" class="collection-list"></ul>
+      <p id="wrongbook-empty" class="muted hidden">目前沒有待補的字。走一趟字陣，讓它再出點難題。</p>
+    </div>
+
+    <!-- 法寶閣：五件法寶各十片碎片，原本關掉結算彈窗就再也看不到 -->
+    <div id="coltab-pane-treasures" class="coltab-pane hidden">
+      <p class="characters-tab-desc">碎片來自破陣。集齊十片，法寶的能力才會現身。</p>
+      <div id="treasure-gallery" class="treasure-gallery"></div>
+    </div>
+
+    <!-- 破陣勳章：徽章早就算好寫進存檔，卻只在破關那五秒露臉 -->
+    <div id="coltab-pane-badges" class="coltab-pane hidden">
+      <p class="characters-tab-desc">每關三枚：洞察無失誤、疾風破陣、研墨全通。缺哪一枚，回頭補得回來。</p>
+      <div id="badge-wall" class="badge-wall"></div>
     </div>
 
     <!-- 封神群仙錄分頁 -->
@@ -392,7 +419,15 @@ if (/debug=1/.test(location.search)) (function () {
     <p id="card-insight" class="card-insight"></p>
     <div id="card-review-nav" class="card-review-nav hidden">
       <span id="card-review-progress" class="card-review-progress"></span>
-      <button type="button" id="btn-card-review-next" class="primary-btn">下一句</button>
+      <div id="card-review-selfcheck" class="card-review-selfcheck">
+        <p class="muted">先自己想一遍這句是什麼意思，再翻牌。</p>
+        <button type="button" id="btn-card-review-flip" class="primary-btn">翻牌看解釋</button>
+      </div>
+      <div id="card-review-rate" class="card-review-rate hidden">
+        <button type="button" class="ghost-btn" data-rate="good">想得出來</button>
+        <button type="button" class="ghost-btn" data-rate="vague">有印象</button>
+        <button type="button" class="ghost-btn" data-rate="forgot">完全忘了</button>
+      </div>
     </div>
   </div>
 </div>
@@ -437,9 +472,10 @@ if (/debug=1/.test(location.search)) (function () {
       </div>
     </div>
 
-    <p class="timeout-desc muted">香已燃盡，陰陽逆轉。幸得仙人破界相救，速速重整旗鼓！</p>
+    <p class="timeout-desc muted">香已燃盡，但你破開的陣眼都算數，仙人替你留著。要接著打，還是從頭來過？</p>
     <div class="settings-actions">
-      <button type="button" id="btn-retry-level" class="primary-btn">仙人救駕・重新破陣</button>
+      <button type="button" id="btn-timeout-keep" class="primary-btn">保留已破陣眼・再燃一炷香</button>
+      <button type="button" id="btn-retry-level" class="ghost-btn">從頭重新破陣</button>
       <button type="button" id="btn-timeout-map" class="ghost-btn">暫退法壇・回大廳</button>
     </div>
   </div>
@@ -465,6 +501,9 @@ if (/debug=1/.test(location.search)) (function () {
       <h3 id="complete-title" class="complete-title" tabindex="-1" data-initial-focus>尋章功成・位列封神</h3>
       <p id="complete-array-name" class="complete-array-name">乾坤太極陣・第 1 關 陣眼破解</p>
       <p id="complete-stars" class="complete-stars"></p>
+      <div id="complete-promotion" class="complete-promotion hidden"></div>
+      <p id="complete-best" class="complete-best hidden"></p>
+      <p id="complete-nextgoal" class="complete-nextgoal hidden"></p>
       <p id="complete-streak" class="complete-streak hidden"></p>
       <div id="complete-badges" class="complete-badges hidden"></div>
 
