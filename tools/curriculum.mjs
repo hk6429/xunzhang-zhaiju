@@ -1,5 +1,5 @@
 /**
- * 尋章摘句 — 50 關課程表（SCHEMA v3 凍結表；產生器與驗證器共用，單一事實來源）
+ * 尋章摘句 — 100 關課程表（SCHEMA v3/v4；產生器與驗證器共用，單一事實來源）
  *
  * 每列欄位照 docs/SCHEMA.md「50 關課程表」逐格照抄：
  * 章 / 版型 / 尺寸 / 內容池 / 目標數 / timeLimit / hintCap / 線索曲線。
@@ -17,6 +17,13 @@ export const CHAPTER_TITLES = {
   9: '宋詞元曲',
   10: '回目千秋',
 };
+
+export const CLUE_STYLES = Object.freeze(['釋義', '急轉彎', '典故', '諧音', '情境', '換句話說']);
+export const IDIOM_TYPES = Object.freeze(['成語', '諺語', '俗語']);
+export const LIT_TYPES = Object.freeze([
+  '漢賦', '古詩十九首', '樂府詩', '新樂府詩', '歌行',
+  '唐詩', '宋詞', '元曲', '詞曲', '古文名句', '章回小說',
+]);
 
 const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
 
@@ -37,9 +44,9 @@ function add(ids, chapter, layout, size, pool, targets, timeLimit, hintCap, curv
 }
 
 // ── 第 1 章 初窺門徑 ──（關1–2 釋義；3 起輪換創意）
-add(range(1, 5),   1, 'full',  5,  '成語常用', [3, 3, 4, 4, 4], null, null, id => (id <= 2 ? '釋義' : '輪換'));
-add(range(6, 7),   1, 'cross', 7,  '成語常用', 4,               null, null, '輪換');
-add(range(8, 10),  1, 'cross', 8,  '成語常用', 5,               null, null, '輪換');
+add(range(1, 5),   1, 'full',  5,  '成語常用', [3, 3, 4, 4, 4], null, 3, id => (id <= 2 ? '釋義' : '輪換'));
+add(range(6, 7),   1, 'cross', 7,  '成語常用', 4,               null, 3, '輪換');
+add(range(8, 10),  1, 'cross', 8,  '成語常用', 5,               null, 3, '輪換');
 // ── 第 2 章 廟口智慧 ──（釋義/情境各半）
 add(range(11, 14), 2, 'full',  7,  '諺語俗語', [4, 4, 5, 5],    300, 3, '各半');
 add(range(15, 17), 2, 'cross', 9,  '諺語俗語', 4,               300, 3, '各半');
@@ -75,9 +82,9 @@ add(range(81, 84), 9, 'full',  16, '宋詞元曲',   [11, 11, 12, 12], 280, 1, '
 add(range(85, 87), 9, 'cross', 17, '宋詞元曲',   12,             270, 1, '幾乎全創意');
 add(range(88, 90), 9, 'cross', 17, '宋詞元曲',   13,             270, 1, '幾乎全創意');
 // ── 第 10 章 回目千秋 ──（全創意；關 100 終極魔王＝文學全庫、hintCap=0）
-add(range(91, 94), 10, 'full',  18, '章回小說',  [12, 12, 13, 13], 270, 1, '全創意');
-add(range(95, 97), 10, 'cross', 18, '章回小說',  13,             260, 1, '全創意');
-add(range(98, 99), 10, 'cross', 19, '章回小說',  14,             260, 1, '全創意');
+add(range(91, 94), 10, 'full',  18, '三國文獻',  [12, 12, 13, 13], 270, 1, '全創意');
+add(range(95, 97), 10, 'cross', 18, '三國文獻',  13,             260, 1, '全創意');
+add(range(98, 99), 10, 'cross', 19, '三國文獻',  14,             260, 1, '全創意');
 add(range(100, 100), 10, 'cross', 20, '文學全庫', 15,            420, 0, '全創意');
 
 export const CURRICULUM = C;
@@ -86,9 +93,7 @@ export const LEVEL_COUNT = C.length; // = 100
 export const charLen = t => [...t].length;
 export const isChengyu = p => p.type === '成語';
 
-const LIT_TYPES = ['漢賦', '古詩十九首', '樂府詩', '新樂府詩', '唐詩', '宋詞', '元曲', '章回小說'];
-
-/** 內容池成員判定（SCHEMA v3：成語·常用／成語·進階／諺語俗語／混合／全庫；v4：五大文學池） */
+/** 內容池成員判定（SCHEMA v3：成語·常用／成語·進階／諺語俗語／混合／全庫；v4：文學池） */
 export function inPool(p, pool) {
   switch (pool) {
     case '成語常用': return p.type === '成語' && p.level === '常用';
@@ -97,10 +102,10 @@ export function inPool(p, pool) {
     case '混合':     return p.type === '成語' || p.type === '諺語' || p.type === '俗語';
     case '全庫':     return p.type === '成語' || p.type === '諺語' || p.type === '俗語';
     case '漢賦十九首': return p.type === '漢賦' || p.type === '古詩十九首';
-    case '樂府新樂府': return p.type === '樂府詩' || p.type === '新樂府詩';
+    case '樂府新樂府': return p.type === '樂府詩' || p.type === '新樂府詩' || p.type === '歌行';
     case '唐詩':       return p.type === '唐詩';
     case '宋詞元曲':   return p.type === '宋詞' || p.type === '元曲';
-    case '章回小說':   return p.type === '章回小說';
+    case '三國文獻':   return p.type === '章回小說' || p.type === '詞曲' || p.type === '古文名句';
     case '文學全庫':   return LIT_TYPES.includes(p.type);
     default: throw new Error(`未知內容池：${pool}`);
   }

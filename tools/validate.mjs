@@ -20,12 +20,14 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { CURRICULUM, LEVEL_COUNT, inPool, isChengyu, charLen, expectedTargetCounts } from './curriculum.mjs';
+import {
+  CLUE_STYLES, CURRICULUM, IDIOM_TYPES, LEVEL_COUNT, LIT_TYPES,
+  inPool, isChengyu, charLen, expectedTargetCounts,
+} from './curriculum.mjs';
 
-const CLUE_STYLES = new Set(['釋義', '急轉彎', '典故', '諧音', '情境']);
-const IDIOM_TYPES = new Set(['成語', '諺語', '俗語']);
-const LIT_TYPES = new Set(['漢賦', '古詩十九首', '樂府詩', '新樂府詩', '唐詩', '宋詞', '元曲', '章回小說']);
 const TYPE_SET = new Set([...IDIOM_TYPES, ...LIT_TYPES]);
+const IDIOM_TYPE_SET = new Set(IDIOM_TYPES);
+const LIT_TYPE_SET = new Set(LIT_TYPES);
 const LEVEL_SET = new Set(['常用', '進階']);
 
 // 常見簡體字元黑名單（僅收與繁體字形不同的簡化字）
@@ -90,11 +92,11 @@ function main() {
     // v4：type / level 枚舉；成語/諺語/俗語禁帶外部來源欄位，8 種文學 type 必填 author/dynasty
     if (!TYPE_SET.has(p.type)) V(`${tag}：type「${p.type}」不在枚舉內`);
     if (!LEVEL_SET.has(p.level)) V(`${tag}：level「${p.level}」不在枚舉 常用/進階`);
-    if (IDIOM_TYPES.has(p.type)) {
+    if (IDIOM_TYPE_SET.has(p.type)) {
       for (const field of ['source', 'author', 'origin_work', 'dynasty']) {
         if (field in p) V(`${tag}：不得保留 ${field} 欄位，釋義須為站內原創白話內容`);
       }
-    } else if (LIT_TYPES.has(p.type)) {
+    } else if (LIT_TYPE_SET.has(p.type)) {
       for (const field of ['source', 'origin_work']) {
         if (field in p) V(`${tag}：不得保留 ${field} 欄位，釋義須為站內原創白話內容`);
       }
@@ -115,7 +117,7 @@ function main() {
       if ((p.type === '諺語' || p.type === '俗語') && (len < 4 || len > 9)) {
         V(`${tag}：${p.type} text「${p.text}」長度 ${len}，須為 4–9 字`);
       }
-      if (LIT_TYPES.has(p.type) && (len < 4 || len > 14)) {
+      if (LIT_TYPE_SET.has(p.type) && (len < 4 || len > 14)) {
         V(`${tag}：${p.type} text「${p.text}」長度 ${len}，須為 4–14 字`);
       }
       if (seenTexts.has(p.text)) V(`${tag}：text「${p.text}」重複`);
@@ -141,7 +143,7 @@ function main() {
     for (const [j, c] of p.clues.entries()) {
       const ctag = `${tag} clues[${j}]`;
       if (!c || typeof c.text !== 'string' || c.text === '') { V(`${ctag}：缺 text`); continue; }
-      if (!CLUE_STYLES.has(c.style)) V(`${ctag}：style「${c.style}」不在枚舉內`);
+    if (!CLUE_STYLES.includes(c.style)) V(`${ctag}：style「${c.style}」不在枚舉內`);
       const m = c.text.match(SIMPLIFIED_RE);
       if (m) V(`${ctag}：含簡體字「${m[0]}」`);
       if (typeof p.text === 'string' && c.text.includes(p.text)) V(`${ctag}：含完整條目「${p.text}」`);
