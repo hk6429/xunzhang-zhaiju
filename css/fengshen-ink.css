@@ -2839,6 +2839,25 @@ main:has(#view-collection:not(.hidden)) {
   border-radius: 5px 18px 6px 15px;
 }
 
+/* 手機中文鍵盤開啟時，iOS 不一定會更新 fixed 元素的 layout viewport。
+   由 game.js 寫入 Visual Viewport，讓研墨填空列保持在鍵盤上方。 */
+.modal-backdrop {
+  top: var(--xzzj-visible-viewport-top, 0px);
+  right: 0;
+  bottom: auto;
+  left: 0;
+  width: 100%;
+  height: var(--xzzj-visible-viewport-height, 100dvh);
+}
+
+.modal {
+  max-height: calc(var(--xzzj-visible-viewport-height, 100dvh) - 2rem);
+}
+
+.quiz-fill input {
+  scroll-margin-block: 1rem;
+}
+
 .modal-close {
   width: 44px;
   height: 44px;
@@ -3036,7 +3055,7 @@ main:has(#view-collection:not(.hidden)) {
 
   .modal {
     width: 100%;
-    max-height: calc(100dvh - 1.2rem);
+    max-height: calc(var(--xzzj-visible-viewport-height, 100dvh) - 1.2rem);
   }
 }
 

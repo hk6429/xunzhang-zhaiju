@@ -31,6 +31,18 @@ const BAGUA_RUNES = ['乾', '坤', '坎', '離', '震', '巽', '艮', '兌', '�
 
 const $ = (id) => document.getElementById(id);
 
+// iOS 的固定定位彈窗不一定會隨中文鍵盤縮小 layout viewport。
+// 改以 Visual Viewport 為準，讓研墨填空欄仍留在玩家看得到的範圍內。
+export function quizViewportMetrics({ innerHeight = 0, visualViewport = null } = {}) {
+  const fallbackHeight = Number.isFinite(innerHeight) ? Math.max(0, innerHeight) : 0;
+  const visualHeight = Number(visualViewport?.height);
+  const offsetTop = Number(visualViewport?.offsetTop);
+  return {
+    height: Number.isFinite(visualHeight) && visualHeight > 0 ? visualHeight : fallbackHeight,
+    offsetTop: Number.isFinite(offsetTop) && offsetTop > 0 ? offsetTop : 0,
+  };
+}
+
 function fmtTime(sec) {
   const m = Math.floor(sec / 60);
   const s = sec % 60;
@@ -976,6 +988,31 @@ export function startLevel(ctx) {
   // ── 學習題（研墨答題・太乙真人/姜太公擔任考官） ────
   let quiz = null;
   let currentExaminer = null;
+  const visualViewport = window.visualViewport;
+
+  function syncQuizViewport() {
+    const metrics = quizViewportMetrics({ innerHeight: window.innerHeight, visualViewport });
+    document.documentElement.style.setProperty('--xzzj-visible-viewport-height', `${metrics.height}px`);
+    document.documentElement.style.setProperty('--xzzj-visible-viewport-top', `${metrics.offsetTop}px`);
+  }
+
+  function keepQuizInputVisible() {
+    const input = $('quiz-fill-input');
+    if (!quiz || input.disabled || $('quiz-fill').classList.contains('hidden')) return;
+    requestAnimationFrame(() => input.scrollIntoView({ block: 'center' }));
+  }
+
+  function handleQuizViewportChange() {
+    syncQuizViewport();
+    keepQuizInputVisible();
+  }
+
+  syncQuizViewport();
+  window.addEventListener('resize', handleQuizViewportChange);
+  if (visualViewport) {
+    visualViewport.addEventListener('resize', handleQuizViewportChange);
+    visualViewport.addEventListener('scroll', handleQuizViewportChange);
+  }
 
   function openQuiz() {
     const targetIds = level.targets.map((t) => t.phraseId);
@@ -1033,7 +1070,8 @@ export function startLevel(ctx) {
       fillBox.classList.remove('hidden');
       const input = $('quiz-fill-input');
       input.value = '';
-      input.focus();
+      input.focus({ preventScroll: true });
+      keepQuizInputVisible();
     }
   }
 
@@ -1315,6 +1353,13 @@ export function startLevel(ctx) {
       if (companionWidget) companionWidget.removeEventListener('click', handleCompanionClick);
       if (cutinOverlay) cutinOverlay.removeEventListener('click', handleCutinDismiss);
       for (const [el, ev, fn] of listeners) el.removeEventListener(ev, fn);
+      window.removeEventListener('resize', handleQuizViewportChange);
+      if (visualViewport) {
+        visualViewport.removeEventListener('resize', handleQuizViewportChange);
+        visualViewport.removeEventListener('scroll', handleQuizViewportChange);
+      }
+      document.documentElement.style.removeProperty('--xzzj-visible-viewport-height');
+      document.documentElement.style.removeProperty('--xzzj-visible-viewport-top');
       grid.destroy();
       $('cross-input-row').classList.add('hidden');
       $('timer-display').classList.add('hidden');
