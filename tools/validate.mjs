@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 /**
- * 尋章摘句 — 關卡硬性驗證 v3
+ * 尋章摘句 — 關卡硬性驗證 v4
  *
  * 用法：node tools/validate.mjs <phrases.json路徑> <levels.json路徑>
  *
- * v3 增驗：
+ * v3/v4 增驗：
  * - phrases：type 枚舉擴充（成語/諺語/俗語）、level 枚舉（常用/進階）、
  *   text 長度依 type（成語＝4 字；諺語/俗語＝4–9 字）、
  *   meaning／insight 必須為站內原創白話內容，不保留 source／author／origin_work；
  *   clues 規則不變（≥3、必含釋義、style 枚舉、不含完整條目/相鄰兩字連用、無簡體）。
- * - levels：關數＝50、逐關對照課程表六欄（章/版型/尺寸/目標數/timeLimit/hintCap，
+ * - levels：關數＝100、逐關對照課程表六欄（章/版型/尺寸/目標數/timeLimit/hintCap，
  *   另驗 chapterTitle）；目標數含語料不足退化（與產生器同一套 expectedTargetCounts）；
  *   目標須屬該關內容池且長度 ≤ 尺寸；混合池關卡驗池別配比（各半、餘數成語多一）；
  *   full 的意外詞掃描對「全語料所有長度」逐條掃（每條以自身長度掃，涵蓋 4–9 字）；
@@ -143,7 +143,7 @@ function main() {
     for (const [j, c] of p.clues.entries()) {
       const ctag = `${tag} clues[${j}]`;
       if (!c || typeof c.text !== 'string' || c.text === '') { V(`${ctag}：缺 text`); continue; }
-    if (!CLUE_STYLES.includes(c.style)) V(`${ctag}：style「${c.style}」不在枚舉內`);
+      if (!CLUE_STYLES.includes(c.style)) V(`${ctag}：style「${c.style}」不在枚舉內`);
       const m = c.text.match(SIMPLIFIED_RE);
       if (m) V(`${ctag}：含簡體字「${m[0]}」`);
       if (typeof p.text === 'string' && c.text.includes(p.text)) V(`${ctag}：含完整條目「${p.text}」`);
