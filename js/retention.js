@@ -6,7 +6,7 @@ export const REST_AFTER_MINUTES = 25;
 export const REST_AFTER_LEVELS = 3;
 
 export const PLAY_MODES = Object.freeze({
-  explore: Object.freeze({ id: 'explore', label: '悟道', timeMultiplier: 1.2, hintAdjustment: 1, maxStars: 2 }),
+  explore: Object.freeze({ id: 'explore', label: '悟道', timeMultiplier: 1.2, hintAdjustment: 1, maxStars: 3 }),
   standard: Object.freeze({ id: 'standard', label: '標準', timeMultiplier: 1, hintAdjustment: 0, maxStars: 3 }),
   challenge: Object.freeze({ id: 'challenge', label: '天劫', timeMultiplier: 0.8, hintAdjustment: -1, maxStars: 3 }),
 });
@@ -25,11 +25,26 @@ export const CULTIVATION_RANKS = Object.freeze([
   Object.freeze({ need: 420, title: '文曲星君' }),
 ]);
 
-const QUEST_DEFS = Object.freeze([
-  Object.freeze({ id: 'clear-level', label: '破解 1 座字陣', event: 'level-complete', target: 1 }),
-  Object.freeze({ id: 'quiz-correct', label: '研墨答對 5 題', event: 'quiz-correct', target: 5 }),
-  Object.freeze({ id: 'find-phrases', label: '尋得 3 句真言', event: 'phrase-found', target: 3 }),
+// 每日任務輪替：每組每天由日期種子挑一款，同日固定、跨日輪替
+const QUEST_POOLS = Object.freeze([
+  Object.freeze([
+    Object.freeze({ id: 'clear-level', label: '破解 1 座字陣', event: 'level-complete', target: 1 }),
+    Object.freeze({ id: 'clear-level-2', label: '破解 2 座字陣', event: 'level-complete', target: 2 }),
+  ]),
+  Object.freeze([
+    Object.freeze({ id: 'quiz-correct-3', label: '研墨答對 3 題', event: 'quiz-correct', target: 3 }),
+    Object.freeze({ id: 'quiz-correct', label: '研墨答對 5 題', event: 'quiz-correct', target: 5 }),
+    Object.freeze({ id: 'quiz-correct-7', label: '研墨答對 7 題', event: 'quiz-correct', target: 7 }),
+  ]),
+  Object.freeze([
+    Object.freeze({ id: 'find-phrases', label: '尋得 3 句真言', event: 'phrase-found', target: 3 }),
+    Object.freeze({ id: 'find-phrases-5', label: '尋得 5 句真言', event: 'phrase-found', target: 5 }),
+  ]),
 ]);
+
+export function questsForDate(dateKey) {
+  return QUEST_POOLS.map((pool, index) => pool[hashSeed(`xzzj-quest:${dateKey}:${index}`) % pool.length]);
+}
 
 function finiteInt(value, fallback = 0, min = 0) {
   return Number.isFinite(value) ? Math.max(min, Math.floor(value)) : fallback;
@@ -131,6 +146,8 @@ export function normalizeRetention(value) {
         correct: finiteInt(item.correct),
         wrong: finiteInt(item.wrong),
         correctStreak: finiteInt(item.correctStreak),
+        // 舊存檔沒有 fillCorrect：已精熟者視同補過填空，不因新門檻被降級
+        fillCorrect: finiteInt(item.fillCorrect, item.mastered ? 1 : 0),
         mastered: !!item.mastered,
         lastAnsweredAt: textOrNull(item.lastAnsweredAt),
         nextReviewAt: textOrNull(item.nextReviewAt),
@@ -436,7 +453,7 @@ export function ensureDailyPlan(save, { now = new Date(), phrases = [], quickCou
   if (retention.daily?.dateKey === dateKey) return retention.daily;
   retention.daily = {
     dateKey,
-    quests: QUEST_DEFS.map((quest) => ({ ...quest, progress: 0, completed: false })),
+    quests: questsForDate(dateKey).map((quest) => ({ ...quest, progress: 0, completed: false })),
     quickChallenge: createDailyQuickChallenge(phrases, { dateKey, count: quickCount }),
     quizRewardedPhraseIds: [],
     completedAt: null,
@@ -484,12 +501,12 @@ export function recordQuickChallengeResult(save, { score = 0, durationMs = 0, no
   return { improved: better, best: { ...(daily.quickChallenge.best || candidate) } };
 }
 
-export function recordQuizAnswer(save, phraseId, { correct, now = new Date() } = {}) {
+export function recordQuizAnswer(save, phraseId, { correct, kind = 'choice', now = new Date() } = {}) {
   if (!phraseId) return { rewardEligible: false, mastered: false, inWrongBook: false };
   const retention = ensureRetention(save);
   const daily = ensureDailyPlan(save, { now });
   const item = retention.mastery[phraseId] || {
-    answered: 0, correct: 0, wrong: 0, correctStreak: 0, mastered: false,
+    answered: 0, correct: 0, wrong: 0, correctStreak: 0, fillCorrect: 0, mastered: false,
     lastAnsweredAt: null, nextReviewAt: null,
   };
   item.answered += 1;
@@ -497,7 +514,9 @@ export function recordQuizAnswer(save, phraseId, { correct, now = new Date() } =
   if (correct) {
     item.correct += 1;
     item.correctStreak += 1;
-    item.mastered = item.correctStreak >= 3;
+    if (kind === 'fill') item.fillCorrect = finiteInt(item.fillCorrect) + 1;
+    // 精熟門檻：三連對之外，至少要答對過一次填空題（會選不等於會寫）
+    item.mastered = item.correctStreak >= 3 && finiteInt(item.fillCorrect) >= 1;
     const REVIEW_LADDER = [1, 3, 7, 14, 30];
     const reviewDays = REVIEW_LADDER[Math.min(REVIEW_LADDER.length - 1, Math.max(0, item.correctStreak - 1))];
     item.nextReviewAt = new Date(new Date(now).getTime() + reviewDays * 86400000).toISOString();

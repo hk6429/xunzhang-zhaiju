@@ -91,13 +91,13 @@ test('行動版先顯示玩法且浮動在線人數不遮住對話框或遊戲',
   assert.match(css, /body:has\(#view-game:not\(\.hidden\)\) \.online-presence\s*\{\s*display:\s*none/);
 });
 
-test('答對特寫完整收在安全範圍內並保留五秒或點擊關閉', () => {
+test('答對特寫完整收在安全範圍內並保留三秒或點擊關閉', () => {
   assert.match(css, /\.cutin-content\s*\{[\s\S]*grid-template-columns:[\s\S]*max-width:\s*1120px/);
   assert.match(css, /\.cutin-character-stage \.fengshen-avatar-img\s*\{[\s\S]*max-width:\s*100%[\s\S]*object-fit:\s*cover/);
   assert.match(css, /\.cutin-kanji-stamp[\s\S]*white-space:\s*nowrap/);
-  assert.match(gameJs, /CUTIN_DISPLAY_MS\s*=\s*5000/);
+  assert.match(gameJs, /CUTIN_DISPLAY_MS\s*=\s*3000/);
   assert.match(gameJs, /addEventListener\('click', handleCutinDismiss\)/);
-  assert.match(html, /5 秒後自動返回・點一下可略過/);
+  assert.match(html, /3 秒後自動返回・點一下可略過/);
 });
 
 test('破關結算仙人圖限制在頭像框且學習摘要使用實色底', () => {

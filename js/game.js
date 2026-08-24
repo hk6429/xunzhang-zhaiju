@@ -241,7 +241,7 @@ export function startLevel(ctx) {
   }
 
   // ── 破陣 Cut-in 漫畫特寫動畫 ───────────
-  const CUTIN_DISPLAY_MS = 5000;
+  const CUTIN_DISPLAY_MS = 3000;
   let cutinTimer = null;
   let cutinHideTimer = null;
 
@@ -1098,7 +1098,7 @@ export function startLevel(ctx) {
     save.quizStats.answered += 1;
     quizAnsweredThisRun += 1;
     if (correct) quizCorrectThisRun += 1;
-    const masteryResult = recordQuizAnswer(save, q.phraseId, { correct });
+    const masteryResult = recordQuizAnswer(save, q.phraseId, { correct, kind: q.type === 'choice' ? 'choice' : 'fill' });
     const examAvatar = $('quiz-examiner-avatar');
     const examQuote = $('quiz-examiner-quote');
 

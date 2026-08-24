@@ -11,6 +11,7 @@ import {
   ensureDailyPlan,
   getUnfinishedRun,
   grantTreasureFragment,
+  questsForDate,
   recordDailyProgress,
   recordLevelAttempt,
   recordLevelCompletion,
@@ -66,7 +67,7 @@ test('共享的稱號、圖鑑練習、每日計數與匿名班級資料可安�
 test('探索／標準／挑戰模式調整時間、提示與星等上限', () => {
   const level = { timeLimit: 300, hintCap: 2 };
   assert.deepEqual(applyModeToLevel(level, 'explore'), {
-    mode: 'explore', label: '悟道', timeLimit: 360, hintCap: 3, maxStars: 2,
+    mode: 'explore', label: '悟道', timeLimit: 360, hintCap: 3, maxStars: 3,
   });
   assert.deepEqual(applyModeToLevel(level, 'standard'), {
     mode: 'standard', label: '標準', timeLimit: 300, hintCap: 2, maxStars: 3,
@@ -128,7 +129,7 @@ test('法寶碎片依來源冪等落盤，達上限後完成', () => {
   assert.deepEqual(two, { granted: true, total: 2, complete: true });
 });
 
-test('mastery、錯題簿與每日同題防刷共同運作', () => {
+test('mastery、錯題簿與每日同題防刷共同運作，精熟需含填空題', () => {
   const save = defaultSave();
   const wrong = recordQuizAnswer(save, 'p1', { correct: false, now: DAY_1 });
   assert.equal(wrong.inWrongBook, true);
@@ -139,7 +140,20 @@ test('mastery、錯題簿與每日同題防刷共同運作', () => {
   assert.equal(repeated.inWrongBook, false);
   const third = recordQuizAnswer(save, 'p1', { correct: true, now: DAY_2 });
   assert.equal(third.rewardEligible, true);
-  assert.equal(third.mastered, true);
+  assert.equal(third.mastered, false); // 三連對但全是選擇題，還不算精熟
+  const fill = recordQuizAnswer(save, 'p1', { correct: true, kind: 'fill', now: DAY_2 });
+  assert.equal(fill.mastered, true);
+});
+
+test('舊存檔已精熟的語句不因新填空門檻被降級', () => {
+  const input = defaultSave();
+  input.retention.mastery = {
+    p1: { answered: 3, correct: 3, wrong: 0, correctStreak: 3, mastered: true },
+  };
+  const save = validateSave(input);
+  assert.equal(save.retention.mastery.p1.fillCorrect, 1);
+  const next = recordQuizAnswer(save, 'p1', { correct: true, now: DAY_1 });
+  assert.equal(next.mastered, true);
 });
 
 test('墨水柔性上限會截斷獎勵，重複題不給獎', () => {
@@ -151,18 +165,30 @@ test('墨水柔性上限會截斷獎勵，重複題不給獎', () => {
 
 test('每日任務按日期建立、累積完成並維持連續紀錄', () => {
   const save = defaultSave();
-  ensureDailyPlan(save, { now: DAY_1, phrases });
-  recordDailyProgress(save, 'level-complete', 1, DAY_1);
-  recordDailyProgress(save, 'quiz-correct', 5, DAY_1);
-  recordDailyProgress(save, 'phrase-found', 3, DAY_1);
+  const completePlan = (day) => {
+    const plan = ensureDailyPlan(save, { now: day, phrases });
+    for (const quest of plan.quests) recordDailyProgress(save, quest.event, quest.target, day);
+  };
+  completePlan(DAY_1);
   assert.ok(save.retention.daily.completedAt);
   assert.equal(save.retention.streak.current, 1);
-  ensureDailyPlan(save, { now: DAY_2, phrases });
-  recordDailyProgress(save, 'level-complete', 1, DAY_2);
-  recordDailyProgress(save, 'quiz-correct', 5, DAY_2);
-  recordDailyProgress(save, 'phrase-found', 3, DAY_2);
+  completePlan(DAY_2);
   assert.equal(save.retention.streak.current, 2);
   assert.equal(save.retention.streak.best, 2);
+});
+
+test('每日任務同日固定、跨日輪替且三事件各佔一格', () => {
+  assert.deepEqual(questsForDate('2026-08-18'), questsForDate('2026-08-18'));
+  const combos = new Set();
+  for (let day = 1; day <= 14; day++) {
+    const quests = questsForDate(`2026-08-${String(day).padStart(2, '0')}`);
+    assert.deepEqual(
+      quests.map((quest) => quest.event),
+      ['level-complete', 'quiz-correct', 'phrase-found'],
+    );
+    combos.add(quests.map((quest) => quest.id).join('|'));
+  }
+  assert.ok(combos.size >= 2, '兩週內任務組合應該至少輪出兩種');
 });
 
 test('每日快陣同日同語料結果固定，最佳成績只向上更新', () => {
