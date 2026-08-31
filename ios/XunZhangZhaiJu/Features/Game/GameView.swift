@@ -548,10 +548,12 @@ private struct GameLearningQuizView: View {
 }
 
 private enum NativeGameFeedback {
+    @MainActor
     static func success() {
         UINotificationFeedbackGenerator().notificationOccurred(.success)
     }
 
+    @MainActor
     static func error() {
         UINotificationFeedbackGenerator().notificationOccurred(.error)
     }
