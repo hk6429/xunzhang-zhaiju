@@ -63,6 +63,36 @@ struct ProgressRepository: Sendable {
         }
     }
 
+    func applyRemoteSnapshot(
+        namespace: String,
+        schemaVersion: Int,
+        payload: Data,
+        serverRevision: Int64,
+        acceptedEventIDs: [String],
+        syncedAt: Date
+    ) throws {
+        try database.writer.write { db in
+            try ProgressSnapshotRecord(
+                namespace: namespace,
+                schemaVersion: schemaVersion,
+                payload: payload,
+                updatedAt: syncedAt,
+                serverRevision: serverRevision
+            ).save(db)
+
+            for eventID in acceptedEventIDs {
+                try db.execute(
+                    sql: "UPDATE progressEvent SET syncedAt = ? WHERE namespace = ? AND id = ?",
+                    arguments: [syncedAt, namespace, eventID]
+                )
+                try db.execute(
+                    sql: "DELETE FROM syncOutbox WHERE namespace = ? AND eventID = ?",
+                    arguments: [namespace, eventID]
+                )
+            }
+        }
+    }
+
     func nextSequence(namespace: String, deviceID: String) throws -> Int64 {
         try database.reader.read { db in
             let maximum = try Int64.fetchOne(

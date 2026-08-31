@@ -1,9 +1,15 @@
+import AuthenticationServices
+import GoogleSignIn
+import GoogleSignInSwift
 import SwiftUI
+import UIKit
 
 struct ProfileView: View {
     @EnvironmentObject private var container: AppContainer
     @AppStorage("play-mode") private var playMode = PlayMode.standard.rawValue
     @State private var restMessage = ""
+    @State private var appleNonce: (raw: String, hash: String)?
+    @State private var authMessage = ""
 
     var body: some View {
         ScrollView {
@@ -74,16 +80,111 @@ struct ProfileView: View {
     }
 
     private var syncCard: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Label("訪客模式・完整離線可玩", systemImage: "iphone.and.arrow.forward")
+        VStack(alignment: .leading, spacing: 12) {
+            Label(container.isSignedIn ? "跨裝置同步已開啟" : "訪客模式・完整離線可玩", systemImage: "iphone.and.arrow.forward")
                 .font(.headline)
-            Text("Apple／Google 登入與 Turso 跨裝置同步將在同步階段啟用；本機進度已由 SQLite 保存。")
+            Text(syncDescription)
+                .font(.subheadline)
                 .foregroundStyle(AppTheme.secondaryText)
+
+            if container.isSignedIn {
+                HStack {
+                    Button("立即同步") { Task { await container.syncNow() } }
+                        .buttonStyle(.borderedProminent)
+                        .disabled(container.syncState == .syncing)
+                    Button("登出", role: .destructive) {
+                        GIDSignIn.sharedInstance.signOut()
+                        container.signOut()
+                    }
+                    .buttonStyle(.bordered)
+                }
+            } else if SyncConfiguration.baseURL != nil {
+                SignInWithAppleButton(.signIn) { request in
+                    do {
+                        let nonce = try AuthNonce.make()
+                        appleNonce = nonce
+                        request.requestedScopes = [.email]
+                        request.nonce = nonce.hash
+                    } catch {
+                        authMessage = error.localizedDescription
+                    }
+                } onCompletion: { result in
+                    handleApple(result)
+                }
+                .signInWithAppleButtonStyle(.white)
+                .frame(height: 44)
+
+                if SyncConfiguration.googleIsConfigured {
+                    GoogleSignInButton(action: signInWithGoogle)
+                        .frame(height: 44)
+                } else {
+                    Text("Google 登入待填入正式 OAuth client ID。")
+                        .font(.caption)
+                        .foregroundStyle(AppTheme.secondaryText)
+                }
+            } else {
+                Text("同步服務尚未部署；目前所有進度仍安全保存在本機。")
+                    .font(.caption)
+                    .foregroundStyle(AppTheme.secondaryText)
+            }
+
+            if !authMessage.isEmpty {
+                Text(authMessage).font(.caption).foregroundStyle(.orange)
+            }
         }
         .foregroundStyle(AppTheme.primaryText)
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 20))
+    }
+
+    private var syncDescription: String {
+        switch container.syncState {
+        case .idle:
+            return container.isSignedIn ? "登入身分已保存在 Keychain；有網路時可同步 iPhone、iPad 與 Web 進度。" : "不登入也能玩完整 100 關；登入只用來跨裝置同步。"
+        case .syncing:
+            return "正在合併本機與雲端進度……"
+        case let .synced(date):
+            return "最近同步：\(date.formatted(date: .omitted, time: .shortened))"
+        case let .failed(message):
+            return "尚未同步：\(message)"
+        }
+    }
+
+    private func handleApple(_ result: Result<ASAuthorization, Error>) {
+        defer { appleNonce = nil }
+        do {
+            let authorization = try result.get()
+            guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential,
+                  let data = credential.identityToken,
+                  let idToken = String(data: data, encoding: .utf8),
+                  let nonce = appleNonce else {
+                authMessage = "Apple 沒有回傳可驗證的登入憑證。"
+                return
+            }
+            Task { await container.signIn(provider: .apple, idToken: idToken, nonce: nonce.hash) }
+        } catch {
+            authMessage = error.localizedDescription
+        }
+    }
+
+    private func signInWithGoogle() {
+        guard let presenter = UIApplication.shared.activeRootViewController else {
+            authMessage = "找不到可顯示 Google 登入的畫面。"
+            return
+        }
+        Task {
+            do {
+                let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: presenter)
+                guard let token = result.user.idToken?.tokenString else {
+                    authMessage = "Google 沒有回傳 ID token。"
+                    return
+                }
+                await container.signIn(provider: .google, idToken: token)
+            } catch {
+                authMessage = error.localizedDescription
+            }
+        }
     }
 
     private var restCard: some View {
@@ -147,5 +248,16 @@ struct ProfileView: View {
         let current = ranks.last { cultivationScore >= $0.0 } ?? ranks[0]
         let next = ranks.first { $0.0 > cultivationScore }?.0 ?? current.0
         return (current.1, next)
+    }
+}
+
+private extension UIApplication {
+    @MainActor
+    var activeRootViewController: UIViewController? {
+        connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .first { $0.activationState == .foregroundActive }?
+            .keyWindow?
+            .rootViewController
     }
 }

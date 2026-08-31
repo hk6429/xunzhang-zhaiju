@@ -75,6 +75,27 @@ final class ProgressRepositoryTests: XCTestCase {
         XCTAssertTrue(try repository.pendingOutbox(namespace: "guest:one").isEmpty)
     }
 
+    func testRemoteSnapshotAcknowledgesOnlyAcceptedOutboxEvents() throws {
+        let repository = ProgressRepository(database: try AppDatabase.inMemory())
+        let first = fixture(namespace: "user:one", revision: 1)
+        let second = fixture(namespace: "user:one", revision: 2)
+        try repository.apply(first)
+        try repository.apply(second)
+
+        try repository.applyRemoteSnapshot(
+            namespace: "user:one",
+            schemaVersion: 1,
+            payload: second.snapshot.payload,
+            serverRevision: 7,
+            acceptedEventIDs: [first.event.id],
+            syncedAt: Date()
+        )
+
+        XCTAssertEqual(try repository.snapshot(namespace: "user:one")?.serverRevision, 7)
+        XCTAssertEqual(try repository.pendingOutbox(namespace: "user:one").map(\.eventID), [second.event.id])
+        XCTAssertNotNil(try repository.events(namespace: "user:one").first?.syncedAt)
+    }
+
     private func fixture(namespace: String, revision: Int64) -> ProgressMutation {
         let suffix = namespace.replacingOccurrences(of: ":", with: "-")
         let payload = Data(#"{"v":1,"ink":3}"#.utf8)

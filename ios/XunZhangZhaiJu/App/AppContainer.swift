@@ -11,22 +11,58 @@ final class AppContainer: ObservableObject {
     @Published private(set) var content: AppContent?
     @Published private(set) var progress: LocalAppProgress
     @Published private(set) var practices: [String: LocalPhrasePracticeRecord]
+    @Published private(set) var backendSession: BackendSession?
+    @Published private(set) var syncState: SyncState
 
     private let repository: ProgressRepository?
     private let deviceID: String?
-    private let namespace: String?
+    private var namespace: String?
     private let encoder = JSONEncoder()
+    private let decoder = JSONDecoder()
+    private let keychain = KeychainStore()
+    private let syncClient = SyncClient()
 
     init() {
         do {
+            let initialEncoder = JSONEncoder()
+            let initialDecoder = JSONDecoder()
             let loadedContent = try ContentLoader().load()
             let database = try AppDatabase.live()
             let repository = ProgressRepository(database: database)
-            let deviceID = try KeychainStore().deviceIdentifier()
-            let namespace = "guest:\(deviceID)"
+            let deviceID = try keychain.deviceIdentifier()
+            let storedSession = try? keychain.backendSession()
+            let validSession = storedSession?.isValid == true ? storedSession : nil
+            if storedSession != nil, validSession == nil { try? keychain.removeBackendSession() }
+            let namespace = validSession.map { "user:\($0.userID)" } ?? "guest:\(deviceID)"
             let stored = try repository.snapshot(namespace: namespace)
-            let progress = try stored.map { try JSONDecoder().decode(LocalAppProgress.self, from: $0.payload) }
+            let guestNamespace = "guest:\(deviceID)"
+            let guestStored = try repository.snapshot(namespace: guestNamespace)
+            let progress = try stored.map { try initialDecoder.decode(LocalAppProgress.self, from: $0.payload) }
+                ?? guestStored.map { try initialDecoder.decode(LocalAppProgress.self, from: $0.payload) }
                 ?? .fresh
+            if stored == nil, validSession != nil, guestStored != nil {
+                let now = Date()
+                let sequence = try repository.nextSequence(namespace: namespace, deviceID: deviceID)
+                try repository.apply(ProgressMutation(
+                    snapshot: ProgressSnapshotRecord(
+                        namespace: namespace,
+                        schemaVersion: progress.v,
+                        payload: try initialEncoder.encode(progress),
+                        updatedAt: now,
+                        serverRevision: nil
+                    ),
+                    event: ProgressEventRecord(
+                        id: UUID().uuidString.lowercased(),
+                        namespace: namespace,
+                        deviceID: deviceID,
+                        sequence: sequence,
+                        kind: "guestProgressClaimed",
+                        payload: try initialEncoder.encode(progress),
+                        occurredAt: now,
+                        syncedAt: nil
+                    )
+                ))
+            }
             let loadedPractices = try repository.practices(namespace: namespace)
 
             content = loadedContent
@@ -35,6 +71,8 @@ final class AppContainer: ObservableObject {
             self.namespace = namespace
             self.progress = progress
             practices = Dictionary(uniqueKeysWithValues: loadedPractices.map { ($0.phraseID, $0) })
+            backendSession = validSession
+            syncState = .idle
             startupState = .ready
         } catch {
             content = nil
@@ -43,8 +81,103 @@ final class AppContainer: ObservableObject {
             namespace = nil
             progress = .fresh
             practices = [:]
+            backendSession = nil
+            syncState = .failed(error.localizedDescription)
             startupState = .failed(error.localizedDescription)
         }
+    }
+
+    var isSignedIn: Bool { backendSession?.isValid == true }
+
+    func signIn(provider: IdentityProvider, idToken: String, nonce: String? = nil) async {
+        guard let baseURL = SyncConfiguration.baseURL else {
+            syncState = .failed(SyncClientError.notConfigured.localizedDescription)
+            return
+        }
+        syncState = .syncing
+        do {
+            let session = try await syncClient.exchange(
+                provider: provider,
+                idToken: idToken,
+                nonce: nonce,
+                baseURL: baseURL
+            )
+            try keychain.setBackendSession(session)
+            try activate(session)
+            await syncNow()
+        } catch {
+            syncState = .failed(error.localizedDescription)
+        }
+    }
+
+    func syncNow() async {
+        guard syncState != .syncing else { return }
+        guard let session = backendSession, session.isValid,
+              let baseURL = SyncConfiguration.baseURL,
+              let repository, let deviceID, let namespace else { return }
+        syncState = .syncing
+        do {
+            let snapshot = try repository.snapshot(namespace: namespace)
+            let pending = Array(try repository.pendingOutbox(namespace: namespace).prefix(500))
+            let pendingIDs = Set(pending.map(\.eventID))
+            let events = try repository.events(namespace: namespace)
+                .filter { pendingIDs.contains($0.id) }
+                .map {
+                    SyncEventEnvelope(
+                        id: $0.id,
+                        sequence: $0.sequence,
+                        kind: $0.kind,
+                        payload: try decoder.decode(LocalAppProgress.self, from: $0.payload),
+                        occurredAt: $0.occurredAt
+                    )
+                }
+            let response = try await syncClient.sync(
+                SyncRequestEnvelope(
+                    deviceId: deviceID,
+                    baseRevision: snapshot?.serverRevision ?? 0,
+                    schemaVersion: progress.v,
+                    snapshot: progress,
+                    events: events
+                ),
+                sessionToken: session.token,
+                baseURL: baseURL
+            )
+            guard self.namespace == namespace else { return }
+            let merged = LocalProgressMergeEngine.merge(response.snapshot, progress)
+            let now = Date()
+            try repository.applyRemoteSnapshot(
+                namespace: namespace,
+                schemaVersion: response.schemaVersion,
+                payload: try encoder.encode(merged),
+                serverRevision: response.revision,
+                acceptedEventIDs: response.acceptedEventIDs,
+                syncedAt: now
+            )
+            progress = merged
+            syncState = .synced(now)
+            if !(try repository.pendingOutbox(namespace: namespace)).isEmpty {
+                Task { await self.syncNow() }
+            }
+        } catch {
+            syncState = .failed(error.localizedDescription)
+        }
+    }
+
+    func signOut() {
+        try? keychain.removeBackendSession()
+        backendSession = nil
+        syncState = .idle
+        guard let repository, let deviceID else { return }
+        let guestNamespace = "guest:\(deviceID)"
+        namespace = guestNamespace
+        if let stored = try? repository.snapshot(namespace: guestNamespace),
+           let decoded = try? decoder.decode(LocalAppProgress.self, from: stored.payload) {
+            progress = decoded
+        } else {
+            progress = .fresh
+        }
+        let loaded = (try? repository.practices(namespace: guestNamespace)) ?? []
+        practices = Dictionary(uniqueKeysWithValues: loaded.map { ($0.phraseID, $0) })
     }
 
     func persist(gameState: GameState) throws {
@@ -176,6 +309,53 @@ final class AppContainer: ObservableObject {
         try persist(next, kind: "dailyEncounterChosen")
     }
 
+    private func activate(_ session: BackendSession) throws {
+        guard let repository, let deviceID else { throw AppContainerError.unavailable }
+        let userNamespace = "user:\(session.userID)"
+        let stored = try repository.snapshot(namespace: userNamespace)
+        let userProgress = try stored.map { try decoder.decode(LocalAppProgress.self, from: $0.payload) }
+        let merged = userProgress.map { LocalProgressMergeEngine.merge($0, progress) } ?? progress
+        namespace = userNamespace
+        backendSession = session
+
+        let now = Date()
+        let payload = try encoder.encode(merged)
+        let sequence = try repository.nextSequence(namespace: userNamespace, deviceID: deviceID)
+        try repository.apply(ProgressMutation(
+            snapshot: ProgressSnapshotRecord(
+                namespace: userNamespace,
+                schemaVersion: merged.v,
+                payload: payload,
+                updatedAt: now,
+                serverRevision: stored?.serverRevision
+            ),
+            event: ProgressEventRecord(
+                id: UUID().uuidString.lowercased(),
+                namespace: userNamespace,
+                deviceID: deviceID,
+                sequence: sequence,
+                kind: "guestProgressClaimed",
+                payload: payload,
+                occurredAt: now,
+                syncedAt: nil
+            )
+        ))
+        progress = merged
+        var loaded = try repository.practices(namespace: userNamespace)
+        var existingPhraseIDs = Set(loaded.map(\.phraseID))
+        let guestNamespace = "guest:\(deviceID)"
+        for practice in try repository.practices(namespace: guestNamespace)
+        where !existingPhraseIDs.contains(practice.phraseID) {
+            var claimed = practice
+            claimed.id = UUID().uuidString.lowercased()
+            claimed.namespace = userNamespace
+            try repository.savePractice(claimed)
+            loaded.append(claimed)
+            existingPhraseIDs.insert(claimed.phraseID)
+        }
+        practices = Dictionary(uniqueKeysWithValues: loaded.map { ($0.phraseID, $0) })
+    }
+
     private func persist(_ next: LocalAppProgress, kind: String) throws {
         guard let repository, let deviceID, let namespace else {
             throw AppContainerError.unavailable
@@ -205,6 +385,7 @@ final class AppContainer: ObservableObject {
             )
         ))
         progress = next
+        if isSignedIn { Task { await self.syncNow() } }
     }
 
     private func orderedUnion(_ left: [String], _ right: [String]) -> [String] {

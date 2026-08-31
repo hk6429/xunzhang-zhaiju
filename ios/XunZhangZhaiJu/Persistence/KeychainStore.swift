@@ -29,6 +29,24 @@ struct KeychainStore: Sendable {
         return identifier
     }
 
+    func backendSession() throws -> BackendSession? {
+        guard let encoded = try string(account: "backend-session"),
+              let data = encoded.data(using: .utf8) else { return nil }
+        return try JSONDecoder().decode(BackendSession.self, from: data)
+    }
+
+    func setBackendSession(_ session: BackendSession) throws {
+        let data = try JSONEncoder().encode(session)
+        guard let encoded = String(data: data, encoding: .utf8) else {
+            throw KeychainStoreError.invalidData
+        }
+        try set(encoded, account: "backend-session")
+    }
+
+    func removeBackendSession() throws {
+        try remove(account: "backend-session")
+    }
+
     func string(account: String) throws -> String? {
         var query = baseQuery(account: account)
         query[kSecReturnData as String] = true
