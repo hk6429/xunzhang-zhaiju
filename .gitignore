@@ -5,3 +5,9 @@
 ios/*.xcodeproj/
 ios/DerivedData/
 **/xcuserdata/
+
+# Cloudflare Worker local state and secrets
+sync-worker/node_modules/
+sync-worker/.wrangler/
+sync-worker/.dev.vars
+sync-worker/.env*

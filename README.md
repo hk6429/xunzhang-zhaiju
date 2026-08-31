@@ -1,6 +1,16 @@
 # 尋章摘句
 
-中文「尋詞解謎」練功站：在字格中找出隱藏的成語、諺語與民間俗語。純前端靜態站，無框架、無建置步驟。
+中文「尋詞解謎」練功 App：在字格中找出隱藏的成語、諺語、俗語與古典文學名句。專案同時保留原始 Web 版，並以 SwiftUI 全原生重寫 iPhone／iPad 版。
+
+## 原生 App
+
+- SwiftUI，最低 iOS／iPadOS 16，支援 iPhone 與 iPad。
+- 409 條語料、100 關、10 章完整收錄於 App bundle，核心玩法可完全離線使用。
+- 具備三種模式、倒數與提示、每日任務、快陣、錯題複習、圖鑑、法寶、世界事件及休息提醒。
+- 訪客可直接遊玩；Apple／Google 登入後，透過 Cloudflare Worker + Turso 同步 Web、iPhone、iPad 進度。
+- 個人例句只保存在裝置上，不加入同步 outbox。
+
+iOS 開發與測試方式見 [`ios/README.md`](ios/README.md)，同步服務見 [`sync-worker/README.md`](sync-worker/README.md)。
 
 ## 玩法
 
@@ -9,7 +19,7 @@
 - **墨水經濟**：提示要花墨水，墨水只能靠答對學習題賺（釋義選句 +1／挖空填字 +2）。提示三層價：圈首字 1／閃現整句 3／直接揭示 5（揭示則該關 1★、不入圖鑑）。
 - **v3 挑戰變數**：第二章起有倒數計時（超時「時辰已到」須重來；開視窗時暫停）與每關提示次數上限。
 - **星等**：零提示 3★／用提示 2★／用揭示 1★。進度存 localStorage，可匯出進度碼。
-- **山河分支地圖**：50 關直接疊在單幅封神山河圖上，含主線、典故支線、法寶支線、非戰鬥事件與五場三階段 Boss。
+- **山河分支地圖**：100 關分成 10 章，含主線、典故支線、法寶支線、非戰鬥事件與五場三階段 Boss。
 - **留存循環**：支援重修最佳成績、三種模式、每日任務、一炷香快陣、錯題間隔複習、法寶碎片、續玩與休息提醒。
 - **學習者主導**：封神寶典可寫自己的例句或使用情境，多元學習身分不做單一排名；班級協作僅交換匿名彙總成果。
 - **即時在線**：右下角顯示 Cloudflare／Netlify 兩站共用的在線人數；每個分頁只產生匿名隨機識別碼，75 秒未回報即自動離線。
@@ -29,6 +39,7 @@ node tools/validate.mjs data/phrases.json data/levels.json                # 硬�
 node tools/validate-visuals.mjs                                          # 美術資產契約驗證
 node --test                                                               # 模組不變式測試
 npx wrangler deploy --config presence-worker/wrangler.jsonc              # 部署匿名在線 Presence API
+cd sync-worker && npm run typecheck && npm test && npm run dry-run       # 驗證進度同步 Worker
 ```
 
 美術資產驗證會檢查 `index.html` 與各 registry 的 SVG／PNG／JPG 圖片參照是否存在、九位 Q 版角色是否具備 16:10 滿版國風水墨 metadata，以及首頁、五章密室與通關慶典等七個主要場景是否齊全。

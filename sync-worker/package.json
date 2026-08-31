@@ -1,0 +1,24 @@
+{
+  "name": "xunzhang-zhaiju-sync-worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "types": "wrangler types worker-configuration.d.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "dry-run": "wrangler deploy --dry-run"
+  },
+  "dependencies": {
+    "@tursodatabase/serverless": "1.4.0",
+    "jose": "6.2.10"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "^1.1.2",
+    "@cloudflare/workers-types": "5.20260831.1",
+    "@types/node": "26.4.0",
+    "typescript": "^5.9.2",
+    "vitest": "4.1.11",
+    "wrangler": "4.127.1"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "xunzhang-zhaiju-sync",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-28",
+  "vars": {
+    "APPLE_CLIENT_IDS": "tw.edu.hc.zgjh.xunzhangzhaiju",
+    "GOOGLE_CLIENT_IDS": "",
+    "ALLOWED_ORIGINS": "",
+    "SESSION_ISSUER": "xunzhang-zhaiju-sync"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}
