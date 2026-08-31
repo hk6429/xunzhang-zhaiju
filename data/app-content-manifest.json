@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "content": {
+    "phraseCount": 409,
+    "levelCount": 100,
+    "targetCount": 832
+  },
+  "files": {
+    "data/events.json": {
+      "sha256": "61818b580d5c178a2cbc2a0b56104216e24d2396d76bde7f6f7bcd673a829732",
+      "bytes": 11567
+    },
+    "data/levels.json": {
+      "sha256": "478a1ab8b476ae6b93a6f41416c7148abfdd97d57d82254aa877c05c9c75f33f",
+      "bytes": 518593
+    },
+    "data/phrases.json": {
+      "sha256": "0b34ca5daf1e4847cba27eccbd0b10fb7ea09360d90c8b6a4358b0e64ce3ed88",
+      "bytes": 356785
+    },
+    "data/story-lore-v2.json": {
+      "sha256": "5921a61bb2aced382e078ecc1c80e6276f84f2cd210ed3e8b2a0dd94058c31da",
+      "bytes": 12633
+    }
+  }
+}
