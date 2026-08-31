@@ -274,10 +274,15 @@ struct ProfileView: View {
             authMessage = "找不到可顯示 Google 登入的畫面。"
             return
         }
-        Task {
-            do {
-                let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: presenter)
-                guard let token = result.user.idToken?.tokenString else {
+        GIDSignIn.sharedInstance.signIn(withPresenting: presenter) { result, error in
+            let errorMessage = error?.localizedDescription
+            let token = result?.user.idToken?.tokenString
+            Task { @MainActor in
+                if let errorMessage {
+                    authMessage = errorMessage
+                    return
+                }
+                guard let token else {
                     authMessage = "Google 沒有回傳 ID token。"
                     return
                 }
@@ -288,8 +293,6 @@ struct ProfileView: View {
                 } else {
                     await container.signIn(provider: .google, idToken: token)
                 }
-            } catch {
-                authMessage = error.localizedDescription
             }
         }
     }
