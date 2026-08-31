@@ -37,4 +37,16 @@ final class LaunchTests: XCTestCase {
         app.buttons["我的"].tap()
         XCTAssertTrue(app.staticTexts["遊玩模式"].waitForExistence(timeout: 5))
     }
+
+    @MainActor
+    func testAccessibilityTextStillReachesCoreNavigation() throws {
+        let app = XCUIApplication()
+        app.launchEnvironment["UI_TEST_ACCESSIBILITY_TEXT"] = "1"
+        app.launch()
+
+        XCTAssertTrue(app.staticTexts["修煉山河"].firstMatch.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["今日修煉"].exists)
+        XCTAssertTrue(app.buttons["摘句集"].exists)
+        XCTAssertTrue(app.buttons["我的"].exists)
+    }
 }

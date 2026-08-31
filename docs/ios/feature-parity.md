@@ -19,12 +19,15 @@
 | iPhone／iPad／Web 同步 | `SyncClient`、`cloud-sync.js`、Cloudflare Worker、Turso migrations | iOS merge/outbox、Web、Worker tests；正式三端 E2E 待部署 |
 | 墨滴跨裝置結算 | event `inkDelta`、Turso transaction、權威雲端餘額 | Web／Swift merge tests、Worker merge tests、migration smoke |
 | 匯出、登出與帳號刪除 | iOS／Web controls、session family revoke、分開確認本機清除 | Worker auth tests、iOS build；正式環境 E2E 待部署 |
+| 大量離線事件維護 | 同步後只壓縮已確認事件，永不刪除未送 outbox | 10,000 筆 repository 壓力測試 |
+| 隱私揭露與 required-reason API | `PrivacyInfo.xcprivacy`、隱私權政策、App Privacy 對照表 | `plutil`、Simulator bundle 檢查；Archive privacy report 待簽署 |
+| 動態文字、VoiceOver、Reduce Motion | 測試字級啟動路徑、盤面自訂動作、無動畫縮放 | iPhone UI smoke／build；iPad 真機完整稽核待驗 |
 
 ## 尚待正式環境驗收
 
 - Web OAuth、帳號連結、資料匯出與帳號刪除的正式供應商 E2E。
-- Worker refresh rotation、rate limit、越權、CSRF 與 replay 的整合測試。
-- iPad UI runner、Dynamic Type、VoiceOver、Split View 與效能矩陣。
+- Worker refresh rotation、rate limit、越權與 replay 的正式整合測試；cookie CSRF 已有來源檢查與本機測試。
+- iPad UI runner、VoiceOver、Split View 與真機效能矩陣；iPhone Dynamic Type smoke 已通過。
 - Apple Developer Program、正式 OAuth client、Turso／Worker 部署與 TestFlight 外部測試。
 
 本表只把已有程式與測試列為完成；需要正式帳號或外部服務的項目不以 Simulator 結果冒充上線證據。

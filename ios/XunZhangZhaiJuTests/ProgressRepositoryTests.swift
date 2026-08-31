@@ -125,6 +125,40 @@ final class ProgressRepositoryTests: XCTestCase {
         XCTAssertNotNil(try repository.snapshot(namespace: "guest:one"))
     }
 
+    func testTenThousandSyncedEventsCompactWithoutDeletingPendingOutbox() throws {
+        let database = try AppDatabase.inMemory()
+        let repository = ProgressRepository(database: database)
+        let namespace = "user:stress"
+        let payload = Data(#"{"v":1,"ink":3}"#.utf8)
+        let baseDate = Date(timeIntervalSince1970: 1_788_192_000)
+        try database.writer.write { db in
+            for sequence in 1...10_000 {
+                try ProgressEventRecord(
+                    id: "synced-\(sequence)",
+                    namespace: namespace,
+                    deviceID: "device-a",
+                    sequence: Int64(sequence),
+                    kind: "progressUpdated",
+                    payload: payload,
+                    occurredAt: baseDate.addingTimeInterval(Double(sequence)),
+                    syncedAt: baseDate
+                ).insert(db)
+            }
+        }
+        var pending = fixture(namespace: namespace, revision: 10_001)
+        pending.event.id = "pending-10001"
+        pending.event.sequence = 10_001
+        try repository.apply(pending)
+
+        let startedAt = Date()
+        try repository.compactSyncedEvents(namespace: namespace)
+        let elapsed = Date().timeIntervalSince(startedAt)
+
+        XCTAssertEqual(try repository.events(namespace: namespace).count, 1_001)
+        XCTAssertEqual(try repository.pendingOutbox(namespace: namespace).map(\.eventID), ["pending-10001"])
+        XCTAssertLessThan(elapsed, 5)
+    }
+
     private func fixture(namespace: String, revision: Int64) -> ProgressMutation {
         let suffix = namespace.replacingOccurrences(of: ":", with: "-")
         let payload = Data(#"{"v":1,"ink":3}"#.utf8)

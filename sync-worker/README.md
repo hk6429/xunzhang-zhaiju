@@ -16,7 +16,7 @@ Cloudflare Worker + Turso 的跨裝置進度同步 API。核心遊戲不依賴�
 - `GET /v1/account/export`：匯出帳號進度 JSON
 - `DELETE /v1/account`：明確確認後刪除帳號及雲端資料
 
-請求上限為 1 MiB。瀏覽器來源必須列在 `ALLOWED_ORIGINS`；iOS 原生請求沒有 `Origin` 標頭，不受 CORS 限制。
+請求上限為 1 MiB。瀏覽器來源必須列在 `ALLOWED_ORIGINS`；以 HttpOnly cookie 執行的同步、刷新、連結、登出與刪除操作另會強制檢查 `Origin`，帳號連結導頁則檢查 `Origin`／`Referer`。iOS 原生以 Bearer token 驗證，不套用瀏覽器 CSRF 檢查。
 登入與同步分別使用 Cloudflare Rate Limiting binding；正式部署時 namespace ID 必須在同一帳號內保持唯一。
 
 ## 本機驗證

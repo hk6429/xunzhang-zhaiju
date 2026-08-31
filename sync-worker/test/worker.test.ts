@@ -60,6 +60,30 @@ describe("sync worker", () => {
     expect(response.status).toBe(401);
   });
 
+  it("rejects cross-site account-link navigation carrying a web session cookie", async () => {
+    const response = await SELF.fetch(
+      "https://example.test/v1/auth/web/start?provider=google&action=link&returnTo=https%3A%2F%2Fexample.test",
+      { headers: { Cookie: "xzzj_access=unreadable-http-only-cookie" } },
+    );
+    expect(response.status).toBe(403);
+  });
+
+  it("rejects state-changing cookie authentication without a trusted Origin", async () => {
+    const response = await SELF.fetch("https://example.test/v1/auth/logout", {
+      method: "POST",
+      headers: { Cookie: "xzzj_access=unreadable-http-only-cookie" },
+    });
+    expect(response.status).toBe(403);
+  });
+
+  it("keeps native bearer authentication independent from browser Origin checks", async () => {
+    const response = await SELF.fetch("https://example.test/v1/auth/logout", {
+      method: "POST",
+      headers: { Authorization: "Bearer invalid-native-token" },
+    });
+    expect(response.status).toBe(401);
+  });
+
   it("requires authentication for native account linking", async () => {
     const response = await SELF.fetch("https://example.test/v1/account/link", {
       method: "POST",

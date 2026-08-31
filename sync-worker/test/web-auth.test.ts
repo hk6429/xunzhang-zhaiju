@@ -29,4 +29,18 @@ describe("web OAuth start", () => {
     const url = new URL("https://sync.xzzj.test/v1/auth/web/start?provider=apple&returnTo=https%3A%2F%2Fevil.test");
     await expect(startWebAuth(url, env)).rejects.toMatchObject<WebAuthError>({ status: 400 });
   });
+
+  it("rejects a callback whose state does not match its signed cookie", async () => {
+    const start = await startWebAuth(
+      new URL("https://sync.xzzj.test/v1/auth/web/start?provider=google&returnTo=https%3A%2F%2Fapp.xzzj.test"),
+      env,
+    );
+    const cookie = start.headers.get("Set-Cookie")!.split(";", 1)[0];
+    const request = new Request("https://sync.xzzj.test/v1/auth/web/callback?state=wrong&code=unused", {
+      headers: { Cookie: cookie },
+    });
+
+    const { finishWebAuth } = await import("../src/web-auth");
+    await expect(finishWebAuth(request, env)).rejects.toMatchObject<WebAuthError>({ status: 400 });
+  });
 });

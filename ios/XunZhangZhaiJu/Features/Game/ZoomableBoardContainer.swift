@@ -4,9 +4,10 @@ import UIKit
 struct ZoomableBoardContainer<Content: View>: View {
     @ViewBuilder let content: Content
     @State private var scale: CGFloat = 1
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
-        TwoFingerZoomScrollView(content: content, scale: $scale)
+        TwoFingerZoomScrollView(content: content, scale: $scale, reduceMotion: reduceMotion)
             .clipped()
             .accessibilityAction(named: "放大盤面") { scale = min(3, scale + 0.5) }
             .accessibilityAction(named: "縮小盤面") { scale = max(1, scale - 0.5) }
@@ -16,6 +17,7 @@ struct ZoomableBoardContainer<Content: View>: View {
 private struct TwoFingerZoomScrollView<Content: View>: UIViewRepresentable {
     let content: Content
     @Binding var scale: CGFloat
+    let reduceMotion: Bool
 
     func makeCoordinator() -> Coordinator {
         Coordinator(content: content, scale: $scale)
@@ -50,7 +52,7 @@ private struct TwoFingerZoomScrollView<Content: View>: UIViewRepresentable {
     func updateUIView(_ scrollView: UIScrollView, context: Context) {
         context.coordinator.hostingController.rootView = content
         if abs(scrollView.zoomScale - scale) > 0.01 {
-            scrollView.setZoomScale(scale, animated: true)
+            scrollView.setZoomScale(scale, animated: !reduceMotion)
         }
     }
 

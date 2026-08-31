@@ -10,6 +10,7 @@ struct XunZhangZhaiJuApp: App {
         WindowGroup {
             RootView()
                 .environmentObject(container)
+                .accessibilityTextTest(isAccessibilitySizeTest)
                 .tint(AppTheme.accent)
                 .preferredColorScheme(.dark)
                 .task { await container.syncNow() }
@@ -20,5 +21,17 @@ struct XunZhangZhaiJuApp: App {
                     if newPhase == .active { Task { await container.syncNow() } }
                 }
         }
+    }
+
+    private var isAccessibilitySizeTest: Bool {
+        ProcessInfo.processInfo.environment["UI_TEST_ACCESSIBILITY_TEXT"] == "1"
+    }
+}
+
+private extension View {
+    @ViewBuilder
+    func accessibilityTextTest(_ enabled: Bool) -> some View {
+        if enabled { dynamicTypeSize(.accessibility3) }
+        else { self }
     }
 }

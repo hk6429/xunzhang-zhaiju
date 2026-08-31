@@ -39,9 +39,9 @@ export default {
         return json({ ok: true, service: "xunzhang-zhaiju-sync", version: 1 }, 200, origin, env);
       }
       if (request.method === "GET" && url.pathname === "/v1/auth/web/start") {
-        const linkUserID = url.searchParams.get("action") === "link"
-          ? (await authenticatedUser(request, env)).userID
-          : undefined;
+        const isLink = url.searchParams.get("action") === "link";
+        if (isLink && hasCookie(request, "xzzj_access")) requireTrustedNavigation(request, env);
+        const linkUserID = isLink ? (await authenticatedUser(request, env)).userID : undefined;
         return await startWebAuth(url, env, linkUserID);
       }
       if ((request.method === "GET" || request.method === "POST")
@@ -49,9 +49,11 @@ export default {
         return await finishWebAuth(request, env);
       }
       if (request.method === "POST" && url.pathname === "/v1/auth/web/refresh") {
+        if (hasCookie(request, "xzzj_refresh")) requireTrustedOrigin(request, env);
         return withCors(await refreshWebSession(request, env), origin);
       }
       if (request.method === "POST" && url.pathname === "/v1/auth/logout") {
+        if (usesCookieAuthentication(request)) requireTrustedOrigin(request, env);
         const identity = await authenticatedUser(request, env);
         await revokeSessionFamily(identity.userID, identity.sessionID, env);
         const response = json({ signedOut: true }, 200, origin, env);
@@ -76,6 +78,7 @@ export default {
         return json(await createSession(userID, env), 200, origin, env);
       }
       if (request.method === "POST" && url.pathname === "/v1/account/link") {
+        if (usesCookieAuthentication(request)) requireTrustedOrigin(request, env);
         const current = await authenticatedUser(request, env);
         const input = parseAuthExchange(await readJsonLimited(request));
         await enforceRateLimit(env.AUTH_RATE_LIMITER, `link:${current.userID}`);
@@ -94,6 +97,7 @@ export default {
         return json(await rotateSession(input.refreshToken, env), 200, origin, env);
       }
       if (request.method === "POST" && url.pathname === "/v1/sync") {
+        if (usesCookieAuthentication(request)) requireTrustedOrigin(request, env);
         const identity = await authenticatedUser(request, env);
         await enforceRateLimit(env.SYNC_RATE_LIMITER, `sync:${identity.userID}`);
         const input = parseSyncRequest(await readJsonLimited(request));
@@ -106,6 +110,7 @@ export default {
         return json(await exportAccount(identity.userID, env), 200, origin, env);
       }
       if (request.method === "DELETE" && url.pathname === "/v1/account") {
+        if (usesCookieAuthentication(request)) requireTrustedOrigin(request, env);
         const identity = await authenticatedUser(request, env);
         if (request.headers.get("X-Confirm-Delete") !== "DELETE") {
           throw new HttpError(400, "刪除帳號必須明確確認");
@@ -176,6 +181,37 @@ function originAllowed(origin: string | null, env: Env): boolean {
   if (origin === null) return true;
   const allowed = env.ALLOWED_ORIGINS.split(",").map((item) => item.trim()).filter(Boolean);
   return allowed.includes(origin);
+}
+
+function usesCookieAuthentication(request: Request): boolean {
+  return !request.headers.has("Authorization") && hasCookie(request, "xzzj_access");
+}
+
+function hasCookie(request: Request, name: string): boolean {
+  return (request.headers.get("Cookie") ?? "")
+    .split(";")
+    .some((item) => item.trim().startsWith(`${name}=`));
+}
+
+function requireTrustedOrigin(request: Request, env: Env): void {
+  const origin = request.headers.get("Origin");
+  if (!origin || !originAllowed(origin, env)) throw new HttpError(403, "不允許的瀏覽器請求來源");
+}
+
+function requireTrustedNavigation(request: Request, env: Env): void {
+  const origin = request.headers.get("Origin");
+  if (origin) {
+    if (originAllowed(origin, env)) return;
+    throw new HttpError(403, "不允許的瀏覽器請求來源");
+  }
+  const referer = request.headers.get("Referer");
+  if (!referer) throw new HttpError(403, "帳號連結缺少可信任來源");
+  try {
+    if (originAllowed(new URL(referer).origin, env)) return;
+  } catch {
+    // Fall through to the same bounded error without exposing parsing details.
+  }
+  throw new HttpError(403, "不允許的瀏覽器請求來源");
 }
 
 function corsResponse(origin: string | null, env: Env): Response {

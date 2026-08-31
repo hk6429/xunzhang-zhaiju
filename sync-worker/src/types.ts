@@ -79,7 +79,7 @@ export function parseSyncRequest(value: unknown): SyncRequestBody {
   if (!Number.isSafeInteger(value.schemaVersion) || Number(value.schemaVersion) < 1) {
     throw new TypeError("schemaVersion 格式錯誤");
   }
-  if (!isJsonValue(value.snapshot)) throw new TypeError("snapshot 不是合法 JSON");
+  const snapshot = parseProgressSnapshot(value.snapshot);
   if (!Array.isArray(value.events) || value.events.length > 500) {
     throw new TypeError("events 最多 500 筆");
   }
@@ -88,7 +88,7 @@ export function parseSyncRequest(value: unknown): SyncRequestBody {
     deviceId: value.deviceId,
     baseRevision: Number(value.baseRevision),
     schemaVersion: Number(value.schemaVersion),
-    snapshot: value.snapshot,
+    snapshot,
     events,
   };
 }
@@ -111,13 +111,13 @@ function parseSyncEvent(value: unknown): SyncEventInput {
   if (typeof value.occurredAt !== "string" || !Number.isFinite(Date.parse(value.occurredAt))) {
     throw new TypeError("event.occurredAt 格式錯誤");
   }
-  if (!isJsonValue(value.payload)) throw new TypeError("event.payload 不是合法 JSON");
+  const payload = parseProgressSnapshot(value.payload);
   return {
     id: value.id,
     sequence: Number(value.sequence),
     kind: value.kind,
     inkDelta: Number(inkDelta),
-    payload: value.payload,
+    payload,
     occurredAt: value.occurredAt,
   };
 }
@@ -126,6 +126,51 @@ const syncEventKinds = new Set([
   "progressUpdated", "levelCompleted", "quizAnswered", "quickChallengeCompleted",
   "inkSpent", "restTaken", "worldEventChosen", "dailyEncounterChosen", "guestProgressClaimed",
 ]);
+
+const snapshotKeys = new Set([
+  "v", "levels", "ink", "collection", "daily", "mastery", "wrongBook", "streak",
+  "activeRun", "levelStats", "activity", "world",
+]);
+
+export function parseProgressSnapshot(value: unknown): JsonValue {
+  if (!isRecord(value) || Object.keys(value).some((key) => !snapshotKeys.has(key))) {
+    throw new TypeError("snapshot 含未知欄位");
+  }
+  if (value.v !== 1 || !isRecord(value.levels)) throw new TypeError("snapshot 版本或 levels 格式錯誤");
+  const levels = Object.entries(value.levels);
+  if (levels.length > 1_000) throw new TypeError("snapshot levels 過多");
+  for (const [id, level] of levels) {
+    if (!/^[1-9][0-9]{0,2}$/u.test(id) || !isRecord(level)
+        || Object.keys(level).some((key) => key !== "stars" && key !== "found")
+        || !Number.isInteger(level.stars) || Number(level.stars) < 0 || Number(level.stars) > 3) {
+      throw new TypeError("snapshot level 格式錯誤");
+    }
+    parseStringSet(level.found, "level.found");
+  }
+  if (!Number.isSafeInteger(value.ink) || Number(value.ink) < 0 || Number(value.ink) > 100_000) {
+    throw new TypeError("snapshot ink 格式錯誤");
+  }
+  parseStringSet(value.collection, "collection");
+  for (const key of ["daily", "mastery", "streak", "activeRun", "levelStats", "activity", "world"] as const) {
+    if (value[key] !== undefined && value[key] !== null && !isRecord(value[key])) {
+      throw new TypeError(`snapshot ${key} 格式錯誤`);
+    }
+  }
+  if (value.wrongBook !== undefined && value.wrongBook !== null) parseStringSet(value.wrongBook, "wrongBook");
+  if (!isJsonValue(value)) throw new TypeError("snapshot 不是合法 JSON");
+  return value as JsonValue;
+}
+
+function parseStringSet(value: unknown, name: string): void {
+  if (!Array.isArray(value) || value.length > 2_000) throw new TypeError(`snapshot ${name} 格式錯誤`);
+  const seen = new Set<string>();
+  for (const item of value) {
+    if (typeof item !== "string" || item.length < 1 || item.length > 128 || seen.has(item)) {
+      throw new TypeError(`snapshot ${name} 格式錯誤`);
+    }
+    seen.add(item);
+  }
+}
 
 export function isJsonValue(value: unknown): value is JsonValue {
   if (value === null || typeof value === "string" || typeof value === "boolean") return true;

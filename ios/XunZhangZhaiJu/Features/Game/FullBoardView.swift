@@ -7,6 +7,7 @@ struct FullBoardView: View {
     let onSelection: ([GridCoordinate]) -> Void
     @State private var anchor: GridCoordinate?
     @State private var preview: [GridCoordinate] = []
+    @State private var accessibilityAnchor: GridCoordinate?
 
     var body: some View {
         ZoomableBoardContainer {
@@ -26,6 +27,10 @@ struct FullBoardView: View {
                                         .background(cellColor(coordinate))
                                         .overlay(Rectangle().stroke(Color.white.opacity(0.3), lineWidth: 0.5))
                                         .accessibilityLabel("第 \(row + 1) 列第 \(column + 1) 欄，\(grid[row][column] ?? "空")")
+                                        .accessibilityHint(accessibilityAnchor == nil ? "點兩下設為選句起點" : "點兩下選為終點")
+                                        .accessibilityAddTraits(.isButton)
+                                        .accessibilityAction { accessibilitySelect(coordinate) }
+                                        .accessibilityAction(named: "清除選句起點") { accessibilityAnchor = nil }
                                 }
                             }
                         }
@@ -38,6 +43,16 @@ struct FullBoardView: View {
             .aspectRatio(1, contentMode: .fit)
         }
         .accessibilityIdentifier("full-board")
+    }
+
+    private func accessibilitySelect(_ coordinate: GridCoordinate) {
+        guard let start = accessibilityAnchor else {
+            accessibilityAnchor = coordinate
+            return
+        }
+        accessibilityAnchor = nil
+        let selected = NativeParityRules.snappedPath(from: start, to: coordinate, size: grid.count)
+        if selected.count >= 2 { onSelection(selected) }
     }
 
     private func selectionGesture(cellSize: CGFloat) -> some Gesture {

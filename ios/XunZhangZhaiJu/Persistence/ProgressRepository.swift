@@ -90,6 +90,13 @@ struct ProgressRepository: Sendable {
                     arguments: [namespace, eventID]
                 )
             }
+            try compactSyncedEvents(db, namespace: namespace, keepingMostRecent: 1_000)
+        }
+    }
+
+    func compactSyncedEvents(namespace: String, keepingMostRecent: Int = 1_000) throws {
+        try database.writer.write { db in
+            try compactSyncedEvents(db, namespace: namespace, keepingMostRecent: keepingMostRecent)
         }
     }
 
@@ -127,5 +134,26 @@ struct ProgressRepository: Sendable {
             try db.execute(sql: "DELETE FROM localPhrasePractice WHERE namespace = ?", arguments: [namespace])
             try db.execute(sql: "DELETE FROM appSetting WHERE namespace = ?", arguments: [namespace])
         }
+    }
+
+    private func compactSyncedEvents(
+        _ db: Database,
+        namespace: String,
+        keepingMostRecent: Int
+    ) throws {
+        let limit = max(1, keepingMostRecent)
+        try db.execute(
+            sql: """
+                DELETE FROM progressEvent
+                WHERE namespace = ? AND syncedAt IS NOT NULL
+                  AND id NOT IN (
+                    SELECT id FROM progressEvent
+                    WHERE namespace = ? AND syncedAt IS NOT NULL
+                    ORDER BY occurredAt DESC, sequence DESC
+                    LIMIT ?
+                  )
+                """,
+            arguments: [namespace, namespace, limit]
+        )
     }
 }

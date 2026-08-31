@@ -10,7 +10,7 @@
 - 訪客可直接遊玩；Apple／Google 登入後，透過 Cloudflare Worker + Turso 同步 Web、iPhone、iPad 進度。
 - 個人例句只保存在裝置上，不加入同步 outbox。
 
-iOS 開發與測試方式見 [`ios/README.md`](ios/README.md)，同步服務見 [`sync-worker/README.md`](sync-worker/README.md)。
+iOS 開發與測試方式見 [`ios/README.md`](ios/README.md)，同步服務見 [`sync-worker/README.md`](sync-worker/README.md)。上架前資料集中於 [`docs/app-store/`](docs/app-store/)（隱私權政策、App Privacy 填答、TestFlight 資訊與發布檢查表）。
 
 ## 玩法
 
@@ -37,6 +37,7 @@ python3 -m http.server 8642   # 本機試玩 http://localhost:8642
 node tools/generate-levels.mjs data/phrases.json data/levels.json [seed]  # 重產關卡（確定性）
 node tools/validate.mjs data/phrases.json data/levels.json                # 硬閘門驗證
 node tools/validate-visuals.mjs                                          # 美術資產契約驗證
+node tools/scan-secrets.mjs                                              # 版本庫機密掃描（不輸出疑似密鑰內容）
 node --test tests/*.test.js                                                # Web 模組不變式測試
 npx wrangler deploy --config presence-worker/wrangler.jsonc              # 部署匿名在線 Presence API
 cd sync-worker && npm run typecheck && npm test && npm run dry-run       # 驗證進度同步 Worker
