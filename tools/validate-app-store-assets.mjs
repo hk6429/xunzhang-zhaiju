@@ -1,5 +1,6 @@
 import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
+import { dirname, join, normalize } from "node:path";
 
 const screenshots = [
   {
@@ -13,19 +14,28 @@ const screenshots = [
 ];
 
 for (const screenshot of screenshots) {
-  const output = execFileSync(
-    "sips",
-    ["-g", "pixelWidth", "-g", "pixelHeight", "-g", "hasAlpha", screenshot.path],
-    { encoding: "utf8" },
-  );
-  const width = property(output, "pixelWidth");
-  const height = property(output, "pixelHeight");
-  const hasAlpha = textProperty(output, "hasAlpha");
+  const { width, height, hasAlpha } = imageProperties(screenshot.path);
   if (!screenshot.accepted.some(([w, h]) => width === w && height === h)) {
     throw new Error(`${screenshot.path} 尺寸 ${width}x${height} 不在接受清單`);
   }
   if (hasAlpha !== "no") throw new Error(`${screenshot.path} 含有 alpha channel`);
 }
+
+const iconManifestPath = "ios/XunZhangZhaiJu/Resources/Assets.xcassets/AppIcon.appiconset/Contents.json";
+const iconManifest = JSON.parse(readFileSync(iconManifestPath, "utf8"));
+const iconEntry = iconManifest.images?.find(
+  (entry) => entry.idiom === "universal" && entry.platform === "ios" && entry.size === "1024x1024",
+);
+if (!iconEntry?.filename) throw new Error("AppIcon.appiconset 缺少 iOS universal 1024x1024 圖檔");
+const iconDirectory = dirname(iconManifestPath);
+const iconPath = normalize(join(iconDirectory, iconEntry.filename));
+if (!iconPath.startsWith(`${iconDirectory}/`)) throw new Error("App Icon filename 不可離開 appiconset");
+const icon = imageProperties(iconPath, true);
+if (icon.width !== 1024 || icon.height !== 1024) {
+  throw new Error(`${iconPath} 尺寸必須為 1024x1024，目前為 ${icon.width}x${icon.height}`);
+}
+if (icon.format !== "png") throw new Error(`${iconPath} 必須為 PNG，目前為 ${icon.format}`);
+if (icon.hasAlpha !== "no") throw new Error(`${iconPath} 含有 alpha channel`);
 
 const metadata = readFileSync("docs/app-store/metadata-zh-Hant.md", "utf8");
 const name = lineValue(metadata, "名稱");
@@ -43,11 +53,24 @@ const keywordBytes = Buffer.byteLength(keywords, "utf8");
 if (keywordBytes > 100) throw new Error(`Keywords 為 ${keywordBytes} bytes，超過 100`);
 
 console.log(
-  `App Store 素材驗證通過：${screenshots.length} 張無透明通道截圖；`
+  `App Store 素材驗證通過：1024x1024 無透明通道 PNG App Icon、${screenshots.length} 張無透明通道截圖；`
   + `名稱 ${[...name].length} 字、副標題 ${[...subtitle].length} 字、`
   + `宣傳文字 ${[...promotional].length} 字、描述 ${[...description].length} 字、`
   + `關鍵字 ${keywordBytes} bytes。`,
 );
+
+function imageProperties(path, includeFormat = false) {
+  const keys = ["pixelWidth", "pixelHeight", "hasAlpha"];
+  if (includeFormat) keys.push("format");
+  const argumentsList = keys.flatMap((key) => ["-g", key]);
+  const output = execFileSync("sips", [...argumentsList, path], { encoding: "utf8" });
+  return {
+    width: property(output, "pixelWidth"),
+    height: property(output, "pixelHeight"),
+    hasAlpha: textProperty(output, "hasAlpha"),
+    format: includeFormat ? textProperty(output, "format") : undefined,
+  };
+}
 
 function property(output, key) {
   const value = Number(textProperty(output, key));

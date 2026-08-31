@@ -39,7 +39,7 @@ python3 -m http.server 8642   # 本機試玩 http://localhost:8642
 node tools/generate-levels.mjs data/phrases.json data/levels.json [seed]  # 重產關卡（確定性）
 node tools/validate.mjs data/phrases.json data/levels.json                # 硬閘門驗證
 node tools/validate-visuals.mjs                                          # 美術資產契約驗證
-node tools/validate-app-store-assets.mjs                                 # App Store 截圖與 metadata 限制
+node tools/validate-app-store-assets.mjs                                 # App Icon、截圖與 metadata 限制
 node tools/scan-secrets.mjs                                              # 版本庫機密掃描（不輸出疑似密鑰內容）
 tools/backup-turso.sh xunzhang-zhaiju                                    # 建立並驗證版本庫外的 Turso SQL 備份
 tools/validate-ios-archive.sh /path/to/XunZhangZhaiJu.xcarchive           # 驗證封存版本、裝置與隱私清單

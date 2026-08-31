@@ -20,6 +20,10 @@ command -v rg >/dev/null 2>&1 || {
   echo "Missing required command: rg" >&2
   exit 69
 }
+command -v sips >/dev/null 2>&1 || {
+  echo "Missing required command: sips" >&2
+  exit 69
+}
 
 script_directory=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 repository_directory=$(dirname -- "$script_directory")
@@ -34,6 +38,8 @@ app_path="$1"
 app_plist="$app_path/Info.plist"
 root_manifest="$app_path/PrivacyInfo.xcprivacy"
 source_manifest="$repository_directory/ios/XunZhangZhaiJu/Resources/PrivacyInfo.xcprivacy"
+iphone_icon="$app_path/AppIcon60x60@2x.png"
+ipad_icon="$app_path/AppIcon76x76@2x~ipad.png"
 
 assert_equal() {
   field_name="$1"
@@ -61,6 +67,24 @@ device_families=$(plutil -extract UIDeviceFamily json -r -o - "$app_plist")
 printf '%s' "$device_families" | rg -q '1'
 printf '%s' "$device_families" | rg -q '2'
 
+for icon_specification in "$iphone_icon:120:120" "$ipad_icon:152:152"; do
+  icon_path=${icon_specification%:*:*}
+  icon_dimensions=${icon_specification#*:}
+  expected_width=${icon_dimensions%%:*}
+  expected_height=${icon_dimensions##*:}
+  if [ ! -f "$icon_path" ]; then
+    echo "Compiled App Icon is missing: $icon_path" >&2
+    exit 65
+  fi
+  icon_properties=$(sips -g pixelWidth -g pixelHeight -g hasAlpha "$icon_path")
+  icon_width=$(printf '%s\n' "$icon_properties" | sed -n 's/^[[:space:]]*pixelWidth:[[:space:]]*//p')
+  icon_height=$(printf '%s\n' "$icon_properties" | sed -n 's/^[[:space:]]*pixelHeight:[[:space:]]*//p')
+  icon_alpha=$(printf '%s\n' "$icon_properties" | sed -n 's/^[[:space:]]*hasAlpha:[[:space:]]*//p')
+  assert_equal "Compiled App Icon width" "$expected_width" "$icon_width"
+  assert_equal "Compiled App Icon height" "$expected_height" "$icon_height"
+  assert_equal "Compiled App Icon alpha" "no" "$icon_alpha"
+done
+
 if [ ! -f "$root_manifest" ] || ! cmp -s "$source_manifest" "$root_manifest"; then
   echo "Bundled root privacy manifest is missing or differs from source" >&2
   exit 65
@@ -79,4 +103,4 @@ if [ "$manifest_total" -lt 1 ]; then
   exit 65
 fi
 
-echo "iOS archive validated: $expected_bundle $expected_version ($expected_build), iPhone+iPad, $manifest_total privacy manifests"
+echo "iOS archive validated: $expected_bundle $expected_version ($expected_build), iPhone+iPad icons, $manifest_total privacy manifests"

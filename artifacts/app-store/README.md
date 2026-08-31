@@ -16,7 +16,7 @@
 
 截圖使用 Simulator 正常簽署 build。不可使用 `CODE_SIGNING_ALLOWED=NO` 的 App 做 Keychain 驗收，否則會產生 `OSStatus -34018`，那是簽署環境造成的假性失敗。
 
-執行 `node tools/validate-app-store-assets.mjs` 可同時檢查截圖尺寸、alpha channel 與繁中 metadata 字數／bytes 上限。
+執行 `node tools/validate-app-store-assets.mjs` 可同時檢查 1024×1024 App Icon 的 PNG 格式與 alpha channel、截圖尺寸，以及繁中 metadata 字數／bytes 上限。App Icon 縮至 120×120 後仍以中央封神角色為清楚主體；送審時由 iOS 套用系統圓角遮罩。
 
 ## QA 證據
 
