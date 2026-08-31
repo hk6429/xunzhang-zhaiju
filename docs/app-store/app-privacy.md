@@ -38,7 +38,7 @@
 ## 送審前複核
 
 - [ ] 正式版未新增分析、當機回報、廣告或推播 SDK。
-- [ ] GoogleSignIn 與 GRDB 的套件版本及其 privacy manifest 已隨封存檔正確打包。
+- [x] GoogleSignIn 與 GRDB 的套件版本及其 privacy manifest 已隨未簽署 Release Archive 正確打包。
 - [ ] App Store Connect 填答與本文件、公開隱私權政策、`PrivacyInfo.xcprivacy` 一致。
-- [ ] 公開隱私權政策 URL 可在未登入狀態開啟。
+- [x] 公開隱私權政策 URL 可在未登入狀態開啟，canonical 與 deployment-specific URL 均實測 HTTP 200。
 - [ ] 若正式基礎設施會保存 IP／安全日誌，依 Apple 當時定義重新確認是否需增加資料類型。

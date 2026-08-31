@@ -25,7 +25,7 @@
 - [ ] App 名稱、副標題、描述、關鍵字、分類、年齡分級與版權填妥。
 - [x] 1024×1024 App Icon 為無 alpha PNG；封存後 iPhone／iPad 圖示尺寸與透明通道驗證通過。
 - [x] 6.9 吋 iPhone 與 13 吋 iPad 首張無 alpha JPEG 截圖完成並通過尺寸驗證。
-- [ ] Support URL 與 Privacy Policy URL 已公開部署且含有效聯絡方式。
+- [x] Support URL 與 Privacy Policy URL 已公開部署；公開支援表單可用，且明確提醒不得張貼個人資料。
 - [ ] App Privacy 填答與實際資料流一致。
 - [ ] TestFlight 測試資訊、聯絡信箱及審查說明齊全。
 - [ ] 測試帳號或免登入操作路徑可供審查使用。

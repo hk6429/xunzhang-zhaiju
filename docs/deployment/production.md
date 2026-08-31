@@ -12,6 +12,9 @@
 - Staging Turso database：`xunzhang-zhaiju-staging`（default group）
 - Turso migrations：`0001_initial.sql`、`0002_ink_ledger.sql`
 - Worker secrets：`TURSO_DATABASE_URL`、`TURSO_AUTH_TOKEN`、`WORKER_SESSION_SECRET`
+- Cloudflare Pages 正式站：`https://xunzhang-zhaiju.pages.dev`
+- App Store Support URL：`https://xunzhang-zhaiju.pages.dev/support.html`
+- App Store Privacy Policy URL：`https://xunzhang-zhaiju.pages.dev/privacy.html`
 - Staging 使用獨立的 Worker／Turso database／session secret／rate-limit namespaces，設定檔為 `sync-worker/wrangler.staging.jsonc`。
 - Production CORS allowlist 僅含現有正式鏡像：`https://xunzhang-zhaiju.pages.dev`、`https://xunzhang-zhaiju.netlify.app`；staging 尚無公開前端，因此維持空 allowlist。
 
@@ -57,5 +60,7 @@ Apple／Google 登入仍停用，直到帳號持有人提供並完成：
 
 - Production 與 staging 的 `GET /health` 均已實測回傳 HTTP 200、`Cache-Control: no-store` 與版本 1。
 - Production 已從兩個 allowlist origins 實測 HTTP 200、精確 `Access-Control-Allow-Origin` 與 credentials；未列入的測試來源回傳 403。
+- Support 與 Privacy Policy 頁面已由 commit `e979940` 部署；canonical 與 deployment-specific URL 均實測 HTTP 200、頁面標題與內容正確，GitHub 支援表單也回傳 HTTP 200。
+- `tools/deploy-pages.sh` 只會從乾淨 commit 複製 Web 必要檔案到暫存目錄，通過素材與機密掃描並確認 Cloudflare 登入後才部署，避免把 iOS、文件或 `node_modules` 上傳。
 - 未完成 OAuth 設定前，登入端點不可被列為可用功能。
 - OAuth 完成後，依 `docs/app-store/release-checklist.md` 執行真實 token、三端同步、匯出與刪除 E2E。
