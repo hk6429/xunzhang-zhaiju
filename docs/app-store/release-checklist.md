@@ -11,8 +11,8 @@
 
 ## 正式服務
 
-- [ ] Turso production database 已建立、備份策略已確認、migrations 已套用。
-- [ ] Cloudflare Worker production／staging 分離，secrets 未寫入 Git。
+- [x] Turso production database 已建立、migrations 已套用，PITR + 每週／重大 migration 前 SQL dump 的備份策略與驗證腳本已備妥。
+- [x] Cloudflare Worker production／staging 分離，兩邊使用獨立 Turso DB、session secret 與 rate-limit namespaces，secrets 未寫入 Git。
 - [ ] CORS 只允許正式 Web origin。
 - [ ] Apple／Google callback URL 與 client 設定完全一致。
 - [ ] staging 完成登入、連結、同步衝突、refresh replay、限流、匯出與刪除 E2E。

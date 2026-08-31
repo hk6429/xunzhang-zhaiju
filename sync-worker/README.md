@@ -70,4 +70,6 @@ npm run dry-run
 npx wrangler deploy
 ```
 
+Staging 使用獨立的 `wrangler.staging.jsonc`、`xunzhang-zhaiju-sync-staging` Worker、Turso database 與 rate-limit namespace。所有 `secret put`、dry-run、deploy 指令都需加上 `--config wrangler.staging.jsonc`，不可共用 production database token。
+
 正式部署前還要完成 Turso migration、Apple／Google OAuth client 設定及端對端真實 token 測試。

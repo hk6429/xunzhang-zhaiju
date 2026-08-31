@@ -80,7 +80,7 @@ targets:
         GOOGLE_IOS_CLIENT_ID: ""
         GOOGLE_SERVER_CLIENT_ID: ""
         GOOGLE_REVERSED_CLIENT_ID: ""
-        SYNC_API_BASE_URL: https://xunzhang-zhaiju-sync.example.workers.dev
+        SYNC_API_BASE_URL: https://xunzhang-zhaiju-sync.hk6429.workers.dev
     dependencies:
       - package: GRDB
         product: GRDB

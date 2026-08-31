@@ -11,3 +11,7 @@ sync-worker/node_modules/
 sync-worker/.wrangler/
 sync-worker/.dev.vars
 sync-worker/.env*
+
+# Database backups may contain account and learning data
+backups/
+*.turso-backup.sql

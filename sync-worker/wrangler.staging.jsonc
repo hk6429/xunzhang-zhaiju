@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "xunzhang-zhaiju-sync",
+  "name": "xunzhang-zhaiju-sync-staging",
   "main": "src/index.ts",
   "compatibility_date": "2026-08-28",
   "vars": {
@@ -11,19 +11,19 @@
     "GOOGLE_CLIENT_IDS": "",
     "GOOGLE_WEB_CLIENT_ID": "",
     "ALLOWED_ORIGINS": "",
-    "SESSION_ISSUER": "xunzhang-zhaiju-sync",
-    "PUBLIC_BASE_URL": "https://xunzhang-zhaiju-sync.hk6429.workers.dev",
+    "SESSION_ISSUER": "xunzhang-zhaiju-sync-staging",
+    "PUBLIC_BASE_URL": "https://xunzhang-zhaiju-sync-staging.hk6429.workers.dev",
     "WEB_COOKIE_SAME_SITE": "None"
   },
   "ratelimits": [
     {
       "name": "AUTH_RATE_LIMITER",
-      "namespace_id": "101701",
+      "namespace_id": "101703",
       "simple": { "limit": 20, "period": 60 }
     },
     {
       "name": "SYNC_RATE_LIMITER",
-      "namespace_id": "101702",
+      "namespace_id": "101704",
       "simple": { "limit": 120, "period": 60 }
     }
   ],
