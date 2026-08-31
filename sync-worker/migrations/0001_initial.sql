@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS progress_snapshots (
 );
 
 CREATE TABLE IF NOT EXISTS progress_events (
-  id TEXT PRIMARY KEY,
+  id TEXT NOT NULL,
   user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   device_id TEXT NOT NULL,
   sequence INTEGER NOT NULL,
@@ -30,8 +30,23 @@ CREATE TABLE IF NOT EXISTS progress_events (
   payload TEXT NOT NULL,
   occurred_at TEXT NOT NULL,
   created_at TEXT NOT NULL,
+  PRIMARY KEY (user_id, id),
   UNIQUE (user_id, device_id, sequence)
 );
 
 CREATE INDEX IF NOT EXISTS progress_events_user_created
   ON progress_events(user_id, created_at);
+
+CREATE TABLE IF NOT EXISTS sessions (
+  id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  family_id TEXT NOT NULL,
+  secret_hash TEXT NOT NULL,
+  expires_at TEXT NOT NULL,
+  rotated_at TEXT,
+  revoked_at TEXT,
+  created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS sessions_user_family
+  ON sessions(user_id, family_id);

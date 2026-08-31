@@ -40,9 +40,27 @@ struct SyncClient: Sendable {
         request.httpBody = try encoder.encode(Body(provider: provider.rawValue, idToken: idToken, nonce: nonce))
         let response: AuthExchangeResponse = try await perform(request)
         return BackendSession(
-            token: response.sessionToken,
+            accessToken: response.accessToken,
+            refreshToken: response.refreshToken,
             userID: response.userID,
-            expiresAt: Date().addingTimeInterval(response.expiresIn)
+            accessExpiresAt: Date().addingTimeInterval(response.expiresIn),
+            refreshExpiresAt: Date().addingTimeInterval(response.refreshExpiresIn)
+        )
+    }
+
+    func refresh(_ refreshToken: String, baseURL: URL) async throws -> BackendSession {
+        struct Body: Encodable { let refreshToken: String }
+        var request = URLRequest(url: baseURL.appending(path: "v1/auth/refresh"))
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try encoder.encode(Body(refreshToken: refreshToken))
+        let response: AuthExchangeResponse = try await perform(request)
+        return BackendSession(
+            accessToken: response.accessToken,
+            refreshToken: response.refreshToken,
+            userID: response.userID,
+            accessExpiresAt: Date().addingTimeInterval(response.expiresIn),
+            refreshExpiresAt: Date().addingTimeInterval(response.refreshExpiresIn)
         )
     }
 

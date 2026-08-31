@@ -33,26 +33,47 @@ export async function verifyProviderToken(
   };
 }
 
-export async function issueSession(userID: string, env: Env): Promise<string> {
+export interface AccessIdentity {
+  userID: string;
+  sessionID: string;
+}
+
+export interface RefreshCredential {
+  id: string;
+  secretHash: string;
+  token: string;
+}
+
+export async function issueSession(userID: string, sessionID: string, env: Env): Promise<string> {
   return new SignJWT({ scope: "progress:sync" })
     .setProtectedHeader({ alg: "HS256", typ: "JWT" })
     .setIssuer(env.SESSION_ISSUER)
     .setAudience("xunzhang-zhaiju-clients")
     .setSubject(userID)
-    .setJti(crypto.randomUUID())
+    .setJti(sessionID)
     .setIssuedAt()
-    .setExpirationTime("30d")
+    .setExpirationTime("15m")
     .sign(sessionKey(env));
 }
 
-export async function verifySession(token: string, env: Env): Promise<string> {
+export async function verifySession(token: string, env: Env): Promise<AccessIdentity> {
   const verified = await jwtVerify(token, sessionKey(env), {
     algorithms: ["HS256"],
     issuer: env.SESSION_ISSUER,
     audience: "xunzhang-zhaiju-clients",
   });
-  if (!verified.payload.sub) throw new Error("session 缺少 subject");
-  return verified.payload.sub;
+  if (!verified.payload.sub || !verified.payload.jti) throw new Error("session 缺少識別欄位");
+  return { userID: verified.payload.sub, sessionID: verified.payload.jti };
+}
+
+export async function makeRefreshCredential(id = crypto.randomUUID()): Promise<RefreshCredential> {
+  const bytes = crypto.getRandomValues(new Uint8Array(32));
+  const secret = base64URL(bytes);
+  return { id, secretHash: await hashSecret(secret), token: `${id}.${secret}` };
+}
+
+export async function verifyRefreshSecret(secret: string, expectedHash: string): Promise<boolean> {
+  return await hashSecret(secret) === expectedHash;
 }
 
 function sessionKey(env: Env): Uint8Array {
@@ -64,4 +85,15 @@ function sessionKey(env: Env): Uint8Array {
 
 function parseList(value: string): string[] {
   return value.split(",").map((item) => item.trim()).filter(Boolean);
+}
+
+async function hashSecret(secret: string): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", encoder.encode(secret));
+  return base64URL(new Uint8Array(digest));
+}
+
+function base64URL(bytes: Uint8Array): string {
+  let binary = "";
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/u, "");
 }

@@ -37,4 +37,19 @@ describe("sync worker", () => {
 
     expect(response.status).toBe(400);
   });
+
+  it("rejects malformed refresh tokens without touching the database", async () => {
+    const response = await SELF.fetch("https://example.test/v1/auth/refresh", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refreshToken: "short" }),
+    });
+
+    expect(response.status).toBe(400);
+  });
+
+  it("requires authentication for account export", async () => {
+    const response = await SELF.fetch("https://example.test/v1/account/export");
+    expect(response.status).toBe(401);
+  });
 });

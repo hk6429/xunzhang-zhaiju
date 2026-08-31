@@ -9,6 +9,18 @@
     "ALLOWED_ORIGINS": "",
     "SESSION_ISSUER": "xunzhang-zhaiju-sync"
   },
+  "ratelimits": [
+    {
+      "name": "AUTH_RATE_LIMITER",
+      "namespace_id": "101701",
+      "simple": { "limit": 20, "period": 60 }
+    },
+    {
+      "name": "SYNC_RATE_LIMITER",
+      "namespace_id": "101702",
+      "simple": { "limit": 120, "period": 60 }
+    }
+  ],
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1

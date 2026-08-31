@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xunzhang-zhaiju.app/contracts/progress-events-v1.schema.json",
+  "title": "尋章摘句同步事件 v1",
+  "type": "array",
+  "maxItems": 500,
+  "items": {
+    "type": "object",
+    "required": ["id", "sequence", "kind", "payload", "occurredAt"],
+    "properties": {
+      "id": { "type": "string", "minLength": 8, "maxLength": 128 },
+      "sequence": { "type": "integer", "minimum": 1 },
+      "kind": {
+        "enum": [
+          "progressUpdated", "levelCompleted", "quizAnswered", "quickChallengeCompleted",
+          "inkSpent", "restTaken", "worldEventChosen", "dailyEncounterChosen", "guestProgressClaimed"
+        ]
+      },
+      "payload": { "$ref": "progress-snapshot-v1.schema.json" },
+      "occurredAt": { "type": "string", "format": "date-time" }
+    },
+    "additionalProperties": false
+  }
+}

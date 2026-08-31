@@ -5,10 +5,14 @@ Cloudflare Worker + Turso 的跨裝置進度同步 API。核心遊戲不依賴�
 ## API
 
 - `GET /health`：服務健康狀態
-- `POST /v1/auth/exchange`：驗證 Apple／Google ID token，換發 30 天短期 session
+- `POST /v1/auth/exchange`：驗證 Apple／Google ID token，換發 15 分鐘 access token 與一次性 refresh token
+- `POST /v1/auth/refresh`：輪替 refresh token；重播舊 token 會撤銷整個 family
 - `POST /v1/sync`：以 revision 合併快照，事件依 `id` 與「使用者／裝置／序號」去重
+- `GET /v1/account/export`：匯出帳號進度 JSON
+- `DELETE /v1/account`：明確確認後刪除帳號及雲端資料
 
 請求上限為 1 MiB。瀏覽器來源必須列在 `ALLOWED_ORIGINS`；iOS 原生請求沒有 `Origin` 標頭，不受 CORS 限制。
+登入與同步分別使用 Cloudflare Rate Limiting binding；正式部署時 namespace ID 必須在同一帳號內保持唯一。
 
 ## 本機驗證
 

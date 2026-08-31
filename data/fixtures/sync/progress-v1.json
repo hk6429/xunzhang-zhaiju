@@ -1,0 +1,16 @@
+{
+  "v": 1,
+  "levels": {
+    "1": { "stars": 3, "found": ["idiom-001"] }
+  },
+  "ink": 4,
+  "collection": ["idiom-001"],
+  "daily": null,
+  "mastery": null,
+  "wrongBook": null,
+  "streak": null,
+  "activeRun": null,
+  "levelStats": null,
+  "activity": null,
+  "world": null
+}

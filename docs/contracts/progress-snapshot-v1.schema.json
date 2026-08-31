@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xunzhang-zhaiju.app/contracts/progress-snapshot-v1.schema.json",
+  "title": "尋章摘句進度快照 v1",
+  "type": "object",
+  "required": ["v", "levels", "ink", "collection"],
+  "properties": {
+    "v": { "const": 1 },
+    "levels": {
+      "type": "object",
+      "patternProperties": {
+        "^[1-9][0-9]{0,2}$": {
+          "type": "object",
+          "required": ["stars", "found"],
+          "properties": {
+            "stars": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "found": { "$ref": "#/$defs/stringSet" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "ink": { "type": "integer", "minimum": 0, "maximum": 100000 },
+    "collection": { "$ref": "#/$defs/stringSet" },
+    "daily": { "type": ["object", "null"] },
+    "mastery": { "type": ["object", "null"] },
+    "wrongBook": { "anyOf": [{ "$ref": "#/$defs/stringSet" }, { "type": "null" }] },
+    "streak": { "type": ["object", "null"] },
+    "activeRun": { "type": ["object", "null"] },
+    "levelStats": { "type": ["object", "null"] },
+    "activity": { "type": ["object", "null"] },
+    "world": { "type": ["object", "null"] }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "stringSet": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 128 },
+      "uniqueItems": true,
+      "maxItems": 2000
+    }
+  }
+}

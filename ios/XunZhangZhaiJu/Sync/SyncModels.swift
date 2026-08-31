@@ -6,17 +6,22 @@ enum IdentityProvider: String, Codable {
 }
 
 struct BackendSession: Codable, Equatable {
-    let token: String
+    let accessToken: String
+    let refreshToken: String
     let userID: String
-    let expiresAt: Date
+    let accessExpiresAt: Date
+    let refreshExpiresAt: Date
 
-    var isValid: Bool { expiresAt > Date() }
+    var isValid: Bool { refreshExpiresAt > Date() }
+    var accessIsValid: Bool { accessExpiresAt > Date().addingTimeInterval(60) }
 }
 
 struct AuthExchangeResponse: Decodable {
-    let sessionToken: String
+    let accessToken: String
+    let refreshToken: String
     let userID: String
     let expiresIn: TimeInterval
+    let refreshExpiresIn: TimeInterval
 }
 
 struct SyncEventEnvelope: Encodable {

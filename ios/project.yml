@@ -101,6 +101,9 @@ targets:
       - path: ../data/fixtures/native-parity/core-rules.json
         group: Resources/Fixtures
         buildPhase: resources
+      - path: ../data/fixtures/sync/progress-v1.json
+        group: Resources/Fixtures
+        buildPhase: resources
     settings:
       base:
         GENERATE_INFOPLIST_FILE: true

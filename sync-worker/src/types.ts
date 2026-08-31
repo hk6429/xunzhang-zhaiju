@@ -9,6 +9,10 @@ export interface AuthExchangeRequest {
   nonce?: string;
 }
 
+export interface AuthRefreshRequest {
+  refreshToken: string;
+}
+
 export interface SyncEventInput {
   id: string;
   sequence: number;
@@ -53,6 +57,14 @@ export function parseAuthExchange(value: unknown): AuthExchangeRequest {
     idToken: value.idToken,
     nonce: value.nonce,
   };
+}
+
+export function parseAuthRefresh(value: unknown): AuthRefreshRequest {
+  if (!isRecord(value) || typeof value.refreshToken !== "string"
+      || value.refreshToken.length < 40 || value.refreshToken.length > 256) {
+    throw new TypeError("refreshToken 格式錯誤");
+  }
+  return { refreshToken: value.refreshToken };
 }
 
 export function parseSyncRequest(value: unknown): SyncRequestBody {

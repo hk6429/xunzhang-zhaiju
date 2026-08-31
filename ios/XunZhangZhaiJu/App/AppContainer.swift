@@ -112,11 +112,19 @@ final class AppContainer: ObservableObject {
 
     func syncNow() async {
         guard syncState != .syncing else { return }
-        guard let session = backendSession, session.isValid,
+        guard let existingSession = backendSession, existingSession.isValid,
               let baseURL = SyncConfiguration.baseURL,
               let repository, let deviceID, let namespace else { return }
         syncState = .syncing
         do {
+            let session: BackendSession
+            if existingSession.accessIsValid {
+                session = existingSession
+            } else {
+                session = try await syncClient.refresh(existingSession.refreshToken, baseURL: baseURL)
+                try keychain.setBackendSession(session)
+                backendSession = session
+            }
             let snapshot = try repository.snapshot(namespace: namespace)
             let pending = Array(try repository.pendingOutbox(namespace: namespace).prefix(500))
             let pendingIDs = Set(pending.map(\.eventID))
@@ -139,7 +147,7 @@ final class AppContainer: ObservableObject {
                     snapshot: progress,
                     events: events
                 ),
-                sessionToken: session.token,
+                sessionToken: session.accessToken,
                 baseURL: baseURL
             )
             guard self.namespace == namespace else { return }
