@@ -1,0 +1,78 @@
+import SwiftUI
+
+struct JourneyView: View {
+    @EnvironmentObject private var container: AppContainer
+
+    var body: some View {
+        Group {
+            switch container.startupState {
+            case .ready:
+                if let content = container.content {
+                    ScrollView {
+                        LazyVGrid(
+                            columns: [GridItem(.adaptive(minimum: 150), spacing: 14)],
+                            spacing: 14
+                        ) {
+                            ForEach(Array(content.levels.prefix(10))) { level in
+                                levelLink(level, content: content)
+                            }
+                        }
+                        .padding()
+                    }
+                    .background(AppTheme.background)
+                }
+            case let .failed(message):
+                VStack(spacing: 14) {
+                    Image(systemName: "exclamationmark.triangle")
+                        .font(.largeTitle)
+                        .foregroundStyle(Color.orange)
+                    Text("內容無法載入")
+                        .font(.title2.bold())
+                    Text(message)
+                        .multilineTextAlignment(.center)
+                }
+                .foregroundStyle(AppTheme.primaryText)
+                .padding()
+            }
+        }
+        .navigationTitle("修煉山河")
+    }
+
+    @ViewBuilder
+    private func levelLink(_ level: Level, content: AppContent) -> some View {
+        let unlocked = level.requirements.completedAll.allSatisfy {
+            (container.progress.levels[String($0)]?.stars ?? 0) > 0
+        }
+        let stars = container.progress.levels[String(level.id)]?.stars ?? 0
+        NavigationLink {
+            GameView(level: level, phrases: content.phrases, container: container)
+        } label: {
+            VStack(alignment: .leading, spacing: 10) {
+                HStack {
+                    Text("第 \(level.id) 關")
+                        .font(.headline)
+                    Spacer()
+                    Image(systemName: unlocked ? "seal.fill" : "lock.fill")
+                }
+                Text(level.chapterTitle)
+                    .font(.title3.bold())
+                Text(level.layout == .full ? "尋句字陣" : "交叉填字")
+                    .font(.subheadline)
+                Text(stars > 0 ? String(repeating: "★", count: stars) + String(repeating: "☆", count: 3 - stars) : "尚未破陣")
+                    .foregroundStyle(AppTheme.accent)
+            }
+            .foregroundStyle(AppTheme.primaryText)
+            .frame(maxWidth: .infinity, minHeight: 112, alignment: .leading)
+            .padding()
+            .background(Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 18))
+            .overlay {
+                RoundedRectangle(cornerRadius: 18)
+                    .stroke(unlocked ? AppTheme.accent.opacity(0.7) : Color.white.opacity(0.25))
+            }
+        }
+        .disabled(!unlocked)
+        .opacity(unlocked ? 1 : 0.62)
+        .accessibilityIdentifier("level-\(level.id)")
+        .accessibilityLabel("第 \(level.id) 關，\(level.chapterTitle)，\(stars) 星")
+    }
+}

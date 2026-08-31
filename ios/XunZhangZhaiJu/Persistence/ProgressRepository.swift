@@ -62,4 +62,15 @@ struct ProgressRepository: Sendable {
                 .fetchAll(db)
         }
     }
+
+    func nextSequence(namespace: String, deviceID: String) throws -> Int64 {
+        try database.reader.read { db in
+            let maximum = try Int64.fetchOne(
+                db,
+                sql: "SELECT MAX(sequence) FROM progressEvent WHERE namespace = ? AND deviceID = ?",
+                arguments: [namespace, deviceID]
+            ) ?? 0
+            return maximum + 1
+        }
+    }
 }
