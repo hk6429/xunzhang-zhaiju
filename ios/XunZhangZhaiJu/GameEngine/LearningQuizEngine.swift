@@ -1,0 +1,107 @@
+import Foundation
+
+enum LearningQuestionKind: String, Codable, Equatable {
+    case choice
+    case fill
+}
+
+struct LearningQuestion: Identifiable, Equatable {
+    var id: String { "\(phraseID):\(kind.rawValue)" }
+    var phraseID: String
+    var kind: LearningQuestionKind
+    var prompt: String
+    var answer: String
+    var options: [String]
+}
+
+struct LearningQuizEngine {
+    func buildQuestions(
+        phrases: [Phrase],
+        targetPhraseIDs: [String],
+        count: Int,
+        randomValues: [Double] = []
+    ) -> [LearningQuestion] {
+        guard count > 0 else { return [] }
+        let phrasesByID = Dictionary(uniqueKeysWithValues: phrases.map { ($0.id, $0) })
+        var prioritized: [Phrase] = []
+        var seen = Set<String>()
+        for id in targetPhraseIDs {
+            if let phrase = phrasesByID[id], seen.insert(id).inserted {
+                prioritized.append(phrase)
+            }
+        }
+        prioritized.append(contentsOf: phrases.filter { seen.insert($0.id).inserted })
+
+        var random = RandomValues(values: randomValues)
+        var questions: [LearningQuestion] = []
+        for (index, phrase) in prioritized.prefix(count).enumerated() {
+            let wantsChoice = index.isMultiple(of: 2)
+            if wantsChoice, phrases.count >= 4 {
+                questions.append(choiceQuestion(for: phrase, allPhrases: phrases, random: &random))
+            } else {
+                questions.append(fillQuestion(for: phrase, random: &random))
+            }
+        }
+        return questions
+    }
+
+    private func choiceQuestion(
+        for phrase: Phrase,
+        allPhrases: [Phrase],
+        random: inout RandomValues
+    ) -> LearningQuestion {
+        let distractors = allPhrases
+            .filter { $0.id != phrase.id }
+            .prefix(3)
+            .map(\.text)
+        var options = [phrase.text] + distractors
+        shuffle(&options, random: &random)
+        return LearningQuestion(
+            phraseID: phrase.id,
+            kind: .choice,
+            prompt: phrase.meaning,
+            answer: phrase.text,
+            options: options
+        )
+    }
+
+    private func fillQuestion(
+        for phrase: Phrase,
+        random: inout RandomValues
+    ) -> LearningQuestion {
+        var characters = Array(phrase.text)
+        let eligible = characters.indices.filter { index in
+            characters.filter { $0 == characters[index] }.count == 1
+        }
+        let pool = eligible.isEmpty ? Array(characters.indices) : eligible
+        let selected = pool[min(pool.count - 1, Int(random.next() * Double(pool.count)))]
+        let answer = String(characters[selected])
+        characters[selected] = "　"
+        return LearningQuestion(
+            phraseID: phrase.id,
+            kind: .fill,
+            prompt: "請補上空格：\(String(characters))",
+            answer: answer,
+            options: []
+        )
+    }
+
+    private func shuffle(_ values: inout [String], random: inout RandomValues) {
+        guard values.count > 1 else { return }
+        for index in stride(from: values.count - 1, through: 1, by: -1) {
+            let swapIndex = min(index, Int(random.next() * Double(index + 1)))
+            values.swapAt(index, swapIndex)
+        }
+    }
+}
+
+private struct RandomValues {
+    var values: [Double]
+    var index = 0
+
+    mutating func next() -> Double {
+        defer { index += 1 }
+        guard values.indices.contains(index), values[index].isFinite else { return 0 }
+        return min(0.999_999_999, max(0, values[index]))
+    }
+}
