@@ -40,6 +40,7 @@ node tools/validate-visuals.mjs                                          # 美�
 node tools/validate-app-store-assets.mjs                                 # App Store 截圖與 metadata 限制
 node tools/scan-secrets.mjs                                              # 版本庫機密掃描（不輸出疑似密鑰內容）
 tools/backup-turso.sh xunzhang-zhaiju                                    # 建立並驗證版本庫外的 Turso SQL 備份
+tools/validate-ios-archive.sh /path/to/XunZhangZhaiJu.xcarchive           # 驗證封存版本、裝置與隱私清單
 node --test tests/*.test.js                                                # Web 模組不變式測試
 npx wrangler deploy --config presence-worker/wrangler.jsonc              # 部署匿名在線 Presence API
 cd sync-worker && npm run typecheck && npm test && npm run dry-run       # 驗證進度同步 Worker

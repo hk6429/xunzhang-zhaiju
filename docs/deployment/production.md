@@ -13,6 +13,7 @@
 - Turso migrations：`0001_initial.sql`、`0002_ink_ledger.sql`
 - Worker secrets：`TURSO_DATABASE_URL`、`TURSO_AUTH_TOKEN`、`WORKER_SESSION_SECRET`
 - Staging 使用獨立的 Worker／Turso database／session secret／rate-limit namespaces，設定檔為 `sync-worker/wrangler.staging.jsonc`。
+- Production CORS allowlist 僅含現有正式鏡像：`https://xunzhang-zhaiju.pages.dev`、`https://xunzhang-zhaiju.netlify.app`；staging 尚無公開前端，因此維持空 allowlist。
 
 資料庫的實際 URL、權杖與 session secret 不寫入版本庫。Migration 後已確認七個 table／index 物件存在、`progress_events.ink_delta` 欄位存在，且 `PRAGMA foreign_key_check` 無結果。
 
@@ -48,12 +49,13 @@ Apple／Google 登入仍停用，直到帳號持有人提供並完成：
 
 - Apple Developer Program、App ID、Services ID、Team ID、Key ID 與 Sign in with Apple private key。
 - Google Cloud iOS／Web OAuth clients 與 Web client secret。
-- 正式 Web origin；填入 `ALLOWED_ORIGINS` 後才能啟用瀏覽器 cookie 同步。
+- 將 Web 版的 `xzzj-sync-api` 指向正式 Worker；目前刻意保留空值，在 OAuth 完成前不顯示可用的登入／同步操作。
 
 不得以測試 client ID、假 private key 或寬鬆 `*` CORS 代替正式設定。
 
 ## 上線驗證
 
 - Production 與 staging 的 `GET /health` 均已實測回傳 HTTP 200、`Cache-Control: no-store` 與版本 1。
+- Production 已從兩個 allowlist origins 實測 HTTP 200、精確 `Access-Control-Allow-Origin` 與 credentials；未列入的測試來源回傳 403。
 - 未完成 OAuth 設定前，登入端點不可被列為可用功能。
 - OAuth 完成後，依 `docs/app-store/release-checklist.md` 執行真實 token、三端同步、匯出與刪除 E2E。

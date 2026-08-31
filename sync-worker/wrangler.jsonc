@@ -10,7 +10,7 @@
     "APPLE_KEY_ID": "",
     "GOOGLE_CLIENT_IDS": "",
     "GOOGLE_WEB_CLIENT_ID": "",
-    "ALLOWED_ORIGINS": "",
+    "ALLOWED_ORIGINS": "https://xunzhang-zhaiju.pages.dev,https://xunzhang-zhaiju.netlify.app",
     "SESSION_ISSUER": "xunzhang-zhaiju-sync",
     "PUBLIC_BASE_URL": "https://xunzhang-zhaiju-sync.hk6429.workers.dev",
     "WEB_COOKIE_SAME_SITE": "None"

@@ -6,20 +6,22 @@
 - [x] Worker typecheck、測試、migration smoke 與 dry-run 全部通過。
 - [x] 版本庫機密掃描通過。
 - [x] iPhone 單元／UI tests 通過。
-- [ ] iPad 真機完成直向、橫向、Split View、VoiceOver 與離線測試（Simulator 直向直接安裝啟動已通過）。
-- [ ] Release Archive 內含有效 `PrivacyInfo.xcprivacy`，第三方套件 privacy manifests 無警告。
+- [x] iPad 13 吋 Simulator 完成直向、橫向與 accessibility 大字級自動 UI 測試（55 unit＋5 UI 全數通過）。
+- [ ] iPad 真機完成直向、橫向、Split View、VoiceOver 與離線測試。
+- [x] 未簽署 iPhoneOS Release Archive 已建立；版本 1.0.0（1）、iPhone＋iPad、正式同步 URL、加密宣告及 App／第三方共 12 份 `PrivacyInfo.xcprivacy` 全部驗證通過。
 
 ## 正式服務
 
 - [x] Turso production database 已建立、migrations 已套用，PITR + 每週／重大 migration 前 SQL dump 的備份策略與驗證腳本已備妥。
 - [x] Cloudflare Worker production／staging 分離，兩邊使用獨立 Turso DB、session secret 與 rate-limit namespaces，secrets 未寫入 Git。
-- [ ] CORS 只允許正式 Web origin。
+- [x] Production CORS 只允許現有 Cloudflare Pages／Netlify 正式 Web origins，未使用萬用字元；陌生來源回傳 403。
 - [ ] Apple／Google callback URL 與 client 設定完全一致。
 - [ ] staging 完成登入、連結、同步衝突、refresh replay、限流、匯出與刪除 E2E。
 
 ## App Store Connect
 
 - [ ] Bundle ID、版本、build number 與簽署正確。
+- [ ] 正式簽署的 distribution archive 通過 App Store Connect 驗證且無 privacy manifest 警告。
 - [ ] App 名稱、副標題、描述、關鍵字、分類、年齡分級與版權填妥。
 - [ ] iPhone／iPad 截圖、App Icon、Support URL、Privacy Policy URL 齊全（6.9 吋 iPhone 與 13 吋 iPad 首張無 alpha JPEG 已完成）。
 - [ ] App Privacy 填答與實際資料流一致。

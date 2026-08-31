@@ -50,6 +50,8 @@ targets:
       properties:
         CFBundleDisplayName: 尋章摘句
         CFBundleDevelopmentRegion: zh_Hant
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         ITSAppUsesNonExemptEncryption: false
         UILaunchScreen: {}
         GIDClientID: $(GOOGLE_IOS_CLIENT_ID)

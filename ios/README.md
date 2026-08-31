@@ -40,6 +40,24 @@ xcodebuild -project ios/XunZhangZhaiJu.xcodeproj \
 
 真機簽章與 TestFlight 需先完成 Apple Developer Program 申請；開發階段可直接使用 Simulator。
 
+## Release Archive 本機驗證
+
+未加入 Apple Developer Program 前，可先建立未簽署的 iPhoneOS Release Archive，驗證實際打包內容；它不能上傳 TestFlight，也不能取代正式簽署驗證。
+
+```sh
+xcodebuild -project ios/XunZhangZhaiJu.xcodeproj \
+  -scheme XunZhangZhaiJu \
+  -configuration Release \
+  -destination 'generic/platform=iOS' \
+  -archivePath /path/to/XunZhangZhaiJu.xcarchive \
+  CODE_SIGNING_ALLOWED=NO \
+  archive
+
+tools/validate-ios-archive.sh /path/to/XunZhangZhaiJu.xcarchive
+```
+
+驗證器會比對 `project.yml` 的 Bundle ID、版本、build number 與正式同步 URL，確認 iPhone／iPad device families、加密宣告、App 自有 privacy manifest，以及封存內所有第三方 privacy manifests。
+
 ## 登入與同步設定
 
 App 未填正式設定時仍會維持完整離線訪客模式，不會連到示範網址。準備上線時，在 `project.yml` 的 target build settings 填入：
