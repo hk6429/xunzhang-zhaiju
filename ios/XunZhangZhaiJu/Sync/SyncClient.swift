@@ -77,18 +77,37 @@ struct SyncClient: Sendable {
         return try await perform(request)
     }
 
+    func exportAccount(sessionToken: String, baseURL: URL) async throws -> Data {
+        var request = URLRequest(url: baseURL.appending(path: "v1/account/export"))
+        request.setValue("Bearer \(sessionToken)", forHTTPHeaderField: "Authorization")
+        return try await performData(request)
+    }
+
+    func deleteAccount(sessionToken: String, baseURL: URL) async throws {
+        var request = URLRequest(url: baseURL.appending(path: "v1/account"))
+        request.httpMethod = "DELETE"
+        request.setValue("Bearer \(sessionToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("DELETE", forHTTPHeaderField: "X-Confirm-Delete")
+        _ = try await performData(request)
+    }
+
     private func perform<Response: Decodable>(_ request: URLRequest) async throws -> Response {
+        let data = try await performData(request)
+        do {
+            return try decoder.decode(Response.self, from: data)
+        } catch {
+            throw SyncClientError.invalidResponse
+        }
+    }
+
+    private func performData(_ request: URLRequest) async throws -> Data {
         let (data, response) = try await session.data(for: request)
         guard let http = response as? HTTPURLResponse else { throw SyncClientError.invalidResponse }
         guard (200..<300).contains(http.statusCode) else {
             let message = (try? JSONDecoder().decode(ErrorBody.self, from: data).error) ?? "未知錯誤"
             throw SyncClientError.rejected(http.statusCode, message)
         }
-        do {
-            return try decoder.decode(Response.self, from: data)
-        } catch {
-            throw SyncClientError.invalidResponse
-        }
+        return data
     }
 }
 

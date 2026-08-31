@@ -118,4 +118,14 @@ struct ProgressRepository: Sendable {
             try practice.save(db)
         }
     }
+
+    func deleteNamespace(_ namespace: String) throws {
+        try database.writer.write { db in
+            try db.execute(sql: "DELETE FROM syncOutbox WHERE namespace = ?", arguments: [namespace])
+            try db.execute(sql: "DELETE FROM progressEvent WHERE namespace = ?", arguments: [namespace])
+            try db.execute(sql: "DELETE FROM progressSnapshot WHERE namespace = ?", arguments: [namespace])
+            try db.execute(sql: "DELETE FROM localPhrasePractice WHERE namespace = ?", arguments: [namespace])
+            try db.execute(sql: "DELETE FROM appSetting WHERE namespace = ?", arguments: [namespace])
+        }
+    }
 }

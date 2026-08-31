@@ -10,6 +10,9 @@ struct ProfileView: View {
     @State private var restMessage = ""
     @State private var appleNonce: (raw: String, hash: String)?
     @State private var authMessage = ""
+    @State private var exportURL: URL?
+    @State private var confirmsCloudDeletion = false
+    @State private var confirmsLocalDeletion = false
 
     var body: some View {
         ScrollView {
@@ -26,6 +29,34 @@ struct ProfileView: View {
         }
         .background(AppTheme.background)
         .navigationTitle("我的")
+        .confirmationDialog(
+            "確定刪除雲端帳號？",
+            isPresented: $confirmsCloudDeletion,
+            titleVisibility: .visible
+        ) {
+            Button("刪除雲端帳號", role: .destructive) {
+                Task {
+                    if await container.deleteCloudAccount() {
+                        confirmsLocalDeletion = true
+                    }
+                }
+            }
+        } message: {
+            Text("Turso 中的登入身分、session、事件與快照都會刪除；這台裝置的離線資料會先保留。")
+        }
+        .confirmationDialog(
+            "也清除這台裝置的帳號資料？",
+            isPresented: $confirmsLocalDeletion,
+            titleVisibility: .visible
+        ) {
+            Button("清除本機帳號資料", role: .destructive) {
+                do { try container.clearDeletedAccountLocalData() }
+                catch { authMessage = error.localizedDescription }
+            }
+            Button("保留本機資料", role: .cancel) {}
+        } message: {
+            Text("個人例句只存在本機，也會一併清除。這一步和雲端刪除分開確認。")
+        }
     }
 
     private var rankCard: some View {
@@ -97,6 +128,22 @@ struct ProfileView: View {
                         container.signOut()
                     }
                     .buttonStyle(.bordered)
+                }
+                HStack {
+                    Button("準備資料匯出") {
+                        Task { exportURL = await container.exportAccount() }
+                    }
+                    .buttonStyle(.bordered)
+                    Button("刪除雲端帳號", role: .destructive) {
+                        confirmsCloudDeletion = true
+                    }
+                    .buttonStyle(.bordered)
+                }
+                if let exportURL {
+                    ShareLink(item: exportURL) {
+                        Label("分享帳號資料 JSON", systemImage: "square.and.arrow.up")
+                    }
+                    .buttonStyle(.borderedProminent)
                 }
             } else if SyncConfiguration.baseURL != nil {
                 SignInWithAppleButton(.signIn) { request in

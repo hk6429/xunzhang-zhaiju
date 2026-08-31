@@ -55,6 +55,23 @@ final class ProgressRepositoryTests: XCTestCase {
         XCTAssertNotNil(UUID(uuidString: first))
     }
 
+    func testBackendSessionRoundTripsInKeychain() throws {
+        let service = "tw.edu.hc.zgjh.xunzhangzhaiju.tests.\(UUID().uuidString)"
+        let store = KeychainStore(service: service)
+        defer { try? store.removeBackendSession() }
+        let session = BackendSession(
+            accessToken: "access",
+            refreshToken: "refresh",
+            userID: "user-1",
+            accessExpiresAt: Date(timeIntervalSince1970: 1_800_000_000),
+            refreshExpiresAt: Date(timeIntervalSince1970: 1_900_000_000)
+        )
+
+        try store.setBackendSession(session)
+
+        XCTAssertEqual(try store.backendSession(), session)
+    }
+
     func testLocalPracticeStaysOutsideSyncOutbox() throws {
         let database = try AppDatabase.inMemory()
         let repository = ProgressRepository(database: database)
@@ -94,6 +111,18 @@ final class ProgressRepositoryTests: XCTestCase {
         XCTAssertEqual(try repository.snapshot(namespace: "user:one")?.serverRevision, 7)
         XCTAssertEqual(try repository.pendingOutbox(namespace: "user:one").map(\.eventID), [second.event.id])
         XCTAssertNotNil(try repository.events(namespace: "user:one").first?.syncedAt)
+    }
+
+    func testDeleteNamespaceRemovesOnlyThatAccountsLocalData() throws {
+        let repository = ProgressRepository(database: try AppDatabase.inMemory())
+        try repository.apply(fixture(namespace: "user:one", revision: 1))
+        try repository.apply(fixture(namespace: "guest:one", revision: 1))
+
+        try repository.deleteNamespace("user:one")
+
+        XCTAssertNil(try repository.snapshot(namespace: "user:one"))
+        XCTAssertTrue(try repository.events(namespace: "user:one").isEmpty)
+        XCTAssertNotNil(try repository.snapshot(namespace: "guest:one"))
     }
 
     private func fixture(namespace: String, revision: Int64) -> ProgressMutation {

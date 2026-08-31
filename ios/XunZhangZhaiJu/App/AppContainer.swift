@@ -13,6 +13,7 @@ final class AppContainer: ObservableObject {
     @Published private(set) var practices: [String: LocalPhrasePracticeRecord]
     @Published private(set) var backendSession: BackendSession?
     @Published private(set) var syncState: SyncState
+    @Published private(set) var cloudDeletionPendingLocalNamespace: String?
 
     private let repository: ProgressRepository?
     private let deviceID: String?
@@ -73,6 +74,7 @@ final class AppContainer: ObservableObject {
             practices = Dictionary(uniqueKeysWithValues: loadedPractices.map { ($0.phraseID, $0) })
             backendSession = validSession
             syncState = .idle
+            cloudDeletionPendingLocalNamespace = nil
             startupState = .ready
         } catch {
             content = nil
@@ -83,6 +85,7 @@ final class AppContainer: ObservableObject {
             practices = [:]
             backendSession = nil
             syncState = .failed(error.localizedDescription)
+            cloudDeletionPendingLocalNamespace = nil
             startupState = .failed(error.localizedDescription)
         }
     }
@@ -186,6 +189,64 @@ final class AppContainer: ObservableObject {
         }
         let loaded = (try? repository.practices(namespace: guestNamespace)) ?? []
         practices = Dictionary(uniqueKeysWithValues: loaded.map { ($0.phraseID, $0) })
+    }
+
+    func exportAccount() async -> URL? {
+        guard let existingSession = backendSession, existingSession.isValid,
+              let baseURL = SyncConfiguration.baseURL else { return nil }
+        do {
+            let session: BackendSession
+            if existingSession.accessIsValid {
+                session = existingSession
+            } else {
+                session = try await syncClient.refresh(existingSession.refreshToken, baseURL: baseURL)
+                try keychain.setBackendSession(session)
+                backendSession = session
+            }
+            let data = try await syncClient.exportAccount(
+                sessionToken: session.accessToken,
+                baseURL: baseURL
+            )
+            _ = try JSONSerialization.jsonObject(with: data)
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyyMMdd-HHmmss"
+            let url = FileManager.default.temporaryDirectory
+                .appendingPathComponent("xunzhang-zhaiju-\(formatter.string(from: Date())).json")
+            try data.write(to: url, options: .atomic)
+            return url
+        } catch {
+            syncState = .failed(error.localizedDescription)
+            return nil
+        }
+    }
+
+    func deleteCloudAccount() async -> Bool {
+        guard let existingSession = backendSession, existingSession.isValid,
+              let baseURL = SyncConfiguration.baseURL,
+              let namespace else { return false }
+        do {
+            let session: BackendSession
+            if existingSession.accessIsValid {
+                session = existingSession
+            } else {
+                session = try await syncClient.refresh(existingSession.refreshToken, baseURL: baseURL)
+            }
+            try await syncClient.deleteAccount(sessionToken: session.accessToken, baseURL: baseURL)
+            cloudDeletionPendingLocalNamespace = namespace
+            signOut()
+            return true
+        } catch {
+            syncState = .failed(error.localizedDescription)
+            return false
+        }
+    }
+
+    func clearDeletedAccountLocalData() throws {
+        guard let namespace = cloudDeletionPendingLocalNamespace, let repository else {
+            throw AppContainerError.unavailable
+        }
+        try repository.deleteNamespace(namespace)
+        cloudDeletionPendingLocalNamespace = nil
     }
 
     func persist(gameState: GameState) throws {
