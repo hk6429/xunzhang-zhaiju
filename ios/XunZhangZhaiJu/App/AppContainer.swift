@@ -72,6 +72,15 @@ final class AppContainer: ObservableObject {
         try persist(next, kind: "quizAnswered")
     }
 
+    func spendInk(for tier: HintTier) throws -> Bool {
+        var ledger = HintEngine(ink: progress.ink)
+        guard ledger.spend(tier) else { return false }
+        var next = progress
+        next.ink = ledger.ink
+        try persist(next, kind: "inkSpent")
+        return true
+    }
+
     private func persist(_ next: LocalAppProgress, kind: String) throws {
         guard let repository, let deviceID, let namespace else {
             throw AppContainerError.unavailable

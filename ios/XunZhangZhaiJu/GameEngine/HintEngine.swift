@@ -10,11 +10,11 @@ struct HintEngine: Equatable {
     }
 
     func canSpend(_ tier: HintTier) -> Bool {
-        ink >= cost(of: tier)
+        ink >= Self.cost(of: tier)
     }
 
     mutating func spend(_ tier: HintTier) -> Bool {
-        let amount = cost(of: tier)
+        let amount = Self.cost(of: tier)
         guard ink >= amount else { return false }
         ink -= amount
         return true
@@ -33,7 +33,7 @@ struct HintEngine: Equatable {
         return gained
     }
 
-    private func cost(of tier: HintTier) -> Int {
+    static func cost(of tier: HintTier) -> Int {
         switch tier {
         case .circle: 1
         case .flash: 3

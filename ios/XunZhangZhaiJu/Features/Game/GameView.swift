@@ -1,14 +1,20 @@
 import SwiftUI
+import Combine
 
 struct GameView: View {
+    @Environment(\.scenePhase) private var scenePhase
     @StateObject private var model: GameViewModel
 
     init(level: Level, phrases: [Phrase], container: AppContainer) {
+        let mode = PlayMode(rawValue: UserDefaults.standard.string(forKey: "play-mode") ?? "") ?? .standard
         _model = StateObject(wrappedValue: GameViewModel(
             level: level,
             phrases: phrases,
             initialCollection: container.progress.collection,
-            persist: { try container.persist(gameState: $0) }
+            initialInk: container.progress.ink,
+            playMode: mode,
+            persist: { try container.persist(gameState: $0) },
+            spendInk: { try container.spendInk(for: $0) }
         ))
     }
 
@@ -22,6 +28,7 @@ struct GameView: View {
                         FullBoardView(
                             grid: model.level.grid,
                             foundPaths: foundPaths,
+                            hintCoordinates: model.hintCoordinates,
                             onSelection: model.select
                         )
                     } else {
@@ -29,6 +36,7 @@ struct GameView: View {
                             level: model.level,
                             targets: model.targets,
                             foundPhraseIDs: model.state.foundPhraseIDs,
+                            hintCoordinates: model.hintCoordinates,
                             selectedPhraseID: $model.selectedCrossPhraseID
                         )
                         AnswerInputView(
@@ -37,6 +45,7 @@ struct GameView: View {
                             submit: model.submitCrossAnswer
                         )
                     }
+                    hintBar
                     clueList
                     if let message = model.errorMessage {
                         Text(message)
@@ -48,6 +57,8 @@ struct GameView: View {
             }
             if model.state.phase == .completed {
                 CompletionView(stars: model.state.earnedStars ?? 0)
+            } else if model.state.phase == .timedOut {
+                timeoutView
             }
         }
         .navigationTitle("第 \(model.level.id) 關")
@@ -55,6 +66,12 @@ struct GameView: View {
         .sheet(item: knowledgeBinding) { phrase in
             KnowledgeCardView(phrase: phrase)
                 .presentationDetents([.medium, .large])
+        }
+        .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
+            model.tick(milliseconds: 1_000)
+        }
+        .onChange(of: scenePhase) { phase in
+            model.setBackgrounded(phase != .active)
         }
     }
 
@@ -65,10 +82,72 @@ struct GameView: View {
                 systemImage: "seal"
             )
             Spacer()
+            if let remaining = model.state.remainingMilliseconds {
+                Label(format(milliseconds: remaining), systemImage: "hourglass")
+                    .monospacedDigit()
+            }
+            Spacer()
             Label("失誤 \(model.state.mistakes)", systemImage: "exclamationmark.circle")
         }
         .font(.headline)
         .foregroundStyle(AppTheme.secondaryText)
+    }
+
+    private var hintBar: some View {
+        VStack(spacing: 10) {
+            HStack {
+                Label("\(model.ink) 墨", systemImage: "drop.fill")
+                Spacer()
+                Text("\(model.modeConfiguration.label)・提示 \(model.state.hintsUsed) / \(model.modeConfiguration.hintCap ?? 99)")
+            }
+            .font(.subheadline.bold())
+            .foregroundStyle(AppTheme.secondaryText)
+            HStack(spacing: 8) {
+                hintButton("借一字", tier: .circle, symbol: "scope")
+                hintButton("借一句", tier: .flash, symbol: "sparkles")
+                hintButton("仙人代筆", tier: .reveal, symbol: "wand.and.stars")
+            }
+        }
+        .padding()
+        .background(Color.white.opacity(0.07), in: RoundedRectangle(cornerRadius: 14))
+    }
+
+    private func hintButton(_ title: String, tier: HintTier, symbol: String) -> some View {
+        Button {
+            model.useHint(tier)
+        } label: {
+            VStack(spacing: 4) {
+                Label(title, systemImage: symbol)
+                    .font(.caption.bold())
+                Text("\(HintEngine.cost(of: tier)) 墨")
+                    .font(.caption2)
+            }
+            .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.bordered)
+        .disabled(model.state.phase != .running)
+    }
+
+    private var timeoutView: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "hourglass.bottomhalf.filled")
+                .font(.system(size: 50))
+                .foregroundStyle(AppTheme.accent)
+            Text("時辰已盡")
+                .font(.largeTitle.bold())
+            Text("本局進度會重置，已收入摘句集的真言仍會保留。")
+                .multilineTextAlignment(.center)
+                .foregroundStyle(AppTheme.secondaryText)
+            Button("再試一次", action: model.retry)
+                .buttonStyle(.borderedProminent)
+                .tint(AppTheme.accent)
+        }
+        .foregroundStyle(AppTheme.primaryText)
+        .padding(28)
+        .frame(maxWidth: 420)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 24))
+        .padding()
+        .accessibilityIdentifier("timeout-view")
     }
 
     private var clueList: some View {
@@ -103,5 +182,10 @@ struct GameView: View {
             get: { model.knowledgePhrase },
             set: { if $0 == nil { model.dismissKnowledge() } }
         )
+    }
+
+    private func format(milliseconds: Int) -> String {
+        let seconds = max(0, milliseconds / 1_000)
+        return String(format: "%02d:%02d", seconds / 60, seconds % 60)
     }
 }

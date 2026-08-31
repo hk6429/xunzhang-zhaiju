@@ -4,6 +4,7 @@ struct CrossBoardView: View {
     let level: Level
     let targets: [(target: LevelTarget, phrase: Phrase)]
     let foundPhraseIDs: Set<String>
+    let hintCoordinates: Set<GridCoordinate>
     @Binding var selectedPhraseID: String?
 
     var body: some View {
@@ -42,7 +43,8 @@ struct CrossBoardView: View {
                     size: level.size
                 )?.contains(coordinate) == true
             }
-            let visible = revealed || owners.contains { foundPhraseIDs.contains($0.phrase.id) }
+            let visible = revealed || hintCoordinates.contains(coordinate)
+                || owners.contains { foundPhraseIDs.contains($0.phrase.id) }
             Button {
                 selectedPhraseID = owners.first { !foundPhraseIDs.contains($0.phrase.id) }?.phrase.id
             } label: {

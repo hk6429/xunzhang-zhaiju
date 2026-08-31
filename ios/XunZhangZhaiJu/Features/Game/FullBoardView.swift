@@ -3,6 +3,7 @@ import SwiftUI
 struct FullBoardView: View {
     let grid: [[String?]]
     let foundPaths: [[GridCoordinate]]
+    let hintCoordinates: Set<GridCoordinate>
     let onSelection: ([GridCoordinate]) -> Void
     @State private var anchor: GridCoordinate?
     @State private var preview: [GridCoordinate] = []
@@ -65,6 +66,7 @@ struct FullBoardView: View {
 
     private func cellColor(_ coordinate: GridCoordinate) -> Color {
         if foundPaths.contains(where: { $0.contains(coordinate) }) { return AppTheme.accent.opacity(0.7) }
+        if hintCoordinates.contains(coordinate) { return Color.cyan.opacity(0.7) }
         if preview.contains(coordinate) { return Color.orange.opacity(0.55) }
         return Color.white.opacity(0.08)
     }
