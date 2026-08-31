@@ -24,6 +24,12 @@ Apple／Google 的身分權杖只用於驗證登入，不作廣告或分析用�
 
 個人例句與使用情境永遠只保存在本機，不會加入雲端同步。
 
+### Google Sign-In 第三方資料處理
+
+App 內使用 GoogleSignIn 9.2.0 提供 Google 登入。該 SDK 隨附的 Apple privacy manifest 宣告，登入流程可能處理與 Google 帳號連結的姓名、電子郵件地址、電話號碼、概略位置、使用者 ID、裝置 ID、其他資料類型與其他使用狀況資料，用於 App Functionality 或 Analytics，且不作跨 App／網站追蹤。
+
+尋章摘句程式不讀取或保存 Google 回傳的姓名、電子郵件地址、電話號碼與頭像；後端只驗證身分權杖並保存不可逆的站內識別碼。Google 仍可能依其服務條款、[Google Sign-In for iOS App Privacy](https://developers.google.com/identity/sign-in/ios/app-privacy)與隱私權政策處理登入安全、OAuth 授權及防止濫用所需資料。
+
 ## 使用目的
 
 上述資料只用於：

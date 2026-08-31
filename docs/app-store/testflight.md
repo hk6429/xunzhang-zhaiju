@@ -39,7 +39,8 @@
 - [ ] 加入 Apple Developer Program，建立 App ID、簽署與 App Store Connect App。
 - [ ] 建立 Sign in with Apple 設定與 Google OAuth iOS／Web clients。
 - [x] 建立 production／staging Turso 資料庫、套用 migrations，部署獨立 Cloudflare Workers 並設定 secrets／CORS。
-- [ ] 將正式 Worker HTTPS 網址與 OAuth client IDs 寫入 Release build settings。
+- [x] 將正式 Worker HTTPS 網址寫入 Release build settings，並由 Archive 閘門驗證。
+- [ ] 將 Apple／Google 正式 OAuth client IDs 寫入 Worker 與 Release build settings。
 - [ ] 完成正式三端 E2E、帳號連結、權杖輪替、匯出與刪除驗收。
 - [x] 公開部署 Support URL 與 Privacy Policy URL，並提供不要求電子郵件的 GitHub 支援表單。
 - [ ] 填入 TestFlight Beta App Review 的有人收信聯絡信箱。

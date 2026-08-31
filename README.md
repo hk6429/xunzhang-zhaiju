@@ -42,7 +42,8 @@ node tools/validate-visuals.mjs                                          # 美�
 node tools/validate-app-store-assets.mjs                                 # App Icon、截圖、metadata 與公開頁面入口
 node tools/scan-secrets.mjs                                              # 版本庫機密掃描（不輸出疑似密鑰內容）
 tools/backup-turso.sh xunzhang-zhaiju                                    # 建立並驗證版本庫外的 Turso SQL 備份
-tools/validate-ios-archive.sh /path/to/XunZhangZhaiJu.xcarchive           # 驗證封存版本、裝置與隱私清單
+tools/validate-ios-archive.sh /path/to/XunZhangZhaiJu.xcarchive           # 驗證封存版本、圖示、隱私聚合與 SDK pins
+node tools/validate-app-privacy.mjs /path/to/XunZhangZhaiJu.xcarchive     # 單獨重跑 Archive 隱私契約
 tools/deploy-pages.sh                                                    # 從乾淨 commit 部署 Web 正式站
 node --test tests/*.test.js                                                # Web 模組不變式測試
 npx wrangler deploy --config presence-worker/wrangler.jsonc              # 部署匿名在線 Presence API

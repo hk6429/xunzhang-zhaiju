@@ -24,6 +24,10 @@ command -v sips >/dev/null 2>&1 || {
   echo "Missing required command: sips" >&2
   exit 69
 }
+command -v node >/dev/null 2>&1 || {
+  echo "Missing required command: node" >&2
+  exit 69
+}
 
 script_directory=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 repository_directory=$(dirname -- "$script_directory")
@@ -102,5 +106,7 @@ if [ "$manifest_total" -lt 1 ]; then
   echo "No privacy manifests found in archive" >&2
   exit 65
 fi
+
+node "$repository_directory/tools/validate-app-privacy.mjs" "$app_path"
 
 echo "iOS archive validated: $expected_bundle $expected_version ($expected_build), iPhone+iPad icons, $manifest_total privacy manifests"
