@@ -4,7 +4,7 @@ SwiftUI 原生版本，最低支援 iOS／iPadOS 16。Xcode 專案由 `project.y
 
 ## 環境
 
-- Xcode 26 或更新版本
+- Xcode 16.4 或更新版本（CI 使用 16.4，本機亦以 26 驗證）
 - XcodeGen 2.46 或更新版本
 
 ```sh
@@ -41,6 +41,8 @@ xcodebuild -project ios/XunZhangZhaiJu.xcodeproj \
 真機簽章與 TestFlight 需先完成 Apple Developer Program 申請；開發階段可直接使用 Simulator。
 
 目前自動驗證包含 56 項單元測試，以及 iPhone 6 項、iPad 7 項適用 UI 測試。UI 測試涵蓋最大字級、iPad 旋轉、系統無障礙稽核，以及終止 App 後強制離線重開的 SQLite 進度保存。測試用儲存區、離線與無障礙開關只在 Debug 編譯中生效；Release Archive 不會保留 `UI_TEST_*` 行為。
+
+GitHub Actions 的 `Quality` workflow 會在乾淨的 macOS 15／Xcode 16.4 runner 動態選取 iPhone 與 iPad Simulator，重跑測試並建立未簽署 Release Archive。11 吋 iPad 直向時若系統收合側邊欄，UI 測試會實際開啟側邊欄後操作，不假設寬螢幕導覽永遠可見。
 
 ## Release Archive 本機驗證
 

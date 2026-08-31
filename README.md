@@ -1,5 +1,7 @@
 # 尋章摘句
 
+[![Quality](https://github.com/hk6429/xunzhang-zhaiju/actions/workflows/quality.yml/badge.svg)](https://github.com/hk6429/xunzhang-zhaiju/actions/workflows/quality.yml)
+
 中文「尋詞解謎」練功 App：在字格中找出隱藏的成語、諺語、俗語與古典文學名句。專案同時保留原始 Web 版，並以 SwiftUI 全原生重寫 iPhone／iPad 版。
 
 [立即遊玩 Web 版](https://xunzhang-zhaiju.pages.dev)（Netlify 備援鏡像：`https://xunzhang-zhaiju.netlify.app`）｜[隱私權政策](https://xunzhang-zhaiju.pages.dev/privacy.html)｜[使用支援](https://xunzhang-zhaiju.pages.dev/support.html)
@@ -13,6 +15,8 @@
 - 個人例句只保存在裝置上，不加入同步 outbox。
 
 iOS 開發與測試方式見 [`ios/README.md`](ios/README.md)，同步服務見 [`sync-worker/README.md`](sync-worker/README.md)，正式／staging 部署證據見 [`docs/deployment/production.md`](docs/deployment/production.md)。上架前資料集中於 [`docs/app-store/`](docs/app-store/)（商店文案、年齡分級、隱私、加密合規、TestFlight 與發布檢查表）。
+
+每次推送與 pull request 都會執行 GitHub Actions `Quality`：驗證 Web 內容與 108 項契約、Worker typecheck／測試／dry-run、iPhone／iPad UI、App Store 素材，以及未簽署 Release Archive 的版本、圖示、隱私清單與 Debug 開關隔離。
 
 ## 玩法
 

@@ -16,19 +16,19 @@
 | 個人例句／使用情境 | `KnowledgeCardView`、`localPhrasePractice` | `ProgressRepositoryTests.testLocalPracticeStaysOutsideSyncOutbox` |
 | 完整離線訪客模式 | GRDB snapshot／event／outbox | migration、repository、launch UI tests |
 | Apple／Google 登入與雙身分連結 | AuthenticationServices、GoogleSignIn 9.2、Web OAuth、Keychain／HttpOnly cookies | Worker auth tests、Simulator build；正式 token 待 OAuth／Apple Developer 設定 |
-| iPhone／iPad／Web 同步 | `SyncClient`、`cloud-sync.js`、Cloudflare Worker、Turso migrations | iOS merge/outbox、Web、Worker tests；iPhone／iPad 直接安裝啟動通過；正式三端 E2E 待部署 |
+| iPhone／iPad／Web 同步 | `SyncClient`、`cloud-sync.js`、Cloudflare Worker、Turso migrations | production／staging 已部署；iOS merge/outbox、Web、Worker tests 通過，正式 OAuth 三端 E2E 待驗 |
 | 墨滴跨裝置結算 | event `inkDelta`、Turso transaction、權威雲端餘額 | Web／Swift merge tests、Worker merge tests、migration smoke |
 | 匯出、登出與帳號刪除 | iOS／Web controls、session family revoke、分開確認本機清除 | Worker auth tests、iOS build；正式環境 E2E 待部署 |
 | 大量離線事件維護 | 同步後只壓縮已確認事件，永不刪除未送 outbox | 10,000 筆 repository 壓力測試 |
-| 隱私揭露與 required-reason API | `PrivacyInfo.xcprivacy`、隱私權政策、App Privacy 對照表 | `plutil`、Simulator bundle 檢查；Archive privacy report 待簽署 |
-| 動態文字、VoiceOver、Reduce Motion | 測試字級啟動路徑、盤面自訂動作、無動畫縮放 | iPhone UI smoke、iPad 最大系統字級直接啟動；真機完整稽核待驗 |
+| 隱私揭露與 required-reason API | `PrivacyInfo.xcprivacy`、隱私權政策、App Privacy 對照表 | 未簽署 Release Archive 已聚合驗證 12 份 manifest、9 類資料與套件 pins；正式簽署 privacy report 待驗 |
+| 動態文字、VoiceOver、Reduce Motion | 測試字級啟動路徑、盤面逐格按鈕、無動畫縮放 | iPhone／11 與 13 吋 iPad 系統無障礙稽核、最大字級與旋轉通過；真機 VoiceOver／Reduce Motion 待驗 |
 | App Store 顯示素材 | 6.9 吋 iPhone、13 吋 iPad 原生畫面與繁中 metadata | JPEG 尺寸／alpha、文字字數與關鍵字 bytes 自動驗證 |
 
 ## 尚待正式環境驗收
 
 - Web OAuth、帳號連結、資料匯出與帳號刪除的正式供應商 E2E。
 - Worker refresh rotation、rate limit、越權與 replay 的正式整合測試；cookie CSRF 已有來源檢查與本機測試。
-- iPad UI runner、VoiceOver、Split View 與真機效能矩陣；iPad 直接安裝啟動與直向版面已通過，iPhone Dynamic Type smoke 已通過。
-- Apple Developer Program、正式 OAuth client、Turso／Worker 部署與 TestFlight 外部測試。
+- iPhone／iPad 真機的 VoiceOver、Reduce Motion、Split View、飛航模式與效能矩陣。
+- Apple Developer Program、正式簽章、正式 OAuth client、三端登入 E2E 與 TestFlight 外部測試。
 
 本表只把已有程式與測試列為完成；需要正式帳號或外部服務的項目不以 Simulator 結果冒充上線證據。
