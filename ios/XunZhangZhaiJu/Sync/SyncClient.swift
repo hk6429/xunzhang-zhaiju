@@ -77,6 +77,22 @@ struct SyncClient: Sendable {
         return try await perform(request)
     }
 
+    func linkIdentity(
+        provider: IdentityProvider,
+        idToken: String,
+        nonce: String?,
+        sessionToken: String,
+        baseURL: URL
+    ) async throws {
+        struct Body: Encodable { let provider: String; let idToken: String; let nonce: String? }
+        var request = URLRequest(url: baseURL.appending(path: "v1/account/link"))
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(sessionToken)", forHTTPHeaderField: "Authorization")
+        request.httpBody = try encoder.encode(Body(provider: provider.rawValue, idToken: idToken, nonce: nonce))
+        _ = try await performData(request)
+    }
+
     func exportAccount(sessionToken: String, baseURL: URL) async throws -> Data {
         var request = URLRequest(url: baseURL.appending(path: "v1/account/export"))
         request.setValue("Bearer \(sessionToken)", forHTTPHeaderField: "Authorization")
@@ -88,6 +104,13 @@ struct SyncClient: Sendable {
         request.httpMethod = "DELETE"
         request.setValue("Bearer \(sessionToken)", forHTTPHeaderField: "Authorization")
         request.setValue("DELETE", forHTTPHeaderField: "X-Confirm-Delete")
+        _ = try await performData(request)
+    }
+
+    func logout(sessionToken: String, baseURL: URL) async throws {
+        var request = URLRequest(url: baseURL.appending(path: "v1/auth/logout"))
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(sessionToken)", forHTTPHeaderField: "Authorization")
         _ = try await performData(request)
     }
 

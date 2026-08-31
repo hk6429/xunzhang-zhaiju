@@ -16,6 +16,7 @@
           "inkSpent", "restTaken", "worldEventChosen", "dailyEncounterChosen", "guestProgressClaimed"
         ]
       },
+      "inkDelta": { "type": "integer", "minimum": -100000, "maximum": 100000, "default": 0 },
       "payload": { "$ref": "progress-snapshot-v1.schema.json" },
       "occurredAt": { "type": "string", "format": "date-time" }
     },

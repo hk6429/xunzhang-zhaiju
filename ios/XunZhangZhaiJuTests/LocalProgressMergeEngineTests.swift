@@ -2,6 +2,17 @@ import XCTest
 @testable import XunZhangZhaiJu
 
 final class LocalProgressMergeEngineTests: XCTestCase {
+    func testAuthoritativeCloudInkCanReflectConcurrentSpending() {
+        var cloud = LocalAppProgress.fresh
+        cloud.ink = 2
+        var local = LocalAppProgress.fresh
+        local.ink = 8
+
+        let merged = LocalProgressMergeEngine.merge(cloud, local, authoritativeInk: cloud.ink)
+
+        XCTAssertEqual(merged.ink, 2)
+    }
+
     func testMergeKeepsCollectedProgressAndBestLevelResults() {
         var left = LocalAppProgress.fresh
         left.levels["1"] = LocalLevelProgress(stars: 3, found: ["p1"])

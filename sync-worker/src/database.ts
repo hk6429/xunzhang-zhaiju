@@ -1,4 +1,4 @@
-import { createClient, type Client, type InStatement } from "@tursodatabase/serverless/compat";
+import { createClient, type Client } from "@tursodatabase/serverless/compat";
 import { isJsonValue, type SyncRequestBody, type VerifiedIdentity, type JsonValue } from "./types";
 import { mergeProgress } from "./merge";
 import { issueSession, makeRefreshCredential, verifyRefreshSecret } from "./auth";
@@ -50,6 +50,28 @@ export async function ensureUser(identity: VerifiedIdentity, env: Env): Promise<
   if (!resolvedID) throw new Error("無法建立登入身分");
   return resolvedID;
 }
+
+export async function linkIdentity(userID: string, identity: VerifiedIdentity, env: Env): Promise<void> {
+  const client = database(env);
+  const existing = await client.execute({
+    sql: `SELECT provider, subject, user_id FROM identities
+      WHERE (provider = ? AND subject = ?) OR (provider = ? AND user_id = ?)`,
+    args: [identity.provider, identity.subject, identity.provider, userID],
+  });
+  for (const row of existing.rows) {
+    const linkedUserID = requiredString(row, "user_id");
+    const subject = requiredString(row, "subject");
+    if (linkedUserID === userID && subject === identity.subject) return;
+    throw new IdentityLinkError("這個登入身分已連結至另一個帳號，或本帳號已有同類登入身分");
+  }
+  await client.execute({
+    sql: `INSERT INTO identities (provider, subject, user_id, created_at)
+      VALUES (?, ?, ?, ?)`,
+    args: [identity.provider, identity.subject, userID, new Date().toISOString()],
+  });
+}
+
+export class IdentityLinkError extends Error {}
 
 export async function createSession(userID: string, env: Env): Promise<SessionBundle> {
   const client = database(env);
@@ -136,6 +158,16 @@ export async function sessionIsActive(userID: string, sessionID: string, env: En
   return result.rows.length === 1;
 }
 
+export async function revokeSessionFamily(userID: string, sessionID: string, env: Env): Promise<void> {
+  const client = database(env);
+  const result = await client.execute({
+    sql: "SELECT family_id FROM sessions WHERE id = ? AND user_id = ?",
+    args: [sessionID, userID],
+  });
+  const familyID = stringColumn(result.rows[0], "family_id");
+  if (familyID) await revokeFamily(client, userID, familyID);
+}
+
 export async function exportAccount(userID: string, env: Env): Promise<JsonValue> {
   const client = database(env);
   const snapshot = await client.execute({
@@ -143,7 +175,7 @@ export async function exportAccount(userID: string, env: Env): Promise<JsonValue
     args: [userID],
   });
   const events = await client.execute({
-    sql: `SELECT id, device_id, sequence, kind, payload, occurred_at, created_at
+    sql: `SELECT id, device_id, sequence, kind, ink_delta, payload, occurred_at, created_at
       FROM progress_events WHERE user_id = ? ORDER BY created_at, id`,
     args: [userID],
   });
@@ -162,6 +194,7 @@ export async function exportAccount(userID: string, env: Env): Promise<JsonValue
       deviceId: requiredString(row, "device_id"),
       sequence: numberColumn(row, "sequence"),
       kind: requiredString(row, "kind"),
+      inkDelta: numberColumn(row, "ink_delta"),
       payload: parseStoredJSON(row.payload),
       occurredAt: requiredString(row, "occurred_at"),
       createdAt: requiredString(row, "created_at"),
@@ -187,14 +220,14 @@ export async function syncProgress(
 ): Promise<{ revision: number; schemaVersion: number; snapshot: JsonValue; acceptedEventIDs: string[] }> {
   const client = database(env);
   const now = new Date().toISOString();
-  await client.execute({
-    sql: `INSERT OR IGNORE INTO progress_snapshots
-      (user_id, revision, schema_version, payload, updated_at) VALUES (?, 0, ?, ?, ?)`,
-    args: [userID, input.schemaVersion, JSON.stringify(input.snapshot), now],
-  });
-
-  for (let attempt = 0; attempt < 3; attempt += 1) {
-    const current = await client.execute({
+  const transaction = await client.transaction("write");
+  try {
+    await transaction.execute({
+      sql: `INSERT OR IGNORE INTO progress_snapshots
+        (user_id, revision, schema_version, payload, updated_at) VALUES (?, 0, ?, ?, ?)`,
+      args: [userID, input.schemaVersion, JSON.stringify(input.snapshot), now],
+    });
+    const current = await transaction.execute({
       sql: "SELECT revision, schema_version, payload FROM progress_snapshots WHERE user_id = ?",
       args: [userID],
     });
@@ -203,48 +236,59 @@ export async function syncProgress(
     const revision = numberColumn(row, "revision");
     const serverSchema = numberColumn(row, "schema_version");
     const serverSnapshot = parseStoredJSON(row.payload);
+    const acceptedEventIDs: string[] = [];
+    let unseenInkDelta = 0;
+    for (const event of input.events) {
+      const inserted = await transaction.execute({
+        sql: `INSERT OR IGNORE INTO progress_events
+          (id, user_id, device_id, sequence, kind, ink_delta, payload, occurred_at, created_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        args: [
+          event.id,
+          userID,
+          input.deviceId,
+          event.sequence,
+          event.kind,
+          event.inkDelta,
+          JSON.stringify(event.payload),
+          event.occurredAt,
+          now,
+        ],
+      });
+      if (inserted.rowsAffected === 1) {
+        acceptedEventIDs.push(event.id);
+        unseenInkDelta += event.inkDelta;
+      } else {
+        const duplicate = await transaction.execute({
+          sql: `SELECT 1 AS accepted FROM progress_events
+            WHERE user_id = ? AND id = ? AND device_id = ? AND sequence = ?`,
+          args: [userID, event.id, input.deviceId, event.sequence],
+        });
+        if (duplicate.rows.length === 1) acceptedEventIDs.push(event.id);
+      }
+    }
     const merged = input.baseRevision === revision
       ? input.snapshot
-      : mergeProgress(serverSnapshot, input.snapshot);
+      : mergeProgress(serverSnapshot, input.snapshot, unseenInkDelta);
     const nextSchema = Math.max(serverSchema, input.schemaVersion);
-    const statements: InStatement[] = input.events.map((event) => ({
-      sql: `INSERT OR IGNORE INTO progress_events
-        (id, user_id, device_id, sequence, kind, payload, occurred_at, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      args: [
-        event.id,
-        userID,
-        input.deviceId,
-        event.sequence,
-        event.kind,
-        JSON.stringify(event.payload),
-        event.occurredAt,
-        now,
-      ],
-    }));
-    statements.push({
+    await transaction.execute({
       sql: `UPDATE progress_snapshots
         SET revision = revision + 1, schema_version = ?, payload = ?, updated_at = ?
-        WHERE user_id = ? AND revision = ?`,
-      args: [nextSchema, JSON.stringify(merged), now, userID, revision],
+        WHERE user_id = ?`,
+      args: [nextSchema, JSON.stringify(merged), now, userID],
     });
-    const results = await client.batch(statements, { mode: "write" });
-    const updated = results.at(-1)?.rowsAffected ?? 0;
-    if (updated === 1) {
-      return {
-        revision: revision + 1,
-        schemaVersion: nextSchema,
-        snapshot: merged,
-        acceptedEventIDs: input.events.map((event) => event.id),
-      };
-    }
-  }
-  throw new SyncConflictError();
-}
-
-export class SyncConflictError extends Error {
-  constructor() {
-    super("同步資料同時被其他裝置更新，請重試");
+    await transaction.commit();
+    return {
+      revision: revision + 1,
+      schemaVersion: nextSchema,
+      snapshot: merged,
+      acceptedEventIDs,
+    };
+  } catch (error) {
+    if (!transaction.closed) await transaction.rollback();
+    throw error;
+  } finally {
+    if (!transaction.closed) transaction.close();
   }
 }
 

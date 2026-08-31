@@ -4,13 +4,23 @@ import {
   deleteAccount,
   ensureUser,
   exportAccount,
+  IdentityLinkError,
+  linkIdentity,
   rotateSession,
+  revokeSessionFamily,
   sessionIsActive,
   SessionTokenError,
-  SyncConflictError,
   syncProgress,
 } from "./database";
 import { parseAuthExchange, parseAuthRefresh, parseSyncRequest } from "./types";
+import {
+  clearWebSessionCookies,
+  finishWebAuth,
+  refreshWebSession,
+  requestAccessToken,
+  startWebAuth,
+  WebAuthError,
+} from "./web-auth";
 
 const maxBodyBytes = 1_048_576;
 
@@ -19,11 +29,34 @@ export default {
     const url = new URL(request.url);
     const origin = request.headers.get("Origin");
     if (request.method === "OPTIONS") return corsResponse(origin, env);
-    if (!originAllowed(origin, env)) return json({ error: "origin_not_allowed" }, 403, origin, env);
+    const oauthCallback = url.pathname === "/v1/auth/web/callback";
+    if (!oauthCallback && !originAllowed(origin, env)) {
+      return json({ error: "origin_not_allowed" }, 403, origin, env);
+    }
 
     try {
       if (request.method === "GET" && url.pathname === "/health") {
         return json({ ok: true, service: "xunzhang-zhaiju-sync", version: 1 }, 200, origin, env);
+      }
+      if (request.method === "GET" && url.pathname === "/v1/auth/web/start") {
+        const linkUserID = url.searchParams.get("action") === "link"
+          ? (await authenticatedUser(request, env)).userID
+          : undefined;
+        return await startWebAuth(url, env, linkUserID);
+      }
+      if ((request.method === "GET" || request.method === "POST")
+          && url.pathname === "/v1/auth/web/callback") {
+        return await finishWebAuth(request, env);
+      }
+      if (request.method === "POST" && url.pathname === "/v1/auth/web/refresh") {
+        return withCors(await refreshWebSession(request, env), origin);
+      }
+      if (request.method === "POST" && url.pathname === "/v1/auth/logout") {
+        const identity = await authenticatedUser(request, env);
+        await revokeSessionFamily(identity.userID, identity.sessionID, env);
+        const response = json({ signedOut: true }, 200, origin, env);
+        clearWebSessionCookies(response.headers, env);
+        return response;
       }
       if (request.method === "POST" && url.pathname === "/v1/auth/exchange") {
         const input = parseAuthExchange(await readJsonLimited(request));
@@ -41,6 +74,19 @@ export default {
         }
         const userID = await ensureUser(identity, env);
         return json(await createSession(userID, env), 200, origin, env);
+      }
+      if (request.method === "POST" && url.pathname === "/v1/account/link") {
+        const current = await authenticatedUser(request, env);
+        const input = parseAuthExchange(await readJsonLimited(request));
+        await enforceRateLimit(env.AUTH_RATE_LIMITER, `link:${current.userID}`);
+        let identity;
+        try {
+          identity = await verifyProviderToken(input.provider, input.idToken, input.nonce, env);
+        } catch {
+          throw new HttpError(401, "第二個登入憑證無效");
+        }
+        await linkIdentity(current.userID, identity, env);
+        return json({ linked: true, provider: identity.provider }, 200, origin, env);
       }
       if (request.method === "POST" && url.pathname === "/v1/auth/refresh") {
         const input = parseAuthRefresh(await readJsonLimited(request));
@@ -65,13 +111,16 @@ export default {
           throw new HttpError(400, "刪除帳號必須明確確認");
         }
         await deleteAccount(identity.userID, env);
-        return json({ deleted: true }, 200, origin, env);
+        const response = json({ deleted: true }, 200, origin, env);
+        clearWebSessionCookies(response.headers, env);
+        return response;
       }
       return json({ error: "not_found" }, 404, origin, env);
     } catch (error) {
       if (error instanceof HttpError) return json({ error: error.message }, error.status, origin, env);
+      if (error instanceof WebAuthError) return json({ error: error.message }, error.status, origin, env);
       if (error instanceof SessionTokenError) return json({ error: error.message }, 401, origin, env);
-      if (error instanceof SyncConflictError) return json({ error: error.message }, 409, origin, env);
+      if (error instanceof IdentityLinkError) return json({ error: error.message }, 409, origin, env);
       if (error instanceof TypeError || error instanceof SyntaxError) {
         return json({ error: error.message }, 400, origin, env);
       }
@@ -86,10 +135,10 @@ export default {
 } satisfies ExportedHandler<Env>;
 
 async function authenticatedUser(request: Request, env: Env): Promise<AccessIdentity> {
-  const authorization = request.headers.get("Authorization");
-  if (!authorization?.startsWith("Bearer ")) throw new HttpError(401, "缺少登入憑證");
+  const token = requestAccessToken(request);
+  if (!token) throw new HttpError(401, "缺少登入憑證");
   try {
-    const identity = await verifySession(authorization.slice(7), env);
+    const identity = await verifySession(token, env);
     if (!await sessionIsActive(identity.userID, identity.sessionID, env)) throw new Error("session 已撤銷");
     return identity;
   } catch {
@@ -155,7 +204,13 @@ function corsHeaders(origin: string | null): Record<string, string> {
     "Vary": "Origin",
   };
   if (origin) headers["Access-Control-Allow-Origin"] = origin;
+  if (origin) headers["Access-Control-Allow-Credentials"] = "true";
   return headers;
+}
+
+function withCors(response: Response, origin: string | null): Response {
+  for (const [key, value] of Object.entries(corsHeaders(origin))) response.headers.set(key, value);
+  return response;
 }
 
 async function enforceRateLimit(limiter: RateLimit, key: string): Promise<void> {

@@ -17,6 +17,7 @@ export interface SyncEventInput {
   id: string;
   sequence: number;
   kind: string;
+  inkDelta: number;
   payload: JsonValue;
   occurredAt: string;
 }
@@ -100,8 +101,12 @@ function parseSyncEvent(value: unknown): SyncEventInput {
   if (!Number.isSafeInteger(value.sequence) || Number(value.sequence) < 1) {
     throw new TypeError("event.sequence 格式錯誤");
   }
-  if (typeof value.kind !== "string" || value.kind.length < 1 || value.kind.length > 64) {
+  if (typeof value.kind !== "string" || !syncEventKinds.has(value.kind)) {
     throw new TypeError("event.kind 格式錯誤");
+  }
+  const inkDelta = value.inkDelta === undefined ? 0 : value.inkDelta;
+  if (!Number.isSafeInteger(inkDelta) || Math.abs(Number(inkDelta)) > 100_000) {
+    throw new TypeError("event.inkDelta 格式錯誤");
   }
   if (typeof value.occurredAt !== "string" || !Number.isFinite(Date.parse(value.occurredAt))) {
     throw new TypeError("event.occurredAt 格式錯誤");
@@ -111,10 +116,16 @@ function parseSyncEvent(value: unknown): SyncEventInput {
     id: value.id,
     sequence: Number(value.sequence),
     kind: value.kind,
+    inkDelta: Number(inkDelta),
     payload: value.payload,
     occurredAt: value.occurredAt,
   };
 }
+
+const syncEventKinds = new Set([
+  "progressUpdated", "levelCompleted", "quizAnswered", "quickChallengeCompleted",
+  "inkSpent", "restTaken", "worldEventChosen", "dailyEncounterChosen", "guestProgressClaimed",
+]);
 
 export function isJsonValue(value: unknown): value is JsonValue {
   if (value === null || typeof value === "string" || typeof value === "boolean") return true;

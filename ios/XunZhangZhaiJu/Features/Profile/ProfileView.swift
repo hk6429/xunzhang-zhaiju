@@ -8,7 +8,7 @@ struct ProfileView: View {
     @EnvironmentObject private var container: AppContainer
     @AppStorage("play-mode") private var playMode = PlayMode.standard.rawValue
     @State private var restMessage = ""
-    @State private var appleNonce: (raw: String, hash: String)?
+    @State private var appleNonce: (raw: String, hash: String, isLink: Bool)?
     @State private var authMessage = ""
     @State private var exportURL: URL?
     @State private var confirmsCloudDeletion = false
@@ -125,7 +125,7 @@ struct ProfileView: View {
                         .disabled(container.syncState == .syncing)
                     Button("登出", role: .destructive) {
                         GIDSignIn.sharedInstance.signOut()
-                        container.signOut()
+                        Task { await container.signOut() }
                     }
                     .buttonStyle(.bordered)
                 }
@@ -139,6 +139,20 @@ struct ProfileView: View {
                     }
                     .buttonStyle(.bordered)
                 }
+                Text("可再次驗證另一個供應商來連結帳號；不會用相同 email 自動合併。")
+                    .font(.caption)
+                    .foregroundStyle(AppTheme.secondaryText)
+                SignInWithAppleButton(.continue) { request in
+                    prepareAppleRequest(request, isLink: true)
+                } onCompletion: { result in
+                    handleApple(result)
+                }
+                .signInWithAppleButtonStyle(.white)
+                .frame(height: 44)
+                if SyncConfiguration.googleIsConfigured {
+                    Button("連結 Google") { signInWithGoogle(isLink: true) }
+                        .buttonStyle(.bordered)
+                }
                 if let exportURL {
                     ShareLink(item: exportURL) {
                         Label("分享帳號資料 JSON", systemImage: "square.and.arrow.up")
@@ -147,14 +161,7 @@ struct ProfileView: View {
                 }
             } else if SyncConfiguration.baseURL != nil {
                 SignInWithAppleButton(.signIn) { request in
-                    do {
-                        let nonce = try AuthNonce.make()
-                        appleNonce = nonce
-                        request.requestedScopes = [.email]
-                        request.nonce = nonce.hash
-                    } catch {
-                        authMessage = error.localizedDescription
-                    }
+                    prepareAppleRequest(request, isLink: false)
                 } onCompletion: { result in
                     handleApple(result)
                 }
@@ -162,7 +169,7 @@ struct ProfileView: View {
                 .frame(height: 44)
 
                 if SyncConfiguration.googleIsConfigured {
-                    GoogleSignInButton(action: signInWithGoogle)
+                    GoogleSignInButton(action: { signInWithGoogle(isLink: false) })
                         .frame(height: 44)
                 } else {
                     Text("Google 登入待填入正式 OAuth client ID。")
@@ -209,13 +216,32 @@ struct ProfileView: View {
                 authMessage = "Apple 沒有回傳可驗證的登入憑證。"
                 return
             }
-            Task { await container.signIn(provider: .apple, idToken: idToken, nonce: nonce.hash) }
+            Task {
+                if nonce.isLink {
+                    if await container.linkIdentity(provider: .apple, idToken: idToken, nonce: nonce.hash) {
+                        authMessage = "Apple 登入方式已連結。"
+                    }
+                } else {
+                    await container.signIn(provider: .apple, idToken: idToken, nonce: nonce.hash)
+                }
+            }
         } catch {
             authMessage = error.localizedDescription
         }
     }
 
-    private func signInWithGoogle() {
+    private func prepareAppleRequest(_ request: ASAuthorizationAppleIDRequest, isLink: Bool) {
+        do {
+            let nonce = try AuthNonce.make()
+            appleNonce = (nonce.raw, nonce.hash, isLink)
+            request.requestedScopes = [.email]
+            request.nonce = nonce.hash
+        } catch {
+            authMessage = error.localizedDescription
+        }
+    }
+
+    private func signInWithGoogle(isLink: Bool) {
         guard let presenter = UIApplication.shared.activeRootViewController else {
             authMessage = "找不到可顯示 Google 登入的畫面。"
             return
@@ -227,7 +253,13 @@ struct ProfileView: View {
                     authMessage = "Google 沒有回傳 ID token。"
                     return
                 }
-                await container.signIn(provider: .google, idToken: token)
+                if isLink {
+                    if await container.linkIdentity(provider: .google, idToken: token) {
+                        authMessage = "Google 登入方式已連結。"
+                    }
+                } else {
+                    await container.signIn(provider: .google, idToken: token)
+                }
             } catch {
                 authMessage = error.localizedDescription
             }

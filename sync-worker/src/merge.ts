@@ -1,9 +1,10 @@
 import type { JsonValue } from "./types";
 import { isRecord } from "./types";
 
-export function mergeProgress(server: JsonValue, client: JsonValue): JsonValue {
+export function mergeProgress(server: JsonValue, client: JsonValue, inkDelta = 0): JsonValue {
   if (!isJsonObject(server) || !isJsonObject(client)) return client;
   const merged = mergeObjects(server, client);
+  merged.ink = boundedInk(Number(server.ink ?? 0) + inkDelta);
   merged.daily = mergeDaily(server.daily, client.daily);
   const mastery = isJsonObject(merged.mastery) ? merged.mastery : {};
   if (Array.isArray(merged.wrongBook)) {
@@ -14,6 +15,11 @@ export function mergeProgress(server: JsonValue, client: JsonValue): JsonValue {
     });
   }
   return merged;
+}
+
+function boundedInk(value: number): number {
+  if (!Number.isFinite(value)) return 0;
+  return Math.max(0, Math.min(100_000, Math.trunc(value)));
 }
 
 function mergeObjects(

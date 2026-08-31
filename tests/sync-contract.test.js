@@ -21,5 +21,7 @@ test('event contract permits only bounded known event kinds', () => {
   assert.ok(kinds.includes('guestProgressClaimed'));
   assert.equal(new Set(kinds).size, kinds.length);
   assert.equal(eventSchema.maxItems, 500);
+  assert.equal(eventSchema.items.properties.inkDelta.minimum, -100000);
+  assert.equal(eventSchema.items.properties.inkDelta.maximum, 100000);
   assert.equal(eventSchema.items.additionalProperties, false);
 });

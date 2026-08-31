@@ -2,3 +2,5 @@
 TURSO_DATABASE_URL=https://your-database.turso.io
 TURSO_AUTH_TOKEN=replace-locally
 WORKER_SESSION_SECRET=replace-with-at-least-32-random-bytes
+GOOGLE_WEB_CLIENT_SECRET=replace-locally
+APPLE_PRIVATE_KEY=replace-with-p8-private-key

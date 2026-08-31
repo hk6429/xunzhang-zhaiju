@@ -66,6 +66,15 @@ enum AppMigrations {
                 arguments: ["v1-offline-progress", Date()]
             )
         }
+        migrator.registerMigration("v2-ink-ledger") { db in
+            try db.alter(table: ProgressEventRecord.databaseTableName) { table in
+                table.add(column: "inkDelta", .integer).notNull().defaults(to: 0)
+            }
+            try db.execute(
+                sql: "INSERT INTO migrationLog (migrationName, appliedAt) VALUES (?, ?)",
+                arguments: ["v2-ink-ledger", Date()]
+            )
+        }
         return migrator
     }
 }

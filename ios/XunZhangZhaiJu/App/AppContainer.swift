@@ -113,6 +113,36 @@ final class AppContainer: ObservableObject {
         }
     }
 
+    func linkIdentity(provider: IdentityProvider, idToken: String, nonce: String? = nil) async -> Bool {
+        guard let existingSession = backendSession, existingSession.isValid,
+              let baseURL = SyncConfiguration.baseURL else {
+            syncState = .failed("帳號連結需要有效登入階段")
+            return false
+        }
+        do {
+            let session: BackendSession
+            if existingSession.accessIsValid {
+                session = existingSession
+            } else {
+                session = try await syncClient.refresh(existingSession.refreshToken, baseURL: baseURL)
+                try keychain.setBackendSession(session)
+                backendSession = session
+            }
+            try await syncClient.linkIdentity(
+                provider: provider,
+                idToken: idToken,
+                nonce: nonce,
+                sessionToken: session.accessToken,
+                baseURL: baseURL
+            )
+            syncState = .synced(Date())
+            return true
+        } catch {
+            syncState = .failed(error.localizedDescription)
+            return false
+        }
+    }
+
     func syncNow() async {
         guard syncState != .syncing else { return }
         guard let existingSession = backendSession, existingSession.isValid,
@@ -138,6 +168,7 @@ final class AppContainer: ObservableObject {
                         id: $0.id,
                         sequence: $0.sequence,
                         kind: $0.kind,
+                        inkDelta: $0.inkDelta,
                         payload: try decoder.decode(LocalAppProgress.self, from: $0.payload),
                         occurredAt: $0.occurredAt
                     )
@@ -154,7 +185,11 @@ final class AppContainer: ObservableObject {
                 baseURL: baseURL
             )
             guard self.namespace == namespace else { return }
-            let merged = LocalProgressMergeEngine.merge(response.snapshot, progress)
+            let merged = LocalProgressMergeEngine.merge(
+                response.snapshot,
+                progress,
+                authoritativeInk: response.snapshot.ink
+            )
             let now = Date()
             try repository.applyRemoteSnapshot(
                 namespace: namespace,
@@ -174,7 +209,19 @@ final class AppContainer: ObservableObject {
         }
     }
 
-    func signOut() {
+    func signOut() async {
+        if let existingSession = backendSession, existingSession.isValid,
+           let baseURL = SyncConfiguration.baseURL {
+            if existingSession.accessIsValid {
+                try? await syncClient.logout(sessionToken: existingSession.accessToken, baseURL: baseURL)
+            } else if let refreshed = try? await syncClient.refresh(existingSession.refreshToken, baseURL: baseURL) {
+                try? await syncClient.logout(sessionToken: refreshed.accessToken, baseURL: baseURL)
+            }
+        }
+        signOutLocally()
+    }
+
+    private func signOutLocally() {
         try? keychain.removeBackendSession()
         backendSession = nil
         syncState = .idle
@@ -233,7 +280,7 @@ final class AppContainer: ObservableObject {
             }
             try await syncClient.deleteAccount(sessionToken: session.accessToken, baseURL: baseURL)
             cloudDeletionPendingLocalNamespace = namespace
-            signOut()
+            signOutLocally()
             return true
         } catch {
             syncState = .failed(error.localizedDescription)
@@ -448,6 +495,7 @@ final class AppContainer: ObservableObject {
                 deviceID: deviceID,
                 sequence: sequence,
                 kind: kind,
+                inkDelta: next.ink - progress.ink,
                 payload: payload,
                 occurredAt: now,
                 syncedAt: nil

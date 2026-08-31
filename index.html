@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="xzzj-sync-api" content="">
 <title>尋章摘句 — 封神密室逃脫</title>
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.svg">
@@ -325,6 +326,26 @@ if (/debug=1/.test(location.search)) (function () {
   <!-- 設定 -->
   <section id="view-settings" class="view hidden">
     <h2 class="view-title">設定</h2>
+    <div class="settings-block">
+      <h3>跨裝置進度</h3>
+      <p class="privacy-note">不登入也能完整遊玩。登入後只同步遊戲進度；個人例句、姓名與學號不會上傳。</p>
+      <div class="settings-actions">
+        <button type="button" id="btn-login-apple" class="primary-btn">使用 Apple 登入</button>
+        <button type="button" id="btn-login-google" class="ghost-btn">使用 Google 登入</button>
+        <button type="button" id="btn-cloud-sync" class="ghost-btn">立即同步</button>
+        <button type="button" id="btn-cloud-logout" class="ghost-btn">登出</button>
+      </div>
+      <p id="cloud-sync-status" class="muted" aria-live="polite">訪客模式・進度保存在本機。</p>
+      <p class="privacy-note">已登入後，可再次驗證另一個供應商來連結帳號；不會用相同 email 自動合併。</p>
+      <div class="settings-actions">
+        <button type="button" id="btn-link-apple" class="ghost-btn">連結 Apple</button>
+        <button type="button" id="btn-link-google" class="ghost-btn">連結 Google</button>
+      </div>
+      <div class="settings-actions">
+        <button type="button" id="btn-cloud-export" class="ghost-btn">匯出雲端資料</button>
+        <button type="button" id="btn-cloud-delete" class="danger-btn">刪除雲端帳號</button>
+      </div>
+    </div>
     <div class="settings-block">
       <h3>匯出進度碼（備份存檔）</h3>
       <p class="privacy-note"><strong>隱私提醒：</strong>進度碼不是加密檔，請勿填入姓名、學號或公開分享。</p>

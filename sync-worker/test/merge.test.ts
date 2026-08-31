@@ -47,4 +47,14 @@ describe("mergeProgress", () => {
       daily: { quickBest: { score: 3, durationMilliseconds: 12_000 } },
     });
   });
+
+  it("applies only unseen ink deltas on a conflicting revision", () => {
+    const merged = mergeProgress(
+      { levels: {}, collection: [], ink: 8 },
+      { levels: {}, collection: [], ink: 10 },
+      -3,
+    );
+
+    expect(merged).toMatchObject({ ink: 5 });
+  });
 });

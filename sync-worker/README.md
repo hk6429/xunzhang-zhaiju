@@ -7,7 +7,12 @@ Cloudflare Worker + Turso 的跨裝置進度同步 API。核心遊戲不依賴�
 - `GET /health`：服務健康狀態
 - `POST /v1/auth/exchange`：驗證 Apple／Google ID token，換發 15 分鐘 access token 與一次性 refresh token
 - `POST /v1/auth/refresh`：輪替 refresh token；重播舊 token 會撤銷整個 family
-- `POST /v1/sync`：以 revision 合併快照，事件依 `id` 與「使用者／裝置／序號」去重
+- `GET /v1/auth/web/start`：啟動瀏覽器 Apple／Google OAuth；Google 使用 authorization code + PKCE
+- `GET|POST /v1/auth/web/callback`：驗證 OAuth state 與 nonce，交換代碼後寫入 HttpOnly session cookies
+- `POST /v1/auth/web/refresh`：使用 HttpOnly refresh cookie 輪替瀏覽器 session
+- `POST /v1/auth/logout`：撤銷目前 session family，並清除瀏覽器 cookies
+- `POST /v1/account/link`：登入中再次驗證 Apple／Google，連結第二種登入方式；不依 email 自動合併
+- `POST /v1/sync`：以 revision 合併快照，事件依 `id` 與「使用者／裝置／序號」去重；墨滴以事件差額結算，避免跨裝置花費後復活
 - `GET /v1/account/export`：匯出帳號進度 JSON
 - `DELETE /v1/account`：明確確認後刪除帳號及雲端資料
 
@@ -28,7 +33,7 @@ npm run dry-run
 
 ## Turso 初始化
 
-先建立 Turso 資料庫，再用 Turso CLI 套用 `migrations/0001_initial.sql`。部署環境需設定：
+先建立 Turso 資料庫，再依檔名順序套用 `migrations/` 內所有 SQL。部署環境需設定：
 
 - `TURSO_DATABASE_URL`
 - `TURSO_AUTH_TOKEN`
@@ -43,6 +48,12 @@ npm run dry-run
 - `APPLE_CLIENT_IDS`：目前 iOS bundle ID 為 `tw.edu.hc.zgjh.xunzhangzhaiju`
 - `GOOGLE_CLIENT_IDS`：Google OAuth 的 iOS／Web client ID
 - `ALLOWED_ORIGINS`：正式網站來源，例如 `https://example.com`
+- `PUBLIC_BASE_URL`：Worker 公開 HTTPS 網址，OAuth callback 會固定使用這個來源
+- `APPLE_WEB_CLIENT_ID`、`APPLE_TEAM_ID`、`APPLE_KEY_ID`：Sign in with Apple 網頁服務識別資訊
+- `GOOGLE_WEB_CLIENT_ID`：Google 網頁 OAuth client ID
+- `WEB_COOKIE_SAME_SITE`：網站與 Worker 跨站時設為 `None`；同站自訂網域可設為 `Lax`
+
+網頁 OAuth 另需以 secret 設定 `GOOGLE_WEB_CLIENT_SECRET` 與 `APPLE_PRIVATE_KEY`。Apple callback 依官方網頁流程使用 authorization code、state、nonce 與 ES256 client secret；Google 流程另使用 PKCE。兩者都不把供應商 token 存進瀏覽器儲存空間。
 
 後端只信任經供應商公開金鑰驗證過的 `sub`，不以 email 或前端送來的使用者 ID 識別帳號。Apple 登入必須提供並驗證 nonce。
 
@@ -53,6 +64,8 @@ npx wrangler whoami
 npx wrangler secret put TURSO_DATABASE_URL
 npx wrangler secret put TURSO_AUTH_TOKEN
 npx wrangler secret put WORKER_SESSION_SECRET
+npx wrangler secret put GOOGLE_WEB_CLIENT_SECRET
+npx wrangler secret put APPLE_PRIVATE_KEY
 npm run dry-run
 npx wrangler deploy
 ```

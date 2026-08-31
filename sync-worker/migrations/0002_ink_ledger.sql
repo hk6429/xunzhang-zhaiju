@@ -1,0 +1,1 @@
+ALTER TABLE progress_events ADD COLUMN ink_delta INTEGER NOT NULL DEFAULT 0;

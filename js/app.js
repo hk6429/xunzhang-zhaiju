@@ -4,8 +4,9 @@ import { treasurePassives, TREASURE_PASSIVES } from './treasure-passives.js';
 import { createCollection } from './collection.js';
 import { startLevel } from './game.js';
 import {
-  loadSave, persistSave, resetSave, exportCode, importCode, defaultSave,
+  loadSave, persistSave, resetSave, exportCode, importCode, defaultSave, validateSave,
 } from './progress.js';
+import { createCloudSync } from './cloud-sync.js';
 import {
   FENGSHEN_ARRAYS,
   VOLUME2_ARRAYS,
@@ -103,9 +104,38 @@ let currentGame = null; // startLevel 回傳的 handle
 let activeColTab = 'phrases'; // 'phrases' | 'characters'
 let worldStory = { chapters: [], bosses: [], treasures: [], endings: {} };
 let worldEvents = { events: [], dailyEncounters: [] };
+const syncAPI = document.querySelector('meta[name="xzzj-sync-api"]')?.content || '';
+const cloudSync = createCloudSync({
+  apiBase: syncAPI,
+  getSave: () => save,
+  onMerged: (merged) => {
+    const normalized = validateSave(merged);
+    if (!normalized) return;
+    save = normalized;
+    hintEngine = createHintEngine(save.ink);
+    collection = createCollection(save.collection);
+    persistSave(save, hintEngine, collection);
+    if (levels.length) renderChambers();
+  },
+  onStatus: renderCloudSyncStatus,
+});
 
 function persist() {
   persistSave(save, hintEngine, collection);
+  cloudSync.schedule();
+}
+
+function renderCloudSyncStatus(status) {
+  const el = $('cloud-sync-status');
+  if (!el) return;
+  const labels = {
+    disabled: '同步服務尚未設定；目前維持完整離線訪客模式。',
+    guest: '訪客模式・登入後可同步 Web、iPhone 與 iPad。',
+    syncing: '正在合併本機與雲端進度……',
+    synced: '雲端進度已同步。',
+    offline: '目前無法連上同步服務；本機進度不受影響。',
+  };
+  el.textContent = labels[status] || labels.guest;
 }
 
 function ensureEngagementState() {
@@ -1531,6 +1561,40 @@ function settingsSay(text) {
 }
 
 function bindSettings() {
+  for (const id of ['btn-login-apple', 'btn-login-google', 'btn-link-apple', 'btn-link-google', 'btn-cloud-sync', 'btn-cloud-logout', 'btn-cloud-export', 'btn-cloud-delete']) {
+    if ($(id)) $(id).disabled = !cloudSync.enabled;
+  }
+  renderCloudSyncStatus(cloudSync.enabled ? 'guest' : 'disabled');
+  $('btn-login-apple')?.addEventListener('click', () => cloudSync.login('apple'));
+  $('btn-login-google')?.addEventListener('click', () => cloudSync.login('google'));
+  $('btn-link-apple')?.addEventListener('click', () => cloudSync.link('apple'));
+  $('btn-link-google')?.addEventListener('click', () => cloudSync.link('google'));
+  $('btn-cloud-sync')?.addEventListener('click', async () => {
+    cloudSync.flushToOutbox();
+    await cloudSync.syncNow();
+  });
+  $('btn-cloud-logout')?.addEventListener('click', async () => {
+    if (!await cloudSync.logout()) settingsSay('目前沒有可登出的雲端 session。');
+  });
+  $('btn-cloud-export')?.addEventListener('click', async () => {
+    if (!await cloudSync.exportAccount()) settingsSay('尚未登入，或雲端資料暫時無法匯出。');
+  });
+  $('btn-cloud-delete')?.addEventListener('click', async () => {
+    if (!window.confirm('確定刪除雲端帳號與所有雲端進度？這一步無法復原。')) return;
+    if (!await cloudSync.deleteAccount()) {
+      settingsSay('雲端帳號刪除失敗，請確認登入狀態。');
+      return;
+    }
+    if (window.confirm('雲端帳號已刪除。是否另外清除這台裝置的本機進度與個人例句？')) {
+      resetSave();
+      save = defaultSave();
+      hintEngine = createHintEngine(save.ink);
+      collection = createCollection(save.collection);
+      persistSave(save, hintEngine, collection);
+      renderChambers();
+    }
+    settingsSay('雲端帳號已刪除。');
+  });
   $('btn-export').addEventListener('click', () => {
     persist();
     $('export-code').value = exportCode(save);
@@ -1789,6 +1853,14 @@ async function main() {
   bindGlobal();
   bindMascotInteraction();
   bindSettings();
+  const startupURL = new URL(location.href);
+  const authResult = startupURL.searchParams.get('auth');
+  if (authResult === 'success' || authResult === 'linked') {
+    startupURL.searchParams.delete('auth');
+    history.replaceState(history.state, '', `${startupURL.pathname}${startupURL.search}${startupURL.hash}`);
+    if (authResult === 'success') cloudSync.schedule();
+    else settingsSay('第二種登入方式已安全連結。');
+  }
   try {
     await loadData();
   } catch (err) {
@@ -1800,5 +1872,7 @@ async function main() {
   bindEngagement();
   showView('chamber');
 }
+
+window.addEventListener('pagehide', () => cloudSync.flushToOutbox());
 
 main();

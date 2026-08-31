@@ -19,6 +19,7 @@ struct ProgressEventRecord: Codable, FetchableRecord, PersistableRecord, TableRe
     var deviceID: String
     var sequence: Int64
     var kind: String
+    var inkDelta: Int = 0
     var payload: Data
     var occurredAt: Date
     var syncedAt: Date?

@@ -28,6 +28,7 @@ struct SyncEventEnvelope: Encodable {
     let id: String
     let sequence: Int64
     let kind: String
+    let inkDelta: Int
     let payload: LocalAppProgress
     let occurredAt: Date
 }

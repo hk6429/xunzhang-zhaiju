@@ -4,10 +4,16 @@
   "main": "src/index.ts",
   "compatibility_date": "2026-08-28",
   "vars": {
-    "APPLE_CLIENT_IDS": "tw.edu.hc.zgjh.xunzhangzhaiju",
+    "APPLE_CLIENT_IDS": "tw.edu.hc.zgjh.xunzhangzhaiju,tw.edu.hc.zgjh.xunzhangzhaiju.web",
+    "APPLE_WEB_CLIENT_ID": "tw.edu.hc.zgjh.xunzhangzhaiju.web",
+    "APPLE_TEAM_ID": "",
+    "APPLE_KEY_ID": "",
     "GOOGLE_CLIENT_IDS": "",
+    "GOOGLE_WEB_CLIENT_ID": "",
     "ALLOWED_ORIGINS": "",
-    "SESSION_ISSUER": "xunzhang-zhaiju-sync"
+    "SESSION_ISSUER": "xunzhang-zhaiju-sync",
+    "PUBLIC_BASE_URL": "https://xunzhang-zhaiju-sync.example.workers.dev",
+    "WEB_COOKIE_SAME_SITE": "None"
   },
   "ratelimits": [
     {

@@ -52,4 +52,20 @@ describe("sync worker", () => {
     const response = await SELF.fetch("https://example.test/v1/account/export");
     expect(response.status).toBe(401);
   });
+
+  it("requires an existing authenticated session before starting account linking", async () => {
+    const response = await SELF.fetch(
+      "https://example.test/v1/auth/web/start?provider=google&action=link&returnTo=https%3A%2F%2Fexample.test",
+    );
+    expect(response.status).toBe(401);
+  });
+
+  it("requires authentication for native account linking", async () => {
+    const response = await SELF.fetch("https://example.test/v1/account/link", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ provider: "google", idToken: "x".repeat(24) }),
+    });
+    expect(response.status).toBe(401);
+  });
 });

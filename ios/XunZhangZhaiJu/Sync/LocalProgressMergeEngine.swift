@@ -1,12 +1,16 @@
 import Foundation
 
 enum LocalProgressMergeEngine {
-    static func merge(_ left: LocalAppProgress, _ right: LocalAppProgress) -> LocalAppProgress {
+    static func merge(
+        _ left: LocalAppProgress,
+        _ right: LocalAppProgress,
+        authoritativeInk: Int? = nil
+    ) -> LocalAppProgress {
         let mastery = mergeMastery(left.mastery ?? [:], right.mastery ?? [:])
         return LocalAppProgress(
             v: max(left.v, right.v),
             levels: mergeLevels(left.levels, right.levels),
-            ink: max(left.ink, right.ink),
+            ink: max(0, authoritativeInk ?? max(left.ink, right.ink)),
             collection: union(left.collection, right.collection),
             daily: mergeDaily(left.daily, right.daily),
             mastery: mastery,
