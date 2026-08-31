@@ -21,8 +21,7 @@
 
 - [ ] Bundle ID、版本、build number 與簽署正確。
 - [ ] App 名稱、副標題、描述、關鍵字、分類、年齡分級與版權填妥。
-- [ ] iPhone／iPad 截圖、App Icon、Support URL、Privacy Policy URL 齊全。
-- [ ] 補齊 iPhone 6.9 吋主要截圖組；現有 6.3 吋與 iPad 13 吋原圖尺寸有效。
+- [ ] iPhone／iPad 截圖、App Icon、Support URL、Privacy Policy URL 齊全（6.9 吋 iPhone 與 13 吋 iPad 首張無 alpha JPEG 已完成）。
 - [ ] App Privacy 填答與實際資料流一致。
 - [ ] TestFlight 測試資訊、聯絡信箱及審查說明齊全。
 - [ ] 測試帳號或免登入操作路徑可供審查使用。

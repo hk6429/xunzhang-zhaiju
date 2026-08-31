@@ -22,6 +22,7 @@
 | 大量離線事件維護 | 同步後只壓縮已確認事件，永不刪除未送 outbox | 10,000 筆 repository 壓力測試 |
 | 隱私揭露與 required-reason API | `PrivacyInfo.xcprivacy`、隱私權政策、App Privacy 對照表 | `plutil`、Simulator bundle 檢查；Archive privacy report 待簽署 |
 | 動態文字、VoiceOver、Reduce Motion | 測試字級啟動路徑、盤面自訂動作、無動畫縮放 | iPhone UI smoke、iPad 最大系統字級直接啟動；真機完整稽核待驗 |
+| App Store 顯示素材 | 6.9 吋 iPhone、13 吋 iPad 原生畫面與繁中 metadata | JPEG 尺寸／alpha、文字字數與關鍵字 bytes 自動驗證 |
 
 ## 尚待正式環境驗收
 
