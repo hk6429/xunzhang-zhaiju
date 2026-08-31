@@ -1,0 +1,97 @@
+name: XunZhangZhaiJu
+
+options:
+  minimumXcodeGenVersion: 2.46.0
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+  developmentLanguage: zh-Hant
+  xcodeVersion: "26.0"
+
+packages:
+  GRDB:
+    url: https://github.com/groue/GRDB.swift.git
+    exactVersion: 7.10.0
+
+settings:
+  base:
+    SWIFT_VERSION: 6.0
+    MARKETING_VERSION: 1.0.0
+    CURRENT_PROJECT_VERSION: 1
+    CODE_SIGN_STYLE: Automatic
+    ENABLE_USER_SCRIPT_SANDBOXING: true
+
+targets:
+  XunZhangZhaiJu:
+    type: application
+    platform: iOS
+    sources:
+      - path: XunZhangZhaiJu
+      - path: ../data/app-content-manifest.json
+        group: Resources/Content
+        buildPhase: resources
+      - path: ../data/events.json
+        group: Resources/Content
+        buildPhase: resources
+      - path: ../data/levels.json
+        group: Resources/Content
+        buildPhase: resources
+      - path: ../data/phrases.json
+        group: Resources/Content
+        buildPhase: resources
+      - path: ../data/story-lore-v2.json
+        group: Resources/Content
+        buildPhase: resources
+    info:
+      path: Config/Info.plist
+      properties:
+        CFBundleDisplayName: 尋章摘句
+        CFBundleDevelopmentRegion: zh_Hant
+        UILaunchScreen: {}
+        UIRequiresFullScreen: false
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: tw.edu.hc.zgjh.xunzhangzhaiju
+        PRODUCT_NAME: XunZhangZhaiJu
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+    dependencies:
+      - package: GRDB
+        product: GRDB
+    scheme:
+      testTargets:
+        - XunZhangZhaiJuTests
+        - XunZhangZhaiJuUITests
+      gatherCoverageData: true
+
+  XunZhangZhaiJuTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: XunZhangZhaiJuTests
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: true
+        PRODUCT_BUNDLE_IDENTIFIER: tw.edu.hc.zgjh.xunzhangzhaiju.tests
+    dependencies:
+      - target: XunZhangZhaiJu
+
+  XunZhangZhaiJuUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: XunZhangZhaiJuUITests
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: true
+        PRODUCT_BUNDLE_IDENTIFIER: tw.edu.hc.zgjh.xunzhangzhaiju.uitests
+    dependencies:
+      - target: XunZhangZhaiJu
