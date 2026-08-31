@@ -546,6 +546,11 @@ export function calculateQuizInkReward({ currentInk = 0, kind = 'choice', reward
   return Math.max(0, Math.min(base, finiteInt(cap, INK_SOFT_CAP) - finiteInt(currentInk)));
 }
 
+export function calculateStars({ usedReveal = false, usedHint = false, maxStars = 3 } = {}) {
+  const raw = usedReveal ? 1 : (usedHint ? 2 : 3);
+  return Math.min(raw, Math.max(0, finiteInt(maxStars, 3)));
+}
+
 export function computeCultivationProgress(save) {
   const levels = save?.levels && typeof save.levels === 'object' ? Object.values(save.levels) : [];
   const totalStars = levels.reduce((sum, level) => sum + Math.min(3, finiteInt(level?.stars)), 0);

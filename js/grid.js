@@ -21,6 +21,31 @@ export function targetPath(target, length, size) {
   return path;
 }
 
+/** 將拖曳終點鎖定為向右或向下路徑；供網頁與原生 App 共用 golden contract。 */
+export function snappedPath(from, to, size) {
+  const [r0, c0] = from;
+  const [r1, c1] = to;
+  const dE = c1 - c0;
+  const dS = r1 - r0;
+  let dir;
+  let length;
+  if (Math.abs(dE) >= Math.abs(dS)) {
+    dir = 'E';
+    length = Math.max(0, dE);
+  } else {
+    dir = 'S';
+    length = Math.max(0, dS);
+  }
+  const path = [];
+  for (let i = 0; i <= length; i += 1) {
+    const row = dir === 'S' ? r0 + i : r0;
+    const column = dir === 'E' ? c0 + i : c0;
+    if (row >= size || column >= size) break;
+    path.push([row, column]);
+  }
+  return path;
+}
+
 /**
  * 建立盤面。
  * @param {HTMLElement} container
@@ -101,27 +126,7 @@ export function createGrid(container, gridData, handlers = {}, opts = {}) {
   let keyboardAnchor = null;
 
   function computePath(from, to) {
-    const [r0, c0] = from;
-    const [r1, c1] = to;
-    const dE = c1 - c0;
-    const dS = r1 - r0;
-    // snap：位移較大的軸決定方向；反向（負值）視為 0 長度
-    let dir, len;
-    if (Math.abs(dE) >= Math.abs(dS)) {
-      dir = 'E';
-      len = Math.max(0, dE);
-    } else {
-      dir = 'S';
-      len = Math.max(0, dS);
-    }
-    const path = [];
-    for (let i = 0; i <= len; i++) {
-      const r = dir === 'S' ? r0 + i : r0;
-      const c = dir === 'E' ? c0 + i : c0;
-      if (r >= size || c >= size) break;
-      path.push([r, c]);
-    }
-    return path;
+    return snappedPath(from, to, size);
   }
 
   function setPreview(path) {

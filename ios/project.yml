@@ -77,7 +77,11 @@ targets:
   XunZhangZhaiJuTests:
     type: bundle.unit-test
     platform: iOS
-    sources: XunZhangZhaiJuTests
+    sources:
+      - path: XunZhangZhaiJuTests
+      - path: ../data/fixtures/native-parity/core-rules.json
+        group: Resources/Fixtures
+        buildPhase: resources
     settings:
       base:
         GENERATE_INFOPLIST_FILE: true

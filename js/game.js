@@ -6,6 +6,7 @@ import { buildAdaptiveQuestions } from './learnquiz.js';
 import {
   applyModeToLevel,
   calculateQuizInkReward,
+  calculateStars,
   clearUnfinishedRun,
   computeCultivationProgress,
   ensureDailyPlan,
@@ -791,8 +792,7 @@ export function startLevel(ctx) {
 
   // ── 星等與通關（破陣結算・大尺寸群仙大合照） ────
   function computeStars() {
-    const raw = usedReveal ? 1 : (usedHint ? 2 : 3);
-    return Math.min(raw, modeConfig.maxStars);
+    return calculateStars({ usedReveal, usedHint, maxStars: modeConfig.maxStars });
   }
 
   function finishLevel() {

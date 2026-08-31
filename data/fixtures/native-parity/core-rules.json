@@ -1,0 +1,487 @@
+{
+  "schemaVersion": 1,
+  "targetPaths": [
+    {
+      "start": [
+        0,
+        1
+      ],
+      "dir": "S",
+      "length": 4,
+      "size": 5,
+      "expected": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ]
+      ]
+    },
+    {
+      "start": [
+        2,
+        0
+      ],
+      "dir": "E",
+      "length": 5,
+      "size": 7,
+      "expected": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ]
+      ]
+    },
+    {
+      "start": [
+        4,
+        4
+      ],
+      "dir": "E",
+      "length": 2,
+      "size": 5,
+      "expected": null
+    }
+  ],
+  "snappedPaths": [
+    {
+      "from": [
+        1,
+        1
+      ],
+      "to": [
+        2,
+        4
+      ],
+      "size": 6,
+      "expected": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ]
+      ]
+    },
+    {
+      "from": [
+        1,
+        1
+      ],
+      "to": [
+        5,
+        2
+      ],
+      "size": 6,
+      "expected": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ]
+    },
+    {
+      "from": [
+        3,
+        3
+      ],
+      "to": [
+        3,
+        0
+      ],
+      "size": 6,
+      "expected": [
+        [
+          3,
+          3
+        ]
+      ]
+    }
+  ],
+  "modes": [
+    {
+      "mode": "explore",
+      "expected": {
+        "mode": "explore",
+        "label": "悟道",
+        "timeLimit": 360,
+        "hintCap": 3,
+        "maxStars": 3
+      }
+    },
+    {
+      "mode": "standard",
+      "expected": {
+        "mode": "standard",
+        "label": "標準",
+        "timeLimit": 300,
+        "hintCap": 2,
+        "maxStars": 3
+      }
+    },
+    {
+      "mode": "challenge",
+      "expected": {
+        "mode": "challenge",
+        "label": "天劫",
+        "timeLimit": 240,
+        "hintCap": 1,
+        "maxStars": 3
+      }
+    }
+  ],
+  "stars": [
+    {
+      "usedReveal": false,
+      "usedHint": false,
+      "maxStars": 3,
+      "expected": 3
+    },
+    {
+      "usedReveal": false,
+      "usedHint": true,
+      "maxStars": 3,
+      "expected": 2
+    },
+    {
+      "usedReveal": true,
+      "usedHint": true,
+      "maxStars": 3,
+      "expected": 1
+    }
+  ],
+  "hintRun": {
+    "initialInk": 4,
+    "operations": [
+      {
+        "action": "earn",
+        "value": "fill",
+        "accepted": true,
+        "ink": 6
+      },
+      {
+        "action": "spend",
+        "value": "flash",
+        "accepted": true,
+        "ink": 3
+      },
+      {
+        "action": "spend",
+        "value": "reveal",
+        "accepted": false,
+        "ink": 3
+      },
+      {
+        "action": "earn",
+        "value": "choice",
+        "accepted": true,
+        "ink": 4
+      }
+    ]
+  },
+  "daily": {
+    "dateKey": "2026-09-01",
+    "phraseIDs": [
+      "p0001",
+      "p0002",
+      "p0003",
+      "p0004",
+      "p0005",
+      "p0006",
+      "p0007",
+      "p0008",
+      "p0009",
+      "p0010",
+      "p0011",
+      "p0012"
+    ],
+    "questIDs": [
+      "clear-level",
+      "quiz-correct-7",
+      "find-phrases"
+    ],
+    "quickPhraseIDs": [
+      "p0003",
+      "p0011",
+      "p0012",
+      "p0009",
+      "p0008"
+    ]
+  },
+  "normalization": {
+    "input": {
+      "levels": {
+        "1": {
+          "stars": 2,
+          "found": [
+            "p0001"
+          ],
+          "badges": [
+            "swift"
+          ],
+          "modes": [
+            "standard"
+          ],
+          "bestDurationMs": 90000,
+          "fewestMistakes": 2
+        },
+        "bad": {
+          "stars": 9
+        }
+      },
+      "collection": [
+        "p0001"
+      ],
+      "treasures": [
+        "dashen-bian"
+      ],
+      "eventsSeen": [
+        "event-a"
+      ],
+      "chapters": [
+        1
+      ],
+      "quizStats": {
+        "answered": 3,
+        "correct": 2
+      },
+      "ink": 99
+    },
+    "expected": {
+      "levels": {
+        "1": {
+          "stars": 2,
+          "found": [
+            "p0001"
+          ],
+          "badges": [
+            "swift"
+          ],
+          "modes": [
+            "standard"
+          ],
+          "bestDurationMs": 90000,
+          "fewestMistakes": 2
+        }
+      },
+      "collection": [
+        "p0001"
+      ],
+      "treasures": [
+        "dashen-bian"
+      ],
+      "eventsSeen": [
+        "event-a"
+      ],
+      "chapters": [
+        1
+      ],
+      "quizStats": {
+        "answered": 3,
+        "correct": 2
+      },
+      "ink": 99
+    }
+  },
+  "merge": {
+    "left": {
+      "levels": {
+        "1": {
+          "stars": 2,
+          "found": [
+            "p0001"
+          ],
+          "badges": [
+            "swift"
+          ],
+          "modes": [
+            "standard"
+          ],
+          "bestDurationMs": 90000,
+          "fewestMistakes": 2
+        }
+      },
+      "collection": [
+        "p0001"
+      ],
+      "treasures": [
+        "dashen-bian"
+      ],
+      "eventsSeen": [
+        "event-a"
+      ],
+      "chapters": [
+        1
+      ],
+      "quizStats": {
+        "answered": 3,
+        "correct": 2
+      },
+      "ink": 99
+    },
+    "right": {
+      "levels": {
+        "1": {
+          "stars": 3,
+          "found": [
+            "p0002"
+          ],
+          "badges": [
+            "insight"
+          ],
+          "modes": [
+            "challenge"
+          ],
+          "bestDurationMs": 80000,
+          "fewestMistakes": 1
+        },
+        "2": {
+          "stars": 1,
+          "found": [
+            "p0003"
+          ]
+        }
+      },
+      "collection": [
+        "p0002"
+      ],
+      "treasures": [
+        "qiankun-quan"
+      ],
+      "eventsSeen": [
+        "event-b"
+      ],
+      "chapters": [
+        1,
+        2
+      ],
+      "quizStats": {
+        "answered": 2,
+        "correct": 2
+      },
+      "ink": 1
+    },
+    "inkEvents": [
+      {
+        "id": "ink-1",
+        "kind": "earned",
+        "amount": 3
+      },
+      {
+        "id": "ink-2",
+        "kind": "spent",
+        "amount": 5
+      },
+      {
+        "id": "ink-1",
+        "kind": "earned",
+        "amount": 3
+      }
+    ],
+    "expected": {
+      "levels": {
+        "1": {
+          "stars": 3,
+          "found": [
+            "p0001",
+            "p0002"
+          ],
+          "badges": [
+            "swift",
+            "insight"
+          ],
+          "modes": [
+            "standard",
+            "challenge"
+          ],
+          "bestDurationMs": 80000,
+          "fewestMistakes": 1
+        },
+        "2": {
+          "stars": 1,
+          "found": [
+            "p0003"
+          ],
+          "badges": [],
+          "modes": [],
+          "bestDurationMs": null,
+          "fewestMistakes": null
+        }
+      },
+      "collection": [
+        "p0001",
+        "p0002"
+      ],
+      "treasures": [
+        "dashen-bian",
+        "qiankun-quan"
+      ],
+      "eventsSeen": [
+        "event-a",
+        "event-b"
+      ],
+      "chapters": [
+        1,
+        2
+      ],
+      "quizStats": {
+        "answered": 5,
+        "correct": 4
+      },
+      "ink": 0
+    }
+  }
+}
