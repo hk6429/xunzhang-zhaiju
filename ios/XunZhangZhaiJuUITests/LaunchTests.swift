@@ -8,6 +8,9 @@ final class LaunchTests: XCTestCase {
         app.launch()
 
         XCTAssertTrue(app.staticTexts["修煉山河"].firstMatch.waitForExistence(timeout: 5))
+        XCTAssertTrue(
+            app.descendants(matching: .any)["mountain-journey-map"].waitForExistence(timeout: 5)
+        )
     }
 
     @MainActor

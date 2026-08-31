@@ -38,4 +38,17 @@ final class ContentDecodingTests: XCTestCase {
         XCTAssertEqual(Set(content.levels.flatMap(\.directions)), [.east, .south])
         XCTAssertEqual(Set(content.levels.flatMap(\.targets).map(\.direction)), [.east, .south])
     }
+
+    func testMountainAndLiteraryVolumesKeepDistinctNavigationModels() throws {
+        let levels = try ContentLoader().load().levels
+        let mountainLevels = levels.filter { $0.id <= 50 }
+        let literaryLevels = levels.filter { $0.id > 50 }
+
+        XCTAssertEqual(mountainLevels.count, 50)
+        XCTAssertTrue(mountainLevels.allSatisfy { $0.mapPosition != nil && $0.routeType != nil })
+        XCTAssertTrue(mountainLevels.flatMap(\.nextIds).allSatisfy { $0 <= 50 })
+
+        XCTAssertEqual(literaryLevels.count, 50)
+        XCTAssertTrue(literaryLevels.allSatisfy { $0.mapPosition == nil && $0.routeType == nil })
+    }
 }
