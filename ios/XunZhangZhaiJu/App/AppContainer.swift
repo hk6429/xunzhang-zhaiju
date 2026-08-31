@@ -44,9 +44,6 @@ final class AppContainer: ObservableObject {
     }
 
     func persist(gameState: GameState) throws {
-        guard let repository, let deviceID, let namespace else {
-            throw AppContainerError.unavailable
-        }
         var next = progress
         let key = String(gameState.levelID)
         var level = next.levels[key] ?? LocalLevelProgress(stars: 0, found: [])
@@ -56,12 +53,34 @@ final class AppContainer: ObservableObject {
         }
         next.levels[key] = level
         next.collection = orderedUnion(next.collection, Array(gameState.collection).sorted())
+        next = DailyProgressEngine().recordingGame(
+            in: next,
+            dateKey: TaiwanDate.dateKey(),
+            gameState: gameState
+        )
+        try persist(next, kind: gameState.phase == .completed ? "levelCompleted" : "progressUpdated")
+    }
+
+    func recordQuiz(phraseID: String, kind: LearningQuestionKind, correct: Bool) throws {
+        let next = DailyProgressEngine().recordingQuiz(
+            in: progress,
+            dateKey: TaiwanDate.dateKey(),
+            phraseID: phraseID,
+            kind: kind,
+            correct: correct
+        )
+        try persist(next, kind: "quizAnswered")
+    }
+
+    private func persist(_ next: LocalAppProgress, kind: String) throws {
+        guard let repository, let deviceID, let namespace else {
+            throw AppContainerError.unavailable
+        }
 
         let payload = try encoder.encode(next)
         let now = Date()
         let sequence = try repository.nextSequence(namespace: namespace, deviceID: deviceID)
         let eventID = UUID().uuidString.lowercased()
-        let kind = gameState.phase == .completed ? "levelCompleted" : "progressUpdated"
         try repository.apply(ProgressMutation(
             snapshot: ProgressSnapshotRecord(
                 namespace: namespace,

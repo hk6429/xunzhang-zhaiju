@@ -9,12 +9,20 @@ struct JourneyView: View {
             case .ready:
                 if let content = container.content {
                     ScrollView {
-                        LazyVGrid(
-                            columns: [GridItem(.adaptive(minimum: 150), spacing: 14)],
-                            spacing: 14
-                        ) {
-                            ForEach(Array(content.levels.prefix(10))) { level in
-                                levelLink(level, content: content)
+                        VStack(spacing: 28) {
+                            mapHeader
+                            ForEach(1...10, id: \.self) { chapter in
+                                VStack(alignment: .leading, spacing: 12) {
+                                    chapterHeader(chapter, content: content)
+                                    LazyVGrid(
+                                        columns: [GridItem(.adaptive(minimum: 150), spacing: 14)],
+                                        spacing: 14
+                                    ) {
+                                        ForEach(content.levels.filter { $0.chapter == chapter }) { level in
+                                            levelLink(level, content: content)
+                                        }
+                                    }
+                                }
                             }
                         }
                         .padding()
@@ -36,6 +44,43 @@ struct JourneyView: View {
             }
         }
         .navigationTitle("修煉山河")
+    }
+
+    private var mapHeader: some View {
+        Image("JourneyMap")
+            .resizable()
+            .scaledToFill()
+            .frame(maxWidth: .infinity)
+            .aspectRatio(2, contentMode: .fit)
+            .clipShape(RoundedRectangle(cornerRadius: 22))
+            .overlay(alignment: .bottomLeading) {
+                VStack(alignment: .leading) {
+                    Text("封神山河卷・文林淬鍊卷")
+                        .font(.title2.bold())
+                    Text("100 座字陣，尋回人間真言")
+                }
+                .foregroundStyle(Color.white)
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(.black.opacity(0.72))
+            }
+    }
+
+    @ViewBuilder
+    private func chapterHeader(_ chapter: Int, content: AppContent) -> some View {
+        let story = content.story.chapters.first { $0.id == chapter }
+        VStack(alignment: .leading, spacing: 4) {
+            Text(chapter <= 5 ? "山河卷・第 \(chapter) 章" : "文林卷・第 \(chapter) 章")
+                .font(.caption.bold())
+                .foregroundStyle(AppTheme.accent)
+            Text(story?.title ?? "第 \(chapter) 章")
+                .font(.title2.bold())
+                .foregroundStyle(AppTheme.primaryText)
+            if let region = story?.mapRegion {
+                Text(region)
+                    .foregroundStyle(AppTheme.secondaryText)
+            }
+        }
     }
 
     @ViewBuilder

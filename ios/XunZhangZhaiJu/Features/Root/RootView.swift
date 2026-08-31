@@ -67,26 +67,15 @@ struct RootView: View {
     @ViewBuilder
     private func sectionView(_ section: AppSection) -> some View {
         NavigationStack {
-            if section == .journey {
+            switch section {
+            case .journey:
                 JourneyView()
-            } else {
-                ZStack {
-                    AppTheme.background
-                        .ignoresSafeArea()
-                    VStack(spacing: 16) {
-                        Image(systemName: section.systemImage)
-                            .font(.system(size: 44, weight: .semibold))
-                            .foregroundStyle(AppTheme.accent)
-                        Text(section.title)
-                            .font(.largeTitle.bold())
-                            .foregroundStyle(AppTheme.primaryText)
-                        Text("原生 App 建置中")
-                            .font(.body)
-                            .foregroundStyle(AppTheme.secondaryText)
-                    }
-                    .padding()
-                }
-                .navigationTitle(section.title)
+            case .daily:
+                DailyView()
+            case .collection:
+                CollectionView()
+            case .profile:
+                ProfileView()
             }
         }
     }

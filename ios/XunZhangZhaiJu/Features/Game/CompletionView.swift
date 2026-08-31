@@ -5,9 +5,11 @@ struct CompletionView: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            Image(systemName: "seal.fill")
-                .font(.system(size: 54))
-                .foregroundStyle(AppTheme.accent)
+            Image("VictoryCelebration")
+                .resizable()
+                .scaledToFill()
+                .frame(height: 150)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
             Text("破陣成功")
                 .font(.largeTitle.bold())
             Text(String(repeating: "★", count: stars) + String(repeating: "☆", count: 3 - stars))
