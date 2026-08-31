@@ -2,6 +2,8 @@
 
 中文「尋詞解謎」練功 App：在字格中找出隱藏的成語、諺語、俗語與古典文學名句。專案同時保留原始 Web 版，並以 SwiftUI 全原生重寫 iPhone／iPad 版。
 
+[立即遊玩 Web 版](https://xunzhang-zhaiju.pages.dev)（Netlify 備援鏡像：`https://xunzhang-zhaiju.netlify.app`）
+
 ## 原生 App
 
 - SwiftUI，最低 iOS／iPadOS 16，支援 iPhone 與 iPad。

@@ -55,7 +55,7 @@ UTF-8 共 90 bytes，低於 100-byte 上限；未重複 App 名稱或開發者�
 ## URLs
 
 - Support URL：**【上線前填入含公開聯絡方式的 HTTPS 網址】**
-- Marketing URL：選填，可使用正式 Web 版首頁。
+- Marketing URL：`https://xunzhang-zhaiju.pages.dev`
 - Privacy Policy URL：**【上線前部署 `privacy-policy.md` 並填入 HTTPS 網址】**
 
 ## Review Notes
