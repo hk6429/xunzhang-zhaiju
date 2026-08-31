@@ -5,6 +5,9 @@ import SwiftUI
 import UIKit
 
 struct ProfileView: View {
+    private static let privacyURL = URL(string: "https://xunzhang-zhaiju.pages.dev/privacy.html")!
+    private static let supportURL = URL(string: "https://xunzhang-zhaiju.pages.dev/support.html")!
+
     @EnvironmentObject private var container: AppContainer
     @AppStorage("play-mode") private var playMode = PlayMode.standard.rawValue
     @State private var restMessage = ""
@@ -24,6 +27,7 @@ struct ProfileView: View {
                     restCard
                 }
                 syncCard
+                supportCard
             }
             .padding()
         }
@@ -203,6 +207,30 @@ struct ProfileView: View {
         case let .failed(message):
             return "尚未同步：\(message)"
         }
+    }
+
+    private var supportCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("隱私與支援", systemImage: "questionmark.circle")
+                .font(.headline)
+            Text("查看資料處理方式、離線與同步說明，或回報操作問題。")
+                .font(.subheadline)
+                .foregroundStyle(AppTheme.secondaryText)
+            HStack {
+                Link("隱私權政策", destination: Self.privacyURL)
+                    .buttonStyle(.bordered)
+                    .accessibilityIdentifier("privacy-policy-link")
+                    .accessibilityHint("使用瀏覽器開啟尋章摘句隱私權政策")
+                Link("使用支援", destination: Self.supportURL)
+                    .buttonStyle(.bordered)
+                    .accessibilityIdentifier("support-page-link")
+                    .accessibilityHint("使用瀏覽器開啟尋章摘句支援頁")
+            }
+        }
+        .foregroundStyle(AppTheme.primaryText)
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 20))
     }
 
     private func handleApple(_ result: Result<ASAuthorization, Error>) {

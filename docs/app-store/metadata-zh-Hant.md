@@ -54,9 +54,9 @@ UTF-8 共 90 bytes，低於 100-byte 上限；未重複 App 名稱或開發者�
 
 ## URLs
 
-- Support URL：**【上線前填入含公開聯絡方式的 HTTPS 網址】**
+- Support URL：https://xunzhang-zhaiju.pages.dev/support.html
 - Marketing URL：`https://xunzhang-zhaiju.pages.dev`
-- Privacy Policy URL：**【上線前部署 `privacy-policy.md` 並填入 HTTPS 網址】**
+- Privacy Policy URL：https://xunzhang-zhaiju.pages.dev/privacy.html
 
 ## Review Notes
 
@@ -68,6 +68,6 @@ UTF-8 共 90 bytes，低於 100-byte 上限；未重複 App 名稱或開發者�
 - Promotional Text 不超過 170 字元。
 - Description 不超過 4,000 字元，採純文字。
 - Keywords 不超過 100 bytes。
-- iOS 必須提供 Privacy Policy URL，Support URL 必須能讓使用者找到實際聯絡方式。
+- iOS 必須提供 Privacy Policy URL；Support URL 連到公開支援說明與問題回報管道。
 
 參考：[Apple Platform Version Information](https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information)、[App Information](https://developer.apple.com/help/app-store-connect/reference/app-information/app-information)。

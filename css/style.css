@@ -1009,6 +1009,25 @@ main {
 }
 .complete-modal .settings-actions { justify-content: center; }
 
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.7rem 1.25rem;
+  padding: 1.4rem 1rem 2rem;
+  color: var(--palace-ink-soft);
+  font-size: 0.88rem;
+}
+.site-footer a {
+  color: var(--palace-indigo-deep);
+  text-underline-offset: 0.2em;
+}
+.site-footer a:focus-visible {
+  outline: 3px solid var(--palace-indigo);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
 /* ── 手機響應式 ─────────────────────── */
 @media (max-width: 440px) {
   .app-title { font-size: 1.35rem; letter-spacing: 0.2em; }

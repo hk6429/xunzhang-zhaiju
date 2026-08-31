@@ -57,6 +57,6 @@ Apple／Google 的身分權杖只用於驗證登入，不作廣告或分析用�
 
 ## 聯絡方式
 
-隱私權、資料匯出或刪除問題，請聯絡：**【上線前填入可公開的聯絡信箱】**。
+隱私權、資料匯出或刪除問題，請前往[尋章摘句支援頁](https://xunzhang-zhaiju.pages.dev/support.html)查看處理方式。一般問題可使用公開回報表單；請勿在公開內容中填寫姓名、電子郵件、學校、帳號識別碼或其他個人資料。
 
-> 發布前必要事項：將本文件放在無須登入即可瀏覽的 HTTPS 網址，並把聯絡信箱與公開網址填入 App Store Connect。
+公開政策網址：<https://xunzhang-zhaiju.pages.dev/privacy.html>

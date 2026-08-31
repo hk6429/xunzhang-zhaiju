@@ -37,6 +37,14 @@ final class LaunchTests: XCTestCase {
 
         app.buttons["我的"].tap()
         XCTAssertTrue(app.staticTexts["遊玩模式"].waitForExistence(timeout: 5))
+        app.swipeUp()
+        app.swipeUp()
+        XCTAssertTrue(
+            app.descendants(matching: .any)["privacy-policy-link"].waitForExistence(timeout: 5)
+        )
+        XCTAssertTrue(
+            app.descendants(matching: .any)["support-page-link"].waitForExistence(timeout: 5)
+        )
     }
 
     @MainActor

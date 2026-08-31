@@ -40,6 +40,8 @@ if (icon.hasAlpha !== "no") throw new Error(`${iconPath} 含有 alpha channel`);
 const metadata = readFileSync("docs/app-store/metadata-zh-Hant.md", "utf8");
 const name = lineValue(metadata, "名稱");
 const subtitle = lineValue(metadata, "副標題");
+const supportURL = lineValue(metadata, "Support URL");
+const privacyURL = lineValue(metadata, "Privacy Policy URL");
 const promotional = section(metadata, "Promotional Text", "Description");
 const description = section(metadata, "Description", "Keywords");
 const keywords = section(metadata, "Keywords", "URLs").match(/`([^`]+)`/u)?.[1];
@@ -52,11 +54,49 @@ boundedCharacters("Description", description, 4_000);
 const keywordBytes = Buffer.byteLength(keywords, "utf8");
 if (keywordBytes > 100) throw new Error(`Keywords 為 ${keywordBytes} bytes，超過 100`);
 
+const publicPages = [
+  {
+    path: "support.html",
+    url: "https://xunzhang-zhaiju.pages.dev/support.html",
+    title: "使用支援｜尋章摘句",
+    requiredText: "issues/new?template=support.yml",
+  },
+  {
+    path: "privacy.html",
+    url: "https://xunzhang-zhaiju.pages.dev/privacy.html",
+    title: "隱私權政策｜尋章摘句",
+    requiredText: "support.html",
+  },
+];
+assertEqual("Support URL", publicPages[0].url, supportURL);
+assertEqual("Privacy Policy URL", publicPages[1].url, privacyURL);
+
+for (const page of publicPages) {
+  const html = readFileSync(page.path, "utf8");
+  if (!html.includes(`<title>${page.title}</title>`)) throw new Error(`${page.path} 缺少正確標題`);
+  if (!html.includes(page.requiredText)) throw new Error(`${page.path} 缺少必要支援連結`);
+  if (/【上線前|TODO|TBD/u.test(html)) throw new Error(`${page.path} 仍含發布前 placeholder`);
+}
+
+const homepage = readFileSync("index.html", "utf8");
+for (const page of publicPages) {
+  if (!homepage.includes(`href="${page.path}"`)) throw new Error(`首頁缺少 ${page.path} 入口`);
+}
+
+const profileView = readFileSync("ios/XunZhangZhaiJu/Features/Profile/ProfileView.swift", "utf8");
+for (const page of publicPages) {
+  if (!profileView.includes(page.url)) throw new Error(`SwiftUI 我的頁缺少 ${page.url}`);
+}
+const supportTemplate = readFileSync(".github/ISSUE_TEMPLATE/support.yml", "utf8");
+if (!supportTemplate.includes("請勿填寫姓名、電子郵件、學校、班級")) {
+  throw new Error("公開支援表單缺少個資提醒");
+}
+
 console.log(
   `App Store 素材驗證通過：1024x1024 無透明通道 PNG App Icon、${screenshots.length} 張無透明通道截圖；`
   + `名稱 ${[...name].length} 字、副標題 ${[...subtitle].length} 字、`
   + `宣傳文字 ${[...promotional].length} 字、描述 ${[...description].length} 字、`
-  + `關鍵字 ${keywordBytes} bytes。`,
+  + `關鍵字 ${keywordBytes} bytes、${publicPages.length} 個公開頁面入口。`,
 );
 
 function imageProperties(path, includeFormat = false) {
@@ -101,4 +141,8 @@ function section(text, start, end) {
 function boundedCharacters(label, value, maximum) {
   const count = [...value].length;
   if (count > maximum) throw new Error(`${label} 為 ${count} 字，超過 ${maximum}`);
+}
+
+function assertEqual(label, expected, actual) {
+  if (actual !== expected) throw new Error(`${label} 應為 ${expected}，目前為 ${actual}`);
 }
