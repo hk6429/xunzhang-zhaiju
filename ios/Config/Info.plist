@@ -35,6 +35,8 @@
 	<string>$(GOOGLE_IOS_CLIENT_ID)</string>
 	<key>GIDServerClientID</key>
 	<string>$(GOOGLE_SERVER_CLIENT_ID)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>SyncAPIBaseURL</key>
 	<string>$(SYNC_API_BASE_URL)</string>
 	<key>UILaunchScreen</key>

@@ -10,7 +10,7 @@
 - 訪客可直接遊玩；Apple／Google 登入後，透過 Cloudflare Worker + Turso 同步 Web、iPhone、iPad 進度。
 - 個人例句只保存在裝置上，不加入同步 outbox。
 
-iOS 開發與測試方式見 [`ios/README.md`](ios/README.md)，同步服務見 [`sync-worker/README.md`](sync-worker/README.md)。上架前資料集中於 [`docs/app-store/`](docs/app-store/)（隱私權政策、App Privacy 填答、TestFlight 資訊與發布檢查表）。
+iOS 開發與測試方式見 [`ios/README.md`](ios/README.md)，同步服務見 [`sync-worker/README.md`](sync-worker/README.md)。上架前資料集中於 [`docs/app-store/`](docs/app-store/)（商店文案、年齡分級、隱私、加密合規、TestFlight 與發布檢查表）。
 
 ## 玩法
 

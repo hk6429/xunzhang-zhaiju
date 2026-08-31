@@ -9,6 +9,8 @@
 
 這些檔案是未加文宣框的原始 App 截圖，可作為本機驗收證據與上架素材底稿。正式上傳前須依 App Store Connect 當下接受的顯示尺寸再次檢查，並補齊其他核心畫面與橫向／分割視窗素材。
 
+目前 iPad 圖是 Apple 接受的 13 吋 2064 × 2752 規格；iPhone 圖是 Apple 接受的 6.3 吋 1206 × 2622 規格，但不能取代 App Store Connect 要求的主要 6.9 吋圖組。6.9 吋 Simulator 首次開機卡在系統 `CoreLocationMigrator`，未重置裝置；正式上傳前仍須補 1260 × 2736、1290 × 2796 或 1320 × 2868 其中一種原生尺寸。
+
 截圖使用 Simulator 正常簽署 build。不可使用 `CODE_SIGNING_ALLOWED=NO` 的 App 做 Keychain 驗收，否則會產生 `OSStatus -34018`，那是簽署環境造成的假性失敗。
 
 ## QA 證據
