@@ -6,7 +6,7 @@
 - [ ] Worker typecheck、測試、migration smoke 與 dry-run 全部通過。
 - [ ] 版本庫機密掃描通過。
 - [ ] iPhone 單元／UI tests 通過。
-- [ ] iPad 真機完成直向、橫向、Split View、VoiceOver 與離線測試。
+- [ ] iPad 真機完成直向、橫向、Split View、VoiceOver 與離線測試（Simulator 直向直接安裝啟動已通過）。
 - [ ] Release Archive 內含有效 `PrivacyInfo.xcprivacy`，第三方套件 privacy manifests 無警告。
 
 ## 正式服務
