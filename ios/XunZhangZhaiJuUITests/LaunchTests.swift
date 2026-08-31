@@ -25,6 +25,10 @@ final class LaunchTests: XCTestCase {
         XCTAssertTrue(
             app.descendants(matching: .any)["full-board"].waitForExistence(timeout: 5)
         )
+        XCTAssertTrue(
+            app.descendants(matching: .any)["game-mission"].waitForExistence(timeout: 5)
+        )
+        XCTAssertTrue(app.staticTexts["學習目標"].waitForExistence(timeout: 5))
     }
 
     @MainActor

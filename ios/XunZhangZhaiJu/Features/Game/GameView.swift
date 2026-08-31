@@ -5,11 +5,20 @@ struct GameView: View {
     @Environment(\.scenePhase) private var scenePhase
     @StateObject private var model: GameViewModel
     @State private var eventToShow: WorldEvent?
+    @FocusState private var answerFocused: Bool
+    private let chapter: StoryLore.Chapter?
     private let chooseEvent: (WorldEvent, EventChoice) throws -> Void
 
-    init(level: Level, phrases: [Phrase], container: AppContainer, event: WorldEvent? = nil) {
+    init(
+        level: Level,
+        phrases: [Phrase],
+        container: AppContainer,
+        chapter: StoryLore.Chapter? = nil,
+        event: WorldEvent? = nil
+    ) {
         let mode = PlayMode(rawValue: UserDefaults.standard.string(forKey: "play-mode") ?? "") ?? .standard
         let eventSeen = event.map { container.progress.world?.eventsSeen.contains($0.id) == true } ?? true
+        self.chapter = chapter
         _eventToShow = State(initialValue: eventSeen ? nil : event)
         chooseEvent = { try container.applyWorldEvent($0, choice: $1) }
         _model = StateObject(wrappedValue: GameViewModel(
@@ -27,39 +36,51 @@ struct GameView: View {
     var body: some View {
         ZStack {
             AppTheme.background.ignoresSafeArea()
-            ScrollView {
-                VStack(spacing: 18) {
-                    progressHeader
-                    if model.level.layout == .full {
-                        FullBoardView(
-                            grid: model.level.grid,
-                            foundPaths: foundPaths,
-                            hintCoordinates: model.hintCoordinates,
-                            onSelection: model.select
-                        )
-                    } else {
-                        CrossBoardView(
-                            level: model.level,
-                            targets: model.targets,
-                            foundPhraseIDs: model.state.foundPhraseIDs,
-                            hintCoordinates: model.hintCoordinates,
-                            selectedPhraseID: $model.selectedCrossPhraseID
-                        )
-                        AnswerInputView(
-                            answer: $model.answer,
-                            enabled: model.selectedCrossPhraseID != nil,
-                            submit: model.submitCrossAnswer
-                        )
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(spacing: 18) {
+                        progressHeader
+                        missionPanel
+                        if model.level.layout == .full {
+                            FullBoardView(
+                                grid: model.level.grid,
+                                foundPaths: foundPaths,
+                                hintCoordinates: model.hintCoordinates,
+                                onSelection: model.select
+                            )
+                        } else {
+                            CrossBoardView(
+                                level: model.level,
+                                targets: model.targets,
+                                foundPhraseIDs: model.state.foundPhraseIDs,
+                                hintCoordinates: model.hintCoordinates,
+                                selectedPhraseID: $model.selectedCrossPhraseID
+                            )
+                            AnswerInputView(
+                                answer: $model.answer,
+                                isFocused: $answerFocused,
+                                enabled: model.selectedCrossPhraseID != nil,
+                                submit: model.submitCrossAnswer
+                            )
+                            .id("cross-answer-anchor")
+                        }
+                        hintBar
+                        clueList
+                        if let message = model.errorMessage {
+                            Text(message)
+                                .foregroundStyle(Color.orange)
+                                .accessibilityIdentifier("game-error")
+                        }
                     }
-                    hintBar
-                    clueList
-                    if let message = model.errorMessage {
-                        Text(message)
-                            .foregroundStyle(Color.orange)
-                            .accessibilityIdentifier("game-error")
-                    }
+                    .padding()
                 }
-                .padding()
+                .onChange(of: model.selectedCrossPhraseID) { selectedID in
+                    guard selectedID != nil else { return }
+                    withAnimation {
+                        proxy.scrollTo("cross-answer-anchor", anchor: .center)
+                    }
+                    answerFocused = true
+                }
             }
             if model.state.phase == .completed {
                 CompletionView(stars: model.state.earnedStars ?? 0)
@@ -69,6 +90,7 @@ struct GameView: View {
         }
         .navigationTitle("第 \(model.level.id) 關")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
         .sheet(item: knowledgeBinding) { phrase in
             KnowledgeCardView(phrase: phrase)
                 .presentationDetents([.medium, .large])
@@ -104,6 +126,54 @@ struct GameView: View {
         }
         .font(.headline)
         .foregroundStyle(AppTheme.secondaryText)
+    }
+
+    private var missionPanel: some View {
+        HStack(alignment: .top, spacing: 14) {
+            if let guardian = GuardianPresentation.forChapter(model.level.chapter) {
+                Image(guardian.assetName)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 88, height: 88)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .accessibilityLabel("守護神，\(guardian.name)")
+            } else {
+                Image(systemName: "scroll.fill")
+                    .font(.system(size: 36))
+                    .foregroundStyle(AppTheme.accent)
+                    .frame(width: 88, height: 88)
+                    .background(Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
+                    .accessibilityHidden(true)
+            }
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text(GuardianPresentation.forChapter(model.level.chapter)?.name ?? "文林引路人")
+                    .font(.headline)
+                    .foregroundStyle(AppTheme.accent)
+                Text("學習目標")
+                    .font(.caption.bold())
+                    .foregroundStyle(AppTheme.secondaryText)
+                Text(learningGoal)
+                    .font(.subheadline)
+                    .foregroundStyle(AppTheme.primaryText)
+                    .fixedSize(horizontal: false, vertical: true)
+                if let guidance = chapter?.intro.last {
+                    Text(guidance)
+                        .font(.caption)
+                        .foregroundStyle(AppTheme.secondaryText)
+                        .lineLimit(3)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+        .background(AppTheme.surface, in: RoundedRectangle(cornerRadius: 18))
+        .accessibilityIdentifier("game-mission")
+    }
+
+    private var learningGoal: String {
+        let verb = model.level.layout == .full ? "從字陣中辨識" : "依線索判讀並填入"
+        return "\(verb) \(model.targets.count) 則完整真言，理解字詞與語境的連結。"
     }
 
     private var hintBar: some View {
@@ -169,13 +239,34 @@ struct GameView: View {
                 .font(.headline)
             ForEach(model.targets, id: \.target.phraseID) { item in
                 let found = model.state.foundPhraseIDs.contains(item.phrase.id)
-                Text(found ? "✓ \(item.phrase.text)" : "• \(item.phrase.clues[item.target.clueIndex].text)")
-                    .foregroundStyle(found ? AppTheme.accent : AppTheme.primaryText)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(12)
-                    .background(Color.white.opacity(0.07), in: RoundedRectangle(cornerRadius: 12))
+                if model.level.layout == .cross {
+                    Button {
+                        model.selectedCrossPhraseID = item.phrase.id
+                    } label: {
+                        clueLabel(item: item, found: found)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(found)
+                    .accessibilityIdentifier("clue-\(item.phrase.id)")
+                    .accessibilityHint(found ? "已完成" : "點兩下選擇此題並輸入答案")
+                } else {
+                    clueLabel(item: item, found: found)
+                }
             }
         }
+    }
+
+    private func clueLabel(item: (target: LevelTarget, phrase: Phrase), found: Bool) -> some View {
+        let selected = model.selectedCrossPhraseID == item.phrase.id
+        return Text(found ? "✓ \(item.phrase.text)" : "• \(item.phrase.clues[item.target.clueIndex].text)")
+            .foregroundStyle(found ? AppTheme.accent : AppTheme.primaryText)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12)
+            .background(Color.white.opacity(selected ? 0.16 : 0.07), in: RoundedRectangle(cornerRadius: 12))
+            .overlay {
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(selected ? AppTheme.accent : Color.clear, lineWidth: 2)
+            }
     }
 
     private var foundPaths: [[GridCoordinate]] {
@@ -200,5 +291,21 @@ struct GameView: View {
     private func format(milliseconds: Int) -> String {
         let seconds = max(0, milliseconds / 1_000)
         return String(format: "%02d:%02d", seconds / 60, seconds % 60)
+    }
+}
+
+private struct GuardianPresentation {
+    let name: String
+    let assetName: String
+
+    static func forChapter(_ chapter: Int) -> GuardianPresentation? {
+        switch chapter {
+        case 1: GuardianPresentation(name: "姜太公", assetName: "GuardianJiangTaigong")
+        case 2: GuardianPresentation(name: "哪吒", assetName: "GuardianNezha")
+        case 3: GuardianPresentation(name: "楊戩", assetName: "GuardianYangJian")
+        case 4: GuardianPresentation(name: "蘇妲己", assetName: "GuardianSuDaji")
+        case 5: GuardianPresentation(name: "雷震子", assetName: "GuardianLeiZhenzi")
+        default: nil
+        }
     }
 }

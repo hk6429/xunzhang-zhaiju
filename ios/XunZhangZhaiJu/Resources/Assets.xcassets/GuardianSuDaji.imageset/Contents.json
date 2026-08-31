@@ -1,0 +1,13 @@
+{
+  "images" : [
+    {
+      "filename" : "guardian-su-daji.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

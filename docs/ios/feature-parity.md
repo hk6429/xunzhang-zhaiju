@@ -5,6 +5,7 @@
 | Web／規格模組 | SwiftUI 原生實作 | 驗證 |
 |---|---|---|
 | 409 條語料、100 關、full／cross 盤面 | `ContentLoader`、`FullBoardView`、`CrossBoardView` | `ContentDecodingTests`、`ContentValidationTests`、`AllLevelsSmokeTests` |
+| 沉浸式遊戲任務、守護神、學習目標與可選線索 | `GameView`、`AnswerInputView`、原生 Guardian Assets | iPhone／iPad UI tests；守護神任務卡與學習目標 presence assertion |
 | 三種模式、倒數、背景暫停、重試 | `GameEngine`、`GameViewModel` | `GameEngineTests`、`GameViewModelTests` |
 | 圈首字／閃現／揭示與墨水成本 | `HintEngine`、`GameViewModel` | `LearningEnginesTests`、`NativeParityTests` |
 | 星等、最佳成績、續玩、休息提醒 | `AppContainer`、`LocalLevelStats`、`ProfileView` | `GameViewModelTests`、`DailyProgressEngineTests` |
@@ -21,7 +22,7 @@
 | 匯出、登出與帳號刪除 | iOS／Web controls、session family revoke、分開確認本機清除 | Worker auth tests、iOS build；正式環境 E2E 待部署 |
 | 大量離線事件維護 | 同步後只壓縮已確認事件，永不刪除未送 outbox | 10,000 筆 repository 壓力測試 |
 | 隱私揭露與 required-reason API | `PrivacyInfo.xcprivacy`、隱私權政策、App Privacy 對照表 | 未簽署 Release Archive 已聚合驗證 12 份 manifest、9 類資料與套件 pins；正式簽署 privacy report 待驗 |
-| 動態文字、VoiceOver、Reduce Motion | 測試字級啟動路徑、盤面逐格按鈕、無動畫縮放 | iPhone／11 與 13 吋 iPad 系統無障礙稽核、最大字級與旋轉通過；真機 VoiceOver／Reduce Motion 待驗 |
+| 動態文字、VoiceOver、Reduce Motion | 測試字級啟動路徑、盤面逐格按鈕、可選線索與無動畫縮放 | iPhone／11 與 13 吋 iPad 系統無障礙稽核、最大字級與旋轉通過；真機 VoiceOver／Reduce Motion 待驗 |
 | App Store 顯示素材 | 6.9 吋 iPhone、13 吋 iPad 原生畫面與繁中 metadata | JPEG 尺寸／alpha、文字字數與關鍵字 bytes 自動驗證 |
 
 ## 尚待正式環境驗收

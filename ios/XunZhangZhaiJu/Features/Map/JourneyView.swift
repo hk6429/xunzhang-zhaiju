@@ -73,6 +73,7 @@ struct JourneyView: View {
                     level: level,
                     phrases: content.phrases,
                     container: container,
+                    chapter: content.story.chapters.first { $0.id == level.chapter },
                     event: level.eventId.flatMap { eventID in
                         content.events.events.first { $0.id == eventID }
                     }
@@ -134,6 +135,7 @@ struct JourneyView: View {
                     level: level,
                     phrases: content.phrases,
                     container: container,
+                    chapter: content.story.chapters.first { $0.id == level.chapter },
                     event: level.eventId.flatMap { eventID in
                         content.events.events.first { $0.id == eventID }
                     }
