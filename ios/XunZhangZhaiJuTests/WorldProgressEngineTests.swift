@@ -38,4 +38,14 @@ final class WorldProgressEngineTests: XCTestCase {
         XCTAssertEqual(progress.world?.treasures["dashen-bian"]?.sources.count, 2)
         XCTAssertEqual(progress.world?.treasures["dashen-bian"]?.complete, true)
     }
+
+    func testStudyEffectsReturnTheirQuestionCountWithoutCountingOtherRewards() {
+        let effects = [
+            EventEffect(type: .study, value: "circle", amount: 2, uses: nil),
+            EventEffect(type: .study, value: "bonus", amount: nil, uses: nil),
+            EventEffect(type: .mapReveal, value: "chapter-1-hidden", amount: 99, uses: nil),
+        ]
+
+        XCTAssertEqual(WorldProgressEngine().studyQuestionCount(for: effects), 3)
+    }
 }

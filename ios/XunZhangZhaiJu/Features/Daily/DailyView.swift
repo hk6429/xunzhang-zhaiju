@@ -2,6 +2,9 @@ import SwiftUI
 
 struct DailyView: View {
     @EnvironmentObject private var container: AppContainer
+    @State private var encounterQuestions: [LearningQuestion] = []
+    @State private var encounterQuizPresented = false
+    @State private var encounterError = ""
 
     var body: some View {
         ScrollView {
@@ -41,11 +44,20 @@ struct DailyView: View {
                         Text("今日奇遇").font(.caption.bold()).foregroundStyle(AppTheme.accent)
                         Text(encounter.title).font(.title2.bold())
                         Text(encounter.text).foregroundStyle(AppTheme.secondaryText)
+                        Text(encounterRewardLabel(encounter))
+                            .font(.caption.bold())
+                            .foregroundStyle(AppTheme.accent)
                         Button(isEncounterSeen(encounter) ? "今日已相遇" : "收下奇遇") {
-                            try? container.applyDailyEncounter(encounter)
+                            acceptEncounter(encounter)
                         }
                         .buttonStyle(.bordered)
                         .disabled(isEncounterSeen(encounter))
+                        .accessibilityIdentifier("accept-daily-encounter")
+                        if !encounterError.isEmpty {
+                            Text(encounterError)
+                                .font(.caption)
+                                .foregroundStyle(Color.orange)
+                        }
                     }
                     .padding()
                     .background(Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
@@ -79,6 +91,23 @@ struct DailyView: View {
         .foregroundStyle(AppTheme.primaryText)
         .background(AppTheme.background)
         .navigationTitle("今日修煉")
+        .sheet(isPresented: $encounterQuizPresented) {
+            GameLearningQuizView(
+                questions: encounterQuestions,
+                startingInk: container.progress.ink,
+                title: "奇遇研墨",
+                returnLabel: "返回今日修煉",
+                submit: { question, correct in
+                    let inkBefore = container.progress.ink
+                    try container.recordQuiz(
+                        phraseID: question.phraseID,
+                        kind: question.kind,
+                        correct: correct
+                    )
+                    return max(0, container.progress.ink - inkBefore)
+                }
+            )
+        }
     }
 
     private var dateKey: String { TaiwanDate.dateKey() }
@@ -89,6 +118,10 @@ struct DailyView: View {
 
     private var dailyEncounter: DailyEncounter? {
         guard let encounters = container.content?.events.dailyEncounters, !encounters.isEmpty else { return nil }
+        if let forcedID = RuntimeEnvironment.forcedDailyEncounterID,
+           let forced = encounters.first(where: { $0.id == forcedID }) {
+            return forced
+        }
         let selected = NativeParityRules.dailyQuickPhraseIDs(
             phraseIDs: encounters.map(\.id),
             dateKey: "encounter:\(dateKey)",
@@ -99,6 +132,36 @@ struct DailyView: View {
 
     private func isEncounterSeen(_ encounter: DailyEncounter) -> Bool {
         container.progress.world?.eventsSeen.contains("daily:\(dateKey):\(encounter.id)") == true
+    }
+
+    private func acceptEncounter(_ encounter: DailyEncounter) {
+        do {
+            let studyCount = try container.applyDailyEncounter(encounter)
+            encounterError = ""
+            guard studyCount > 0, let phrases = container.content?.phrases else { return }
+            encounterQuestions = LearningQuizEngine().buildStudyQuestions(
+                phrases: phrases,
+                progress: container.progress,
+                dateKey: dateKey,
+                count: studyCount,
+                randomValues: Array(repeating: 0.37, count: studyCount * 8)
+            )
+            encounterQuizPresented = !encounterQuestions.isEmpty
+        } catch {
+            encounterError = error.localizedDescription
+        }
+    }
+
+    private func encounterRewardLabel(_ encounter: DailyEncounter) -> String {
+        switch encounter.effect.type {
+        case .study: return "獎勵：\(max(1, encounter.effect.amount ?? 1)) 題研墨機會"
+        case .unlockLore: return "獎勵：解鎖失落故事"
+        case .mapReveal: return "獎勵：揭開地圖線索"
+        case .replayBonus: return "獎勵：取得重玩加成"
+        case .routeBoost: return "獎勵：取得路線助力"
+        case .bossBoost: return "獎勵：取得首領戰助力"
+        case .treasureShard: return "獎勵：取得法寶碎片"
+        }
     }
 
     private var questIDs: [String] {

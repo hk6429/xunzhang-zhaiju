@@ -10,11 +10,11 @@
 | 三種模式、倒數、背景暫停、重試 | `GameEngine`、`GameViewModel` | `GameEngineTests`、`GameViewModelTests` |
 | 圈首字／閃現／揭示與墨水成本 | `HintEngine`、`GameViewModel` | `LearningEnginesTests`、`NativeParityTests` |
 | 星等、最佳成績、續玩、休息提醒 | `AppContainer`、`LocalLevelStats`、`ProfileView` | `GameViewModelTests`、`DailyProgressEngineTests` |
-| 十章地圖與世界事件 | `JourneyView`、`WorldProgressEngine` | `WorldProgressEngineTests`、UI tests |
+| 十章地圖與世界事件 | `JourneyView`、`WorldProgressEngine`；事件研讀獎勵直接開啟原生研墨題，事件彈窗暫停倒數 | 效果冪等、研讀題數與倒數暫停單元測試；iPhone／iPad 今日奇遇答題 UI＋系統無障礙稽核 |
 | 每日三帖、快陣、連續修煉、補簽 | `DailyView`、`DailyProgressEngine` | `DailyProgressEngineTests` |
 | 錯題本、間隔複習、精熟 | `CollectionView`、`DailyProgressEngine` | `DailyProgressEngineTests` |
 | 圖鑑搜尋、文體／朝代篩選 | `CollectionView`、`CollectionEngine` | `LearningEnginesTests`、UI tests |
-| 法寶碎片、事件效果、典藏 | `WorldProgressEngine`、`CollectionView` | `WorldProgressEngineTests` |
+| 法寶碎片、事件效果、典藏 | `WorldProgressEngine`、`CollectionView`；五件既有法寶 SVG 匯入 Asset Catalog，顯示碎片、完整狀態與能力 | `WorldProgressEngineTests`、iPhone／iPad 法寶閣 UI tests |
 | 個人例句／使用情境 | `KnowledgeCardView`、`localPhrasePractice` | `ProgressRepositoryTests.testLocalPracticeStaysOutsideSyncOutbox` |
 | 完整離線訪客模式 | GRDB snapshot／event／outbox | migration、repository、launch UI tests |
 | Apple／Google 登入與雙身分連結 | AuthenticationServices、GoogleSignIn 9.2、Web OAuth、Keychain／HttpOnly cookies | Worker auth tests、Simulator build；正式 token 待 OAuth／Apple Developer 設定 |

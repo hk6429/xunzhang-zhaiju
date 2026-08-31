@@ -135,9 +135,11 @@ struct CollectionView: View {
                 ForEach(container.content?.story.treasures ?? []) { treasure in
                     let progress = container.progress.world?.treasures[treasure.id]
                     VStack(alignment: .leading, spacing: 9) {
-                        Image(systemName: progress?.complete == true ? "sparkles" : "shippingbox")
-                            .font(.title)
-                            .foregroundStyle(AppTheme.accent)
+                        Image(TreasurePresentation.assetName(for: treasure.id))
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxWidth: .infinity, minHeight: 88, maxHeight: 112)
+                            .accessibilityHidden(true)
                         Text(treasure.name).font(.headline)
                         Text(treasure.description)
                             .font(.caption)
@@ -147,12 +149,22 @@ struct CollectionView: View {
                             total: 2
                         )
                         .tint(AppTheme.accent)
+                        .accessibilityHidden(true)
                         Text(progress?.complete == true ? "法寶已完整" : "碎片 \(progress?.sources.count ?? 0) / 2")
                             .font(.caption.bold())
+                        Label(
+                            (progress?.complete == true ? "已生效：" : "集齊後：")
+                                + TreasurePresentation.abilityLabel(for: treasure.ability),
+                            systemImage: progress?.complete == true ? "sparkles" : "lock.fill"
+                        )
+                        .font(.caption)
+                        .foregroundStyle(progress?.complete == true ? AppTheme.accent : AppTheme.secondaryText)
                     }
-                    .frame(maxWidth: .infinity, minHeight: 190, alignment: .topLeading)
+                    .frame(maxWidth: .infinity, minHeight: 280, alignment: .topLeading)
                     .padding()
                     .background(Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
+                    .accessibilityElement(children: .combine)
+                    .accessibilityIdentifier("treasure-\(treasure.id)")
                 }
             }
             .padding()
@@ -210,6 +222,30 @@ struct CollectionView: View {
             }
         } label: {
             Label(selection.wrappedValue == "全部" ? title : selection.wrappedValue, systemImage: "line.3.horizontal.decrease.circle")
+        }
+    }
+}
+
+private enum TreasurePresentation {
+    static func assetName(for id: String) -> String {
+        switch id {
+        case "dashen-bian": return "TreasureDashenBian"
+        case "qiankun-quan": return "TreasureQiankunQuan"
+        case "sanjian-liangren-dao": return "TreasureSanjianLiangrenDao"
+        case "yinhun-deng": return "TreasureYinhunDeng"
+        case "zhuxian-jian": return "TreasureZhuxianJian"
+        default: return "TreasureDashenBian"
+        }
+    }
+
+    static func abilityLabel(for ability: String) -> String {
+        switch ability {
+        case "revealHiddenNode": return "顯示本章尚未發現的事件節點"
+        case "openRouteShortcut": return "開啟返回未探索支線的捷徑"
+        case "previewEventChoice": return "預覽事件選項的效果類型"
+        case "revealDailyEncounter": return "標出當日奇遇所在區域"
+        case "unlockTrueEnding": return "解鎖空白天書真結局入口"
+        default: return "收藏能力待揭曉"
         }
     }
 }

@@ -1,6 +1,13 @@
 import Foundation
 
 struct WorldProgressEngine {
+    func studyQuestionCount(for effects: [EventEffect]) -> Int {
+        effects.reduce(into: 0) { total, effect in
+            guard effect.type == .study else { return }
+            total += max(1, effect.amount ?? 1)
+        }
+    }
+
     func applying(
         effects: [EventEffect],
         eventID: String,

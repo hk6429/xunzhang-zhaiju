@@ -113,6 +113,15 @@ final class GameViewModel: ObservableObject {
         }
     }
 
+    func setWorldEventPresented(_ presented: Bool) {
+        guard state.phase == .running else { return }
+        if presented, !state.pauseReasons.contains(.systemInterruption) {
+            try? GameReducer.reduce(state: &state, action: .pause(.systemInterruption))
+        } else if !presented, state.pauseReasons.contains(.systemInterruption) {
+            try? GameReducer.reduce(state: &state, action: .resume(.systemInterruption))
+        }
+    }
+
     func refreshInk(_ value: Int) {
         ink = max(0, value)
     }

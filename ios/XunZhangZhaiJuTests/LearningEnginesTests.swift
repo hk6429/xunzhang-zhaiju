@@ -45,4 +45,46 @@ final class LearningEnginesTests: XCTestCase {
             $0.options.count == 4 && $0.options.contains($0.answer)
         })
     }
+
+    func testStudyQuestionsPrioritizeDueWrongBookThenCollection() throws {
+        let phrases = try ContentLoader().load().phrases
+        let due = phrases[4]
+        let future = phrases[5]
+        let collected = phrases[6]
+        var progress = LocalAppProgress.fresh
+        progress.wrongBook = [future.id, due.id]
+        progress.collection = [collected.id]
+        progress.mastery = [
+            due.id: LocalPhraseMastery(
+                answered: 1,
+                correct: 0,
+                wrong: 1,
+                correctStreak: 0,
+                fillCorrect: 0,
+                mastered: false,
+                lastAnsweredDateKey: "2026-08-31",
+                nextReviewDateKey: "2026-09-01"
+            ),
+            future.id: LocalPhraseMastery(
+                answered: 1,
+                correct: 0,
+                wrong: 1,
+                correctStreak: 0,
+                fillCorrect: 0,
+                mastered: false,
+                lastAnsweredDateKey: "2026-09-01",
+                nextReviewDateKey: "2026-09-03"
+            ),
+        ]
+
+        let questions = LearningQuizEngine().buildStudyQuestions(
+            phrases: phrases,
+            progress: progress,
+            dateKey: "2026-09-01",
+            count: 3,
+            randomValues: Array(repeating: 0, count: 20)
+        )
+
+        XCTAssertEqual(questions.map(\.phraseID), [due.id, future.id, collected.id])
+    }
 }

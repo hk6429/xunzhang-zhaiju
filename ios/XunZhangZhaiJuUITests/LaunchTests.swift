@@ -66,6 +66,9 @@ final class LaunchTests: XCTestCase {
 
         navigationButton("摘句集", in: app).tap()
         XCTAssertTrue(app.navigationBars["摘句集"].waitForExistence(timeout: 5))
+        app.buttons["法寶閣"].tap()
+        XCTAssertTrue(app.staticTexts["打神鞭"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["集齊後：顯示本章尚未發現的事件節點"].waitForExistence(timeout: 5))
 
         navigationButton("我的", in: app).tap()
         XCTAssertTrue(app.staticTexts["遊玩模式"].waitForExistence(timeout: 5))
@@ -77,6 +80,38 @@ final class LaunchTests: XCTestCase {
         XCTAssertTrue(
             app.descendants(matching: .any)["support-page-link"].waitForExistence(timeout: 5)
         )
+    }
+
+    @MainActor
+    func testDailyStudyEncounterOpensRewardedNativeQuiz() throws {
+        let app = isolatedApp()
+        app.launchEnvironment["UI_TEST_DAILY_ENCOUNTER_ID"] = "daily-cloud-crane"
+        app.launch()
+
+        navigationButton("今日修煉", in: app).tap()
+        XCTAssertTrue(app.staticTexts["雲間白鶴"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["獎勵：3 題研墨機會"].waitForExistence(timeout: 5))
+        app.buttons["accept-daily-encounter"].tap()
+
+        XCTAssertTrue(app.navigationBars["奇遇研墨"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["第 1 / 3 題"].waitForExistence(timeout: 5))
+        if #available(iOS 17.0, *) {
+            try app.performAccessibilityAudit(for: [
+                .hitRegion,
+                .sufficientElementDescription,
+                .textClipped,
+                .trait,
+            ])
+        }
+        app.buttons["一心一意"].tap()
+        let correctFeedback = app.staticTexts.matching(
+            NSPredicate(format: "label BEGINSWITH %@", "答對了")
+        ).firstMatch
+        XCTAssertTrue(correctFeedback.waitForExistence(timeout: 5))
+        app.buttons["暫離研墨"].tap()
+        let claimedEncounter = app.buttons["accept-daily-encounter"]
+        XCTAssertTrue(claimedEncounter.waitForExistence(timeout: 5))
+        XCTAssertFalse(claimedEncounter.isEnabled)
     }
 
     @MainActor

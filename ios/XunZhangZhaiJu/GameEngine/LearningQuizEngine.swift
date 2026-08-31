@@ -15,6 +15,38 @@ struct LearningQuestion: Identifiable, Equatable {
 }
 
 struct LearningQuizEngine {
+    func buildStudyQuestions(
+        phrases: [Phrase],
+        progress: LocalAppProgress,
+        dateKey: String,
+        count: Int,
+        randomValues: [Double] = []
+    ) -> [LearningQuestion] {
+        let knownIDs = Set(phrases.map(\.id))
+        let mastery = progress.mastery ?? [:]
+        var prioritized: [String] = []
+        var seen = Set<String>()
+
+        func append(_ id: String) {
+            guard knownIDs.contains(id), seen.insert(id).inserted else { return }
+            prioritized.append(id)
+        }
+
+        for id in progress.wrongBook ?? [] where (mastery[id]?.nextReviewDateKey ?? dateKey) <= dateKey {
+            append(id)
+        }
+        for id in progress.wrongBook ?? [] { append(id) }
+        for id in progress.collection { append(id) }
+        for phrase in phrases { append(phrase.id) }
+
+        return buildQuestions(
+            phrases: phrases,
+            targetPhraseIDs: prioritized,
+            count: count,
+            randomValues: randomValues
+        )
+    }
+
     func buildQuestions(
         phrases: [Phrase],
         targetPhraseIDs: [String],

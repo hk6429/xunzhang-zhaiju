@@ -164,6 +164,28 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertFalse(model.state.pauseReasons.contains(.learningQuiz))
     }
 
+    func testWorldEventPausesAndResumesCountdown() throws {
+        let content = try ContentLoader().load()
+        let level = try XCTUnwrap(content.levels.first { $0.timeLimit != nil })
+        let model = GameViewModel(
+            level: level,
+            phrases: content.phrases,
+            initialCollection: [],
+            persist: { _ in }
+        )
+        let initial = try XCTUnwrap(model.state.remainingMilliseconds)
+
+        model.setWorldEventPresented(true)
+        model.tick(milliseconds: 1_000)
+        XCTAssertEqual(model.state.remainingMilliseconds, initial)
+        XCTAssertTrue(model.state.pauseReasons.contains(.systemInterruption))
+
+        model.setWorldEventPresented(false)
+        model.tick(milliseconds: 1_000)
+        XCTAssertEqual(model.state.remainingMilliseconds, initial - 1_000)
+        XCTAssertFalse(model.state.pauseReasons.contains(.systemInterruption))
+    }
+
     func testQuizInkRefreshNeverAcceptsNegativeValue() throws {
         let content = try ContentLoader().load()
         let level = try XCTUnwrap(content.levels.first)

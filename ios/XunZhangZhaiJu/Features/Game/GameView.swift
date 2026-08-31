@@ -7,10 +7,12 @@ struct GameView: View {
     @StateObject private var model: GameViewModel
     @State private var eventToShow: WorldEvent?
     @State private var quizQuestions: [LearningQuestion] = []
+    @State private var pendingEventStudyQuestions: [LearningQuestion] = []
     @State private var quizPresented = false
     @FocusState private var answerFocused: Bool
     private let chapter: StoryLore.Chapter?
-    private let chooseEvent: (WorldEvent, EventChoice) throws -> Void
+    private let chooseEvent: (WorldEvent, EventChoice) throws -> Int
+    private let buildEventStudyQuestions: (Int) -> [LearningQuestion]
     private let recordQuiz: (LearningQuestion, Bool) throws -> Int
 
     init(
@@ -25,6 +27,15 @@ struct GameView: View {
         self.chapter = chapter
         _eventToShow = State(initialValue: eventSeen ? nil : event)
         chooseEvent = { try container.applyWorldEvent($0, choice: $1) }
+        buildEventStudyQuestions = { count in
+            LearningQuizEngine().buildStudyQuestions(
+                phrases: phrases,
+                progress: container.progress,
+                dateKey: TaiwanDate.dateKey(),
+                count: count,
+                randomValues: Array(repeating: 0.37, count: max(1, count) * 8)
+            )
+        }
         recordQuiz = { question, correct in
             let inkBefore = container.progress.ink
             try container.recordQuiz(
@@ -108,9 +119,10 @@ struct GameView: View {
             KnowledgeCardView(phrase: phrase)
                 .presentationDetents([.medium, .large])
         }
-        .sheet(item: $eventToShow) { event in
+        .sheet(item: $eventToShow, onDismiss: finishWorldEventPresentation) { event in
             WorldEventView(event: event) { choice in
-                try chooseEvent(event, choice)
+                let studyCount = try chooseEvent(event, choice)
+                pendingEventStudyQuestions = buildEventStudyQuestions(studyCount)
             }
             .presentationDetents([.medium, .large])
         }
@@ -139,7 +151,10 @@ struct GameView: View {
         .onChange(of: model.state.mistakes) { _ in
             NativeGameFeedback.error()
         }
-        .onAppear { model.saveRunIfNeeded() }
+        .onAppear {
+            model.setWorldEventPresented(eventToShow != nil)
+            model.saveRunIfNeeded()
+        }
     }
 
     private var progressHeader: some View {
@@ -265,6 +280,15 @@ struct GameView: View {
         quizPresented = true
     }
 
+    private func finishWorldEventPresentation() {
+        model.setWorldEventPresented(false)
+        guard !pendingEventStudyQuestions.isEmpty else { return }
+        quizQuestions = pendingEventStudyQuestions
+        pendingEventStudyQuestions = []
+        model.setLearningQuizPresented(true)
+        quizPresented = true
+    }
+
     private var timeoutView: some View {
         VStack(spacing: 16) {
             Image(systemName: "hourglass.bottomhalf.filled")
@@ -364,7 +388,7 @@ private struct GuardianPresentation {
     }
 }
 
-private struct GameLearningQuizView: View {
+struct GameLearningQuizView: View {
     @Environment(\.dismiss) private var dismiss
     @FocusState private var fillFocused: Bool
     @State private var index = 0
@@ -375,14 +399,20 @@ private struct GameLearningQuizView: View {
     @State private var currentInk: Int
 
     let questions: [LearningQuestion]
+    let title: String
+    let returnLabel: String
     let submit: (LearningQuestion, Bool) throws -> Int
 
     init(
         questions: [LearningQuestion],
         startingInk: Int,
+        title: String = "研墨檯",
+        returnLabel: String = "返回字陣",
         submit: @escaping (LearningQuestion, Bool) throws -> Int
     ) {
         self.questions = questions
+        self.title = title
+        self.returnLabel = returnLabel
         self.submit = submit
         _currentInk = State(initialValue: startingInk)
     }
@@ -408,7 +438,7 @@ private struct GameLearningQuizView: View {
                     }
                 }
             }
-            .navigationTitle("研墨檯")
+            .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -513,7 +543,7 @@ private struct GameLearningQuizView: View {
             Text(earnedInk > 0 ? "本輪獲得 \(earnedInk) 墨" : "今日這些真言已研墨，熟練度仍有累積。")
                 .multilineTextAlignment(.center)
                 .foregroundStyle(AppTheme.secondaryText)
-            Button("返回字陣") { dismiss() }
+            Button(returnLabel) { dismiss() }
                 .buttonStyle(.borderedProminent)
                 .tint(AppTheme.accent)
         }

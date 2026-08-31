@@ -37,6 +37,14 @@ enum RuntimeEnvironment {
 #endif
     }
 
+    static var forcedDailyEncounterID: String? {
+#if DEBUG
+        ProcessInfo.processInfo.environment["UI_TEST_DAILY_ENCOUNTER_ID"]
+#else
+        nil
+#endif
+    }
+
     private static var uiTestStorageIdentifier: String? {
 #if DEBUG
         guard let raw = ProcessInfo.processInfo.environment["UI_TEST_STORAGE_ID"] else { return nil }

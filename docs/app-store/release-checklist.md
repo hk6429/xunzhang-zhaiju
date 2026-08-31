@@ -5,8 +5,8 @@
 - [x] Web 測試、內容驗證與美術契約全部通過。
 - [x] Worker typecheck、測試、migration smoke 與 dry-run 全部通過。
 - [x] 版本庫機密掃描通過。
-- [x] iPhone Simulator 完成 59 unit＋6 項適用 UI tests；包含守護神任務卡、學習目標、關卡研墨答題、系統無障礙稽核、最大字級與「終止程序後強制離線重開」進度保存。
-- [x] iPad 13 吋 Simulator 完成 59 unit＋7 UI tests；包含守護神任務卡、學習目標、關卡研墨答題、直向、橫向、最大字級、系統無障礙稽核與離線重開保存。
+- [x] iPhone Simulator 完成 62 unit＋7 項適用 UI tests；包含守護神任務卡、學習目標、關卡與奇遇研墨答題、法寶閣、系統無障礙稽核、最大字級與「終止程序後強制離線重開」進度保存。
+- [x] iPad 13 吋 Simulator 完成 62 unit＋8 UI tests；包含守護神任務卡、學習目標、關卡與奇遇研墨答題、法寶閣、直向、橫向、最大字級、系統無障礙稽核與離線重開保存。
 - [x] 主題文字色彩以 WCAG 2.x 相對亮度公式驗證，在背景與卡片表面皆達 AA 4.5:1；系統稽核另驗證點擊區、描述、文字截斷與 traits。
 - [x] GitHub Actions 會在乾淨的 Ubuntu／macOS runner 重跑 Web、Worker、iPhone、11 吋 iPad 與未簽署 Release Archive 閘門。
 - [ ] iPad 真機完成直向、橫向、Split View、VoiceOver 與離線測試。

@@ -401,7 +401,8 @@ final class AppContainer: ObservableObject {
         try persist(next, kind: "restTaken")
     }
 
-    func applyWorldEvent(_ event: WorldEvent, choice: EventChoice) throws {
+    @discardableResult
+    func applyWorldEvent(_ event: WorldEvent, choice: EventChoice) throws -> Int {
         guard event.choices.contains(where: { $0.id == choice.id }) else {
             throw AppContainerError.invalidEventChoice
         }
@@ -410,19 +411,22 @@ final class AppContainer: ObservableObject {
             eventID: event.id,
             to: progress
         )
-        guard next != progress else { return }
+        guard next != progress else { return 0 }
         try persist(next, kind: "worldEventChosen")
+        return WorldProgressEngine().studyQuestionCount(for: choice.effect)
     }
 
-    func applyDailyEncounter(_ encounter: DailyEncounter) throws {
+    @discardableResult
+    func applyDailyEncounter(_ encounter: DailyEncounter) throws -> Int {
         let eventID = "daily:\(TaiwanDate.dateKey()):\(encounter.id)"
         let next = WorldProgressEngine().applying(
             effects: [encounter.effect],
             eventID: eventID,
             to: progress
         )
-        guard next != progress else { return }
+        guard next != progress else { return 0 }
         try persist(next, kind: "dailyEncounterChosen")
+        return WorldProgressEngine().studyQuestionCount(for: [encounter.effect])
     }
 
     private func activate(_ session: BackendSession) throws {
