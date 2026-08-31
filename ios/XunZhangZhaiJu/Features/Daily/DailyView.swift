@@ -9,6 +9,9 @@ struct DailyView: View {
                 HStack {
                     Text(dateKey)
                     Spacer()
+                    if let streak = container.progress.streak, streak.current > 0 {
+                        Label("\(streak.current) 日", systemImage: "flame.fill")
+                    }
                     Label("\(container.progress.ink) 墨", systemImage: "drop.fill")
                 }
                 .foregroundStyle(AppTheme.accent)
@@ -33,6 +36,20 @@ struct DailyView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background(Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
                 }
+                if let encounter = dailyEncounter {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("今日奇遇").font(.caption.bold()).foregroundStyle(AppTheme.accent)
+                        Text(encounter.title).font(.title2.bold())
+                        Text(encounter.text).foregroundStyle(AppTheme.secondaryText)
+                        Button(isEncounterSeen(encounter) ? "今日已相遇" : "收下奇遇") {
+                            try? container.applyDailyEncounter(encounter)
+                        }
+                        .buttonStyle(.bordered)
+                        .disabled(isEncounterSeen(encounter))
+                    }
+                    .padding()
+                    .background(Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
+                }
                 if let content = container.content {
                     NavigationLink {
                         DailyPracticeView(
@@ -50,6 +67,11 @@ struct DailyView: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(AppTheme.accent)
+                    if let best = currentDaily?.quickBest {
+                        Text("今日最佳：\(best.score) / 5 題・\(format(milliseconds: best.durationMilliseconds))")
+                            .font(.footnote)
+                            .foregroundStyle(AppTheme.secondaryText)
+                    }
                 }
             }
             .padding()
@@ -60,6 +82,24 @@ struct DailyView: View {
     }
 
     private var dateKey: String { TaiwanDate.dateKey() }
+
+    private var currentDaily: LocalDailyProgress? {
+        container.progress.daily?.dateKey == dateKey ? container.progress.daily : nil
+    }
+
+    private var dailyEncounter: DailyEncounter? {
+        guard let encounters = container.content?.events.dailyEncounters, !encounters.isEmpty else { return nil }
+        let selected = NativeParityRules.dailyQuickPhraseIDs(
+            phraseIDs: encounters.map(\.id),
+            dateKey: "encounter:\(dateKey)",
+            count: 1
+        ).first
+        return encounters.first { $0.id == selected }
+    }
+
+    private func isEncounterSeen(_ encounter: DailyEncounter) -> Bool {
+        container.progress.world?.eventsSeen.contains("daily:\(dateKey):\(encounter.id)") == true
+    }
 
     private var questIDs: [String] {
         NativeParityRules.dailyQuestIDs(dateKey: dateKey)
@@ -75,7 +115,7 @@ struct DailyView: View {
     }
 
     private func questStatus(_ id: String) -> (current: Int, target: Int) {
-        let daily = container.progress.daily?.dateKey == dateKey ? container.progress.daily : nil
+        let daily = currentDaily
         switch id {
         case "clear-level": return (daily?.completedLevelIDs.count ?? 0, 1)
         case "clear-level-2": return (daily?.completedLevelIDs.count ?? 0, 2)
@@ -87,6 +127,11 @@ struct DailyView: View {
         default: return (0, 1)
         }
     }
+
+    private func format(milliseconds: Int) -> String {
+        let seconds = milliseconds / 1_000
+        return String(format: "%d:%02d", seconds / 60, seconds % 60)
+    }
 }
 
 enum TaiwanDate {
@@ -97,5 +142,51 @@ enum TaiwanDate {
         formatter.timeZone = TimeZone(identifier: "Asia/Taipei")
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter.string(from: date)
+    }
+
+    static func adding(days: Int, to dateKey: String) -> String? {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(identifier: "Asia/Taipei")
+        formatter.dateFormat = "yyyy-MM-dd"
+        guard let date = formatter.date(from: dateKey),
+              let shifted = formatter.calendar.date(byAdding: .day, value: days, to: date) else {
+            return nil
+        }
+        return formatter.string(from: shifted)
+    }
+
+    static func monday(of dateKey: String) -> String? {
+        guard let date = parsed(dateKey) else { return nil }
+        let calendar = taipeiCalendar
+        let weekday = calendar.component(.weekday, from: date)
+        return adding(days: -((weekday + 5) % 7), to: dateKey)
+    }
+
+    static func previousSchoolDay(before dateKey: String) -> String? {
+        var cursor = adding(days: -1, to: dateKey)
+        for _ in 0..<3 {
+            guard let key = cursor, let date = parsed(key) else { return cursor }
+            let weekday = taipeiCalendar.component(.weekday, from: date)
+            if weekday != 1 && weekday != 7 { return key }
+            cursor = adding(days: -1, to: key)
+        }
+        return cursor
+    }
+
+    private static var taipeiCalendar: Calendar {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "Asia/Taipei")!
+        return calendar
+    }
+
+    private static func parsed(_ dateKey: String) -> Date? {
+        let formatter = DateFormatter()
+        formatter.calendar = taipeiCalendar
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(identifier: "Asia/Taipei")
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.date(from: dateKey)
     }
 }

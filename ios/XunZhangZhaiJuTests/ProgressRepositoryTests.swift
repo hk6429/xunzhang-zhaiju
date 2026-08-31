@@ -55,6 +55,26 @@ final class ProgressRepositoryTests: XCTestCase {
         XCTAssertNotNil(UUID(uuidString: first))
     }
 
+    func testLocalPracticeStaysOutsideSyncOutbox() throws {
+        let database = try AppDatabase.inMemory()
+        let repository = ProgressRepository(database: database)
+        let now = Date(timeIntervalSince1970: 1_788_192_000)
+        let practice = LocalPhrasePracticeRecord(
+            id: "practice-1",
+            namespace: "guest:one",
+            phraseID: "p1",
+            kind: "example",
+            text: "我在運動會上全力以赴。",
+            createdAt: now,
+            updatedAt: now
+        )
+
+        try repository.savePractice(practice)
+
+        XCTAssertEqual(try repository.practices(namespace: "guest:one"), [practice])
+        XCTAssertTrue(try repository.pendingOutbox(namespace: "guest:one").isEmpty)
+    }
+
     private func fixture(namespace: String, revision: Int64) -> ProgressMutation {
         let suffix = namespace.replacingOccurrences(of: ":", with: "-")
         let payload = Data(#"{"v":1,"ink":3}"#.utf8)

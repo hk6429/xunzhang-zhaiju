@@ -4,15 +4,21 @@ import Combine
 struct GameView: View {
     @Environment(\.scenePhase) private var scenePhase
     @StateObject private var model: GameViewModel
+    @State private var eventToShow: WorldEvent?
+    private let chooseEvent: (WorldEvent, EventChoice) throws -> Void
 
-    init(level: Level, phrases: [Phrase], container: AppContainer) {
+    init(level: Level, phrases: [Phrase], container: AppContainer, event: WorldEvent? = nil) {
         let mode = PlayMode(rawValue: UserDefaults.standard.string(forKey: "play-mode") ?? "") ?? .standard
+        let eventSeen = event.map { container.progress.world?.eventsSeen.contains($0.id) == true } ?? true
+        _eventToShow = State(initialValue: eventSeen ? nil : event)
+        chooseEvent = { try container.applyWorldEvent($0, choice: $1) }
         _model = StateObject(wrappedValue: GameViewModel(
             level: level,
             phrases: phrases,
             initialCollection: container.progress.collection,
             initialInk: container.progress.ink,
             playMode: mode,
+            savedRun: container.progress.activeRun,
             persist: { try container.persist(gameState: $0) },
             spendInk: { try container.spendInk(for: $0) }
         ))
@@ -67,12 +73,19 @@ struct GameView: View {
             KnowledgeCardView(phrase: phrase)
                 .presentationDetents([.medium, .large])
         }
+        .sheet(item: $eventToShow) { event in
+            WorldEventView(event: event) { choice in
+                try chooseEvent(event, choice)
+            }
+            .presentationDetents([.medium, .large])
+        }
         .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
             model.tick(milliseconds: 1_000)
         }
         .onChange(of: scenePhase) { phase in
             model.setBackgrounded(phase != .active)
         }
+        .onAppear { model.saveRunIfNeeded() }
     }
 
     private var progressHeader: some View {

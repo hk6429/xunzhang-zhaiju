@@ -23,12 +23,17 @@ final class GameViewModel: ObservableObject {
         initialCollection: [String],
         initialInk: Int = 0,
         playMode: PlayMode = .standard,
+        savedRun: GameState? = nil,
         persist: @escaping (GameState) throws -> Void,
         spendInk: @escaping (HintTier) throws -> Bool = { _ in false }
     ) {
         self.level = level
+        let resumedRun = savedRun.flatMap {
+            $0.levelID == level.id && $0.phase == .running ? $0 : nil
+        }
+        let effectiveMode = resumedRun?.mode ?? playMode
         modeConfiguration = NativeParityRules.modeConfiguration(
-            mode: playMode,
+            mode: effectiveMode,
             timeLimit: level.timeLimit,
             hintCap: level.hintCap
         )
@@ -36,13 +41,22 @@ final class GameViewModel: ObservableObject {
         self.persist = persist
         self.spendInk = spendInk
         ink = initialInk
-        var state = GameState(
-            levelID: level.id,
-            targetPhraseIDs: Set(level.targets.map(\.phraseID)),
-            timeLimitMilliseconds: modeConfiguration.timeLimit.map { $0 * 1_000 },
-            collection: Set(initialCollection)
-        )
-        try? GameReducer.reduce(state: &state, action: .start)
+        var state: GameState
+        if var savedRun = resumedRun {
+            savedRun.collection.formUnion(initialCollection)
+            savedRun.pauseReasons.removeAll()
+            state = savedRun
+        } else {
+            state = GameState(
+                levelID: level.id,
+                targetPhraseIDs: Set(level.targets.map(\.phraseID)),
+                timeLimitMilliseconds: modeConfiguration.timeLimit.map { $0 * 1_000 },
+                collection: Set(initialCollection),
+                mode: effectiveMode,
+                treasureReward: level.treasure
+            )
+            try? GameReducer.reduce(state: &state, action: .start)
+        }
         self.state = state
     }
 
@@ -92,13 +106,16 @@ final class GameViewModel: ObservableObject {
 
     func tick(milliseconds: Int) {
         guard state.phase == .running else { return }
+        let phase = state.phase
         try? GameReducer.reduce(state: &state, action: .tick(milliseconds: milliseconds))
+        if phase != state.phase { try? persist(state) }
     }
 
     func setBackgrounded(_ backgrounded: Bool) {
         guard state.phase == .running else { return }
         if backgrounded, !state.pauseReasons.contains(.background) {
             try? GameReducer.reduce(state: &state, action: .pause(.background))
+            try? persist(state)
         } else if !backgrounded, state.pauseReasons.contains(.background) {
             try? GameReducer.reduce(state: &state, action: .resume(.background))
         }
@@ -107,10 +124,16 @@ final class GameViewModel: ObservableObject {
     func retry() {
         do {
             try GameReducer.reduce(state: &state, action: .retry)
+            try persist(state)
             errorMessage = nil
         } catch {
             errorMessage = error.localizedDescription
         }
+    }
+
+    func saveRunIfNeeded() {
+        guard state.phase == .running else { return }
+        try? persist(state)
     }
 
     func useHint(_ tier: HintTier) {

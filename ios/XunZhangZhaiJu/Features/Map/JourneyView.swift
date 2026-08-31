@@ -90,7 +90,14 @@ struct JourneyView: View {
         }
         let stars = container.progress.levels[String(level.id)]?.stars ?? 0
         NavigationLink {
-            GameView(level: level, phrases: content.phrases, container: container)
+            GameView(
+                level: level,
+                phrases: content.phrases,
+                container: container,
+                event: level.eventId.flatMap { eventID in
+                    content.events.events.first { $0.id == eventID }
+                }
+            )
         } label: {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {

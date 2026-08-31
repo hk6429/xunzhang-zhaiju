@@ -20,8 +20,9 @@ enum HintTier: String, Codable, CaseIterable, Hashable {
     case reveal
 }
 
-struct GameState: Equatable {
+struct GameState: Codable, Equatable {
     var levelID: Int
+    var mode: PlayMode
     var targetPhraseIDs: Set<String>
     var phase: GamePhase
     var pauseReasons: Set<PauseReason>
@@ -35,14 +36,18 @@ struct GameState: Equatable {
     var usedReveal: Bool
     var mistakes: Int
     var earnedStars: Int?
+    var treasureReward: TreasureReward?
 
     init(
         levelID: Int,
         targetPhraseIDs: Set<String>,
         timeLimitMilliseconds: Int?,
-        collection: Set<String> = []
+        collection: Set<String> = [],
+        mode: PlayMode = .standard,
+        treasureReward: TreasureReward? = nil
     ) {
         self.levelID = levelID
+        self.mode = mode
         self.targetPhraseIDs = targetPhraseIDs
         phase = .preparing
         pauseReasons = []
@@ -56,6 +61,7 @@ struct GameState: Equatable {
         usedReveal = false
         mistakes = 0
         earnedStars = nil
+        self.treasureReward = treasureReward
     }
 
     var isCountdownActive: Bool {

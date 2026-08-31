@@ -12,6 +12,8 @@ struct LocalDailyProgress: Codable, Equatable {
     var rewardedPhraseIDs: [String]
     var completedLevelIDs: [Int]
     var foundPhraseIDs: [String]
+    var completedDateKey: String?
+    var quickBest: LocalQuickChallengeBest?
 
     static func fresh(dateKey: String) -> LocalDailyProgress {
         LocalDailyProgress(
@@ -20,9 +22,103 @@ struct LocalDailyProgress: Codable, Equatable {
             quizCorrect: 0,
             rewardedPhraseIDs: [],
             completedLevelIDs: [],
-            foundPhraseIDs: []
+            foundPhraseIDs: [],
+            completedDateKey: nil,
+            quickBest: nil
         )
     }
+}
+
+struct LocalQuickChallengeBest: Codable, Equatable {
+    var score: Int
+    var durationMilliseconds: Int
+}
+
+struct LocalStreak: Codable, Equatable {
+    var current: Int
+    var best: Int
+    var lastCompletedDateKey: String?
+    var makeups: Int
+    var makeupRefillDateKey: String?
+
+    static let fresh = LocalStreak(
+        current: 0,
+        best: 0,
+        lastCompletedDateKey: nil,
+        makeups: 1,
+        makeupRefillDateKey: nil
+    )
+}
+
+struct LocalPhraseMastery: Codable, Equatable {
+    var answered: Int
+    var correct: Int
+    var wrong: Int
+    var correctStreak: Int
+    var fillCorrect: Int
+    var mastered: Bool
+    var lastAnsweredDateKey: String?
+    var nextReviewDateKey: String?
+
+    static let fresh = LocalPhraseMastery(
+        answered: 0,
+        correct: 0,
+        wrong: 0,
+        correctStreak: 0,
+        fillCorrect: 0,
+        mastered: false,
+        lastAnsweredDateKey: nil,
+        nextReviewDateKey: nil
+    )
+}
+
+struct LocalLevelStats: Codable, Equatable {
+    var attempts: Int
+    var completions: Int
+    var bestStars: Int
+    var fewestMistakes: Int?
+    var modesCleared: [PlayMode]
+    var badges: [String]
+
+    static let fresh = LocalLevelStats(
+        attempts: 0,
+        completions: 0,
+        bestStars: 0,
+        fewestMistakes: nil,
+        modesCleared: [],
+        badges: []
+    )
+}
+
+struct LocalActivity: Codable, Equatable {
+    var levelsSinceRest: Int
+    var sessionStartedAt: Date
+    var lastRestAt: Date?
+
+    static let fresh = LocalActivity(
+        levelsSinceRest: 0,
+        sessionStartedAt: Date(),
+        lastRestAt: nil
+    )
+}
+
+struct LocalTreasureProgress: Codable, Equatable {
+    var sources: [String]
+    var complete: Bool
+}
+
+struct LocalWorldProgress: Codable, Equatable {
+    var eventsSeen: [String]
+    var loreUnlocked: [String]
+    var treasures: [String: LocalTreasureProgress]
+    var effects: [String: Int]
+
+    static let fresh = LocalWorldProgress(
+        eventsSeen: [],
+        loreUnlocked: [],
+        treasures: [:],
+        effects: [:]
+    )
 }
 
 struct LocalAppProgress: Codable, Equatable {
@@ -31,6 +127,26 @@ struct LocalAppProgress: Codable, Equatable {
     var ink: Int
     var collection: [String]
     var daily: LocalDailyProgress?
+    var mastery: [String: LocalPhraseMastery]?
+    var wrongBook: [String]?
+    var streak: LocalStreak?
+    var activeRun: GameState?
+    var levelStats: [String: LocalLevelStats]?
+    var activity: LocalActivity?
+    var world: LocalWorldProgress?
 
-    static let fresh = LocalAppProgress(v: 1, levels: [:], ink: 3, collection: [], daily: nil)
+    static let fresh = LocalAppProgress(
+        v: 1,
+        levels: [:],
+        ink: 3,
+        collection: [],
+        daily: nil,
+        mastery: nil,
+        wrongBook: nil,
+        streak: nil,
+        activeRun: nil,
+        levelStats: nil,
+        activity: nil,
+        world: nil
+    )
 }

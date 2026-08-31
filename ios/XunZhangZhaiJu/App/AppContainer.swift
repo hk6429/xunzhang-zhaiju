@@ -10,6 +10,7 @@ final class AppContainer: ObservableObject {
     @Published private(set) var startupState: StartupState
     @Published private(set) var content: AppContent?
     @Published private(set) var progress: LocalAppProgress
+    @Published private(set) var practices: [String: LocalPhrasePracticeRecord]
 
     private let repository: ProgressRepository?
     private let deviceID: String?
@@ -26,12 +27,14 @@ final class AppContainer: ObservableObject {
             let stored = try repository.snapshot(namespace: namespace)
             let progress = try stored.map { try JSONDecoder().decode(LocalAppProgress.self, from: $0.payload) }
                 ?? .fresh
+            let loadedPractices = try repository.practices(namespace: namespace)
 
             content = loadedContent
             self.repository = repository
             self.deviceID = deviceID
             self.namespace = namespace
             self.progress = progress
+            practices = Dictionary(uniqueKeysWithValues: loadedPractices.map { ($0.phraseID, $0) })
             startupState = .ready
         } catch {
             content = nil
@@ -39,6 +42,7 @@ final class AppContainer: ObservableObject {
             deviceID = nil
             namespace = nil
             progress = .fresh
+            practices = [:]
             startupState = .failed(error.localizedDescription)
         }
     }
@@ -58,6 +62,36 @@ final class AppContainer: ObservableObject {
             dateKey: TaiwanDate.dateKey(),
             gameState: gameState
         )
+        var levelStats = next.levelStats ?? [:]
+        var stats = levelStats[key] ?? .fresh
+        if gameState.phase == .running {
+            if next.activeRun?.levelID != gameState.levelID {
+                stats.attempts += 1
+            }
+            next.activeRun = gameState
+        } else {
+            next.activeRun = nil
+        }
+        if gameState.phase == .completed {
+            stats.completions += 1
+            stats.bestStars = max(stats.bestStars, gameState.earnedStars ?? 0)
+            stats.fewestMistakes = min(stats.fewestMistakes ?? gameState.mistakes, gameState.mistakes)
+            if !stats.modesCleared.contains(gameState.mode) { stats.modesCleared.append(gameState.mode) }
+            let badges = completionBadges(for: gameState)
+            stats.badges = orderedUnion(stats.badges, badges)
+            var activity = next.activity ?? .fresh
+            activity.levelsSinceRest += 1
+            next.activity = activity
+            if let reward = gameState.treasureReward {
+                next = WorldProgressEngine().grantingLevelTreasure(
+                    reward,
+                    levelID: gameState.levelID,
+                    to: next
+                )
+            }
+        }
+        levelStats[key] = stats
+        next.levelStats = levelStats
         try persist(next, kind: gameState.phase == .completed ? "levelCompleted" : "progressUpdated")
     }
 
@@ -72,6 +106,16 @@ final class AppContainer: ObservableObject {
         try persist(next, kind: "quizAnswered")
     }
 
+    func recordQuickChallenge(score: Int, durationMilliseconds: Int) throws {
+        let next = DailyProgressEngine().recordingQuickChallenge(
+            in: progress,
+            dateKey: TaiwanDate.dateKey(),
+            score: score,
+            durationMilliseconds: durationMilliseconds
+        )
+        try persist(next, kind: "quickChallengeCompleted")
+    }
+
     func spendInk(for tier: HintTier) throws -> Bool {
         var ledger = HintEngine(ink: progress.ink)
         guard ledger.spend(tier) else { return false }
@@ -79,6 +123,57 @@ final class AppContainer: ObservableObject {
         next.ink = ledger.ink
         try persist(next, kind: "inkSpent")
         return true
+    }
+
+    func savePractice(phraseID: String, text: String) throws {
+        guard let repository, let namespace else { throw AppContainerError.unavailable }
+        let trimmed = String(text.trimmingCharacters(in: .whitespacesAndNewlines).prefix(80))
+        let now = Date()
+        let existing = practices[phraseID]
+        let record = LocalPhrasePracticeRecord(
+            id: existing?.id ?? UUID().uuidString.lowercased(),
+            namespace: namespace,
+            phraseID: phraseID,
+            kind: "example",
+            text: trimmed,
+            createdAt: existing?.createdAt ?? now,
+            updatedAt: now
+        )
+        try repository.savePractice(record)
+        practices[phraseID] = record
+    }
+
+    func takeRest() throws {
+        var next = progress
+        var activity = next.activity ?? .fresh
+        activity.levelsSinceRest = 0
+        activity.lastRestAt = Date()
+        next.activity = activity
+        try persist(next, kind: "restTaken")
+    }
+
+    func applyWorldEvent(_ event: WorldEvent, choice: EventChoice) throws {
+        guard event.choices.contains(where: { $0.id == choice.id }) else {
+            throw AppContainerError.invalidEventChoice
+        }
+        let next = WorldProgressEngine().applying(
+            effects: choice.effect,
+            eventID: event.id,
+            to: progress
+        )
+        guard next != progress else { return }
+        try persist(next, kind: "worldEventChosen")
+    }
+
+    func applyDailyEncounter(_ encounter: DailyEncounter) throws {
+        let eventID = "daily:\(TaiwanDate.dateKey()):\(encounter.id)"
+        let next = WorldProgressEngine().applying(
+            effects: [encounter.effect],
+            eventID: eventID,
+            to: progress
+        )
+        guard next != progress else { return }
+        try persist(next, kind: "dailyEncounterChosen")
     }
 
     private func persist(_ next: LocalAppProgress, kind: String) throws {
@@ -116,10 +211,28 @@ final class AppContainer: ObservableObject {
         var seen = Set<String>()
         return (left + right).filter { seen.insert($0).inserted }
     }
+
+    private func completionBadges(for state: GameState) -> [String] {
+        var badges: [String] = []
+        if !state.usedReveal && state.mistakes == 0 { badges.append("insight") }
+        if !state.usedReveal, !state.usedHint,
+           let initial = state.initialTimeLimitMilliseconds,
+           let remaining = state.remainingMilliseconds,
+           initial > 0, Double(remaining) / Double(initial) >= 0.35 {
+            badges.append("swift")
+        }
+        return badges
+    }
 }
 
 enum AppContainerError: LocalizedError {
     case unavailable
+    case invalidEventChoice
 
-    var errorDescription: String? { "本機內容或進度資料庫尚未就緒" }
+    var errorDescription: String? {
+        switch self {
+        case .unavailable: "本機內容或進度資料庫尚未就緒"
+        case .invalidEventChoice: "這個事件選項不存在"
+        }
+    }
 }

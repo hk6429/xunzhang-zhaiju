@@ -73,4 +73,19 @@ struct ProgressRepository: Sendable {
             return maximum + 1
         }
     }
+
+    func practices(namespace: String) throws -> [LocalPhrasePracticeRecord] {
+        try database.reader.read { db in
+            try LocalPhrasePracticeRecord
+                .filter(Column("namespace") == namespace)
+                .order(Column("updatedAt").desc)
+                .fetchAll(db)
+        }
+    }
+
+    func savePractice(_ practice: LocalPhrasePracticeRecord) throws {
+        try database.writer.write { db in
+            try practice.save(db)
+        }
+    }
 }

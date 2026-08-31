@@ -110,4 +110,35 @@ final class GameViewModelTests: XCTestCase {
         model.tick(milliseconds: 1_000)
         XCTAssertEqual(model.state.remainingMilliseconds, initial - 1_000)
     }
+
+    func testSavedRunRestoresFoundPhrasesTimeAndMode() throws {
+        let content = try ContentLoader().load()
+        let level = try XCTUnwrap(content.levels.first { $0.timeLimit != nil })
+        let firstID = try XCTUnwrap(level.targets.first?.phraseID)
+        var saved = GameState(
+            levelID: level.id,
+            targetPhraseIDs: Set(level.targets.map(\.phraseID)),
+            timeLimitMilliseconds: 99_000,
+            mode: .challenge
+        )
+        saved.phase = .running
+        saved.foundPhraseIDs = [firstID]
+        saved.remainingMilliseconds = 42_000
+        saved.pauseReasons = [.background]
+
+        let model = GameViewModel(
+            level: level,
+            phrases: content.phrases,
+            initialCollection: [firstID],
+            playMode: .standard,
+            savedRun: saved,
+            persist: { _ in }
+        )
+
+        XCTAssertEqual(model.state.foundPhraseIDs, [firstID])
+        XCTAssertEqual(model.state.remainingMilliseconds, 42_000)
+        XCTAssertEqual(model.state.mode, .challenge)
+        XCTAssertEqual(model.modeConfiguration.mode, .challenge)
+        XCTAssertTrue(model.state.pauseReasons.isEmpty)
+    }
 }
