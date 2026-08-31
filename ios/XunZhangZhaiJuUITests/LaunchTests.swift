@@ -29,13 +29,13 @@ final class LaunchTests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
 
-        app.buttons["今日修煉"].tap()
+        navigationButton("今日修煉", in: app).tap()
         XCTAssertTrue(app.staticTexts["今日三帖"].waitForExistence(timeout: 5))
 
-        app.buttons["摘句集"].tap()
+        navigationButton("摘句集", in: app).tap()
         XCTAssertTrue(app.navigationBars["摘句集"].waitForExistence(timeout: 5))
 
-        app.buttons["我的"].tap()
+        navigationButton("我的", in: app).tap()
         XCTAssertTrue(app.staticTexts["遊玩模式"].waitForExistence(timeout: 5))
         app.swipeUp()
         app.swipeUp()
@@ -54,9 +54,7 @@ final class LaunchTests: XCTestCase {
         app.launch()
 
         XCTAssertTrue(app.staticTexts["修煉山河"].firstMatch.waitForExistence(timeout: 5))
-        XCTAssertTrue(app.buttons["今日修煉"].exists)
-        XCTAssertTrue(app.buttons["摘句集"].exists)
-        XCTAssertTrue(app.buttons["我的"].exists)
+        assertCoreNavigation(in: app)
     }
 
     @MainActor
@@ -120,15 +118,27 @@ final class LaunchTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["修煉山河"].firstMatch.waitForExistence(timeout: 5))
         assertCoreNavigation(in: app)
 
-        app.buttons["今日修煉"].tap()
+        navigationButton("今日修煉", in: app).tap()
         XCTAssertTrue(app.staticTexts["今日三帖"].waitForExistence(timeout: 5))
     }
 
     @MainActor
     private func assertCoreNavigation(in app: XCUIApplication) {
-        XCTAssertTrue(app.buttons["今日修煉"].exists)
-        XCTAssertTrue(app.buttons["摘句集"].exists)
-        XCTAssertTrue(app.buttons["我的"].exists)
+        XCTAssertTrue(navigationButton("今日修煉", in: app).exists)
+        XCTAssertTrue(navigationButton("摘句集", in: app).exists)
+        XCTAssertTrue(navigationButton("我的", in: app).exists)
+    }
+
+    @MainActor
+    private func navigationButton(_ title: String, in app: XCUIApplication) -> XCUIElement {
+        let button = app.buttons[title]
+        if !button.exists {
+            let sidebarToggle = app.buttons["ToggleSidebar"]
+            XCTAssertTrue(sidebarToggle.waitForExistence(timeout: 5))
+            sidebarToggle.tap()
+            XCTAssertTrue(button.waitForExistence(timeout: 5))
+        }
+        return button
     }
 
     @MainActor
