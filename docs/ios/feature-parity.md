@@ -6,6 +6,7 @@
 |---|---|---|
 | 409 條語料、100 關、full／cross 盤面 | `ContentLoader`、`FullBoardView`、`CrossBoardView` | `ContentDecodingTests`、`ContentValidationTests`、`AllLevelsSmokeTests` |
 | 沉浸式遊戲任務、守護神、學習目標與可選線索 | `GameView`、`AnswerInputView`、原生 Guardian Assets | iPhone／iPad UI tests；守護神任務卡與學習目標 presence assertion |
+| 關卡內研墨題、墨水獎勵與原生觸覺回饋 | `GameLearningQuizView`、`LearningQuizEngine`、`DailyProgressEngine`、`UINotificationFeedbackGenerator` | 暫停／恢復與墨水單元測試；iPhone／iPad 答題 UI＋系統無障礙稽核 |
 | 三種模式、倒數、背景暫停、重試 | `GameEngine`、`GameViewModel` | `GameEngineTests`、`GameViewModelTests` |
 | 圈首字／閃現／揭示與墨水成本 | `HintEngine`、`GameViewModel` | `LearningEnginesTests`、`NativeParityTests` |
 | 星等、最佳成績、續玩、休息提醒 | `AppContainer`、`LocalLevelStats`、`ProfileView` | `GameViewModelTests`、`DailyProgressEngineTests` |

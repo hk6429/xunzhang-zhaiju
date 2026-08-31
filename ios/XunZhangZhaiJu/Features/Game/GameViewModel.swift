@@ -104,6 +104,19 @@ final class GameViewModel: ObservableObject {
         }
     }
 
+    func setLearningQuizPresented(_ presented: Bool) {
+        guard state.phase == .running else { return }
+        if presented, !state.pauseReasons.contains(.learningQuiz) {
+            try? GameReducer.reduce(state: &state, action: .pause(.learningQuiz))
+        } else if !presented, state.pauseReasons.contains(.learningQuiz) {
+            try? GameReducer.reduce(state: &state, action: .resume(.learningQuiz))
+        }
+    }
+
+    func refreshInk(_ value: Int) {
+        ink = max(0, value)
+    }
+
     func tick(milliseconds: Int) {
         guard state.phase == .running else { return }
         let phase = state.phase

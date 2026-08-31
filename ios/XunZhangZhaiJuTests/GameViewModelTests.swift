@@ -141,4 +141,42 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertEqual(model.modeConfiguration.mode, .challenge)
         XCTAssertTrue(model.state.pauseReasons.isEmpty)
     }
+
+    func testLearningQuizPausesAndResumesCountdown() throws {
+        let content = try ContentLoader().load()
+        let level = try XCTUnwrap(content.levels.first { $0.timeLimit != nil })
+        let model = GameViewModel(
+            level: level,
+            phrases: content.phrases,
+            initialCollection: [],
+            persist: { _ in }
+        )
+        let initial = try XCTUnwrap(model.state.remainingMilliseconds)
+
+        model.setLearningQuizPresented(true)
+        model.tick(milliseconds: 1_000)
+        XCTAssertEqual(model.state.remainingMilliseconds, initial)
+        XCTAssertTrue(model.state.pauseReasons.contains(.learningQuiz))
+
+        model.setLearningQuizPresented(false)
+        model.tick(milliseconds: 1_000)
+        XCTAssertEqual(model.state.remainingMilliseconds, initial - 1_000)
+        XCTAssertFalse(model.state.pauseReasons.contains(.learningQuiz))
+    }
+
+    func testQuizInkRefreshNeverAcceptsNegativeValue() throws {
+        let content = try ContentLoader().load()
+        let level = try XCTUnwrap(content.levels.first)
+        let model = GameViewModel(
+            level: level,
+            phrases: content.phrases,
+            initialCollection: [],
+            initialInk: 3,
+            persist: { _ in }
+        )
+
+        model.refreshInk(-2)
+
+        XCTAssertEqual(model.ink, 0)
+    }
 }

@@ -29,6 +29,31 @@ final class LaunchTests: XCTestCase {
             app.descendants(matching: .any)["game-mission"].waitForExistence(timeout: 5)
         )
         XCTAssertTrue(app.staticTexts["學習目標"].waitForExistence(timeout: 5))
+
+        let quizButton = app.buttons["open-learning-quiz"]
+        for _ in 0..<4 where !quizButton.isHittable {
+            app.swipeUp()
+        }
+        XCTAssertTrue(quizButton.waitForExistence(timeout: 5))
+        XCTAssertTrue(quizButton.isHittable)
+        quizButton.tap()
+        XCTAssertTrue(app.navigationBars["研墨檯"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["第 1 / 3 題"].waitForExistence(timeout: 5))
+        if #available(iOS 17.0, *) {
+            try app.performAccessibilityAudit(for: [
+                .hitRegion,
+                .sufficientElementDescription,
+                .textClipped,
+                .trait,
+            ])
+        }
+        app.buttons["目不轉睛"].tap()
+        let correctFeedback = app.staticTexts.matching(
+            NSPredicate(format: "label BEGINSWITH %@", "答對了")
+        ).firstMatch
+        XCTAssertTrue(correctFeedback.waitForExistence(timeout: 5))
+        app.buttons["暫離研墨"].tap()
+        XCTAssertTrue(app.descendants(matching: .any)["full-board"].waitForExistence(timeout: 5))
     }
 
     @MainActor

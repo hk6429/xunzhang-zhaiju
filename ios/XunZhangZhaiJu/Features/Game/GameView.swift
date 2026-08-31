@@ -1,13 +1,17 @@
 import SwiftUI
 import Combine
+import UIKit
 
 struct GameView: View {
     @Environment(\.scenePhase) private var scenePhase
     @StateObject private var model: GameViewModel
     @State private var eventToShow: WorldEvent?
+    @State private var quizQuestions: [LearningQuestion] = []
+    @State private var quizPresented = false
     @FocusState private var answerFocused: Bool
     private let chapter: StoryLore.Chapter?
     private let chooseEvent: (WorldEvent, EventChoice) throws -> Void
+    private let recordQuiz: (LearningQuestion, Bool) throws -> Int
 
     init(
         level: Level,
@@ -21,6 +25,15 @@ struct GameView: View {
         self.chapter = chapter
         _eventToShow = State(initialValue: eventSeen ? nil : event)
         chooseEvent = { try container.applyWorldEvent($0, choice: $1) }
+        recordQuiz = { question, correct in
+            let inkBefore = container.progress.ink
+            try container.recordQuiz(
+                phraseID: question.phraseID,
+                kind: question.kind,
+                correct: correct
+            )
+            return max(0, container.progress.ink - inkBefore)
+        }
         _model = StateObject(wrappedValue: GameViewModel(
             level: level,
             phrases: phrases,
@@ -101,11 +114,30 @@ struct GameView: View {
             }
             .presentationDetents([.medium, .large])
         }
+        .sheet(isPresented: $quizPresented, onDismiss: {
+            model.setLearningQuizPresented(false)
+        }) {
+            GameLearningQuizView(
+                questions: quizQuestions,
+                startingInk: model.ink,
+                submit: { question, correct in
+                    let earned = try recordQuiz(question, correct)
+                    model.refreshInk(model.ink + earned)
+                    return earned
+                }
+            )
+        }
         .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
             model.tick(milliseconds: 1_000)
         }
         .onChange(of: scenePhase) { phase in
             model.setBackgrounded(phase != .active)
+        }
+        .onChange(of: model.state.foundPhraseIDs.count) { _ in
+            NativeGameFeedback.success()
+        }
+        .onChange(of: model.state.mistakes) { _ in
+            NativeGameFeedback.error()
         }
         .onAppear { model.saveRunIfNeeded() }
     }
@@ -190,6 +222,16 @@ struct GameView: View {
                 hintButton("借一句", tier: .flash, symbol: "sparkles")
                 hintButton("仙人代筆", tier: .reveal, symbol: "wand.and.stars")
             }
+            Button {
+                openLearningQuiz()
+            } label: {
+                Label("研墨答題", systemImage: "book.closed.fill")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(AppTheme.accent)
+            .disabled(model.state.phase != .running || !model.state.pauseReasons.isEmpty)
+            .accessibilityIdentifier("open-learning-quiz")
         }
         .padding()
         .background(Color.white.opacity(0.07), in: RoundedRectangle(cornerRadius: 14))
@@ -209,6 +251,18 @@ struct GameView: View {
         }
         .buttonStyle(.bordered)
         .disabled(model.state.phase != .running)
+    }
+
+    private func openLearningQuiz() {
+        let questions = LearningQuizEngine().buildQuestions(
+            phrases: Array(model.phrasesByID.values),
+            targetPhraseIDs: model.targets.map(\.phrase.id),
+            count: min(5, model.targets.count)
+        )
+        guard !questions.isEmpty else { return }
+        quizQuestions = questions
+        model.setLearningQuizPresented(true)
+        quizPresented = true
     }
 
     private var timeoutView: some View {
@@ -307,5 +361,198 @@ private struct GuardianPresentation {
         case 5: GuardianPresentation(name: "雷震子", assetName: "GuardianLeiZhenzi")
         default: nil
         }
+    }
+}
+
+private struct GameLearningQuizView: View {
+    @Environment(\.dismiss) private var dismiss
+    @FocusState private var fillFocused: Bool
+    @State private var index = 0
+    @State private var fillAnswer = ""
+    @State private var feedback = ""
+    @State private var answered = false
+    @State private var earnedInk = 0
+    @State private var currentInk: Int
+
+    let questions: [LearningQuestion]
+    let submit: (LearningQuestion, Bool) throws -> Int
+
+    init(
+        questions: [LearningQuestion],
+        startingInk: Int,
+        submit: @escaping (LearningQuestion, Bool) throws -> Int
+    ) {
+        self.questions = questions
+        self.submit = submit
+        _currentInk = State(initialValue: startingInk)
+    }
+
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                AppTheme.background.ignoresSafeArea()
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            progress
+                            if questions.indices.contains(index) {
+                                questionView(questions[index], proxy: proxy)
+                            } else {
+                                completion
+                            }
+                        }
+                        .foregroundStyle(AppTheme.primaryText)
+                        .frame(maxWidth: 620)
+                        .padding(24)
+                        .frame(maxWidth: .infinity)
+                    }
+                }
+            }
+            .navigationTitle("研墨檯")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("暫離研墨") { dismiss() }
+                }
+            }
+        }
+        .interactiveDismissDisabled(index < questions.count && answered)
+        .accessibilityIdentifier("game-learning-quiz")
+    }
+
+    private var progress: some View {
+        VStack(spacing: 8) {
+            HStack {
+                Label("\(currentInk) 墨", systemImage: "drop.fill")
+                Spacer()
+                Text(index < questions.count ? "第 \(index + 1) / \(questions.count) 題" : "研墨完成")
+            }
+            .font(.headline)
+            ProgressView(value: Double(min(index, questions.count)), total: Double(max(1, questions.count)))
+                .tint(AppTheme.accent)
+                .accessibilityHidden(true)
+        }
+        .foregroundStyle(AppTheme.secondaryText)
+    }
+
+    @ViewBuilder
+    private func questionView(_ question: LearningQuestion, proxy: ScrollViewProxy) -> some View {
+        VStack(spacing: 16) {
+            Image(systemName: "book.pages.fill")
+                .font(.system(size: 42))
+                .foregroundStyle(AppTheme.accent)
+                .accessibilityHidden(true)
+            Text(question.prompt)
+                .font(.title2.bold())
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+
+            if question.kind == .choice {
+                ForEach(question.options, id: \.self) { option in
+                    Button(option) {
+                        answer(option, question: question)
+                    }
+                    .buttonStyle(.bordered)
+                    .frame(maxWidth: .infinity)
+                    .disabled(answered)
+                }
+            } else {
+                TextField("輸入缺少的字", text: $fillAnswer)
+                    .focused($fillFocused)
+                    .multilineTextAlignment(.center)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+                    .submitLabel(.done)
+                    .onSubmit { answer(fillAnswer, question: question) }
+                    .disabled(answered)
+                    .padding()
+                    .background(Color.white.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
+                    .id("quiz-fill-input")
+                    .onAppear {
+                        fillFocused = true
+                        proxy.scrollTo("quiz-fill-input", anchor: .center)
+                    }
+                Button("送出") { answer(fillAnswer, question: question) }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(answered || fillAnswer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            }
+
+            if !feedback.isEmpty {
+                Text(feedback)
+                    .font(.body.bold())
+                    .foregroundStyle(AppTheme.secondaryText)
+                    .multilineTextAlignment(.center)
+                    .accessibilityIdentifier("quiz-feedback")
+            }
+
+            if answered {
+                Button(index + 1 == questions.count ? "完成研墨" : "下一題") {
+                    index += 1
+                    fillAnswer = ""
+                    feedback = ""
+                    answered = false
+                    if questions.indices.contains(index), questions[index].kind == .fill {
+                        fillFocused = true
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(AppTheme.accent)
+            }
+        }
+        .padding()
+        .background(AppTheme.surface, in: RoundedRectangle(cornerRadius: 20))
+    }
+
+    private var completion: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "checkmark.seal.fill")
+                .font(.system(size: 58))
+                .foregroundStyle(AppTheme.accent)
+            Text("研墨完成")
+                .font(.largeTitle.bold())
+            Text(earnedInk > 0 ? "本輪獲得 \(earnedInk) 墨" : "今日這些真言已研墨，熟練度仍有累積。")
+                .multilineTextAlignment(.center)
+                .foregroundStyle(AppTheme.secondaryText)
+            Button("返回字陣") { dismiss() }
+                .buttonStyle(.borderedProminent)
+                .tint(AppTheme.accent)
+        }
+        .padding(24)
+        .accessibilityIdentifier("learning-quiz-complete")
+    }
+
+    private func answer(_ value: String, question: LearningQuestion) {
+        guard !answered else { return }
+        let correct = value.trimmingCharacters(in: .whitespacesAndNewlines) == question.answer
+        do {
+            let gained = try submit(question, correct)
+            earnedInk += gained
+            currentInk += gained
+            if correct {
+                feedback = gained > 0
+                    ? "答對了，墨香入硯。＋\(gained) 墨"
+                    : "答對了；今日已領過這則真言的墨水。"
+                NativeGameFeedback.success()
+            } else {
+                feedback = "還差一點。判斷關鍵：\(question.kind == .fill ? "留意字數與句子結構。" : "重新對照語意與線索。")"
+                NativeGameFeedback.error()
+            }
+            fillFocused = false
+            fillAnswer = ""
+            answered = true
+        } catch {
+            feedback = error.localizedDescription
+            NativeGameFeedback.error()
+        }
+    }
+}
+
+private enum NativeGameFeedback {
+    static func success() {
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
+    }
+
+    static func error() {
+        UINotificationFeedbackGenerator().notificationOccurred(.error)
     }
 }
