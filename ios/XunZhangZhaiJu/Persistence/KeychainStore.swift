@@ -16,8 +16,8 @@ enum KeychainStoreError: LocalizedError {
 struct KeychainStore: Sendable {
     private let service: String
 
-    init(service: String = "tw.edu.hc.zgjh.xunzhangzhaiju") {
-        self.service = service
+    init(service: String? = nil) {
+        self.service = service ?? RuntimeEnvironment.keychainService
     }
 
     func deviceIdentifier() throws -> String {

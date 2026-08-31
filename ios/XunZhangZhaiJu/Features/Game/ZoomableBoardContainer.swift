@@ -14,7 +14,7 @@ struct ZoomableBoardContainer<Content: View>: View {
     }
 }
 
-private struct TwoFingerZoomScrollView<Content: View>: UIViewRepresentable {
+private struct TwoFingerZoomScrollView<Content: View>: UIViewControllerRepresentable {
     let content: Content
     @Binding var scale: CGFloat
     let reduceMotion: Bool
@@ -23,7 +23,8 @@ private struct TwoFingerZoomScrollView<Content: View>: UIViewRepresentable {
         Coordinator(content: content, scale: $scale)
     }
 
-    func makeUIView(context: Context) -> UIScrollView {
+    func makeUIViewController(context: Context) -> UIViewController {
+        let viewController = UIViewController()
         let scrollView = UIScrollView()
         scrollView.delegate = context.coordinator
         scrollView.minimumZoomScale = 1
@@ -34,11 +35,20 @@ private struct TwoFingerZoomScrollView<Content: View>: UIViewRepresentable {
         scrollView.panGestureRecognizer.minimumNumberOfTouches = 2
         scrollView.panGestureRecognizer.maximumNumberOfTouches = 2
 
-        let hostedView = context.coordinator.hostingController.view!
+        let hostingController = context.coordinator.hostingController
+        let hostedView = hostingController.view!
         hostedView.backgroundColor = .clear
         hostedView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        viewController.addChild(hostingController)
+        viewController.view.addSubview(scrollView)
         scrollView.addSubview(hostedView)
+        hostingController.didMove(toParent: viewController)
         NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: viewController.view.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: viewController.view.bottomAnchor),
             hostedView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
             hostedView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
             hostedView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
@@ -46,10 +56,13 @@ private struct TwoFingerZoomScrollView<Content: View>: UIViewRepresentable {
             hostedView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
             hostedView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor),
         ])
-        return scrollView
+        return viewController
     }
 
-    func updateUIView(_ scrollView: UIScrollView, context: Context) {
+    func updateUIViewController(_ viewController: UIViewController, context: Context) {
+        guard let scrollView = viewController.view.subviews.first(where: { $0 is UIScrollView }) as? UIScrollView else {
+            return
+        }
         context.coordinator.hostingController.rootView = content
         if abs(scrollView.zoomScale - scale) > 0.01 {
             scrollView.setZoomScale(scale, animated: !reduceMotion)

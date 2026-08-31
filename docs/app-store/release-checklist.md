@@ -5,10 +5,11 @@
 - [x] Web 測試、內容驗證與美術契約全部通過。
 - [x] Worker typecheck、測試、migration smoke 與 dry-run 全部通過。
 - [x] 版本庫機密掃描通過。
-- [x] iPhone 單元／UI tests 通過。
-- [x] iPad 13 吋 Simulator 完成直向、橫向與 accessibility 大字級自動 UI 測試（55 unit＋5 UI 全數通過）。
+- [x] iPhone Simulator 完成 56 unit＋6 項適用 UI tests；包含系統無障礙稽核、最大字級與「終止程序後強制離線重開」進度保存。
+- [x] iPad 13 吋 Simulator 完成 56 unit＋7 UI tests；包含直向、橫向、最大字級、系統無障礙稽核與離線重開保存。
+- [x] 主題文字色彩以 WCAG 2.x 相對亮度公式驗證，在背景與卡片表面皆達 AA 4.5:1；系統稽核另驗證點擊區、描述、文字截斷與 traits。
 - [ ] iPad 真機完成直向、橫向、Split View、VoiceOver 與離線測試。
-- [x] 未簽署 iPhoneOS Release Archive 已建立；版本 1.0.0（1）、iPhone＋iPad、正式同步 URL、加密宣告及 App／第三方共 12 份 `PrivacyInfo.xcprivacy` 全部驗證通過。
+- [x] 未簽署 iPhoneOS Release Archive 已建立；版本 1.0.0（1）、iPhone＋iPad、正式同步 URL、加密宣告及 App／第三方共 12 份 `PrivacyInfo.xcprivacy` 全部驗證通過，且 Release 執行檔不包含 Debug UI 測試開關。
 
 ## 正式服務
 

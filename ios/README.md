@@ -40,6 +40,8 @@ xcodebuild -project ios/XunZhangZhaiJu.xcodeproj \
 
 真機簽章與 TestFlight 需先完成 Apple Developer Program 申請；開發階段可直接使用 Simulator。
 
+目前自動驗證包含 56 項單元測試，以及 iPhone 6 項、iPad 7 項適用 UI 測試。UI 測試涵蓋最大字級、iPad 旋轉、系統無障礙稽核，以及終止 App 後強制離線重開的 SQLite 進度保存。測試用儲存區、離線與無障礙開關只在 Debug 編譯中生效；Release Archive 不會保留 `UI_TEST_*` 行為。
+
 ## Release Archive 本機驗證
 
 未加入 Apple Developer Program 前，可先建立未簽署的 iPhoneOS Release Archive，驗證實際打包內容；它不能上傳 TestFlight，也不能取代正式簽署驗證。
@@ -56,7 +58,7 @@ xcodebuild -project ios/XunZhangZhaiJu.xcodeproj \
 tools/validate-ios-archive.sh /path/to/XunZhangZhaiJu.xcarchive
 ```
 
-驗證器會比對 `project.yml` 的 Bundle ID、版本、build number 與正式同步 URL，確認 iPhone／iPad device families、加密宣告、App 自有 privacy manifest，以及封存內所有第三方 privacy manifests。
+驗證器會比對 `project.yml` 的 Bundle ID、版本、build number 與正式同步 URL，確認 iPhone／iPad device families、加密宣告、App 自有 privacy manifest，以及封存內所有第三方 privacy manifests。另可用 `strings` 檢查正式執行檔，確認沒有 `UI_TEST_*` 測試開關。
 
 ## 登入與同步設定
 

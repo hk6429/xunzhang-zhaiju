@@ -57,6 +57,7 @@ enum SyncState: Equatable {
 
 enum SyncConfiguration {
     static var baseURL: URL? {
+        guard !RuntimeEnvironment.forcesOffline else { return nil }
         guard let raw = Bundle.main.object(forInfoDictionaryKey: "SyncAPIBaseURL") as? String,
               !raw.isEmpty,
               !raw.contains(".example."),

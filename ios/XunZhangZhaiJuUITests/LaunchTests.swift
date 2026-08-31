@@ -60,6 +60,47 @@ final class LaunchTests: XCTestCase {
     }
 
     @MainActor
+    func testSystemAccessibilityAuditPassesOnJourney() throws {
+        guard #available(iOS 17.0, *) else {
+            throw XCTSkip("System accessibility audit requires iOS 17 or newer")
+        }
+
+        let app = isolatedApp()
+        app.launch()
+
+        XCTAssertTrue(app.staticTexts["修煉山河"].firstMatch.waitForExistence(timeout: 5))
+        try app.performAccessibilityAudit(for: [
+            .hitRegion,
+            .sufficientElementDescription,
+            .textClipped,
+            .trait,
+        ])
+    }
+
+    @MainActor
+    func testGuestProgressSurvivesTerminationAndOfflineRelaunch() throws {
+        let app = isolatedApp()
+        app.launchEnvironment["UI_TEST_ACCESSIBLE_BOARD"] = "1"
+        app.launch()
+        openFirstLevel(in: app)
+
+        let start = app.buttons["第 1 列第 2 欄，目"]
+        let end = app.buttons["第 4 列第 2 欄，睛"]
+        XCTAssertTrue(start.waitForExistence(timeout: 5))
+        XCTAssertTrue(end.exists)
+        start.tap()
+        end.tap()
+        XCTAssertTrue(app.staticTexts["目不轉睛"].firstMatch.waitForExistence(timeout: 5))
+
+        app.terminate()
+        app.launchEnvironment["UI_TEST_FORCE_OFFLINE"] = "1"
+        app.launch()
+        openFirstLevel(in: app)
+
+        XCTAssertTrue(app.staticTexts["✓ 目不轉睛"].waitForExistence(timeout: 5))
+    }
+
+    @MainActor
     func testIPadPortraitAndLandscapeKeepLargeTextNavigationUsable() throws {
         guard UIDevice.current.userInterfaceIdiom == .pad else {
             throw XCTSkip("iPad layout validation")
@@ -88,5 +129,20 @@ final class LaunchTests: XCTestCase {
         XCTAssertTrue(app.buttons["今日修煉"].exists)
         XCTAssertTrue(app.buttons["摘句集"].exists)
         XCTAssertTrue(app.buttons["我的"].exists)
+    }
+
+    @MainActor
+    private func isolatedApp() -> XCUIApplication {
+        let app = XCUIApplication()
+        app.launchEnvironment["UI_TEST_STORAGE_ID"] = UUID().uuidString
+        return app
+    }
+
+    @MainActor
+    private func openFirstLevel(in app: XCUIApplication) {
+        let firstLevel = app.buttons["level-1"]
+        XCTAssertTrue(firstLevel.waitForExistence(timeout: 5))
+        firstLevel.tap()
+        XCTAssertTrue(app.descendants(matching: .any)["full-board"].waitForExistence(timeout: 5))
     }
 }

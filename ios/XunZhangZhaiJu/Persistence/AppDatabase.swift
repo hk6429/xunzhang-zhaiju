@@ -28,7 +28,7 @@ struct AppDatabase: Sendable {
             create: true
         ).appendingPathComponent("XunZhangZhaiJu", isDirectory: true)
         try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
-        return try open(at: directory.appendingPathComponent("progress.sqlite"))
+        return try open(at: directory.appendingPathComponent(RuntimeEnvironment.persistenceFileName))
     }
 
     var reader: any DatabaseReader { writer }

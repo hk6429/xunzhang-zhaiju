@@ -10,7 +10,7 @@ struct XunZhangZhaiJuApp: App {
         WindowGroup {
             RootView()
                 .environmentObject(container)
-                .accessibilityTextTest(isAccessibilitySizeTest)
+                .accessibilityTextTest(RuntimeEnvironment.forcesAccessibilityText)
                 .tint(AppTheme.accent)
                 .preferredColorScheme(.dark)
                 .task { await container.syncNow() }
@@ -23,9 +23,6 @@ struct XunZhangZhaiJuApp: App {
         }
     }
 
-    private var isAccessibilitySizeTest: Bool {
-        ProcessInfo.processInfo.environment["UI_TEST_ACCESSIBILITY_TEXT"] == "1"
-    }
 }
 
 private extension View {

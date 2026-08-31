@@ -5,44 +5,76 @@ struct FullBoardView: View {
     let foundPaths: [[GridCoordinate]]
     let hintCoordinates: Set<GridCoordinate>
     let onSelection: ([GridCoordinate]) -> Void
+    @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverEnabled
     @State private var anchor: GridCoordinate?
     @State private var preview: [GridCoordinate] = []
     @State private var accessibilityAnchor: GridCoordinate?
 
     var body: some View {
-        ZoomableBoardContainer {
-            GeometryReader { proxy in
-                let side = min(proxy.size.width, proxy.size.height)
-                let cellSize = side / CGFloat(grid.count)
-                ZStack(alignment: .topLeading) {
-                    VStack(spacing: 0) {
-                        ForEach(grid.indices, id: \.self) { row in
-                            HStack(spacing: 0) {
-                                ForEach(grid[row].indices, id: \.self) { column in
-                                    let coordinate = GridCoordinate(row: row, column: column)
-                                    Text(grid[row][column] ?? "")
-                                        .font(.system(size: max(14, cellSize * 0.45), weight: .bold))
-                                        .foregroundStyle(AppTheme.primaryText)
-                                        .frame(width: cellSize, height: cellSize)
-                                        .background(cellColor(coordinate))
-                                        .overlay(Rectangle().stroke(Color.white.opacity(0.3), lineWidth: 0.5))
-                                        .accessibilityLabel("第 \(row + 1) 列第 \(column + 1) 欄，\(grid[row][column] ?? "空")")
-                                        .accessibilityHint(accessibilityAnchor == nil ? "點兩下設為選句起點" : "點兩下選為終點")
-                                        .accessibilityAddTraits(.isButton)
-                                        .accessibilityAction { accessibilitySelect(coordinate) }
-                                        .accessibilityAction(named: "清除選句起點") { accessibilityAnchor = nil }
+        ZStack {
+            ZoomableBoardContainer {
+                GeometryReader { proxy in
+                    let side = min(proxy.size.width, proxy.size.height)
+                    let cellSize = side / CGFloat(grid.count)
+                    ZStack(alignment: .topLeading) {
+                        VStack(spacing: 0) {
+                            ForEach(grid.indices, id: \.self) { row in
+                                HStack(spacing: 0) {
+                                    ForEach(grid[row].indices, id: \.self) { column in
+                                        let coordinate = GridCoordinate(row: row, column: column)
+                                        Text(grid[row][column] ?? "")
+                                            .font(.system(size: max(14, cellSize * 0.45), weight: .bold))
+                                            .foregroundStyle(AppTheme.primaryText)
+                                            .frame(width: cellSize, height: cellSize)
+                                            .background(cellColor(coordinate))
+                                            .overlay(Rectangle().stroke(Color.white.opacity(0.3), lineWidth: 0.5))
+                                            .accessibilityHidden(true)
+                                    }
                                 }
                             }
                         }
+                        .frame(width: side, height: side)
+                        .contentShape(Rectangle())
+                        .gesture(selectionGesture(cellSize: cellSize))
                     }
-                    .frame(width: side, height: side)
-                    .contentShape(Rectangle())
-                    .gesture(selectionGesture(cellSize: cellSize))
                 }
+                .aspectRatio(1, contentMode: .fit)
             }
-            .aspectRatio(1, contentMode: .fit)
+            if voiceOverEnabled || RuntimeEnvironment.forcesAccessibleBoard {
+                accessibleBoard
+            }
         }
         .accessibilityIdentifier("full-board")
+    }
+
+    private var accessibleBoard: some View {
+        GeometryReader { proxy in
+            let side = min(proxy.size.width, proxy.size.height)
+            let cellSize = side / CGFloat(grid.count)
+            VStack(spacing: 0) {
+                ForEach(grid.indices, id: \.self) { row in
+                    HStack(spacing: 0) {
+                        ForEach(grid[row].indices, id: \.self) { column in
+                            let coordinate = GridCoordinate(row: row, column: column)
+                            Button {
+                                accessibilitySelect(coordinate)
+                            } label: {
+                                Color.clear
+                                    .frame(width: cellSize, height: cellSize)
+                                    .contentShape(Rectangle())
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel("第 \(row + 1) 列第 \(column + 1) 欄，\(grid[row][column] ?? "空")")
+                            .accessibilityHint(accessibilityAnchor == nil ? "點兩下設為選句起點" : "點兩下選為終點")
+                            .accessibilityAction(named: "清除選句起點") { accessibilityAnchor = nil }
+                        }
+                    }
+                }
+            }
+            .frame(width: side, height: side)
+        }
+        .aspectRatio(1, contentMode: .fit)
+        .accessibilityIdentifier("accessible-full-board")
     }
 
     private func accessibilitySelect(_ coordinate: GridCoordinate) {
