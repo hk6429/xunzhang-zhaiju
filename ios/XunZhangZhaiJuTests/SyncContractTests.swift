@@ -12,4 +12,22 @@ final class SyncContractTests: XCTestCase {
         XCTAssertEqual(snapshot.levels["1"]?.stars, 3)
         XCTAssertNil(object["localPhrasePractice"])
     }
+
+    func testLegacyLevelStatsWithoutBestDurationStillDecode() throws {
+        let data = Data(#"{"attempts":1,"completions":1,"bestStars":3,"fewestMistakes":0,"modesCleared":["standard"],"badges":[]}"#.utf8)
+
+        let stats = try JSONDecoder().decode(LocalLevelStats.self, from: data)
+
+        XCTAssertNil(stats.bestDurationMs)
+    }
+
+    func testLevelStatsEncodeSharedBestDurationKey() throws {
+        var stats = LocalLevelStats.fresh
+        stats.bestDurationMs = 12_345
+
+        let data = try JSONEncoder().encode(stats)
+        let object = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+
+        XCTAssertEqual(object["bestDurationMs"] as? Int, 12_345)
+    }
 }

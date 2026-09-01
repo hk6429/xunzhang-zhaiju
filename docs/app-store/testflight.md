@@ -28,8 +28,8 @@
 
 | 平台 | 必測情境 | 目前證據 |
 |---|---|---|
-| iPhone | 啟動、四個主區、單調時鐘倒數、十章被動法寶、隱藏結局、動態文字 | 88 unit＋8 項適用 UI tests 通過；GitHub Xcode 16.4 乾淨 runner 會重跑 |
-| iPad | 直向、橫向、單調時鐘倒數、十章被動法寶、隱藏結局、Split View、鍵盤／觸控 | 11／13 吋本機完成 88 unit＋9 UI；GitHub 11 吋 runner 會重跑，Split View 與觸控真機待驗 |
+| iPhone | 啟動、四個主區、單調時鐘倒數、最佳完成時間、十章被動法寶、隱藏結局、動態文字 | 93 unit＋8 項適用 UI tests 通過；GitHub Xcode 16.4 乾淨 runner 會重跑 |
+| iPad | 直向、橫向、單調時鐘倒數、最佳完成時間、十章被動法寶、隱藏結局、Split View、鍵盤／觸控 | 11／13 吋本機完成 93 unit＋9 UI；GitHub 11 吋 runner 會重跑，Split View 與觸控真機待驗 |
 | 離線 | 首次安裝後飛航模式、遊玩、重開 App | iPhone／iPad Simulator 已驗證終止程序、強制離線重開後 SQLite 進度仍在；真機飛航模式待驗 |
 | 同步 | 首登合併、雙端衝突、墨滴事件去重 | 基礎服務已部署；單元／契約測試完成，正式 OAuth 三端 E2E 待驗 |
 | 無障礙 | VoiceOver、最大文字、Reduce Motion | iPhone／iPad 已通過點擊區、描述、截斷與 traits 系統稽核；WCAG AA 色彩契約、最大字級與旋轉測試通過，真機 VoiceOver／Reduce Motion 待驗 |

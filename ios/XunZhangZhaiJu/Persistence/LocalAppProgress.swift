@@ -76,6 +76,7 @@ struct LocalLevelStats: Codable, Equatable {
     var attempts: Int
     var completions: Int
     var bestStars: Int
+    var bestDurationMs: Int?
     var fewestMistakes: Int?
     var modesCleared: [PlayMode]
     var badges: [String]
@@ -84,10 +85,22 @@ struct LocalLevelStats: Codable, Equatable {
         attempts: 0,
         completions: 0,
         bestStars: 0,
+        bestDurationMs: nil,
         fewestMistakes: nil,
         modesCleared: [],
         badges: []
     )
+
+    mutating func recordCompletion(from gameState: GameState) {
+        guard gameState.phase == .completed else { return }
+        completions += 1
+        bestStars = max(bestStars, gameState.earnedStars ?? 0)
+        fewestMistakes = min(fewestMistakes ?? gameState.mistakes, gameState.mistakes)
+        if !modesCleared.contains(gameState.mode) { modesCleared.append(gameState.mode) }
+        if let duration = gameState.completedDurationMilliseconds {
+            bestDurationMs = min(bestDurationMs ?? duration, duration)
+        }
+    }
 }
 
 struct LocalActivity: Codable, Equatable {

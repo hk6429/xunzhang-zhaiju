@@ -38,12 +38,12 @@ describe("mergeProgress", () => {
 
   it("keeps lower mistake and duration records", () => {
     const merged = mergeProgress(
-      { levelStats: { "1": { fewestMistakes: 4 } }, daily: { dateKey: "2026-09-01", quickBest: { score: 3, durationMilliseconds: 12_000 } } },
-      { levelStats: { "1": { fewestMistakes: 1 } }, daily: { dateKey: "2026-09-01", quickBest: { score: 3, durationMilliseconds: 18_000 } } },
+      { levelStats: { "1": { fewestMistakes: 4, bestDurationMs: 35_000 } }, daily: { dateKey: "2026-09-01", quickBest: { score: 3, durationMilliseconds: 12_000 } } },
+      { levelStats: { "1": { fewestMistakes: 1, bestDurationMs: 28_000 } }, daily: { dateKey: "2026-09-01", quickBest: { score: 3, durationMilliseconds: 18_000 } } },
     );
 
     expect(merged).toMatchObject({
-      levelStats: { "1": { fewestMistakes: 1 } },
+      levelStats: { "1": { fewestMistakes: 1, bestDurationMs: 28_000 } },
       daily: { quickBest: { score: 3, durationMilliseconds: 12_000 } },
     });
   });

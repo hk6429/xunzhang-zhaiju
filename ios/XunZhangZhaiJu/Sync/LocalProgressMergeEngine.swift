@@ -101,6 +101,7 @@ enum LocalProgressMergeEngine {
                 attempts: max(previous.attempts, value.attempts),
                 completions: max(previous.completions, value.completions),
                 bestStars: max(previous.bestStars, value.bestStars),
+                bestDurationMs: minimum(previous.bestDurationMs, value.bestDurationMs),
                 fewestMistakes: minimum(previous.fewestMistakes, value.fewestMistakes),
                 modesCleared: union(previous.modesCleared, value.modesCleared),
                 badges: union(previous.badges, value.badges)

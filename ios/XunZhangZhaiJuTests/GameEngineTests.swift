@@ -71,6 +71,38 @@ final class GameEngineTests: XCTestCase {
         XCTAssertEqual(state, before)
     }
 
+    func testLevelStatsOnlyReplaceBestDurationWithFasterCompletion() throws {
+        var slower = fixture(timeLimitMilliseconds: 60_000)
+        try GameReducer.reduce(state: &slower, action: .start)
+        try GameReducer.reduce(state: &slower, action: .tick(milliseconds: 25_000))
+        try GameReducer.reduce(state: &slower, action: .foundPhrase("p1", revealed: false))
+        try GameReducer.reduce(state: &slower, action: .foundPhrase("p2", revealed: false))
+
+        var faster = fixture(timeLimitMilliseconds: 60_000)
+        try GameReducer.reduce(state: &faster, action: .start)
+        try GameReducer.reduce(state: &faster, action: .tick(milliseconds: 18_000))
+        try GameReducer.reduce(state: &faster, action: .foundPhrase("p1", revealed: false))
+        try GameReducer.reduce(state: &faster, action: .foundPhrase("p2", revealed: false))
+
+        var stats = LocalLevelStats.fresh
+        stats.recordCompletion(from: slower)
+        stats.recordCompletion(from: faster)
+        stats.recordCompletion(from: slower)
+
+        XCTAssertEqual(stats.completions, 3)
+        XCTAssertEqual(stats.bestDurationMs, 18_000)
+    }
+
+    func testExplorationCompletionDoesNotInventBestDuration() throws {
+        var state = fixture()
+        try complete(&state, hint: nil)
+        var stats = LocalLevelStats.fresh
+
+        stats.recordCompletion(from: state)
+
+        XCTAssertNil(stats.bestDurationMs)
+    }
+
     func testIllegalActionsAreRejected() {
         var state = fixture()
         XCTAssertThrowsError(try GameReducer.reduce(state: &state, action: .tick(milliseconds: 1)))

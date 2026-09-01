@@ -337,10 +337,7 @@ final class AppContainer: ObservableObject {
             next.activeRun = nil
         }
         if gameState.phase == .completed {
-            stats.completions += 1
-            stats.bestStars = max(stats.bestStars, gameState.earnedStars ?? 0)
-            stats.fewestMistakes = min(stats.fewestMistakes ?? gameState.mistakes, gameState.mistakes)
-            if !stats.modesCleared.contains(gameState.mode) { stats.modesCleared.append(gameState.mode) }
+            stats.recordCompletion(from: gameState)
             let badges = completionBadges(for: gameState)
             stats.badges = orderedUnion(stats.badges, badges)
             var activity = next.activity ?? .fresh

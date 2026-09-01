@@ -67,4 +67,13 @@ struct GameState: Codable, Equatable {
     var isCountdownActive: Bool {
         phase == .running && pauseReasons.isEmpty && remainingMilliseconds != nil
     }
+
+    var completedDurationMilliseconds: Int? {
+        guard phase == .completed,
+              let initial = initialTimeLimitMilliseconds,
+              let remaining = remainingMilliseconds,
+              initial > 0,
+              (0...initial).contains(remaining) else { return nil }
+        return initial - remaining
+    }
 }

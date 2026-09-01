@@ -21,6 +21,7 @@ final class LocalProgressMergeEngineTests: XCTestCase {
             attempts: 3,
             completions: 1,
             bestStars: 3,
+            bestDurationMs: 42_000,
             fewestMistakes: 2,
             modesCleared: [.standard],
             badges: ["insight"]
@@ -33,6 +34,7 @@ final class LocalProgressMergeEngineTests: XCTestCase {
             attempts: 1,
             completions: 1,
             bestStars: 2,
+            bestDurationMs: 35_000,
             fewestMistakes: 0,
             modesCleared: [.challenge],
             badges: ["swift"]
@@ -43,8 +45,23 @@ final class LocalProgressMergeEngineTests: XCTestCase {
         XCTAssertEqual(merged.levels["1"]?.stars, 3)
         XCTAssertEqual(merged.levels["1"]?.found, ["p1", "p2"])
         XCTAssertEqual(merged.collection, ["p1", "p2"])
+        XCTAssertEqual(merged.levelStats?["1"]?.bestDurationMs, 35_000)
         XCTAssertEqual(merged.levelStats?["1"]?.fewestMistakes, 0)
         XCTAssertEqual(Set(merged.levelStats?["1"]?.modesCleared ?? []), [.standard, .challenge])
+    }
+
+    func testMergeKeepsKnownBestDurationWhenOtherDeviceHasNone() {
+        var left = LocalAppProgress.fresh
+        var stats = LocalLevelStats.fresh
+        stats.bestDurationMs = 28_000
+        left.levelStats = ["1": stats]
+
+        var right = LocalAppProgress.fresh
+        right.levelStats = ["1": .fresh]
+
+        let merged = LocalProgressMergeEngine.merge(left, right)
+
+        XCTAssertEqual(merged.levelStats?["1"]?.bestDurationMs, 28_000)
     }
 
     func testMergeRemovesMasteredPhraseFromWrongBook() {

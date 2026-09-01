@@ -9,7 +9,7 @@
 | 關卡內研墨題、墨水獎勵與原生觸覺回饋 | `GameLearningQuizView`、`LearningQuizEngine`、`DailyProgressEngine`、`UINotificationFeedbackGenerator` | 暫停／恢復與墨水單元測試；iPhone／iPad 答題 UI＋系統無障礙稽核 |
 | 三種模式、單調時鐘倒數、教育彈窗／背景暫停、重試 | `GameEngine`、`GameViewModel`；以 `systemUptime` 實際經過時間扣除倒數，暫停與恢復時重設時鐘錨點；找詞、送出答案與提示操作前先結算真實時間 | `GameEngineTests`、`GameViewModelTests`；涵蓋 timer 延遲、長時間暫停、時鐘倒退，以及倒數歸零後拒絕揭示／誤選／答案操作 |
 | 圈首字／閃現／揭示與墨水成本 | `HintEngine`、`GameViewModel` | `LearningEnginesTests`、`NativeParityTests` |
-| 星等、最佳成績、續玩、休息提醒 | `AppContainer`、`LocalLevelStats`、`ProfileView` | `GameViewModelTests`、`DailyProgressEngineTests` |
+| 星等、最佳成績、續玩、休息提醒 | `AppContainer`、`LocalLevelStats`、`ProfileView`；計時關卡保存最短完成時間，跨裝置同步取最短值且相容舊資料 | `GameEngineTests`、`LocalProgressMergeEngineTests`、`SyncContractTests`、`DailyProgressEngineTests` |
 | 十章地圖與世界事件 | `JourneyView`、`WorldProgressEngine`；事件研讀獎勵直接開啟原生研墨題，事件彈窗暫停倒數 | 效果冪等、研讀題數與倒數暫停單元測試；iPhone／iPad 今日奇遇答題 UI＋系統無障礙稽核 |
 | 功名進度、普通結局與隱藏真結局 | `JourneyView`、`WorldProgressEngine`；依第 50 關、五場 Boss 二星、五段故事與五件完整法寶判定，隱藏問答結果可離線保存並跨端同步 | 結局條件、法寶完整性與新舊答案合併單元測試；iPhone／iPad 作答、無障礙稽核及終止後重開 UI test |
 | 每日三帖、快陣、連續修煉、補簽 | `DailyView`、`DailyProgressEngine` | `DailyProgressEngineTests` |
