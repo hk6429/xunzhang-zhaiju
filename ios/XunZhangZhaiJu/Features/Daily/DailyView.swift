@@ -47,6 +47,15 @@ struct DailyView: View {
                         Text(encounterRewardLabel(encounter))
                             .font(.caption.bold())
                             .foregroundStyle(AppTheme.accent)
+                        if let location = dailyEncounterLocation {
+                            Label(
+                                "引魂燈指引：第 \(location.chapter) 章・\(location.region)",
+                                systemImage: "location.fill"
+                            )
+                            .font(.caption.bold())
+                            .foregroundStyle(AppTheme.primaryText)
+                            .accessibilityIdentifier("daily-encounter-location")
+                        }
                         Button(isEncounterSeen(encounter) ? "今日已相遇" : "收下奇遇") {
                             acceptEncounter(encounter)
                         }
@@ -128,6 +137,16 @@ struct DailyView: View {
             count: 1
         ).first
         return encounters.first { $0.id == selected }
+    }
+
+    private var dailyEncounterLocation: DailyEncounterLocation? {
+        guard let content = container.content else { return nil }
+        return TreasureAbilityEngine().dailyEncounterLocation(
+            levels: content.levels,
+            progress: container.progress,
+            story: content.story,
+            dateKey: dateKey
+        )
     }
 
     private func isEncounterSeen(_ encounter: DailyEncounter) -> Bool {

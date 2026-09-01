@@ -446,6 +446,17 @@ final class AppContainer: ObservableObject {
         try persist(next, kind: "hiddenEndingAnswered")
     }
 
+    func recordEventChoicePreview() throws {
+        guard let story = content?.story else { throw AppContainerError.unavailable }
+        let next = TreasureAbilityEngine().recordingEventChoicePreview(
+            dateKey: TaiwanDate.dateKey(),
+            in: progress,
+            story: story
+        )
+        guard next != progress else { return }
+        try persist(next, kind: "treasureAbilityUsed")
+    }
+
     private func activate(_ session: BackendSession) throws {
         guard let repository, let deviceID else { throw AppContainerError.unavailable }
         let userNamespace = "user:\(session.userID)"

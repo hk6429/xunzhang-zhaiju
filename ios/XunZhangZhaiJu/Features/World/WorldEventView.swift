@@ -4,6 +4,7 @@ struct WorldEventView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var errorMessage = ""
     let event: WorldEvent
+    var previewsEffects = false
     let onChoose: (EventChoice) throws -> Void
 
     var body: some View {
@@ -28,14 +29,20 @@ struct WorldEventView: View {
                         } label: {
                             VStack(alignment: .leading, spacing: 5) {
                                 Text(choice.label).font(.headline)
-                                Text(effectSummary(choice.effect))
+                                Text(previewsEffects ? effectSummary(choice.effect) : "效果將在選擇後揭曉")
                                     .font(.caption)
                                     .foregroundStyle(AppTheme.secondaryText)
+                                    .accessibilityIdentifier(previewsEffects ? "event-effect-preview" : "event-effect-hidden")
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding()
                         }
                         .buttonStyle(.bordered)
+                    }
+                    if previewsEffects {
+                        Label("三尖兩刃刀・今日一次預見", systemImage: "eye.fill")
+                            .font(.caption.bold())
+                            .foregroundStyle(AppTheme.accent)
                     }
                     if !errorMessage.isEmpty {
                         Text(errorMessage).foregroundStyle(Color.orange)

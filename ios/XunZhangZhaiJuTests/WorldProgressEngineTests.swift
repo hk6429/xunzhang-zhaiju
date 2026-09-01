@@ -89,4 +89,129 @@ final class WorldProgressEngineTests: XCTestCase {
         XCTAssertFalse(state.trueRequirementsMet)
         XCTAssertTrue(state.missingForTrue.contains(.treasures([treasureID])))
     }
+
+    func testTreasureAbilitiesRequireACompleteMatchingTreasure() throws {
+        let story = try ContentLoader().load().story
+        let engine = TreasureAbilityEngine()
+        var progress = LocalAppProgress.fresh
+        progress.world = .fresh
+        let treasure = try XCTUnwrap(story.treasures.first { $0.ability == TreasureAbility.revealHiddenNode.rawValue })
+        progress.world?.treasures[treasure.id] = LocalTreasureProgress(
+            sources: ["level:4"],
+            complete: false
+        )
+
+        XCTAssertFalse(engine.isActive(.revealHiddenNode, in: progress, story: story))
+
+        progress.world?.treasures[treasure.id]?.complete = true
+        XCTAssertTrue(engine.isActive(.revealHiddenNode, in: progress, story: story))
+    }
+
+    func testStoryTreasureAbilitiesMatchTheNativeAbilityCatalog() throws {
+        let story = try ContentLoader().load().story
+
+        XCTAssertEqual(
+            Set(story.treasures.map(\.ability)),
+            Set(TreasureAbility.allCases.map(\.rawValue))
+        )
+    }
+
+    func testDashenBianRevealsTheNextUnseenEventInEachChapter() throws {
+        let content = try ContentLoader().load()
+        let engine = TreasureAbilityEngine()
+        var progress = progressWithCompleteTreasure(.revealHiddenNode, story: content.story)
+
+        XCTAssertEqual(
+            engine.revealedEventLevelIDs(levels: content.levels, progress: progress, story: content.story),
+            Set([2, 12, 22, 32, 42])
+        )
+
+        progress.world?.eventsSeen.append("c1-lore-crane-letter")
+        let revealed = engine.revealedEventLevelIDs(
+            levels: content.levels,
+            progress: progress,
+            story: content.story
+        )
+        XCTAssertFalse(revealed.contains(2))
+        XCTAssertTrue(revealed.contains(4))
+    }
+
+    func testQiankunQuanOffersOneUnexploredSideRouteAfterMainChapterCompletion() throws {
+        let content = try ContentLoader().load()
+        let engine = TreasureAbilityEngine()
+        var progress = progressWithCompleteTreasure(.openRouteShortcut, story: content.story)
+        for level in content.levels where level.chapter == 1 && (level.routeType ?? .main) == .main {
+            progress.levels[String(level.id)] = LocalLevelProgress(stars: 1, found: [])
+        }
+
+        XCTAssertEqual(
+            engine.routeShortcuts(levels: content.levels, progress: progress, story: content.story).map(\.id),
+            [2]
+        )
+
+        progress.levels["2"] = LocalLevelProgress(stars: 1, found: [])
+        XCTAssertEqual(
+            engine.routeShortcuts(levels: content.levels, progress: progress, story: content.story).map(\.id),
+            [4]
+        )
+    }
+
+    func testYinhunDengMarksADeterministicUnlockedDailyEncounterRegion() throws {
+        let content = try ContentLoader().load()
+        let engine = TreasureAbilityEngine()
+        let progress = progressWithCompleteTreasure(.revealDailyEncounter, story: content.story)
+
+        let first = engine.dailyEncounterLocation(
+            levels: content.levels,
+            progress: progress,
+            story: content.story,
+            dateKey: "2026-09-01"
+        )
+        let second = engine.dailyEncounterLocation(
+            levels: content.levels,
+            progress: progress,
+            story: content.story,
+            dateKey: "2026-09-01"
+        )
+
+        let chapter = try XCTUnwrap(content.story.chapters.first { $0.id == 1 })
+        XCTAssertEqual(first, DailyEncounterLocation(chapter: 1, region: chapter.mapRegion))
+        XCTAssertEqual(first, second)
+    }
+
+    func testSanjianLiangrenDaoPreviewsOnlyOncePerTaipeiDate() throws {
+        let story = try ContentLoader().load().story
+        let engine = TreasureAbilityEngine()
+        let progress = progressWithCompleteTreasure(.previewEventChoice, story: story)
+
+        XCTAssertTrue(engine.canPreviewEventChoices(dateKey: "2026-09-01", progress: progress, story: story))
+        let used = engine.recordingEventChoicePreview(
+            dateKey: "2026-09-01",
+            in: progress,
+            story: story
+        )
+        XCTAssertFalse(engine.canPreviewEventChoices(dateKey: "2026-09-01", progress: used, story: story))
+        XCTAssertTrue(engine.canPreviewEventChoices(dateKey: "2026-09-02", progress: used, story: story))
+    }
+
+    func testZhuxianJianAbilityIsBackedByTheTrueEndingTreasure() throws {
+        let story = try ContentLoader().load().story
+        let progress = progressWithCompleteTreasure(.unlockTrueEnding, story: story)
+
+        XCTAssertTrue(TreasureAbilityEngine().isActive(.unlockTrueEnding, in: progress, story: story))
+    }
+
+    private func progressWithCompleteTreasure(
+        _ ability: TreasureAbility,
+        story: StoryLore
+    ) -> LocalAppProgress {
+        var progress = LocalAppProgress.fresh
+        progress.world = .fresh
+        let treasureID = story.treasures.first { $0.ability == ability.rawValue }!.id
+        progress.world?.treasures[treasureID] = LocalTreasureProgress(
+            sources: ["test:1", "test:2"],
+            complete: true
+        )
+        return progress
+    }
 }

@@ -76,6 +76,7 @@ struct JourneyView: View {
             levels: content.levels.filter { $0.id <= 50 },
             chapters: content.story.chapters.filter { $0.id <= 5 },
             progress: container.progress,
+            story: content.story,
             destination: { level in
                 GameView(
                     level: level,
@@ -314,6 +315,7 @@ private struct MountainJourneyMap<Destination: View>: View {
     let levels: [Level]
     let chapters: [StoryLore.Chapter]
     let progress: LocalAppProgress
+    let story: StoryLore
     @ViewBuilder let destination: (Level) -> Destination
 
     // mapPosition 百分比沿用網頁版 2600×900 座標系；維持相同比例才會和底圖地標對齊。
@@ -361,7 +363,48 @@ private struct MountainJourneyMap<Destination: View>: View {
             .font(.caption.bold())
             .foregroundStyle(AppTheme.secondaryText)
             .accessibilityElement(children: .combine)
+
+            if !routeShortcuts.isEmpty {
+                VStack(alignment: .leading, spacing: 8) {
+                    Label("乾坤圈捷徑", systemImage: "arrow.triangle.branch")
+                        .font(.headline)
+                        .foregroundStyle(AppTheme.accent)
+                    ForEach(routeShortcuts) { level in
+                        NavigationLink {
+                            destination(level)
+                        } label: {
+                            Text("返回第 \(level.chapter) 章未探索的\(routeName(level))・第 \(level.id) 關")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        .buttonStyle(.bordered)
+                        .accessibilityIdentifier("treasure-route-shortcut-\(level.id)")
+                    }
+                }
+                .padding()
+                .background(AppTheme.surface, in: RoundedRectangle(cornerRadius: 16))
+            }
         }
+    }
+
+    private var revealedEventLevelIDs: Set<Int> {
+        TreasureAbilityEngine().revealedEventLevelIDs(
+            levels: levels,
+            progress: progress,
+            story: story
+        )
+    }
+
+    private var routeShortcuts: [Level] {
+        TreasureAbilityEngine().routeShortcuts(levels: levels, progress: progress, story: story)
+    }
+
+    private var dailyEncounterChapter: Int? {
+        TreasureAbilityEngine().dailyEncounterLocation(
+            levels: levels,
+            progress: progress,
+            story: story,
+            dateKey: TaiwanDate.dateKey()
+        )?.chapter
     }
 
     private var routeLines: some View {
@@ -451,7 +494,15 @@ private struct MountainJourneyMap<Destination: View>: View {
                 }
             }
 
-            if level.eventId != nil && unlocked {
+            if revealedEventLevelIDs.contains(level.id) {
+                Text("鞭")
+                    .font(.caption2.weight(.black))
+                    .foregroundStyle(Color.white)
+                    .frame(width: 24, height: 24)
+                    .background(Color.orange, in: Circle())
+                    .offset(x: 5, y: -5)
+                    .accessibilityIdentifier("treasure-hidden-node-\(level.id)")
+            } else if level.eventId != nil && unlocked {
                 Text("!")
                     .font(.caption2.weight(.black))
                     .foregroundStyle(Color.white)
@@ -473,6 +524,12 @@ private struct MountainJourneyMap<Destination: View>: View {
                 .font(.caption.bold())
                 .foregroundStyle(Color.white)
                 .lineLimit(1)
+            if dailyEncounterChapter == chapter.id {
+                Label("今日奇遇", systemImage: "location.fill")
+                    .font(.caption2.bold())
+                    .foregroundStyle(Color.white)
+                    .accessibilityIdentifier("map-daily-encounter-location")
+            }
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 7)
@@ -530,6 +587,14 @@ private struct MountainJourneyMap<Destination: View>: View {
         }
     }
 
+    private func routeName(_ level: Level) -> String {
+        switch level.routeType ?? .main {
+        case .main: "主線"
+        case .lore: "典故支線"
+        case .treasure: "法寶支線"
+        }
+    }
+
     private func nodeFill(stars: Int, unlocked: Bool) -> Color {
         if !unlocked { return Color(white: 0.7) }
         return stars > 0 ? Color(red: 1, green: 0.86, blue: 0.43) : Color(red: 1, green: 0.97, blue: 0.83)
@@ -546,8 +611,9 @@ private struct MountainJourneyMap<Destination: View>: View {
             case .treasure: route = "法寶支線"
             }
         }
+        let revealed = revealedEventLevelIDs.contains(level.id) ? "，打神鞭已標出事件" : ""
         return unlocked
-            ? "第 \(level.id) 關，\(route)，\(level.chapterTitle)，\(stars) 星"
-            : "第 \(level.id) 關，\(route)，尚未解鎖"
+            ? "第 \(level.id) 關，\(route)，\(level.chapterTitle)，\(stars) 星\(revealed)"
+            : "第 \(level.id) 關，\(route)，尚未解鎖\(revealed)"
     }
 }

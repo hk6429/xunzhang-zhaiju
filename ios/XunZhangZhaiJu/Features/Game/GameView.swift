@@ -14,6 +14,8 @@ struct GameView: View {
     private let chooseEvent: (WorldEvent, EventChoice) throws -> Int
     private let buildEventStudyQuestions: (Int) -> [LearningQuestion]
     private let recordQuiz: (LearningQuestion, Bool) throws -> Int
+    private let previewsEventEffects: Bool
+    private let recordEventChoicePreview: () throws -> Void
 
     init(
         level: Level,
@@ -24,9 +26,18 @@ struct GameView: View {
     ) {
         let mode = PlayMode(rawValue: UserDefaults.standard.string(forKey: "play-mode") ?? "") ?? .standard
         let eventSeen = event.map { container.progress.world?.eventsSeen.contains($0.id) == true } ?? true
+        let previewsEventEffects = event != nil && container.content.map {
+            TreasureAbilityEngine().canPreviewEventChoices(
+                dateKey: TaiwanDate.dateKey(),
+                progress: container.progress,
+                story: $0.story
+            )
+        } == true
         self.chapter = chapter
+        self.previewsEventEffects = previewsEventEffects
         _eventToShow = State(initialValue: eventSeen ? nil : event)
         chooseEvent = { try container.applyWorldEvent($0, choice: $1) }
+        recordEventChoicePreview = { try container.recordEventChoicePreview() }
         buildEventStudyQuestions = { count in
             LearningQuizEngine().buildStudyQuestions(
                 phrases: phrases,
@@ -120,7 +131,7 @@ struct GameView: View {
                 .presentationDetents([.medium, .large])
         }
         .sheet(item: $eventToShow, onDismiss: finishWorldEventPresentation) { event in
-            WorldEventView(event: event) { choice in
+            WorldEventView(event: event, previewsEffects: previewsEventEffects) { choice in
                 let studyCount = try chooseEvent(event, choice)
                 pendingEventStudyQuestions = buildEventStudyQuestions(studyCount)
             }
@@ -153,6 +164,9 @@ struct GameView: View {
         }
         .onAppear {
             model.setWorldEventPresented(eventToShow != nil)
+            if eventToShow != nil, previewsEventEffects {
+                try? recordEventChoicePreview()
+            }
             model.saveRunIfNeeded()
         }
     }

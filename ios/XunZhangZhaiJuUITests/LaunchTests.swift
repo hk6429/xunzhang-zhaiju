@@ -86,11 +86,15 @@ final class LaunchTests: XCTestCase {
     func testDailyStudyEncounterOpensRewardedNativeQuiz() throws {
         let app = isolatedApp()
         app.launchEnvironment["UI_TEST_DAILY_ENCOUNTER_ID"] = "daily-cloud-crane"
+        app.launchEnvironment["UI_TEST_TRUE_ENDING_READY"] = "1"
         app.launch()
 
         navigate(to: "今日修煉", in: app)
         XCTAssertTrue(app.staticTexts["雲間白鶴"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["獎勵：3 題研墨機會"].waitForExistence(timeout: 5))
+        XCTAssertTrue(
+            app.descendants(matching: .any)["daily-encounter-location"].waitForExistence(timeout: 5)
+        )
         app.buttons["accept-daily-encounter"].tap()
 
         XCTAssertTrue(app.navigationBars["奇遇研墨"].waitForExistence(timeout: 5))
