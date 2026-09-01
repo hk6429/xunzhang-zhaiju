@@ -125,6 +125,7 @@ function parseSyncEvent(value: unknown): SyncEventInput {
 const syncEventKinds = new Set([
   "progressUpdated", "levelCompleted", "quizAnswered", "quickChallengeCompleted",
   "inkSpent", "restTaken", "worldEventChosen", "dailyEncounterChosen", "guestProgressClaimed",
+  "hiddenEndingAnswered",
 ]);
 
 const snapshotKeys = new Set([

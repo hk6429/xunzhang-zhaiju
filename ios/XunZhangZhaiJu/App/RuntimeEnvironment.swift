@@ -45,6 +45,14 @@ enum RuntimeEnvironment {
 #endif
     }
 
+    static var forcesTrueEndingReady: Bool {
+#if DEBUG
+        ProcessInfo.processInfo.environment["UI_TEST_TRUE_ENDING_READY"] == "1"
+#else
+        false
+#endif
+    }
+
     private static var uiTestStorageIdentifier: String? {
 #if DEBUG
         guard let raw = ProcessInfo.processInfo.environment["UI_TEST_STORAGE_ID"] else { return nil }

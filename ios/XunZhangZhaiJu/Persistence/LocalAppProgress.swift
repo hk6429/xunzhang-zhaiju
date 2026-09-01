@@ -107,17 +107,29 @@ struct LocalTreasureProgress: Codable, Equatable {
     var complete: Bool
 }
 
+enum HiddenEndingChoice: String, Codable, Equatable {
+    case people
+    case single
+}
+
+struct LocalHiddenEnding: Codable, Equatable {
+    var choice: HiddenEndingChoice
+    var answeredAt: Int64
+}
+
 struct LocalWorldProgress: Codable, Equatable {
     var eventsSeen: [String]
     var loreUnlocked: [String]
     var treasures: [String: LocalTreasureProgress]
     var effects: [String: Int]
+    var hiddenEnding: LocalHiddenEnding?
 
     static let fresh = LocalWorldProgress(
         eventsSeen: [],
         loreUnlocked: [],
         treasures: [:],
-        effects: [:]
+        effects: [:],
+        hiddenEnding: nil
     )
 }
 

@@ -38,7 +38,7 @@ final class AppContainer: ObservableObject {
             let stored = try repository.snapshot(namespace: namespace)
             let guestNamespace = "guest:\(deviceID)"
             let guestStored = try repository.snapshot(namespace: guestNamespace)
-            let progress = try stored.map { try initialDecoder.decode(LocalAppProgress.self, from: $0.payload) }
+            var progress = try stored.map { try initialDecoder.decode(LocalAppProgress.self, from: $0.payload) }
                 ?? guestStored.map { try initialDecoder.decode(LocalAppProgress.self, from: $0.payload) }
                 ?? .fresh
             if stored == nil, validSession != nil, guestStored != nil {
@@ -63,6 +63,12 @@ final class AppContainer: ObservableObject {
                         syncedAt: nil
                     )
                 ))
+            }
+            if RuntimeEnvironment.forcesTrueEndingReady {
+                progress = WorldProgressEngine().preparingTrueEndingRequirements(
+                    from: loadedContent.story,
+                    in: progress
+                )
             }
             let loadedPractices = try repository.practices(namespace: namespace)
 
@@ -427,6 +433,17 @@ final class AppContainer: ObservableObject {
         guard next != progress else { return 0 }
         try persist(next, kind: "dailyEncounterChosen")
         return WorldProgressEngine().studyQuestionCount(for: [encounter.effect])
+    }
+
+    func recordHiddenEnding(_ choice: HiddenEndingChoice) throws {
+        let milliseconds = Int64((Date().timeIntervalSince1970 * 1_000).rounded())
+        let next = WorldProgressEngine().recordingHiddenEnding(
+            choice: choice,
+            answeredAt: milliseconds,
+            in: progress
+        )
+        guard next != progress else { return }
+        try persist(next, kind: "hiddenEndingAnswered")
     }
 
     private func activate(_ session: BackendSession) throws {

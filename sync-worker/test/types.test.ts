@@ -28,4 +28,25 @@ describe("sync contract parser", () => {
     expect(() => parseProgressSnapshot({ ...snapshot, collection: ["p1", "p1"] })).toThrow(/collection/u);
     expect(() => parseProgressSnapshot({ ...snapshot, collection: ["x".repeat(129)] })).toThrow(/collection/u);
   });
+
+  it("accepts the hidden ending event and its world payload", () => {
+    const endingSnapshot = {
+      ...snapshot,
+      world: { hiddenEnding: { choice: "people", answeredAt: 1_788_192_000_000 } },
+    };
+    expect(() => parseSyncRequest({
+      deviceId: "device-12345678",
+      baseRevision: 0,
+      schemaVersion: 1,
+      snapshot: endingSnapshot,
+      events: [{
+        id: "event-12345678",
+        sequence: 1,
+        kind: "hiddenEndingAnswered",
+        inkDelta: 0,
+        payload: endingSnapshot,
+        occurredAt: "2026-09-01T00:00:00Z",
+      }],
+    })).not.toThrow();
+  });
 });

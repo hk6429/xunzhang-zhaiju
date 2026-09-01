@@ -40,7 +40,7 @@ xcodebuild -project ios/XunZhangZhaiJu.xcodeproj \
 
 真機簽章與 TestFlight 需先完成 Apple Developer Program 申請；開發階段可直接使用 Simulator。
 
-目前自動驗證包含 62 項單元測試，以及 iPhone 7 項、iPad 8 項適用 UI 測試。UI 測試涵蓋原生封神山河分支地圖、遊戲守護神任務卡與學習目標、關卡與今日奇遇研墨答題、法寶閣、最大字級、iPad 旋轉、系統無障礙稽核，以及終止 App 後強制離線重開的 SQLite 進度保存。交叉題可從字格或線索直接選題，並把輸入焦點移到答案欄；尋句與研墨答對／答錯會提供原生觸覺回饋。事件研讀獎勵會依錯題到期、錯題簿、收藏順序組題，事件彈窗期間會暫停關卡倒數；五件封神法寶使用 Asset Catalog 向量圖顯示碎片、完整狀態與能力。測試用儲存區、離線與無障礙開關只在 Debug 編譯中生效；Release Archive 不會保留 `UI_TEST_*` 行為。
+目前自動驗證包含 65 項單元測試，以及 iPhone 8 項、iPad 9 項適用 UI 測試。UI 測試涵蓋原生封神山河分支地圖、遊戲守護神任務卡與學習目標、關卡與今日奇遇研墨答題、法寶閣、隱藏真結局、最大字級、iPad 旋轉、系統無障礙稽核，以及終止 App 後強制離線重開的 SQLite 進度保存。交叉題可從字格或線索直接選題，並把輸入焦點移到答案欄；尋句與研墨答對／答錯會提供原生觸覺回饋。事件研讀獎勵會依錯題到期、錯題簿、收藏順序組題，事件彈窗期間會暫停關卡倒數；五件封神法寶使用 Asset Catalog 向量圖顯示碎片、完整狀態與能力。完成第 50 關、五場 Boss 二星、五段故事與五件完整法寶後，會開啟隱藏問答；選擇與真結局狀態可離線保存並跨 Web／iPhone／iPad 合併。測試用儲存區、離線與無障礙開關只在 Debug 編譯中生效；Release Archive 不會保留 `UI_TEST_*` 行為。
 
 GitHub Actions 的 `Quality` workflow 會在乾淨的 macOS 15／Xcode 16.4 runner 動態選取 iPhone 與 iPad Simulator，重跑測試並建立未簽署 Release Archive。11 吋 iPad 直向時若系統收合側邊欄，UI 測試會實際開啟側邊欄後操作，不假設寬螢幕導覽永遠可見。
 

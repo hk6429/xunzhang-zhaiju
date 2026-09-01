@@ -115,6 +115,46 @@ final class LaunchTests: XCTestCase {
     }
 
     @MainActor
+    func testHiddenEndingAnswerPersistsAfterRelaunch() throws {
+        let app = isolatedApp()
+        app.launchEnvironment["UI_TEST_TRUE_ENDING_READY"] = "1"
+        app.launch()
+
+        let openEnding = app.buttons["open-hidden-ending"]
+        for _ in 0..<5 where !openEnding.isHittable {
+            app.swipeUp()
+        }
+        XCTAssertTrue(openEnding.waitForExistence(timeout: 5))
+        XCTAssertTrue(openEnding.isHittable)
+        openEnding.tap()
+
+        XCTAssertTrue(app.navigationBars["天書失落之頁"].waitForExistence(timeout: 5))
+        let endingQuestion = app.staticTexts.matching(
+            NSPredicate(format: "label CONTAINS %@", "文字的力量")
+        ).firstMatch
+        XCTAssertTrue(endingQuestion.waitForExistence(timeout: 5))
+        if #available(iOS 17.0, *) {
+            try app.performAccessibilityAudit(for: [
+                .hitRegion,
+                .sufficientElementDescription,
+                .textClipped,
+                .trait,
+            ])
+        }
+        app.buttons["choose-people-ending"].tap()
+        XCTAssertTrue(app.descendants(matching: .any)["true-ending-completed"].waitForExistence(timeout: 5))
+
+        app.terminate()
+        app.launch()
+        let completed = app.descendants(matching: .any)["true-ending-completed"]
+        for _ in 0..<5 where !completed.isHittable {
+            app.swipeUp()
+        }
+        XCTAssertTrue(completed.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["人間真言"].waitForExistence(timeout: 5))
+    }
+
+    @MainActor
     func testAccessibilityTextStillReachesCoreNavigation() throws {
         let app = XCUIApplication()
         app.launchEnvironment["UI_TEST_ACCESSIBILITY_TEXT"] = "1"

@@ -11,6 +11,7 @@
 | 圈首字／閃現／揭示與墨水成本 | `HintEngine`、`GameViewModel` | `LearningEnginesTests`、`NativeParityTests` |
 | 星等、最佳成績、續玩、休息提醒 | `AppContainer`、`LocalLevelStats`、`ProfileView` | `GameViewModelTests`、`DailyProgressEngineTests` |
 | 十章地圖與世界事件 | `JourneyView`、`WorldProgressEngine`；事件研讀獎勵直接開啟原生研墨題，事件彈窗暫停倒數 | 效果冪等、研讀題數與倒數暫停單元測試；iPhone／iPad 今日奇遇答題 UI＋系統無障礙稽核 |
+| 功名進度、普通結局與隱藏真結局 | `JourneyView`、`WorldProgressEngine`；依第 50 關、五場 Boss 二星、五段故事與五件完整法寶判定，隱藏問答結果可離線保存並跨端同步 | 結局條件、法寶完整性與新舊答案合併單元測試；iPhone／iPad 作答、無障礙稽核及終止後重開 UI test |
 | 每日三帖、快陣、連續修煉、補簽 | `DailyView`、`DailyProgressEngine` | `DailyProgressEngineTests` |
 | 錯題本、間隔複習、精熟 | `CollectionView`、`DailyProgressEngine` | `DailyProgressEngineTests` |
 | 圖鑑搜尋、文體／朝代篩選 | `CollectionView`、`CollectionEngine` | `LearningEnginesTests`、UI tests |

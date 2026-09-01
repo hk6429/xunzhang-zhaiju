@@ -58,3 +58,27 @@ test('cloud ink is authoritative so concurrent spending cannot resurrect ink', a
 
   assert.equal(mergeCloudSnapshotIntoSave(local, cloud).ink, 3);
 });
+
+test('hidden ending answer crosses web and native sync without losing the newer choice', async () => {
+  const { mergeCloudSnapshotIntoSave, toSyncSnapshot } = await import('../js/cloud-sync.js');
+  const snapshot = toSyncSnapshot({
+    v: 1,
+    levels: {},
+    ink: 3,
+    collection: [],
+    retention: {},
+    world: { hiddenEnding: { choice: 'people', answeredAt: 200 } },
+  });
+  assert.deepEqual(snapshot.world.hiddenEnding, { choice: 'people', answeredAt: 200 });
+
+  const local = {
+    v: 1,
+    levels: {},
+    ink: 3,
+    collection: [],
+    retention: {},
+    world: { hiddenEnding: { choice: 'single', answeredAt: 100 } },
+  };
+  const merged = mergeCloudSnapshotIntoSave(local, snapshot);
+  assert.deepEqual(merged.world.hiddenEnding, { choice: 'people', answeredAt: 200 });
+});

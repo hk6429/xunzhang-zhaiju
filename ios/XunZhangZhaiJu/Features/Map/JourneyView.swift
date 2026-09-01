@@ -3,6 +3,7 @@ import SwiftUI
 struct JourneyView: View {
     @EnvironmentObject private var container: AppContainer
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @State private var presentsHiddenEnding = false
 
     var body: some View {
         Group {
@@ -13,6 +14,7 @@ struct JourneyView: View {
                         VStack(spacing: 28) {
                             mapIntroduction
                             mountainMap(content: content)
+                            endingSection(content: content)
                             literaryVolume(content: content)
                         }
                         .padding()
@@ -34,6 +36,12 @@ struct JourneyView: View {
             }
         }
         .navigationTitle("修煉山河")
+        .sheet(isPresented: $presentsHiddenEnding) {
+            if let story = container.content?.story {
+                HiddenEndingQuestionView(story: story)
+                    .environmentObject(container)
+            }
+        }
     }
 
     private var levelColumns: [GridItem] {
@@ -103,6 +111,73 @@ struct JourneyView: View {
                     }
                 }
             }
+        }
+    }
+
+    @ViewBuilder
+    private func endingSection(content: AppContent) -> some View {
+        let state = WorldProgressEngine().endingState(for: container.progress, story: content.story)
+        if state.normalUnlocked {
+            VStack(alignment: .leading, spacing: 12) {
+                Label(
+                    state.hiddenLevelCompleted ? "真結局" : "第一卷結局",
+                    systemImage: state.hiddenLevelCompleted ? "sparkles" : "scroll.fill"
+                )
+                .font(.caption.bold())
+                .foregroundStyle(AppTheme.accent)
+
+                Text(state.hiddenLevelCompleted ? content.story.endings.true.title : content.story.endings.normal.title)
+                    .font(.title2.bold())
+                    .foregroundStyle(AppTheme.primaryText)
+                Text(state.hiddenLevelCompleted ? content.story.endings.true.summary : content.story.endings.normal.summary)
+                    .foregroundStyle(AppTheme.secondaryText)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                if state.hiddenLevelCompleted {
+                    Label("天書已珍藏，文字的力量回到每個使用它的人手中。", systemImage: "checkmark.seal.fill")
+                        .foregroundStyle(AppTheme.primaryText)
+                        .accessibilityIdentifier("true-ending-completed")
+                } else if state.hiddenLevelUnlocked {
+                    Button {
+                        presentsHiddenEnding = true
+                    } label: {
+                        Label(content.story.hiddenLevel.title, systemImage: "book.pages.fill")
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .accessibilityIdentifier("open-hidden-ending")
+                    .accessibilityHint("開啟空白天書的最後一問")
+                } else {
+                    Text("真結局尚待完成")
+                        .font(.headline)
+                        .foregroundStyle(AppTheme.primaryText)
+                    ForEach(Array(state.missingForTrue.enumerated()), id: \.offset) { _, gap in
+                        Label(endingGapLabel(gap, story: content.story), systemImage: "circle")
+                            .font(.subheadline)
+                            .foregroundStyle(AppTheme.secondaryText)
+                    }
+                }
+            }
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(AppTheme.surface, in: RoundedRectangle(cornerRadius: 20))
+            .overlay {
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(AppTheme.accent, lineWidth: 2)
+            }
+        }
+    }
+
+    private func endingGapLabel(_ gap: EndingRequirementGap, story: StoryLore) -> String {
+        switch gap {
+        case let .completedLevels(ids):
+            return "完成第 \(ids.map(String.init).joined(separator: "、")) 關"
+        case let .bossStars(ids, minimum):
+            return "第 \(ids.map(String.init).joined(separator: "、")) 關各取得 \(minimum) 星"
+        case let .events(ids):
+            return "走完尚缺的 \(ids.count) 段山河奇遇"
+        case let .treasures(ids):
+            let names = ids.map { id in story.treasures.first { $0.id == id }?.name ?? id }
+            return "集齊：\(names.joined(separator: "、"))"
         }
     }
 
@@ -177,6 +252,61 @@ struct JourneyView: View {
             RoundedRectangle(cornerRadius: 18)
                 .stroke(unlocked ? AppTheme.accent : AppTheme.secondaryText)
         }
+    }
+}
+
+private struct HiddenEndingQuestionView: View {
+    @EnvironmentObject private var container: AppContainer
+    @Environment(\.dismiss) private var dismiss
+    let story: StoryLore
+    @State private var errorMessage = ""
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 18) {
+                    Label("隱藏一頁", systemImage: "sparkles.rectangle.stack")
+                        .font(.headline)
+                        .foregroundStyle(AppTheme.accent)
+                    Text(story.hiddenLevel.title)
+                        .font(.largeTitle.bold())
+                        .foregroundStyle(AppTheme.primaryText)
+                    Text("五段故事與五件法寶在空白天書上化為最後一問：文字的力量，來自唯一的標準答案，還是來自人們願意理解並使用它？")
+                        .font(.title3)
+                        .foregroundStyle(AppTheme.primaryText)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    Button("來自人們理解與使用") {
+                        do {
+                            try container.recordHiddenEnding(.people)
+                            dismiss()
+                        } catch {
+                            errorMessage = error.localizedDescription
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .accessibilityIdentifier("choose-people-ending")
+
+                    Button("只來自唯一答案") { dismiss() }
+                        .buttonStyle(.bordered)
+                        .accessibilityIdentifier("choose-single-ending")
+
+                    if !errorMessage.isEmpty {
+                        Text(errorMessage)
+                            .foregroundStyle(Color.orange)
+                    }
+                }
+                .padding()
+            }
+            .background(AppTheme.background)
+            .navigationTitle("天書失落之頁")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("稍後再答") { dismiss() }
+                }
+            }
+        }
+        .accessibilityIdentifier("hidden-ending-question")
     }
 }
 

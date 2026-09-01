@@ -62,4 +62,17 @@ final class LocalProgressMergeEngineTests: XCTestCase {
         XCTAssertEqual(merged.wrongBook, [])
         XCTAssertTrue(merged.mastery?["p1"]?.mastered == true)
     }
+
+    func testMergeKeepsTheLatestHiddenEndingAnswer() {
+        var left = LocalAppProgress.fresh
+        left.world = .fresh
+        left.world?.hiddenEnding = LocalHiddenEnding(choice: .single, answeredAt: 100)
+        var right = LocalAppProgress.fresh
+        right.world = .fresh
+        right.world?.hiddenEnding = LocalHiddenEnding(choice: .people, answeredAt: 200)
+
+        let merged = LocalProgressMergeEngine.merge(left, right)
+
+        XCTAssertEqual(merged.world?.hiddenEnding, LocalHiddenEnding(choice: .people, answeredAt: 200))
+    }
 }

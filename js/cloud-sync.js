@@ -284,6 +284,7 @@ function toWorld(world = {}, treasures = {}) {
     loreUnlocked: uniqueStrings(world.loreUnlocked),
     treasures: mappedTreasures,
     effects: numericMap(world.bonuses),
+    hiddenEnding: normalizeHiddenEnding(world.hiddenEnding),
   };
 }
 
@@ -342,12 +343,26 @@ function fromWorld(current = {}, retention, cloud) {
       sources: union(retention.treasures[id]?.sources, item?.sources),
     };
   }
+  const localEnding = normalizeHiddenEnding(current.hiddenEnding);
+  const cloudEnding = normalizeHiddenEnding(cloud.hiddenEnding);
+  const hiddenEnding = !localEnding || (cloudEnding?.answeredAt || 0) >= localEnding.answeredAt
+    ? cloudEnding
+    : localEnding;
   return {
     ...current,
     eventsSeen: union(current.eventsSeen, cloud.eventsSeen),
     loreUnlocked: union(current.loreUnlocked, cloud.loreUnlocked),
     treasures: union(current.treasures, Object.entries(cloud.treasures || {}).filter(([, item]) => item?.complete).map(([id]) => id)),
     bonuses: { ...(current.bonuses || {}), ...numericMap(cloud.effects) },
+    hiddenEnding,
+  };
+}
+
+function normalizeHiddenEnding(value) {
+  if (!value || typeof value !== 'object' || !['people', 'single'].includes(value.choice)) return null;
+  return {
+    choice: value.choice,
+    answeredAt: nonnegativeInteger(value.answeredAt, 0),
   };
 }
 

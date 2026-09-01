@@ -126,8 +126,18 @@ enum LocalProgressMergeEngine {
             eventsSeen: union(left.eventsSeen, right.eventsSeen),
             loreUnlocked: union(left.loreUnlocked, right.loreUnlocked),
             treasures: treasures,
-            effects: effects
+            effects: effects,
+            hiddenEnding: later(left.hiddenEnding, right.hiddenEnding)
         )
+    }
+
+    private static func later(
+        _ left: LocalHiddenEnding?,
+        _ right: LocalHiddenEnding?
+    ) -> LocalHiddenEnding? {
+        guard let left else { return right }
+        guard let right else { return left }
+        return left.answeredAt > right.answeredAt ? left : right
     }
 
     private static func better(_ left: LocalQuickChallengeBest?, _ right: LocalQuickChallengeBest?) -> LocalQuickChallengeBest? {
