@@ -26,6 +26,7 @@ struct GameView: View {
     ) {
         let mode = PlayMode(rawValue: UserDefaults.standard.string(forKey: "play-mode") ?? "") ?? .standard
         let eventSeen = event.map { container.progress.world?.eventsSeen.contains($0.id) == true } ?? true
+        let passiveBonuses = TreasurePassiveEngine().bonuses(in: container.progress)
         let previewsEventEffects = event != nil && container.content.map {
             TreasureAbilityEngine().canPreviewEventChoices(
                 dateKey: TaiwanDate.dateKey(),
@@ -63,6 +64,7 @@ struct GameView: View {
             initialInk: container.progress.ink,
             playMode: mode,
             savedRun: container.progress.activeRun,
+            passiveBonuses: passiveBonuses,
             persist: { try container.persist(gameState: $0) },
             spendInk: { try container.spendInk(for: $0) }
         ))
@@ -143,6 +145,7 @@ struct GameView: View {
             GameLearningQuizView(
                 questions: quizQuestions,
                 startingInk: model.ink,
+                extraChoiceSecondChances: model.passiveBonuses.secondChances,
                 submit: { question, correct in
                     let earned = try recordQuiz(question, correct)
                     model.refreshInk(model.ink + earned)
@@ -172,18 +175,25 @@ struct GameView: View {
     }
 
     private var progressHeader: some View {
-        HStack {
-            Label(
-                "\(model.state.foundPhraseIDs.count) / \(model.state.targetPhraseIDs.count)",
-                systemImage: "seal"
-            )
-            Spacer()
-            if let remaining = model.state.remainingMilliseconds {
-                Label(format(milliseconds: remaining), systemImage: "hourglass")
-                    .monospacedDigit()
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Label(
+                    "\(model.state.foundPhraseIDs.count) / \(model.state.targetPhraseIDs.count)",
+                    systemImage: "seal"
+                )
+                Spacer()
+                if let remaining = model.state.remainingMilliseconds {
+                    Label(format(milliseconds: remaining), systemImage: "hourglass")
+                        .monospacedDigit()
+                    Spacer()
+                }
+                Label("失誤 \(model.state.mistakes)", systemImage: "exclamationmark.circle")
             }
-            Spacer()
-            Label("失誤 \(model.state.mistakes)", systemImage: "exclamationmark.circle")
+            if model.comboIsActive {
+                Label("\(model.comboCount) 連擊", systemImage: "bolt.fill")
+                    .foregroundStyle(AppTheme.accent)
+                    .accessibilityIdentifier("game-combo")
+            }
         }
         .font(.headline)
         .foregroundStyle(AppTheme.secondaryText)
@@ -350,7 +360,16 @@ struct GameView: View {
 
     private func clueLabel(item: (target: LevelTarget, phrase: Phrase), found: Bool) -> some View {
         let selected = model.selectedCrossPhraseID == item.phrase.id
-        return Text(found ? "✓ \(item.phrase.text)" : "• \(item.phrase.clues[item.target.clueIndex].text)")
+        return VStack(alignment: .leading, spacing: 5) {
+            if found {
+                Text("✓ \(item.phrase.text)")
+            } else {
+                ForEach(Array(model.clueTexts(for: item).enumerated()), id: \.offset) { index, clue in
+                    Text(index == 0 ? "• \(clue)" : "法寶線索：\(clue)")
+                        .font(index == 0 ? .body : .caption)
+                }
+            }
+        }
             .foregroundStyle(found ? AppTheme.accent : AppTheme.primaryText)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(12)
@@ -411,10 +430,13 @@ struct GameLearningQuizView: View {
     @State private var answered = false
     @State private var earnedInk = 0
     @State private var currentInk: Int
+    @State private var disabledChoiceOptions: Set<String> = []
+    @State private var choiceSecondChancesUsed = 0
 
     let questions: [LearningQuestion]
     let title: String
     let returnLabel: String
+    let extraChoiceSecondChances: Int
     let submit: (LearningQuestion, Bool) throws -> Int
 
     init(
@@ -422,11 +444,13 @@ struct GameLearningQuizView: View {
         startingInk: Int,
         title: String = "研墨檯",
         returnLabel: String = "返回字陣",
+        extraChoiceSecondChances: Int = 0,
         submit: @escaping (LearningQuestion, Bool) throws -> Int
     ) {
         self.questions = questions
         self.title = title
         self.returnLabel = returnLabel
+        self.extraChoiceSecondChances = max(0, extraChoiceSecondChances)
         self.submit = submit
         _currentInk = State(initialValue: startingInk)
     }
@@ -498,7 +522,7 @@ struct GameLearningQuizView: View {
                     }
                     .buttonStyle(.bordered)
                     .frame(maxWidth: .infinity)
-                    .disabled(answered)
+                    .disabled(answered || disabledChoiceOptions.contains(option))
                 }
             } else {
                 TextField("輸入缺少的字", text: $fillAnswer)
@@ -535,6 +559,8 @@ struct GameLearningQuizView: View {
                     fillAnswer = ""
                     feedback = ""
                     answered = false
+                    disabledChoiceOptions = []
+                    choiceSecondChancesUsed = 0
                     if questions.indices.contains(index), questions[index].kind == .fill {
                         fillFocused = true
                     }
@@ -568,6 +594,23 @@ struct GameLearningQuizView: View {
     private func answer(_ value: String, question: LearningQuestion) {
         guard !answered else { return }
         let correct = value.trimmingCharacters(in: .whitespacesAndNewlines) == question.answer
+        if !correct, question.kind == .choice {
+            let decision = TreasurePassiveEngine().choiceSecondChanceDecision(
+                given: value,
+                answer: question.answer,
+                options: question.options,
+                usedChances: choiceSecondChancesUsed,
+                extraChances: extraChoiceSecondChances,
+                disabledOptions: disabledChoiceOptions
+            )
+            choiceSecondChancesUsed = decision.usedChances
+            disabledChoiceOptions = decision.disabledOptions
+            guard decision.shouldFinalize else {
+                feedback = "先別急，我幫你刪去錯項；重新對照語意再答一次。"
+                NativeGameFeedback.error()
+                return
+            }
+        }
         do {
             let gained = try submit(question, correct)
             earnedInk += gained

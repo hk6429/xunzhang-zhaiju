@@ -41,6 +41,10 @@ final class AppContainer: ObservableObject {
             var progress = try stored.map { try initialDecoder.decode(LocalAppProgress.self, from: $0.payload) }
                 ?? guestStored.map { try initialDecoder.decode(LocalAppProgress.self, from: $0.payload) }
                 ?? .fresh
+            progress = TreasurePassiveEngine().reconcilingCompletedLevels(
+                loadedContent.levels,
+                in: progress
+            )
             if stored == nil, validSession != nil, guestStored != nil {
                 let now = Date()
                 let sequence = try repository.nextSequence(namespace: namespace, deviceID: deviceID)
@@ -191,11 +195,14 @@ final class AppContainer: ObservableObject {
                 baseURL: baseURL
             )
             guard self.namespace == namespace else { return }
-            let merged = LocalProgressMergeEngine.merge(
+            let mergedProgress = LocalProgressMergeEngine.merge(
                 response.snapshot,
                 progress,
                 authoritativeInk: response.snapshot.ink
             )
+            let merged = content.map {
+                TreasurePassiveEngine().reconcilingCompletedLevels($0.levels, in: mergedProgress)
+            } ?? mergedProgress
             let now = Date()
             try repository.applyRemoteSnapshot(
                 namespace: namespace,
@@ -236,7 +243,9 @@ final class AppContainer: ObservableObject {
         namespace = guestNamespace
         if let stored = try? repository.snapshot(namespace: guestNamespace),
            let decoded = try? decoder.decode(LocalAppProgress.self, from: stored.payload) {
-            progress = decoded
+            progress = content.map {
+                TreasurePassiveEngine().reconcilingCompletedLevels($0.levels, in: decoded)
+            } ?? decoded
         } else {
             progress = .fresh
         }
@@ -340,6 +349,13 @@ final class AppContainer: ObservableObject {
             if let reward = gameState.treasureReward {
                 next = WorldProgressEngine().grantingLevelTreasure(
                     reward,
+                    levelID: gameState.levelID,
+                    to: next
+                )
+            }
+            if let chapter = content?.levels.first(where: { $0.id == gameState.levelID })?.chapter {
+                next = TreasurePassiveEngine().grantingChapterFragment(
+                    chapter: chapter,
                     levelID: gameState.levelID,
                     to: next
                 )
@@ -462,7 +478,10 @@ final class AppContainer: ObservableObject {
         let userNamespace = "user:\(session.userID)"
         let stored = try repository.snapshot(namespace: userNamespace)
         let userProgress = try stored.map { try decoder.decode(LocalAppProgress.self, from: $0.payload) }
-        let merged = userProgress.map { LocalProgressMergeEngine.merge($0, progress) } ?? progress
+        let mergedProgress = userProgress.map { LocalProgressMergeEngine.merge($0, progress) } ?? progress
+        let merged = content.map {
+            TreasurePassiveEngine().reconcilingCompletedLevels($0.levels, in: mergedProgress)
+        } ?? mergedProgress
         namespace = userNamespace
         backendSession = session
 

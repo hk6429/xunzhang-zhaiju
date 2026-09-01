@@ -14,7 +14,7 @@ struct DailyPracticeView: View {
         questions = LearningQuizEngine().buildQuestions(
             phrases: phrases,
             targetPhraseIDs: phraseIDs,
-            count: 5,
+            count: phraseIDs.count,
             randomValues: Array(repeating: 0.37, count: 40)
         )
     }

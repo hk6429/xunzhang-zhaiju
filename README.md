@@ -10,13 +10,13 @@
 
 - SwiftUI，最低 iOS／iPadOS 16，支援 iPhone 與 iPad。
 - 409 條語料、100 關、10 章完整收錄於 App bundle，核心玩法可完全離線使用。
-- 具備三種模式、倒數與提示、每日任務、快陣、錯題複習、圖鑑、法寶、世界事件、隱藏真結局及休息提醒。
+- 具備三種模式、倒數與提示、每日任務、快陣、錯題複習、圖鑑、五件故事法寶、十章被動法寶、世界事件、隱藏真結局及休息提醒。
 - 訪客可直接遊玩；Apple／Google 登入後，透過 Cloudflare Worker + Turso 同步 Web、iPhone、iPad 進度。
 - 個人例句只保存在裝置上，不加入同步 outbox。
 
 iOS 開發與測試方式見 [`ios/README.md`](ios/README.md)，同步服務見 [`sync-worker/README.md`](sync-worker/README.md)，正式／staging 部署證據見 [`docs/deployment/production.md`](docs/deployment/production.md)。上架前資料集中於 [`docs/app-store/`](docs/app-store/)（商店文案、年齡分級、隱私、加密合規、TestFlight 與發布檢查表）。
 
-每次推送與 pull request 都會執行 GitHub Actions `Quality`：驗證 Web 內容與 114 項契約、Worker typecheck／測試／dry-run、iPhone／iPad UI、App Store 素材，以及未簽署 Release Archive 的版本、圖示、隱私清單與 Debug 開關隔離。
+每次推送與 pull request 都會執行 GitHub Actions `Quality`：驗證 Web 內容與 115 項契約、Worker typecheck／測試／dry-run、82 項 Swift 單元測試、iPhone／iPad UI、App Store 素材，以及未簽署 Release Archive 的版本、圖示、隱私清單與 Debug 開關隔離。
 
 ## 玩法
 

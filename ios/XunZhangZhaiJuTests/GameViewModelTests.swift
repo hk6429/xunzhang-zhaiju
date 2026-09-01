@@ -68,6 +68,76 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertEqual(model.modeConfiguration.hintCap, max(0, level.hintCap - 1))
     }
 
+    func testCompletedTimePassivesExtendTheNativeCountdown() throws {
+        let content = try ContentLoader().load()
+        let level = try XCTUnwrap(content.levels.first { $0.timeLimit != nil })
+        let bonuses = TreasurePassiveBonuses(extraTimeSeconds: 35)
+
+        let model = GameViewModel(
+            level: level,
+            phrases: content.phrases,
+            initialCollection: [],
+            passiveBonuses: bonuses,
+            persist: { _ in }
+        )
+
+        XCTAssertEqual(model.modeConfiguration.timeLimit, level.timeLimit! + 35)
+        XCTAssertEqual(model.state.initialTimeLimitMilliseconds, (level.timeLimit! + 35) * 1_000)
+    }
+
+    func testCluePassivesExposeAdditionalDistinctClues() throws {
+        let content = try ContentLoader().load()
+        let level = try XCTUnwrap(content.levels.first)
+        let model = GameViewModel(
+            level: level,
+            phrases: content.phrases,
+            initialCollection: [],
+            passiveBonuses: TreasurePassiveBonuses(extraClues: 2),
+            persist: { _ in }
+        )
+        let item = try XCTUnwrap(model.targets.first)
+
+        let clues = model.clueTexts(for: item)
+
+        XCTAssertEqual(clues.count, 3)
+        XCTAssertEqual(Set(clues).count, 3)
+    }
+
+    func testComboPassivesLowerTheMilestoneAndExpireAfterTwelveSeconds() throws {
+        let content = try ContentLoader().load()
+        let level = try XCTUnwrap(content.levels.first { $0.targets.count >= 2 })
+        var now: Int64 = 1_000
+        let model = GameViewModel(
+            level: level,
+            phrases: content.phrases,
+            initialCollection: [],
+            passiveBonuses: TreasurePassiveBonuses(comboThresholdReduction: 2),
+            persist: { _ in },
+            nowMilliseconds: { now }
+        )
+
+        for item in model.targets.prefix(2) {
+            let path = try XCTUnwrap(NativeParityRules.targetPath(
+                start: item.target.start,
+                direction: item.target.direction,
+                length: item.phrase.text.count,
+                size: level.size
+            ))
+            model.select(path: path)
+            model.dismissKnowledge()
+            now += 4_000
+        }
+
+        XCTAssertEqual(model.comboThreshold, 2)
+        XCTAssertEqual(model.comboCount, 2)
+        XCTAssertTrue(model.comboIsActive)
+
+        now += 13_000
+        model.tick(milliseconds: 0)
+        XCTAssertEqual(model.comboCount, 0)
+        XCTAssertFalse(model.comboIsActive)
+    }
+
     func testHintSpendsInkPersistsAndRevealDoesNotEnterCollection() throws {
         let content = try ContentLoader().load()
         let level = try XCTUnwrap(content.levels.first { $0.hintCap >= 2 })

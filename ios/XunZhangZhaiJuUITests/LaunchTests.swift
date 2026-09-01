@@ -69,6 +69,11 @@ final class LaunchTests: XCTestCase {
         app.buttons["法寶閣"].tap()
         XCTAssertTrue(app.staticTexts["打神鞭"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["集齊後：顯示本章尚未發現的事件節點"].waitForExistence(timeout: 5))
+        let passiveTreasure = app.descendants(matching: .any)["passive-treasure-dashanbian_shard"]
+        for _ in 0..<6 where !passiveTreasure.exists {
+            app.swipeUp()
+        }
+        XCTAssertTrue(passiveTreasure.waitForExistence(timeout: 5))
 
         navigate(to: "我的", in: app)
         XCTAssertTrue(app.staticTexts["遊玩模式"].waitForExistence(timeout: 5))

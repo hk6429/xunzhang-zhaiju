@@ -106,6 +106,8 @@ struct DailyView: View {
                 startingInk: container.progress.ink,
                 title: "奇遇研墨",
                 returnLabel: "返回今日修煉",
+                extraChoiceSecondChances: TreasurePassiveEngine()
+                    .bonuses(in: container.progress).secondChances,
                 submit: { question, correct in
                     let inkBefore = container.progress.ink
                     try container.recordQuiz(

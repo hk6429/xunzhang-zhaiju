@@ -15,7 +15,7 @@
 | 每日三帖、快陣、連續修煉、補簽 | `DailyView`、`DailyProgressEngine` | `DailyProgressEngineTests` |
 | 錯題本、間隔複習、精熟 | `CollectionView`、`DailyProgressEngine` | `DailyProgressEngineTests` |
 | 圖鑑搜尋、文體／朝代篩選 | `CollectionView`、`CollectionEngine` | `LearningEnginesTests`、UI tests |
-| 法寶碎片、事件效果、典藏 | `WorldProgressEngine`、`TreasureAbilityEngine`、`CollectionView`；五件法寶除顯示碎片與完整狀態，也會實際標記事件節點、開啟支線捷徑、每日一次預覽事件效果、指出今日奇遇區域，並作為真結局入口條件 | `WorldProgressEngineTests`、iPhone／iPad 法寶閣與今日奇遇 UI tests |
+| 法寶碎片、事件效果、典藏 | `WorldProgressEngine`、`TreasureAbilityEngine`、`TreasurePassiveEngine`、`CollectionView`；五件故事法寶會標記事件節點、開啟支線捷徑、每日一次預覽事件效果、指出今日奇遇區域，並作為真結局入口條件；十章被動法寶則依完成關卡補發碎片，實際增加倒數、提早連擊、擴充複習名額、增加答錯補救或提供額外線索 | `WorldProgressEngineTests`、`TreasurePassiveEngineTests`、Web／Swift 法寶目錄對等測試、iPhone／iPad 法寶閣與今日奇遇 UI tests |
 | 個人例句／使用情境 | `KnowledgeCardView`、`localPhrasePractice` | `ProgressRepositoryTests.testLocalPracticeStaysOutsideSyncOutbox` |
 | 完整離線訪客模式 | GRDB snapshot／event／outbox | migration、repository、launch UI tests |
 | Apple／Google 登入與雙身分連結 | AuthenticationServices、GoogleSignIn 9.2、Web OAuth、Keychain／HttpOnly cookies | Worker auth tests、Simulator build；正式 token 待 OAuth／Apple Developer 設定 |

@@ -9,13 +9,17 @@ final class GameViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published private(set) var hintCoordinates: Set<GridCoordinate> = []
     @Published private(set) var ink: Int
+    @Published private(set) var comboCount = 0
 
     let level: Level
     let modeConfiguration: ModeConfiguration
     let phrasesByID: [String: Phrase]
+    let passiveBonuses: TreasurePassiveBonuses
     private let persist: (GameState) throws -> Void
     private let spendInk: (HintTier) throws -> Bool
+    private let nowMilliseconds: () -> Int64
     private var hintToken = UUID()
+    private var comboLastFoundAt: Int64?
 
     init(
         level: Level,
@@ -24,22 +28,32 @@ final class GameViewModel: ObservableObject {
         initialInk: Int = 0,
         playMode: PlayMode = .standard,
         savedRun: GameState? = nil,
+        passiveBonuses: TreasurePassiveBonuses = .none,
         persist: @escaping (GameState) throws -> Void,
-        spendInk: @escaping (HintTier) throws -> Bool = { _ in false }
+        spendInk: @escaping (HintTier) throws -> Bool = { _ in false },
+        nowMilliseconds: @escaping () -> Int64 = {
+            Int64(Date().timeIntervalSince1970 * 1_000)
+        }
     ) {
         self.level = level
         let resumedRun = savedRun.flatMap {
             $0.levelID == level.id && $0.phase == .running ? $0 : nil
         }
         let effectiveMode = resumedRun?.mode ?? playMode
-        modeConfiguration = NativeParityRules.modeConfiguration(
+        var configuration = NativeParityRules.modeConfiguration(
             mode: effectiveMode,
             timeLimit: level.timeLimit,
             hintCap: level.hintCap
         )
+        if let timeLimit = configuration.timeLimit {
+            configuration.timeLimit = timeLimit + max(0, passiveBonuses.extraTimeSeconds)
+        }
+        modeConfiguration = configuration
         phrasesByID = Dictionary(uniqueKeysWithValues: phrases.map { ($0.id, $0) })
+        self.passiveBonuses = passiveBonuses
         self.persist = persist
         self.spendInk = spendInk
+        self.nowMilliseconds = nowMilliseconds
         ink = initialInk
         var state: GameState
         if var savedRun = resumedRun {
@@ -64,6 +78,26 @@ final class GameViewModel: ObservableObject {
         level.targets.compactMap { target in
             phrasesByID[target.phraseID].map { (target, $0) }
         }
+    }
+
+    var comboThreshold: Int {
+        max(2, 4 - max(0, passiveBonuses.comboThresholdReduction))
+    }
+
+    var comboIsActive: Bool {
+        comboCount >= comboThreshold
+    }
+
+    func clueTexts(for item: (target: LevelTarget, phrase: Phrase)) -> [String] {
+        let clues = item.phrase.clues
+        guard !clues.isEmpty else { return [] }
+        let primaryIndex = clues.indices.contains(item.target.clueIndex) ? item.target.clueIndex : 0
+        let primary = clues[primaryIndex].text
+        let extras = clues.enumerated()
+            .filter { $0.offset != primaryIndex }
+            .map(\.element.text)
+            .prefix(max(0, passiveBonuses.extraClues))
+        return [primary] + Array(extras)
     }
 
     func select(path: [GridCoordinate]) {
@@ -128,6 +162,10 @@ final class GameViewModel: ObservableObject {
 
     func tick(milliseconds: Int) {
         guard state.phase == .running else { return }
+        if let last = comboLastFoundAt, nowMilliseconds() - last > 12_000 {
+            comboCount = 0
+            comboLastFoundAt = nil
+        }
         let phase = state.phase
         try? GameReducer.reduce(state: &state, action: .tick(milliseconds: milliseconds))
         if phase != state.phase { try? persist(state) }
@@ -199,10 +237,14 @@ final class GameViewModel: ObservableObject {
 
     private func found(_ phrase: Phrase, revealed: Bool) {
         do {
+            let wasFound = state.foundPhraseIDs.contains(phrase.id)
             try GameReducer.reduce(
                 state: &state,
                 action: .foundPhrase(phrase.id, revealed: revealed)
             )
+            if !wasFound, !revealed {
+                recordCombo()
+            }
             try persist(state)
             knowledgePhrase = phrase
             if state.phase == .running {
@@ -212,6 +254,16 @@ final class GameViewModel: ObservableObject {
         } catch {
             errorMessage = error.localizedDescription
         }
+    }
+
+    private func recordCombo() {
+        let now = nowMilliseconds()
+        if let last = comboLastFoundAt, now - last <= 12_000 {
+            comboCount += 1
+        } else {
+            comboCount = 1
+        }
+        comboLastFoundAt = now
     }
 
     private func showHint(_ coordinates: Set<GridCoordinate>) {

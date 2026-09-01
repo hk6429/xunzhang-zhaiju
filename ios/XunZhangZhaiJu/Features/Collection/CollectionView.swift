@@ -131,40 +131,86 @@ struct CollectionView: View {
 
     private var treasurePane: some View {
         ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 155), spacing: 12)], spacing: 12) {
-                ForEach(container.content?.story.treasures ?? []) { treasure in
-                    let progress = container.progress.world?.treasures[treasure.id]
-                    VStack(alignment: .leading, spacing: 9) {
-                        Image(TreasurePresentation.assetName(for: treasure.id))
-                            .resizable()
-                            .scaledToFit()
-                            .frame(maxWidth: .infinity, minHeight: 88, maxHeight: 112)
+            VStack(alignment: .leading, spacing: 18) {
+                Text("封神故事法寶")
+                    .font(.title2.bold())
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 155), spacing: 12)], spacing: 12) {
+                    ForEach(container.content?.story.treasures ?? []) { treasure in
+                        let progress = container.progress.world?.treasures[treasure.id]
+                        VStack(alignment: .leading, spacing: 9) {
+                            Image(TreasurePresentation.assetName(for: treasure.id))
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: .infinity, minHeight: 88, maxHeight: 112)
+                                .accessibilityHidden(true)
+                            Text(treasure.name).font(.headline)
+                            Text(treasure.description)
+                                .font(.caption)
+                                .foregroundStyle(AppTheme.secondaryText)
+                            ProgressView(
+                                value: Double(min(2, progress?.sources.count ?? 0)),
+                                total: 2
+                            )
+                            .tint(AppTheme.accent)
                             .accessibilityHidden(true)
-                        Text(treasure.name).font(.headline)
-                        Text(treasure.description)
+                            Text(progress?.complete == true ? "法寶已完整" : "碎片 \(progress?.sources.count ?? 0) / 2")
+                                .font(.caption.bold())
+                            Label(
+                                (progress?.complete == true ? "已生效：" : "集齊後：")
+                                    + TreasurePresentation.abilityLabel(for: treasure.ability),
+                                systemImage: progress?.complete == true ? "sparkles" : "lock.fill"
+                            )
                             .font(.caption)
-                            .foregroundStyle(AppTheme.secondaryText)
-                        ProgressView(
-                            value: Double(min(2, progress?.sources.count ?? 0)),
-                            total: 2
-                        )
-                        .tint(AppTheme.accent)
-                        .accessibilityHidden(true)
-                        Text(progress?.complete == true ? "法寶已完整" : "碎片 \(progress?.sources.count ?? 0) / 2")
-                            .font(.caption.bold())
-                        Label(
-                            (progress?.complete == true ? "已生效：" : "集齊後：")
-                                + TreasurePresentation.abilityLabel(for: treasure.ability),
-                            systemImage: progress?.complete == true ? "sparkles" : "lock.fill"
-                        )
-                        .font(.caption)
-                        .foregroundStyle(progress?.complete == true ? AppTheme.accent : AppTheme.secondaryText)
+                            .foregroundStyle(progress?.complete == true ? AppTheme.accent : AppTheme.secondaryText)
+                        }
+                        .frame(maxWidth: .infinity, minHeight: 280, alignment: .topLeading)
+                        .padding()
+                        .background(Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
+                        .accessibilityElement(children: .combine)
+                        .accessibilityIdentifier("treasure-\(treasure.id)")
                     }
-                    .frame(maxWidth: .infinity, minHeight: 280, alignment: .topLeading)
-                    .padding()
-                    .background(Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
-                    .accessibilityElement(children: .combine)
-                    .accessibilityIdentifier("treasure-\(treasure.id)")
+                }
+
+                Text("十章修煉法寶")
+                    .font(.title2.bold())
+                    .padding(.top, 4)
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 155), spacing: 12)], spacing: 12) {
+                    ForEach(TreasurePassiveEngine.catalog) { passive in
+                        let progress = container.progress.world?.treasures[passive.id]
+                        let fragmentCount = min(TreasurePassiveEngine.maxFragments, progress?.sources.count ?? 0)
+                        let complete = progress?.complete == true
+                            || fragmentCount >= TreasurePassiveEngine.maxFragments
+                        VStack(alignment: .leading, spacing: 9) {
+                            Image(systemName: passive.symbolName)
+                                .font(.system(size: 46, weight: .bold))
+                                .foregroundStyle(AppTheme.accent)
+                                .frame(maxWidth: .infinity, minHeight: 74)
+                                .accessibilityHidden(true)
+                            Text(passive.name).font(.headline)
+                            Text("第 \(passive.chapter) 章・\(passive.fragmentName)")
+                                .font(.caption)
+                                .foregroundStyle(AppTheme.secondaryText)
+                            ProgressView(
+                                value: Double(fragmentCount),
+                                total: Double(TreasurePassiveEngine.maxFragments)
+                            )
+                            .tint(AppTheme.accent)
+                            .accessibilityHidden(true)
+                            Text(complete ? "法寶已集齊" : "碎片 \(fragmentCount) / \(TreasurePassiveEngine.maxFragments)")
+                                .font(.caption.bold())
+                            Label(
+                                (complete ? "已生效：" : "集齊後：") + passive.description,
+                                systemImage: complete ? "sparkles" : "lock.fill"
+                            )
+                            .font(.caption)
+                            .foregroundStyle(complete ? AppTheme.accent : AppTheme.secondaryText)
+                        }
+                        .frame(maxWidth: .infinity, minHeight: 245, alignment: .topLeading)
+                        .padding()
+                        .background(Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
+                        .accessibilityElement(children: .combine)
+                        .accessibilityIdentifier("passive-treasure-\(passive.id)")
+                    }
                 }
             }
             .padding()
@@ -200,7 +246,9 @@ struct CollectionView: View {
     }
 
     private var reviewPhrases: [Phrase] {
-        dueReviewPhrases.isEmpty ? wrongPhrases : dueReviewPhrases
+        let source = dueReviewPhrases.isEmpty ? wrongPhrases : dueReviewPhrases
+        let limit = TreasurePassiveEngine().reviewLimit(in: container.progress)
+        return Array(source.prefix(limit))
     }
 
     private var typeValues: [String] {
