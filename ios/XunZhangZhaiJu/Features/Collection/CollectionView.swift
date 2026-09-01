@@ -41,6 +41,30 @@ struct CollectionView: View {
             emptyCollection
         } else {
             VStack(spacing: 0) {
+                if dueReviewPhrases.isEmpty {
+                    Label("今日已複習完畢", systemImage: "checkmark.seal.fill")
+                        .foregroundStyle(AppTheme.secondaryText)
+                        .padding(.horizontal)
+                        .padding(.bottom, 10)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .accessibilityIdentifier("spaced-review-complete")
+                } else {
+                    NavigationLink {
+                        DailyPracticeView(
+                            phrases: container.content?.phrases ?? [],
+                            phraseIDs: dueReviewPhrases.map(\.id),
+                            purpose: .spacedReview
+                        )
+                    } label: {
+                        Label("今日待複習 \(dueReviewPhrases.count) 句", systemImage: "arrow.triangle.2.circlepath")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(AppTheme.accent)
+                    .padding(.horizontal)
+                    .padding(.bottom, 10)
+                    .accessibilityIdentifier("spaced-review-button")
+                }
                 HStack {
                     filterMenu("文體", selection: $typeFilter, values: typeValues)
                     filterMenu("朝代", selection: $dynastyFilter, values: dynastyValues)
@@ -106,10 +130,11 @@ struct CollectionView: View {
                 NavigationLink {
                     DailyPracticeView(
                         phrases: container.content?.phrases ?? [],
-                        phraseIDs: reviewPhrases.map(\.id)
+                        phraseIDs: wrongBookReviewPhrases.map(\.id),
+                        purpose: .wrongBook
                     )
                 } label: {
-                    Label("現在複習 \(reviewPhrases.count) 句", systemImage: "arrow.triangle.2.circlepath")
+                    Label("現在複習 \(wrongBookReviewPhrases.count) 句", systemImage: "arrow.triangle.2.circlepath")
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
@@ -239,16 +264,21 @@ struct CollectionView: View {
     }
 
     private var dueReviewPhrases: [Phrase] {
-        let today = TaiwanDate.dateKey()
-        return wrongPhrases.filter {
-            (container.progress.mastery?[$0.id]?.nextReviewDateKey ?? today) <= today
-        }
+        let phrases = container.content?.phrases ?? []
+        let limit = TreasurePassiveEngine().reviewLimit(in: container.progress)
+        let ids = LearningQuizEngine().dueReviewPhraseIDs(
+            phrases: phrases,
+            progress: container.progress,
+            dateKey: TaiwanDate.dateKey(),
+            limit: limit
+        )
+        let byID = Dictionary(uniqueKeysWithValues: phrases.map { ($0.id, $0) })
+        return ids.compactMap { byID[$0] }
     }
 
-    private var reviewPhrases: [Phrase] {
-        let source = dueReviewPhrases.isEmpty ? wrongPhrases : dueReviewPhrases
+    private var wrongBookReviewPhrases: [Phrase] {
         let limit = TreasurePassiveEngine().reviewLimit(in: container.progress)
-        return Array(source.prefix(limit))
+        return Array(wrongPhrases.prefix(limit))
     }
 
     private var typeValues: [String] {

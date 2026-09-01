@@ -14,12 +14,52 @@ struct LearningQuestion: Identifiable, Equatable {
     var options: [String]
 }
 
+enum ReviewSchedule {
+    static func timestamp(_ date: Date) -> String {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime]
+        return formatter.string(from: date)
+    }
+
+    static func isDue(
+        _ mastery: LocalPhraseMastery?,
+        now: Date,
+        dateKey: String
+    ) -> Bool {
+        guard let mastery else { return false }
+        if let value = mastery.nextReviewAt,
+           let due = date(from: value) {
+            return due <= now
+        }
+        guard let legacyDateKey = mastery.nextReviewDateKey else { return false }
+        return legacyDateKey <= dateKey
+    }
+
+    static func later(_ left: String?, _ right: String?) -> String? {
+        guard let left else { return right }
+        guard let right else { return left }
+        guard let leftDate = date(from: left) else { return right }
+        guard let rightDate = date(from: right) else { return left }
+        return leftDate >= rightDate ? left : right
+    }
+
+    private static func date(from value: String) -> Date? {
+        let fractional = ISO8601DateFormatter()
+        fractional.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        if let date = fractional.date(from: value) { return date }
+        let wholeSeconds = ISO8601DateFormatter()
+        wholeSeconds.formatOptions = [.withInternetDateTime]
+        return wholeSeconds.date(from: value)
+    }
+}
+
 struct LearningQuizEngine {
     func buildStudyQuestions(
         phrases: [Phrase],
         progress: LocalAppProgress,
         dateKey: String,
         count: Int,
+        now: Date = Date(),
         randomValues: [Double] = []
     ) -> [LearningQuestion] {
         let knownIDs = Set(phrases.map(\.id))
@@ -32,10 +72,13 @@ struct LearningQuizEngine {
             prioritized.append(id)
         }
 
-        for id in progress.wrongBook ?? [] where (mastery[id]?.nextReviewDateKey ?? dateKey) <= dateKey {
+        for id in progress.wrongBook ?? [] where ReviewSchedule.isDue(mastery[id], now: now, dateKey: dateKey) {
             append(id)
         }
         for id in progress.wrongBook ?? [] { append(id) }
+        for phrase in phrases where ReviewSchedule.isDue(mastery[phrase.id], now: now, dateKey: dateKey) {
+            append(phrase.id)
+        }
         for id in progress.collection { append(id) }
         for phrase in phrases { append(phrase.id) }
 
@@ -45,6 +88,30 @@ struct LearningQuizEngine {
             count: count,
             randomValues: randomValues
         )
+    }
+
+    func dueReviewPhraseIDs(
+        phrases: [Phrase],
+        progress: LocalAppProgress,
+        dateKey: String,
+        now: Date = Date(),
+        limit: Int
+    ) -> [String] {
+        let knownIDs = Set(phrases.map(\.id))
+        let ownedIDs = Set(progress.collection)
+        let mastery = progress.mastery ?? [:]
+        var result: [String] = []
+        var seen = Set<String>()
+
+        func append(_ id: String, requiresDue: Bool) {
+            guard knownIDs.contains(id), ownedIDs.contains(id), seen.insert(id).inserted else { return }
+            if requiresDue, !ReviewSchedule.isDue(mastery[id], now: now, dateKey: dateKey) { return }
+            result.append(id)
+        }
+
+        for id in progress.wrongBook ?? [] { append(id, requiresDue: false) }
+        for id in progress.collection { append(id, requiresDue: true) }
+        return Array(result.prefix(max(0, limit)))
     }
 
     func buildQuestions(

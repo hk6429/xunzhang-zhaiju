@@ -71,7 +71,9 @@ enum LocalProgressMergeEngine {
                 fillCorrect: max(previous.fillCorrect, value.fillCorrect),
                 mastered: previous.mastered || value.mastered,
                 lastAnsweredDateKey: later(previous.lastAnsweredDateKey, value.lastAnsweredDateKey),
-                nextReviewDateKey: later(previous.nextReviewDateKey, value.nextReviewDateKey)
+                nextReviewDateKey: later(previous.nextReviewDateKey, value.nextReviewDateKey),
+                lastAnsweredAt: ReviewSchedule.later(previous.lastAnsweredAt, value.lastAnsweredAt),
+                nextReviewAt: ReviewSchedule.later(previous.nextReviewAt, value.nextReviewAt)
             )
         }
         return result

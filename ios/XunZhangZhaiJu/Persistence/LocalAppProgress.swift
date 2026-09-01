@@ -59,6 +59,8 @@ struct LocalPhraseMastery: Codable, Equatable {
     var mastered: Bool
     var lastAnsweredDateKey: String?
     var nextReviewDateKey: String?
+    var lastAnsweredAt: String? = nil
+    var nextReviewAt: String? = nil
 
     static let fresh = LocalPhraseMastery(
         answered: 0,
@@ -68,7 +70,9 @@ struct LocalPhraseMastery: Codable, Equatable {
         fillCorrect: 0,
         mastered: false,
         lastAnsweredDateKey: nil,
-        nextReviewDateKey: nil
+        nextReviewDateKey: nil,
+        lastAnsweredAt: nil,
+        nextReviewAt: nil
     )
 }
 

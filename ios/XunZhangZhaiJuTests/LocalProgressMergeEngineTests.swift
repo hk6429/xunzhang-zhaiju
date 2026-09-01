@@ -80,6 +80,25 @@ final class LocalProgressMergeEngineTests: XCTestCase {
         XCTAssertTrue(merged.mastery?["p1"]?.mastered == true)
     }
 
+    func testMergeKeepsLaterExactReviewSchedule() {
+        var left = LocalAppProgress.fresh
+        var earlier = LocalPhraseMastery.fresh
+        earlier.lastAnsweredAt = "2026-09-01T03:00:00Z"
+        earlier.nextReviewAt = "2026-09-02T03:00:00.500Z"
+        left.mastery = ["p1": earlier]
+
+        var right = LocalAppProgress.fresh
+        var later = LocalPhraseMastery.fresh
+        later.lastAnsweredAt = "2026-09-01T04:00:00Z"
+        later.nextReviewAt = "2026-09-04T04:00:00Z"
+        right.mastery = ["p1": later]
+
+        let merged = LocalProgressMergeEngine.merge(left, right)
+
+        XCTAssertEqual(merged.mastery?["p1"]?.lastAnsweredAt, later.lastAnsweredAt)
+        XCTAssertEqual(merged.mastery?["p1"]?.nextReviewAt, later.nextReviewAt)
+    }
+
     func testMergeKeepsTheLatestHiddenEndingAnswer() {
         var left = LocalAppProgress.fresh
         left.world = .fresh

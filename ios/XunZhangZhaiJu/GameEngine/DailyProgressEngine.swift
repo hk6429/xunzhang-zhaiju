@@ -6,7 +6,8 @@ struct DailyProgressEngine {
         dateKey: String,
         phraseID: String,
         kind: LearningQuestionKind,
-        correct: Bool
+        correct: Bool,
+        now: Date = Date()
     ) -> LocalAppProgress {
         var next = progress
         var daily = currentDaily(from: progress, dateKey: dateKey)
@@ -22,6 +23,7 @@ struct DailyProgressEngine {
         var item = mastery[phraseID] ?? .fresh
         item.answered += 1
         item.lastAnsweredDateKey = dateKey
+        item.lastAnsweredAt = ReviewSchedule.timestamp(now)
         var wrongBook = next.wrongBook ?? []
         if correct {
             item.correct += 1
@@ -31,6 +33,9 @@ struct DailyProgressEngine {
             let ladder = [1, 3, 7, 14, 30]
             let days = ladder[min(ladder.count - 1, max(0, item.correctStreak - 1))]
             item.nextReviewDateKey = TaiwanDate.adding(days: days, to: dateKey)
+            item.nextReviewAt = ReviewSchedule.timestamp(
+                now.addingTimeInterval(TimeInterval(days * 86_400))
+            )
             if item.correctStreak >= 2 {
                 wrongBook.removeAll { $0 == phraseID }
             }
@@ -39,6 +44,7 @@ struct DailyProgressEngine {
             item.correctStreak = 0
             item.mastered = false
             item.nextReviewDateKey = dateKey
+            item.nextReviewAt = ReviewSchedule.timestamp(now.addingTimeInterval(10 * 60))
             if !wrongBook.contains(phraseID) { wrongBook.append(phraseID) }
         }
         mastery[phraseID] = item

@@ -1,5 +1,29 @@
 import SwiftUI
 
+enum PracticeSessionPurpose: Equatable {
+    case quickChallenge
+    case spacedReview
+    case wrongBook
+
+    var navigationTitle: String {
+        switch self {
+        case .quickChallenge: "一炷香快陣"
+        case .spacedReview: "今日複習"
+        case .wrongBook: "待補研墨"
+        }
+    }
+
+    var completionTitle: String {
+        switch self {
+        case .quickChallenge: "快陣完成"
+        case .spacedReview: "複習完成"
+        case .wrongBook: "待補完成"
+        }
+    }
+
+    var recordsQuickChallenge: Bool { self == .quickChallenge }
+}
+
 struct DailyPracticeView: View {
     @EnvironmentObject private var container: AppContainer
     @State private var index = 0
@@ -9,8 +33,14 @@ struct DailyPracticeView: View {
     @State private var awaitingNext = false
     @State private var startedAt = Date()
     let questions: [LearningQuestion]
+    let purpose: PracticeSessionPurpose
 
-    init(phrases: [Phrase], phraseIDs: [String]) {
+    init(
+        phrases: [Phrase],
+        phraseIDs: [String],
+        purpose: PracticeSessionPurpose = .quickChallenge
+    ) {
+        self.purpose = purpose
         questions = LearningQuizEngine().buildQuestions(
             phrases: phrases,
             targetPhraseIDs: phraseIDs,
@@ -49,7 +79,7 @@ struct DailyPracticeView: View {
                     Text(feedback).foregroundStyle(AppTheme.secondaryText)
                     if awaitingNext {
                         Button(index + 1 == questions.count ? "查看結果" : "下一題") {
-                            if index + 1 == questions.count {
+                            if index + 1 == questions.count, purpose.recordsQuickChallenge {
                                 let duration = Int(Date().timeIntervalSince(startedAt) * 1_000)
                                 try? container.recordQuickChallenge(
                                     score: score,
@@ -67,7 +97,7 @@ struct DailyPracticeView: View {
                     Image(systemName: "checkmark.seal.fill")
                         .font(.system(size: 56))
                         .foregroundStyle(AppTheme.accent)
-                    Text("快陣完成")
+                    Text(purpose.completionTitle)
                         .font(.largeTitle.bold())
                     Text("答對 \(score) / \(questions.count) 題")
                 }
@@ -75,7 +105,7 @@ struct DailyPracticeView: View {
             .foregroundStyle(AppTheme.primaryText)
             .padding()
         }
-        .navigationTitle("一炷香快陣")
+        .navigationTitle(purpose.navigationTitle)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear { startedAt = Date() }
     }

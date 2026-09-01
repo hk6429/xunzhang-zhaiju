@@ -87,15 +87,35 @@ final class DailyProgressEngineTests: XCTestCase {
 
     func testWrongBookAndMasteryFollowSpacedReviewRules() {
         let engine = DailyProgressEngine()
+        let now = ISO8601DateFormatter().date(from: "2026-09-01T04:00:00Z")!
         var progress = engine.recordingQuiz(
             in: .fresh,
             dateKey: "2026-09-01",
             phraseID: "p1",
             kind: .choice,
-            correct: false
+            correct: false,
+            now: now
         )
         XCTAssertEqual(progress.wrongBook, ["p1"])
         XCTAssertEqual(progress.mastery?["p1"]?.nextReviewDateKey, "2026-09-01")
+        XCTAssertEqual(progress.mastery?["p1"]?.nextReviewAt, "2026-09-01T04:10:00Z")
+        XCTAssertFalse(ReviewSchedule.isDue(
+            progress.mastery?["p1"],
+            now: now.addingTimeInterval(599),
+            dateKey: "2026-09-01"
+        ))
+        XCTAssertTrue(ReviewSchedule.isDue(
+            progress.mastery?["p1"],
+            now: now.addingTimeInterval(600),
+            dateKey: "2026-09-01"
+        ))
+        var webTimestamp = progress.mastery?["p1"]
+        webTimestamp?.nextReviewAt = "2026-09-01T04:10:00.000Z"
+        XCTAssertFalse(ReviewSchedule.isDue(
+            webTimestamp,
+            now: now.addingTimeInterval(599),
+            dateKey: "2026-09-01"
+        ))
 
         progress = engine.recordingQuiz(
             in: progress,
@@ -123,6 +143,12 @@ final class DailyProgressEngineTests: XCTestCase {
         )
         XCTAssertEqual(progress.mastery?["p1"]?.mastered, true)
         XCTAssertEqual(progress.mastery?["p1"]?.nextReviewDateKey, "2026-09-08")
+    }
+
+    func testReviewSessionsNeverWriteQuickChallengeResults() {
+        XCTAssertTrue(PracticeSessionPurpose.quickChallenge.recordsQuickChallenge)
+        XCTAssertFalse(PracticeSessionPurpose.spacedReview.recordsQuickChallenge)
+        XCTAssertFalse(PracticeSessionPurpose.wrongBook.recordsQuickChallenge)
     }
 
     func testTaipeiDateAdditionCrossesMonthBoundary() {

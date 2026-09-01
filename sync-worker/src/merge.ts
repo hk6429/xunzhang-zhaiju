@@ -36,6 +36,8 @@ function mergeObjects(
       out[key] = union(serverValue, clientValue);
     } else if (isJsonObject(serverValue) && isJsonObject(clientValue)) {
       out[key] = mergeObjects(serverValue, clientValue, [...path, key]);
+    } else if (prefersLatestTimestamp([...path, key])) {
+      out[key] = mergeTimestamp(serverValue, clientValue);
     } else if (typeof serverValue === "number" && typeof clientValue === "number") {
       out[key] = prefersMinimum([...path, key])
         ? Math.min(serverValue, clientValue)
@@ -52,6 +54,21 @@ function mergeObjects(
 function prefersMinimum(path: string[]): boolean {
   const key = path.at(-1);
   return key === "fewestMistakes" || key === "bestDurationMs" || key === "durationMilliseconds";
+}
+
+function prefersLatestTimestamp(path: string[]): boolean {
+  const key = path.at(-1);
+  return key === "lastAnsweredAt" || key === "nextReviewAt";
+}
+
+function mergeTimestamp(left: JsonValue, right: JsonValue): JsonValue {
+  if (typeof left !== "string") return right;
+  if (typeof right !== "string") return left;
+  const leftTime = Date.parse(left);
+  const rightTime = Date.parse(right);
+  if (!Number.isFinite(leftTime)) return right;
+  if (!Number.isFinite(rightTime)) return left;
+  return leftTime >= rightTime ? left : right;
 }
 
 function mergeDaily(server: JsonValue | undefined, client: JsonValue | undefined): JsonValue {

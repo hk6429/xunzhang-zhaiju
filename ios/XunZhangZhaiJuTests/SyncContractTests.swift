@@ -30,4 +30,18 @@ final class SyncContractTests: XCTestCase {
 
         XCTAssertEqual(object["bestDurationMs"] as? Int, 12_345)
     }
+
+    func testLegacyMasteryWithoutExactTimestampsStillDecodes() throws {
+        let data = Data(#"{"answered":1,"correct":0,"wrong":1,"correctStreak":0,"fillCorrect":0,"mastered":false,"lastAnsweredDateKey":"2026-09-01","nextReviewDateKey":"2026-09-01"}"#.utf8)
+
+        let mastery = try JSONDecoder().decode(LocalPhraseMastery.self, from: data)
+
+        XCTAssertNil(mastery.lastAnsweredAt)
+        XCTAssertNil(mastery.nextReviewAt)
+        XCTAssertTrue(ReviewSchedule.isDue(
+            mastery,
+            now: Date(timeIntervalSince1970: 0),
+            dateKey: "2026-09-01"
+        ))
+    }
 }

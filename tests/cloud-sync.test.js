@@ -82,6 +82,39 @@ test('best level duration round-trips between web and native sync', async () => 
   assert.equal(merged.retention.levelStats['1'].bestDurationMs, 18_000);
 });
 
+test('spaced review timestamps keep minute precision across web and native sync', async () => {
+  const { mergeCloudSnapshotIntoSave, toSyncSnapshot } = await import('../js/cloud-sync.js');
+  const snapshot = toSyncSnapshot({
+    v: 1,
+    levels: {},
+    ink: 0,
+    collection: ['p1'],
+    retention: {
+      mastery: {
+        p1: {
+          answered: 1,
+          correct: 0,
+          wrong: 1,
+          correctStreak: 0,
+          fillCorrect: 0,
+          mastered: false,
+          lastAnsweredAt: '2026-09-01T04:00:00.000Z',
+          nextReviewAt: '2026-09-01T04:10:00.000Z',
+        },
+      },
+    },
+  });
+
+  assert.equal(snapshot.mastery.p1.lastAnsweredAt, '2026-09-01T04:00:00.000Z');
+  assert.equal(snapshot.mastery.p1.nextReviewAt, '2026-09-01T04:10:00.000Z');
+
+  const merged = mergeCloudSnapshotIntoSave(
+    { v: 1, levels: {}, ink: 0, collection: ['p1'], retention: { mastery: {} } },
+    snapshot,
+  );
+  assert.equal(merged.retention.mastery.p1.nextReviewAt, '2026-09-01T04:10:00.000Z');
+});
+
 test('hidden ending answer crosses web and native sync without losing the newer choice', async () => {
   const { mergeCloudSnapshotIntoSave, toSyncSnapshot } = await import('../js/cloud-sync.js');
   const snapshot = toSyncSnapshot({

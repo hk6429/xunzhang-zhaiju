@@ -48,6 +48,25 @@ describe("mergeProgress", () => {
     });
   });
 
+  it("keeps the later exact spaced-review timestamps", () => {
+    const merged = mergeProgress(
+      { mastery: { p1: { lastAnsweredAt: "2026-09-01T03:00:00Z", nextReviewAt: "2026-09-02T03:00:00Z" } } },
+      { mastery: { p1: { lastAnsweredAt: "2026-09-01T04:00:00Z", nextReviewAt: "2026-09-04T04:00:00Z" } } },
+    );
+
+    expect(merged).toMatchObject({
+      mastery: { p1: { lastAnsweredAt: "2026-09-01T04:00:00Z", nextReviewAt: "2026-09-04T04:00:00Z" } },
+    });
+
+    const legacyClient = mergeProgress(
+      { mastery: { p1: { nextReviewAt: "2026-09-04T04:00:00Z" } } },
+      { mastery: { p1: { nextReviewAt: null, nextReviewDateKey: "2026-09-04" } } },
+    );
+    expect(legacyClient).toMatchObject({
+      mastery: { p1: { nextReviewAt: "2026-09-04T04:00:00Z" } },
+    });
+  });
+
   it("applies only unseen ink deltas on a conflicting revision", () => {
     const merged = mergeProgress(
       { levels: {}, collection: [], ink: 8 },

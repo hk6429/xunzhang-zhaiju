@@ -87,4 +87,35 @@ final class LearningEnginesTests: XCTestCase {
 
         XCTAssertEqual(questions.map(\.phraseID), [due.id, future.id, collected.id])
     }
+
+    func testDueReviewIncludesCollectedMasteryOnlyAfterExactTime() throws {
+        let phrases = try ContentLoader().load().phrases
+        let due = phrases[7]
+        let future = phrases[8]
+        let notCollected = phrases[9]
+        let now = ISO8601DateFormatter().date(from: "2026-09-01T04:00:00Z")!
+        var progress = LocalAppProgress.fresh
+        progress.collection = [future.id, due.id]
+        var dueMastery = LocalPhraseMastery.fresh
+        dueMastery.nextReviewAt = "2026-09-01T03:59:59Z"
+        var futureMastery = LocalPhraseMastery.fresh
+        futureMastery.nextReviewAt = "2026-09-01T04:00:01Z"
+        var unownedMastery = LocalPhraseMastery.fresh
+        unownedMastery.nextReviewAt = "2026-09-01T03:00:00Z"
+        progress.mastery = [
+            due.id: dueMastery,
+            future.id: futureMastery,
+            notCollected.id: unownedMastery,
+        ]
+
+        let ids = LearningQuizEngine().dueReviewPhraseIDs(
+            phrases: phrases,
+            progress: progress,
+            dateKey: "2026-09-01",
+            now: now,
+            limit: 5
+        )
+
+        XCTAssertEqual(ids, [due.id])
+    }
 }

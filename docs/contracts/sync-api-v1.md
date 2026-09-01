@@ -6,7 +6,7 @@
 - 伺服器只從已驗證的 session 取得 user ID，不接受 request body 指定使用者。
 - `localPhrasePractice`、例句、姓名、email、頭像與 provider token 不得進入 snapshot／event。
 - 同一裝置的 `sequence` 單調遞增；事件以 `id` 及 `(user, device, sequence)` 去重。
-- 所有日期使用 ISO 8601；每日任務的 `dateKey` 使用台北時區 `YYYY-MM-DD`。
+- 所有日期時間使用 ISO 8601；每日任務與舊版複習相容欄位的 `dateKey` 使用台北時區 `YYYY-MM-DD`。
 
 ## 認證
 
@@ -54,6 +54,13 @@ Header：`Authorization: Bearer <access-token>`
 ```
 
 回應包含新的 `revision`、合併後 `snapshot` 與 `acceptedEventIDs`。若 base revision 落後，伺服器依欄位規則合併：集合聯集、星數／累積值取 max、最佳時間與最少錯誤取 min、同日快陣先比得分再比時間、不同日每日資料取較新日期。墨滴不取 max，而是在同一寫入 transaction 中，只套用未曾接受事件的 `inkDelta`；舊版事件未帶此欄位時視為 0。
+
+### 間隔複習時間
+
+- `mastery.<phraseID>.lastAnsweredAt` 與 `nextReviewAt` 使用完整 ISO 8601 時間戳，保留分鐘級複習間隔；例如答錯後 10 分鐘再複習。
+- `lastAnsweredDateKey` 與 `nextReviewDateKey` 僅供舊版 App 相容。新版本同步時同時保留精確時間與日期欄位。
+- 多裝置衝突時，精確時間欄位取較晚的非空時間；舊版客戶端缺少或傳入 `null` 時，不得清除伺服器已有的精確時間。
+- 讀取舊 snapshot 時，若沒有精確時間，才以相容日期欄位判斷到期；無法解析的時間戳不得覆蓋有效值。
 
 ## 帳號資料
 

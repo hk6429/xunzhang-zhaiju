@@ -13,7 +13,7 @@
 | 十章地圖與世界事件 | `JourneyView`、`WorldProgressEngine`；事件研讀獎勵直接開啟原生研墨題，事件彈窗暫停倒數 | 效果冪等、研讀題數與倒數暫停單元測試；iPhone／iPad 今日奇遇答題 UI＋系統無障礙稽核 |
 | 功名進度、普通結局與隱藏真結局 | `JourneyView`、`WorldProgressEngine`；依第 50 關、五場 Boss 二星、五段故事與五件完整法寶判定，隱藏問答結果可離線保存並跨端同步 | 結局條件、法寶完整性與新舊答案合併單元測試；iPhone／iPad 作答、無障礙稽核及終止後重開 UI test |
 | 每日三帖、快陣、連續修煉、補簽 | `DailyView`、`DailyProgressEngine` | `DailyProgressEngineTests` |
-| 錯題本、間隔複習、精熟 | `CollectionView`、`DailyProgressEngine` | `DailyProgressEngineTests` |
+| 錯題本、間隔複習、精熟 | `CollectionView`、`DailyProgressEngine`、`ReviewSchedule`；答錯十分鐘、答對 1／3／7／14／30 天，精確時間跨端同步；快陣、到期複習與待補研墨分流記錄 | `DailyProgressEngineTests`、`LearningEnginesTests`、`LocalProgressMergeEngineTests`、`SyncContractTests`、Web／Worker 同步測試 |
 | 圖鑑搜尋、文體／朝代篩選 | `CollectionView`、`CollectionEngine` | `LearningEnginesTests`、UI tests |
 | 法寶碎片、事件效果、典藏 | `WorldProgressEngine`、`TreasureAbilityEngine`、`TreasurePassiveEngine`、`CollectionView`；五件故事法寶會標記事件節點、開啟支線捷徑、每日一次預覽事件效果、指出今日奇遇區域，並作為真結局入口條件；十章被動法寶則依完成關卡補發碎片，實際增加倒數、提早連擊、擴充複習名額、增加答錯補救或提供額外線索 | `WorldProgressEngineTests`、`TreasurePassiveEngineTests`、Web／Swift 法寶目錄對等測試、iPhone／iPad 法寶閣與今日奇遇 UI tests |
 | 個人例句／使用情境 | `KnowledgeCardView`、`localPhrasePractice` | `ProgressRepositoryTests.testLocalPracticeStaysOutsideSyncOutbox` |

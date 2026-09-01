@@ -242,6 +242,8 @@ function toMastery(value) {
       mastered: !!item.mastered,
       lastAnsweredDateKey: dateKey(item.lastAnsweredAt),
       nextReviewDateKey: dateKey(item.nextReviewAt),
+      lastAnsweredAt: isoTimestamp(item.lastAnsweredAt),
+      nextReviewAt: isoTimestamp(item.nextReviewAt),
     };
   }
   return result;
@@ -308,8 +310,8 @@ function fromMastery(current = {}, cloud = {}) {
       correctStreak: nonnegativeInteger(item?.correctStreak, 0),
       fillCorrect: nonnegativeInteger(item?.fillCorrect, 0),
       mastered: !!item?.mastered,
-      lastAnsweredAt: item?.lastAnsweredDateKey || null,
-      nextReviewAt: item?.nextReviewDateKey || null,
+      lastAnsweredAt: item?.lastAnsweredAt || item?.lastAnsweredDateKey || null,
+      nextReviewAt: item?.nextReviewAt || item?.nextReviewDateKey || null,
     };
   }
   return result;
@@ -423,6 +425,11 @@ function nonnegativeInteger(value, fallback) {
   return Number.isFinite(number) && number >= 0 ? Math.floor(number) : fallback;
 }
 function dateKey(value) { return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}/.test(value) ? value.slice(0, 10) : null; }
+function isoTimestamp(value) {
+  if (typeof value !== 'string' || !value) return null;
+  const milliseconds = Date.parse(value);
+  return Number.isFinite(milliseconds) ? new Date(milliseconds).toISOString() : null;
+}
 function numericMap(value) {
   const result = {};
   for (const [key, item] of Object.entries(value || {})) {
