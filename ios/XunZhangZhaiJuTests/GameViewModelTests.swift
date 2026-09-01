@@ -164,11 +164,13 @@ final class GameViewModelTests: XCTestCase {
     func testBackgroundPausesTimerUntilReturningActive() throws {
         let content = try ContentLoader().load()
         let level = try XCTUnwrap(content.levels.first { $0.timeLimit != nil })
+        let now: Int64 = 1_000
         let model = GameViewModel(
             level: level,
             phrases: content.phrases,
             initialCollection: [],
-            persist: { _ in }
+            persist: { _ in },
+            nowMilliseconds: { now }
         )
         let initial = try XCTUnwrap(model.state.remainingMilliseconds)
 
@@ -179,6 +181,70 @@ final class GameViewModelTests: XCTestCase {
         model.setBackgrounded(false)
         model.tick(milliseconds: 1_000)
         XCTAssertEqual(model.state.remainingMilliseconds, initial - 1_000)
+    }
+
+    func testCountdownUsesActualMonotonicElapsedTimeInsteadOfTimerTickCount() throws {
+        let content = try ContentLoader().load()
+        let level = try XCTUnwrap(content.levels.first { $0.timeLimit != nil })
+        var now: Int64 = 10_000
+        let model = GameViewModel(
+            level: level,
+            phrases: content.phrases,
+            initialCollection: [],
+            persist: { _ in },
+            nowMilliseconds: { now }
+        )
+        let initial = try XCTUnwrap(model.state.remainingMilliseconds)
+
+        now += 1_750
+        model.advanceClock()
+
+        XCTAssertEqual(model.state.remainingMilliseconds, initial - 1_750)
+    }
+
+    func testMonotonicCountdownExcludesPausedTimeAndRestartsFromResumeAnchor() throws {
+        let content = try ContentLoader().load()
+        let level = try XCTUnwrap(content.levels.first { $0.timeLimit != nil })
+        var now: Int64 = 20_000
+        let model = GameViewModel(
+            level: level,
+            phrases: content.phrases,
+            initialCollection: [],
+            persist: { _ in },
+            nowMilliseconds: { now }
+        )
+        let initial = try XCTUnwrap(model.state.remainingMilliseconds)
+
+        now += 800
+        model.setLearningQuizPresented(true)
+        now += 30_000
+        model.advanceClock()
+        model.setLearningQuizPresented(false)
+        now += 650
+        model.advanceClock()
+
+        XCTAssertEqual(model.state.remainingMilliseconds, initial - 1_450)
+    }
+
+    func testMonotonicCountdownIgnoresBackwardClockMovement() throws {
+        let content = try ContentLoader().load()
+        let level = try XCTUnwrap(content.levels.first { $0.timeLimit != nil })
+        var now: Int64 = 50_000
+        let model = GameViewModel(
+            level: level,
+            phrases: content.phrases,
+            initialCollection: [],
+            persist: { _ in },
+            nowMilliseconds: { now }
+        )
+        let initial = try XCTUnwrap(model.state.remainingMilliseconds)
+
+        now -= 5_000
+        model.advanceClock()
+        now += 700
+        model.advanceClock()
+
+        XCTAssertEqual(model.state.remainingMilliseconds, initial - 700)
     }
 
     func testSavedRunRestoresFoundPhrasesTimeAndMode() throws {
@@ -215,11 +281,13 @@ final class GameViewModelTests: XCTestCase {
     func testLearningQuizPausesAndResumesCountdown() throws {
         let content = try ContentLoader().load()
         let level = try XCTUnwrap(content.levels.first { $0.timeLimit != nil })
+        let now: Int64 = 1_000
         let model = GameViewModel(
             level: level,
             phrases: content.phrases,
             initialCollection: [],
-            persist: { _ in }
+            persist: { _ in },
+            nowMilliseconds: { now }
         )
         let initial = try XCTUnwrap(model.state.remainingMilliseconds)
 
@@ -237,11 +305,13 @@ final class GameViewModelTests: XCTestCase {
     func testWorldEventPausesAndResumesCountdown() throws {
         let content = try ContentLoader().load()
         let level = try XCTUnwrap(content.levels.first { $0.timeLimit != nil })
+        let now: Int64 = 1_000
         let model = GameViewModel(
             level: level,
             phrases: content.phrases,
             initialCollection: [],
-            persist: { _ in }
+            persist: { _ in },
+            nowMilliseconds: { now }
         )
         let initial = try XCTUnwrap(model.state.remainingMilliseconds)
 

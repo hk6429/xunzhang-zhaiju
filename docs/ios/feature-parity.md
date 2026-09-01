@@ -7,7 +7,7 @@
 | 409 條語料、100 關、full／cross 盤面 | `ContentLoader`、`FullBoardView`、`CrossBoardView` | `ContentDecodingTests`、`ContentValidationTests`、`AllLevelsSmokeTests` |
 | 沉浸式遊戲任務、守護神、學習目標與可選線索 | `GameView`、`AnswerInputView`、原生 Guardian Assets | iPhone／iPad UI tests；守護神任務卡與學習目標 presence assertion |
 | 關卡內研墨題、墨水獎勵與原生觸覺回饋 | `GameLearningQuizView`、`LearningQuizEngine`、`DailyProgressEngine`、`UINotificationFeedbackGenerator` | 暫停／恢復與墨水單元測試；iPhone／iPad 答題 UI＋系統無障礙稽核 |
-| 三種模式、倒數、背景暫停、重試 | `GameEngine`、`GameViewModel` | `GameEngineTests`、`GameViewModelTests` |
+| 三種模式、單調時鐘倒數、教育彈窗／背景暫停、重試 | `GameEngine`、`GameViewModel`；以 `systemUptime` 實際經過時間扣除倒數，暫停與恢復時重設時鐘錨點 | `GameEngineTests`、`GameViewModelTests`；涵蓋 timer 延遲、長時間暫停與時鐘倒退 |
 | 圈首字／閃現／揭示與墨水成本 | `HintEngine`、`GameViewModel` | `LearningEnginesTests`、`NativeParityTests` |
 | 星等、最佳成績、續玩、休息提醒 | `AppContainer`、`LocalLevelStats`、`ProfileView` | `GameViewModelTests`、`DailyProgressEngineTests` |
 | 十章地圖與世界事件 | `JourneyView`、`WorldProgressEngine`；事件研讀獎勵直接開啟原生研墨題，事件彈窗暫停倒數 | 效果冪等、研讀題數與倒數暫停單元測試；iPhone／iPad 今日奇遇答題 UI＋系統無障礙稽核 |

@@ -20,6 +20,7 @@ final class GameViewModel: ObservableObject {
     private let nowMilliseconds: () -> Int64
     private var hintToken = UUID()
     private var comboLastFoundAt: Int64?
+    private var lastClockMilliseconds: Int64
 
     init(
         level: Level,
@@ -32,7 +33,7 @@ final class GameViewModel: ObservableObject {
         persist: @escaping (GameState) throws -> Void,
         spendInk: @escaping (HintTier) throws -> Bool = { _ in false },
         nowMilliseconds: @escaping () -> Int64 = {
-            Int64(Date().timeIntervalSince1970 * 1_000)
+            Int64(ProcessInfo.processInfo.systemUptime * 1_000)
         }
     ) {
         self.level = level
@@ -54,6 +55,7 @@ final class GameViewModel: ObservableObject {
         self.persist = persist
         self.spendInk = spendInk
         self.nowMilliseconds = nowMilliseconds
+        lastClockMilliseconds = nowMilliseconds()
         ink = initialInk
         var state: GameState
         if var savedRun = resumedRun {
@@ -135,24 +137,31 @@ final class GameViewModel: ObservableObject {
         knowledgePhrase = nil
         if state.phase == .running, state.pauseReasons.contains(.knowledgeCard) {
             try? GameReducer.reduce(state: &state, action: .resume(.knowledgeCard))
+            resetClockAnchor()
         }
     }
 
     func setLearningQuizPresented(_ presented: Bool) {
         guard state.phase == .running else { return }
         if presented, !state.pauseReasons.contains(.learningQuiz) {
+            advanceClock()
+            guard state.phase == .running else { return }
             try? GameReducer.reduce(state: &state, action: .pause(.learningQuiz))
         } else if !presented, state.pauseReasons.contains(.learningQuiz) {
             try? GameReducer.reduce(state: &state, action: .resume(.learningQuiz))
+            resetClockAnchor()
         }
     }
 
     func setWorldEventPresented(_ presented: Bool) {
         guard state.phase == .running else { return }
         if presented, !state.pauseReasons.contains(.systemInterruption) {
+            advanceClock()
+            guard state.phase == .running else { return }
             try? GameReducer.reduce(state: &state, action: .pause(.systemInterruption))
         } else if !presented, state.pauseReasons.contains(.systemInterruption) {
             try? GameReducer.reduce(state: &state, action: .resume(.systemInterruption))
+            resetClockAnchor()
         }
     }
 
@@ -171,19 +180,31 @@ final class GameViewModel: ObservableObject {
         if phase != state.phase { try? persist(state) }
     }
 
+    func advanceClock() {
+        let now = nowMilliseconds()
+        let elapsed = max(0, now - lastClockMilliseconds)
+        lastClockMilliseconds = now
+        guard elapsed > 0 else { return }
+        tick(milliseconds: Int(min(elapsed, Int64(Int.max))))
+    }
+
     func setBackgrounded(_ backgrounded: Bool) {
         guard state.phase == .running else { return }
         if backgrounded, !state.pauseReasons.contains(.background) {
+            advanceClock()
+            guard state.phase == .running else { return }
             try? GameReducer.reduce(state: &state, action: .pause(.background))
             try? persist(state)
         } else if !backgrounded, state.pauseReasons.contains(.background) {
             try? GameReducer.reduce(state: &state, action: .resume(.background))
+            resetClockAnchor()
         }
     }
 
     func retry() {
         do {
             try GameReducer.reduce(state: &state, action: .retry)
+            resetClockAnchor()
             try persist(state)
             errorMessage = nil
         } catch {
@@ -237,6 +258,8 @@ final class GameViewModel: ObservableObject {
 
     private func found(_ phrase: Phrase, revealed: Bool) {
         do {
+            advanceClock()
+            guard state.phase == .running else { return }
             let wasFound = state.foundPhraseIDs.contains(phrase.id)
             try GameReducer.reduce(
                 state: &state,
@@ -249,6 +272,7 @@ final class GameViewModel: ObservableObject {
             knowledgePhrase = phrase
             if state.phase == .running {
                 try GameReducer.reduce(state: &state, action: .pause(.knowledgeCard))
+                resetClockAnchor()
             }
             errorMessage = nil
         } catch {
@@ -264,6 +288,10 @@ final class GameViewModel: ObservableObject {
             comboCount = 1
         }
         comboLastFoundAt = now
+    }
+
+    private func resetClockAnchor() {
+        lastClockMilliseconds = nowMilliseconds()
     }
 
     private func showHint(_ coordinates: Set<GridCoordinate>) {

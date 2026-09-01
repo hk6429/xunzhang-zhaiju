@@ -154,7 +154,7 @@ struct GameView: View {
             )
         }
         .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
-            model.tick(milliseconds: 1_000)
+            model.advanceClock()
         }
         .onChange(of: scenePhase) { phase in
             model.setBackgrounded(phase != .active)
@@ -301,6 +301,7 @@ struct GameView: View {
         guard !questions.isEmpty else { return }
         quizQuestions = questions
         model.setLearningQuizPresented(true)
+        guard model.state.phase == .running else { return }
         quizPresented = true
     }
 
