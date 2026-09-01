@@ -161,6 +161,75 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertEqual(persisted.last?.usedReveal, true)
     }
 
+    func testRevealCannotCompleteAfterActualCountdownExpired() throws {
+        let content = try ContentLoader().load()
+        let level = try XCTUnwrap(content.levels.first { $0.timeLimit != nil })
+        var now: Int64 = 10_000
+        var spent: [HintTier] = []
+        var persisted: [GameState] = []
+        let model = GameViewModel(
+            level: level,
+            phrases: content.phrases,
+            initialCollection: [],
+            initialInk: 10,
+            persist: { persisted.append($0) },
+            spendInk: { spent.append($0); return true },
+            nowMilliseconds: { now }
+        )
+        now += Int64(try XCTUnwrap(model.state.remainingMilliseconds))
+
+        model.useHint(.reveal)
+
+        XCTAssertEqual(model.state.phase, .timedOut)
+        XCTAssertTrue(model.state.foundPhraseIDs.isEmpty)
+        XCTAssertTrue(model.state.revealedPhraseIDs.isEmpty)
+        XCTAssertEqual(model.ink, 10)
+        XCTAssertTrue(spent.isEmpty)
+        XCTAssertEqual(persisted.last?.phase, .timedOut)
+    }
+
+    func testInvalidFullSelectionDoesNotRecordMistakeAfterActualCountdownExpired() throws {
+        let content = try ContentLoader().load()
+        let level = try XCTUnwrap(content.levels.first { $0.layout == .full && $0.timeLimit != nil })
+        var now: Int64 = 20_000
+        let model = GameViewModel(
+            level: level,
+            phrases: content.phrases,
+            initialCollection: [],
+            persist: { _ in },
+            nowMilliseconds: { now }
+        )
+        now += Int64(try XCTUnwrap(model.state.remainingMilliseconds))
+
+        model.select(path: [])
+
+        XCTAssertEqual(model.state.phase, .timedOut)
+        XCTAssertEqual(model.state.mistakes, 0)
+        XCTAssertNil(model.errorMessage)
+    }
+
+    func testWrongCrossAnswerDoesNotRecordMistakeAfterActualCountdownExpired() throws {
+        let content = try ContentLoader().load()
+        let level = try XCTUnwrap(content.levels.first { $0.layout == .cross && $0.timeLimit != nil })
+        var now: Int64 = 30_000
+        let model = GameViewModel(
+            level: level,
+            phrases: content.phrases,
+            initialCollection: [],
+            persist: { _ in },
+            nowMilliseconds: { now }
+        )
+        model.selectedCrossPhraseID = try XCTUnwrap(model.targets.first?.phrase.id)
+        model.answer = "錯誤答案"
+        now += Int64(try XCTUnwrap(model.state.remainingMilliseconds))
+
+        model.submitCrossAnswer()
+
+        XCTAssertEqual(model.state.phase, .timedOut)
+        XCTAssertEqual(model.state.mistakes, 0)
+        XCTAssertNil(model.errorMessage)
+    }
+
     func testBackgroundPausesTimerUntilReturningActive() throws {
         let content = try ContentLoader().load()
         let level = try XCTUnwrap(content.levels.first { $0.timeLimit != nil })

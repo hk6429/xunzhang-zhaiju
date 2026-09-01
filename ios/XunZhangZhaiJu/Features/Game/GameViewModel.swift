@@ -103,6 +103,7 @@ final class GameViewModel: ObservableObject {
     }
 
     func select(path: [GridCoordinate]) {
+        guard reconcileClockForUserAction() else { return }
         guard let match = targets.first(where: { item in
             !state.foundPhraseIDs.contains(item.phrase.id)
                 && NativeParityRules.targetPath(
@@ -120,6 +121,7 @@ final class GameViewModel: ObservableObject {
     }
 
     func submitCrossAnswer() {
+        guard reconcileClockForUserAction() else { return }
         guard let id = selectedCrossPhraseID,
               let phrase = phrasesByID[id],
               !state.foundPhraseIDs.contains(id) else { return }
@@ -218,7 +220,7 @@ final class GameViewModel: ObservableObject {
     }
 
     func useHint(_ tier: HintTier) {
-        guard state.phase == .running else { return }
+        guard reconcileClockForUserAction() else { return }
         guard state.hintsUsed < (modeConfiguration.hintCap ?? Int.max) else {
             errorMessage = "本關提示次數已用完。"
             return
@@ -258,8 +260,7 @@ final class GameViewModel: ObservableObject {
 
     private func found(_ phrase: Phrase, revealed: Bool) {
         do {
-            advanceClock()
-            guard state.phase == .running else { return }
+            guard state.phase == .running, state.pauseReasons.isEmpty else { return }
             let wasFound = state.foundPhraseIDs.contains(phrase.id)
             try GameReducer.reduce(
                 state: &state,
@@ -292,6 +293,11 @@ final class GameViewModel: ObservableObject {
 
     private func resetClockAnchor() {
         lastClockMilliseconds = nowMilliseconds()
+    }
+
+    private func reconcileClockForUserAction() -> Bool {
+        advanceClock()
+        return state.phase == .running && state.pauseReasons.isEmpty
     }
 
     private func showHint(_ coordinates: Set<GridCoordinate>) {
