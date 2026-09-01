@@ -64,6 +64,22 @@ test('共享的稱號、圖鑑練習、每日計數與匿名班級資料可安�
   assert.equal(save.classroom.teamCode, 'ABCD-2345');
 });
 
+test('新版法寶碎片細節可安全往返並清除無效資料', () => {
+  const input = defaultSave();
+  input.world.treasureProgress = {
+    'dashen-bian': { sources: ['level:4', 'level:4', 7], complete: false },
+    'qiankun-quan': { sources: ['event:ring'], complete: true },
+    '': { sources: ['invalid'], complete: true },
+    invalid: 'not-an-object',
+  };
+
+  const save = validateSave(input);
+  assert.deepEqual(save.world.treasureProgress, {
+    'dashen-bian': { sources: ['level:4'], complete: false },
+    'qiankun-quan': { sources: ['event:ring'], complete: true },
+  });
+});
+
 test('探索／標準／挑戰模式調整時間、提示與星等上限', () => {
   const level = { timeLimit: 300, hintCap: 2 };
   assert.deepEqual(applyModeToLevel(level, 'explore'), {

@@ -1,3 +1,5 @@
+import { TREASURE_PASSIVES } from './treasure-passives.js';
+
 const DEVICE_KEY = 'xzzj_sync_device_v1';
 const REVISION_KEY = 'xzzj_sync_revision_v1';
 const SEQUENCE_KEY = 'xzzj_sync_sequence_v1';
@@ -273,11 +275,17 @@ function toLevelStats(value) {
 
 function toWorld(world = {}, treasures = {}) {
   const mappedTreasures = {};
+  for (const [id, item] of Object.entries(world.treasureProgress || {})) {
+    mappedTreasures[id] = mergeTreasureProgress(mappedTreasures[id], item);
+  }
+  for (const id of uniqueStrings(world.treasures)) {
+    mappedTreasures[id] = mergeTreasureProgress(mappedTreasures[id], { complete: true });
+  }
   for (const [id, item] of Object.entries(treasures || {})) {
-    mappedTreasures[id] = {
+    mappedTreasures[id] = mergeTreasureProgress(mappedTreasures[id], {
       sources: uniqueStrings(item?.sources),
       complete: uniqueStrings(item?.sources).length >= nonnegativeInteger(item?.maxFragments, 10),
-    };
+    });
   }
   return {
     eventsSeen: uniqueStrings(world.eventsSeen),
@@ -337,11 +345,20 @@ function fromLevelStats(current = {}, cloud = {}) {
 function fromWorld(current = {}, retention, cloud) {
   if (!cloud || typeof cloud !== 'object') return current;
   retention.treasures ||= {};
+  const treasureProgress = { ...(current.treasureProgress || {}) };
   for (const [id, item] of Object.entries(cloud.treasures || {})) {
-    retention.treasures[id] = {
-      ...(retention.treasures[id] || { name: id, maxFragments: 10, firstObtainedAt: null }),
-      sources: union(retention.treasures[id]?.sources, item?.sources),
-    };
+    if (Object.hasOwn(TREASURE_PASSIVES, id)) {
+      retention.treasures[id] = {
+        ...(retention.treasures[id] || { name: id, maxFragments: 10, firstObtainedAt: null }),
+        sources: union(retention.treasures[id]?.sources, item?.sources),
+      };
+    } else {
+      treasureProgress[id] = mergeTreasureProgress(
+        treasureProgress[id],
+        { ...item, sources: union(retention.treasures[id]?.sources, item?.sources) },
+      );
+      delete retention.treasures[id];
+    }
   }
   const localEnding = normalizeHiddenEnding(current.hiddenEnding);
   const cloudEnding = normalizeHiddenEnding(cloud.hiddenEnding);
@@ -353,8 +370,16 @@ function fromWorld(current = {}, retention, cloud) {
     eventsSeen: union(current.eventsSeen, cloud.eventsSeen),
     loreUnlocked: union(current.loreUnlocked, cloud.loreUnlocked),
     treasures: union(current.treasures, Object.entries(cloud.treasures || {}).filter(([, item]) => item?.complete).map(([id]) => id)),
+    treasureProgress,
     bonuses: { ...(current.bonuses || {}), ...numericMap(cloud.effects) },
     hiddenEnding,
+  };
+}
+
+function mergeTreasureProgress(previous = {}, incoming = {}) {
+  return {
+    sources: union(previous?.sources, incoming?.sources),
+    complete: !!previous?.complete || !!incoming?.complete,
   };
 }
 

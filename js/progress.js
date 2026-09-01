@@ -21,7 +21,7 @@ export function defaultSave() {
     phrasePractice: {},
     daily: { date: '', counters: {} },
     classroom: null,
-    world: { eventsSeen: [], treasures: [], loreUnlocked: [], chaptersSeen: [], bonuses: {}, hiddenEnding: null },
+    world: { eventsSeen: [], treasures: [], treasureProgress: {}, loreUnlocked: [], chaptersSeen: [], bonuses: {}, hiddenEnding: null },
   };
 }
 
@@ -68,6 +68,7 @@ function normalizeEngagementFields(obj) {
   const world = {
     eventsSeen: cleanIds(rawWorld.eventsSeen),
     treasures: cleanIds(rawWorld.treasures),
+    treasureProgress: {},
     loreUnlocked: cleanIds(rawWorld.loreUnlocked),
     chaptersSeen: Array.isArray(rawWorld.chaptersSeen)
       ? [...new Set(rawWorld.chaptersSeen.filter((id) => Number.isInteger(id) && id >= 1 && id <= 10))]
@@ -79,6 +80,15 @@ function normalizeEngagementFields(obj) {
       ? { choice: rawWorld.hiddenEnding.choice, answeredAt: Math.max(0, Math.floor(Number(rawWorld.hiddenEnding.answeredAt) || 0)) }
       : null,
   };
+  if (rawWorld.treasureProgress && typeof rawWorld.treasureProgress === 'object' && !Array.isArray(rawWorld.treasureProgress)) {
+    for (const [id, item] of Object.entries(rawWorld.treasureProgress)) {
+      if (typeof id !== 'string' || !id || id.length > 80 || !item || typeof item !== 'object') continue;
+      world.treasureProgress[id] = {
+        sources: cleanIds(item.sources),
+        complete: !!item.complete,
+      };
+    }
+  }
   if (rawWorld.bonuses && typeof rawWorld.bonuses === 'object' && !Array.isArray(rawWorld.bonuses)) {
     for (const [key, value] of Object.entries(rawWorld.bonuses)) {
       if (/^[a-zA-Z:-]{1,80}$/.test(key) && Number.isFinite(value)) world.bonuses[key] = Math.max(0, Math.floor(value));

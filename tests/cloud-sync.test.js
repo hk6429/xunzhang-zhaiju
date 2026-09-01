@@ -82,3 +82,121 @@ test('hidden ending answer crosses web and native sync without losing the newer 
   const merged = mergeCloudSnapshotIntoSave(local, snapshot);
   assert.deepEqual(merged.world.hiddenEnding, { choice: 'people', answeredAt: 200 });
 });
+
+test('web story treasures are included as complete in the native sync shape', async () => {
+  const { toSyncSnapshot } = await import('../js/cloud-sync.js');
+  const snapshot = toSyncSnapshot({
+    v: 1,
+    levels: {},
+    ink: 3,
+    collection: [],
+    retention: {},
+    world: { treasures: ['dashen-bian'] },
+  });
+
+  assert.deepEqual(snapshot.world.treasures['dashen-bian'], { sources: [], complete: true });
+});
+
+test('native story treasure fragments round-trip without entering the passive treasure store', async () => {
+  const { mergeCloudSnapshotIntoSave, toSyncSnapshot } = await import('../js/cloud-sync.js');
+  const local = {
+    v: 1,
+    levels: {},
+    ink: 3,
+    collection: [],
+    retention: {
+      treasures: {
+        // 舊版同步曾把新版法寶誤放在被動法寶區；合併時應一併搬回正確位置。
+        'dashen-bian': { name: '打神鞭', maxFragments: 10, sources: ['legacy:web'] },
+      },
+    },
+    world: { treasures: [] },
+  };
+  const cloud = {
+    v: 1,
+    levels: {},
+    ink: 3,
+    collection: [],
+    world: {
+      treasures: {
+        'dashen-bian': { sources: ['level:4'], complete: false },
+      },
+    },
+  };
+
+  const merged = mergeCloudSnapshotIntoSave(local, cloud);
+  assert.deepEqual(merged.world.treasures, []);
+  assert.deepEqual(merged.world.treasureProgress['dashen-bian'], {
+    sources: ['legacy:web', 'level:4'], complete: false,
+  });
+  assert.equal(Object.hasOwn(merged.retention.treasures, 'dashen-bian'), false);
+  assert.deepEqual(toSyncSnapshot(merged).world.treasures['dashen-bian'], {
+    sources: ['legacy:web', 'level:4'], complete: false,
+  });
+});
+
+test('native completed story treasure remains complete after a web save round-trip', async () => {
+  const { mergeCloudSnapshotIntoSave, toSyncSnapshot } = await import('../js/cloud-sync.js');
+  const local = {
+    v: 1,
+    levels: {},
+    ink: 3,
+    collection: [],
+    retention: {},
+    world: {
+      treasures: [],
+      treasureProgress: { 'dashen-bian': { sources: ['level:4'], complete: false } },
+    },
+  };
+  const cloud = {
+    v: 1,
+    levels: {},
+    ink: 3,
+    collection: [],
+    world: {
+      treasures: {
+        'dashen-bian': { sources: ['level:4', 'event:whip'], complete: true },
+      },
+    },
+  };
+
+  const merged = mergeCloudSnapshotIntoSave(local, cloud);
+  assert.deepEqual(merged.world.treasures, ['dashen-bian']);
+  assert.deepEqual(toSyncSnapshot(merged).world.treasures['dashen-bian'], {
+    sources: ['level:4', 'event:whip'], complete: true,
+  });
+});
+
+test('legacy passive treasures still merge into retention and use their fragment threshold', async () => {
+  const { mergeCloudSnapshotIntoSave, toSyncSnapshot } = await import('../js/cloud-sync.js');
+  const local = {
+    v: 1,
+    levels: {},
+    ink: 3,
+    collection: [],
+    retention: {
+      treasures: {
+        zhenzhi_shard: { name: '青玉鎮紙', maxFragments: 2, sources: ['chapter:1'] },
+      },
+    },
+    world: { treasures: [] },
+  };
+  const cloud = {
+    v: 1,
+    levels: {},
+    ink: 3,
+    collection: [],
+    world: {
+      treasures: {
+        zhenzhi_shard: { sources: ['chapter:2'], complete: true },
+      },
+    },
+  };
+
+  const merged = mergeCloudSnapshotIntoSave(local, cloud);
+  assert.deepEqual(merged.retention.treasures.zhenzhi_shard.sources, ['chapter:1', 'chapter:2']);
+  assert.equal(Object.hasOwn(merged.world.treasureProgress, 'zhenzhi_shard'), false);
+  assert.deepEqual(toSyncSnapshot(merged).world.treasures.zhenzhi_shard, {
+    sources: ['chapter:1', 'chapter:2'], complete: true,
+  });
+});
