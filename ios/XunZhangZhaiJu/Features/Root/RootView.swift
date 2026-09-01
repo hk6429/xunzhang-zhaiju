@@ -30,26 +30,32 @@ enum AppSection: String, CaseIterable, Identifiable {
 struct RootView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var selection: AppSection = .journey
+    @State private var columnVisibility: NavigationSplitViewVisibility = .automatic
 
     var body: some View {
         if horizontalSizeClass == .regular {
-            NavigationSplitView {
-                List {
-                    ForEach(AppSection.allCases) { section in
-                        Button {
-                            selection = section
-                        } label: {
-                            Label(section.title, systemImage: section.systemImage)
-                                .frame(maxWidth: .infinity, alignment: .leading)
+            GeometryReader { geometry in
+                NavigationSplitView(columnVisibility: $columnVisibility) {
+                    List {
+                        ForEach(AppSection.allCases) { section in
+                            Button {
+                                selection = section
+                                if geometry.size.width < 1_000 {
+                                    columnVisibility = .detailOnly
+                                }
+                            } label: {
+                                Label(section.title, systemImage: section.systemImage)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                            .buttonStyle(.plain)
+                            .foregroundStyle(selection == section ? AppTheme.accent : AppTheme.primaryText)
+                            .accessibilityAddTraits(selection == section ? .isSelected : [])
                         }
-                        .buttonStyle(.plain)
-                        .foregroundStyle(selection == section ? AppTheme.accent : AppTheme.primaryText)
-                        .accessibilityAddTraits(selection == section ? .isSelected : [])
                     }
+                    .navigationTitle("尋章摘句")
+                } detail: {
+                    sectionView(selection)
                 }
-                .navigationTitle("尋章摘句")
-            } detail: {
-                sectionView(selection)
             }
         } else {
             TabView(selection: $selection) {

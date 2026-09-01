@@ -200,7 +200,11 @@ final class LaunchTests: XCTestCase {
     private func navigationButton(_ title: String, in app: XCUIApplication) -> XCUIElement {
         let button = app.buttons[title]
         if !button.exists {
-            let sidebarToggle = app.buttons["ToggleSidebar"]
+            let sidebarToggle = app.buttons["ToggleSidebar"].exists
+                ? app.buttons["ToggleSidebar"]
+                : app.buttons.matching(
+                    NSPredicate(format: "label CONTAINS %@", "側邊欄")
+                ).firstMatch
             XCTAssertTrue(sidebarToggle.waitForExistence(timeout: 5))
             sidebarToggle.tap()
             XCTAssertTrue(button.waitForExistence(timeout: 5))
@@ -212,11 +216,6 @@ final class LaunchTests: XCTestCase {
     private func navigate(to title: String, in app: XCUIApplication) {
         let button = navigationButton(title, in: app)
         button.tap()
-        guard UIDevice.current.userInterfaceIdiom == .pad, button.exists else { return }
-        let sidebarToggle = app.buttons["ToggleSidebar"]
-        if sidebarToggle.waitForExistence(timeout: 2), sidebarToggle.isHittable {
-            sidebarToggle.tap()
-        }
     }
 
     @MainActor
