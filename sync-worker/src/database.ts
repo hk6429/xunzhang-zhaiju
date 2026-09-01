@@ -94,12 +94,15 @@ export async function createSession(userID: string, env: Env): Promise<SessionBu
   return sessionBundle(userID, credential.id, credential.token, env);
 }
 
-export async function rotateSession(refreshToken: string, env: Env): Promise<SessionBundle> {
+export async function rotateSession(
+  refreshToken: string,
+  env: Env,
+  client: Client = database(env),
+): Promise<SessionBundle> {
   const separator = refreshToken.indexOf(".");
   if (separator < 1) throw new SessionTokenError("refresh token 無效");
   const id = refreshToken.slice(0, separator);
   const secret = refreshToken.slice(separator + 1);
-  const client = database(env);
   const result = await client.execute({
     sql: `SELECT user_id, family_id, secret_hash, expires_at, rotated_at, revoked_at
       FROM sessions WHERE id = ?`,
@@ -149,8 +152,13 @@ export async function rotateSession(refreshToken: string, env: Env): Promise<Ses
   return sessionBundle(userID, next.id, next.token, env);
 }
 
-export async function sessionIsActive(userID: string, sessionID: string, env: Env): Promise<boolean> {
-  const result = await database(env).execute({
+export async function sessionIsActive(
+  userID: string,
+  sessionID: string,
+  env: Env,
+  client: Client = database(env),
+): Promise<boolean> {
+  const result = await client.execute({
     sql: `SELECT 1 AS active FROM sessions
       WHERE id = ? AND user_id = ? AND rotated_at IS NULL AND revoked_at IS NULL AND expires_at > ?`,
     args: [sessionID, userID, new Date().toISOString()],
@@ -202,8 +210,11 @@ export async function exportAccount(userID: string, env: Env): Promise<JsonValue
   };
 }
 
-export async function deleteAccount(userID: string, env: Env): Promise<void> {
-  const client = database(env);
+export async function deleteAccount(
+  userID: string,
+  env: Env,
+  client: Client = database(env),
+): Promise<void> {
   await client.batch([
     { sql: "DELETE FROM sessions WHERE user_id = ?", args: [userID] },
     { sql: "DELETE FROM progress_events WHERE user_id = ?", args: [userID] },

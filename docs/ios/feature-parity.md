@@ -18,7 +18,7 @@
 | 法寶碎片、事件效果、典藏 | `WorldProgressEngine`、`TreasureAbilityEngine`、`TreasurePassiveEngine`、`CollectionView`；五件故事法寶會標記事件節點、開啟支線捷徑、每日一次預覽事件效果、指出今日奇遇區域，並作為真結局入口條件；十章被動法寶則依完成關卡補發碎片，實際增加倒數、提早連擊、擴充複習名額、增加答錯補救或提供額外線索 | `WorldProgressEngineTests`、`TreasurePassiveEngineTests`、Web／Swift 法寶目錄對等測試、iPhone／iPad 法寶閣與今日奇遇 UI tests |
 | 個人例句／使用情境 | `KnowledgeCardView`、`localPhrasePractice` | `ProgressRepositoryTests.testLocalPracticeStaysOutsideSyncOutbox` |
 | 完整離線訪客模式 | GRDB snapshot／event／outbox | migration、repository、launch UI tests |
-| Apple／Google 登入與雙身分連結 | AuthenticationServices、GoogleSignIn 9.2、Web OAuth、Keychain／HttpOnly cookies | Worker auth tests、Simulator build；正式 token 待 OAuth／Apple Developer 設定 |
+| Apple／Google 登入與雙身分連結 | AuthenticationServices、GoogleSignIn 9.2、Web OAuth、Keychain／HttpOnly cookies | Worker auth tests、refresh family 重播撤銷與帳號刪除後失效的本機資料庫整合測試、Simulator build；正式 token 待 OAuth／Apple Developer 設定 |
 | iPhone／iPad／Web 同步 | `SyncClient`、`cloud-sync.js`、Cloudflare Worker、Turso migrations | production／staging 已部署；iOS merge/outbox、Web、Worker tests 通過，正式 OAuth 三端 E2E 待驗 |
 | 墨滴跨裝置結算 | event `inkDelta`、Turso transaction、權威雲端餘額 | Web／Swift merge tests、Worker merge tests、migration smoke |
 | 匯出、登出與帳號刪除 | iOS／Web controls、session family revoke、分開確認本機清除 | Worker auth tests、iOS build；正式環境 E2E 待部署 |

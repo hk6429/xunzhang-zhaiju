@@ -3,7 +3,7 @@
 ## 本機品質閘門
 
 - [x] Web 測試、內容驗證與美術契約全部通過。
-- [x] Worker typecheck、測試、migration smoke 與 dry-run 全部通過。
+- [x] Worker typecheck、28 項測試、migration smoke 與 dry-run 全部通過；本機資料庫整合測試驗證 refresh token 重播會撤銷整個 family，帳號刪除後所有 refresh credential 立即失效。
 - [x] 版本庫機密掃描通過。
 - [x] iPhone Simulator 完成 97 unit＋8 項適用 UI tests；包含單調時鐘倒數、最佳完成時間、分鐘級間隔複習、守護神任務卡、學習目標、關卡與奇遇研墨答題、十章被動法寶閣、隱藏真結局、系統無障礙稽核、最大字級與「終止程序後強制離線重開」進度保存。
 - [x] iPad 11／13 吋 Simulator 完成 97 unit＋9 UI tests；包含單調時鐘倒數、最佳完成時間、分鐘級間隔複習、守護神任務卡、學習目標、關卡與奇遇研墨答題、十章被動法寶閣、隱藏真結局、直向、橫向、最大字級、系統無障礙稽核與離線重開保存。

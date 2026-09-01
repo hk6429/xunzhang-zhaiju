@@ -16,7 +16,7 @@
 
 iOS 開發與測試方式見 [`ios/README.md`](ios/README.md)，同步服務見 [`sync-worker/README.md`](sync-worker/README.md)，正式／staging 部署證據見 [`docs/deployment/production.md`](docs/deployment/production.md)。上架前資料集中於 [`docs/app-store/`](docs/app-store/)（商店文案、年齡分級、隱私、加密合規、TestFlight 與發布檢查表）。
 
-每次推送與 pull request 都會執行 GitHub Actions `Quality`：驗證 Web 內容與 117 項契約、Worker 26 項測試／typecheck／dry-run、97 項 Swift 單元測試、iPhone／iPad UI、App Store 素材，以及未簽署 Release Archive 的版本、圖示、隱私清單與 Debug 開關隔離。
+每次推送與 pull request 都會執行 GitHub Actions `Quality`：驗證 Web 內容與 117 項契約、Worker 28 項測試／typecheck／dry-run、97 項 Swift 單元測試、iPhone／iPad UI、App Store 素材，以及未簽署 Release Archive 的版本、圖示、隱私清單與 Debug 開關隔離。
 
 ## 玩法
 
