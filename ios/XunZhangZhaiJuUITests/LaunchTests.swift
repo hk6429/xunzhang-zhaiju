@@ -61,16 +61,16 @@ final class LaunchTests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
 
-        navigationButton("今日修煉", in: app).tap()
+        navigate(to: "今日修煉", in: app)
         XCTAssertTrue(app.staticTexts["今日三帖"].waitForExistence(timeout: 5))
 
-        navigationButton("摘句集", in: app).tap()
+        navigate(to: "摘句集", in: app)
         XCTAssertTrue(app.navigationBars["摘句集"].waitForExistence(timeout: 5))
         app.buttons["法寶閣"].tap()
         XCTAssertTrue(app.staticTexts["打神鞭"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["集齊後：顯示本章尚未發現的事件節點"].waitForExistence(timeout: 5))
 
-        navigationButton("我的", in: app).tap()
+        navigate(to: "我的", in: app)
         XCTAssertTrue(app.staticTexts["遊玩模式"].waitForExistence(timeout: 5))
         app.swipeUp()
         app.swipeUp()
@@ -88,7 +88,7 @@ final class LaunchTests: XCTestCase {
         app.launchEnvironment["UI_TEST_DAILY_ENCOUNTER_ID"] = "daily-cloud-crane"
         app.launch()
 
-        navigationButton("今日修煉", in: app).tap()
+        navigate(to: "今日修煉", in: app)
         XCTAssertTrue(app.staticTexts["雲間白鶴"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["獎勵：3 題研墨機會"].waitForExistence(timeout: 5))
         app.buttons["accept-daily-encounter"].tap()
@@ -185,7 +185,7 @@ final class LaunchTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["修煉山河"].firstMatch.waitForExistence(timeout: 5))
         assertCoreNavigation(in: app)
 
-        navigationButton("今日修煉", in: app).tap()
+        navigate(to: "今日修煉", in: app)
         XCTAssertTrue(app.staticTexts["今日三帖"].waitForExistence(timeout: 5))
     }
 
@@ -206,6 +206,17 @@ final class LaunchTests: XCTestCase {
             XCTAssertTrue(button.waitForExistence(timeout: 5))
         }
         return button
+    }
+
+    @MainActor
+    private func navigate(to title: String, in app: XCUIApplication) {
+        let button = navigationButton(title, in: app)
+        button.tap()
+        guard UIDevice.current.userInterfaceIdiom == .pad, button.exists else { return }
+        let sidebarToggle = app.buttons["ToggleSidebar"]
+        if sidebarToggle.waitForExistence(timeout: 2), sidebarToggle.isHittable {
+            sidebarToggle.tap()
+        }
     }
 
     @MainActor
